@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "personal_info")
 @Getter
 @Setter
-public class PersonalInfo {
+public class PersonalInfo extends AuditModel {
 
     @Id
     @GeneratedValue

@@ -12,7 +12,7 @@ import java.sql.Time;
 @Table(name = "events")
 @Getter
 @Setter
-public class Event {
+public class Event extends AuditModel {
 
     @Id
     @GeneratedValue

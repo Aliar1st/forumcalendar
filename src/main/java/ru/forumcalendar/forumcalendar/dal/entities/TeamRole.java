@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "team_roles")
 @Getter
 @Setter
-public class TeamRole {
+public class TeamRole extends AuditModel {
 
     @Id
     @GeneratedValue
