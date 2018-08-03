@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.model;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.EqualsAndHashCode;
 

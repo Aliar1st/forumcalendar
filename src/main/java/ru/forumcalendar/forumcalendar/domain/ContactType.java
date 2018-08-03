@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.model;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +10,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "forums")
+@Table(name = "contact_types")
 @Getter
 @Setter
-public class Forum extends AuditModel {
+public class ContactType extends AuditModel {
 
     @Id
     @GeneratedValue

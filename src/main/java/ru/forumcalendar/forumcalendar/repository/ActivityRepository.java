@@ -1,7 +1,7 @@
 package ru.forumcalendar.forumcalendar.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.forumcalendar.forumcalendar.model.Activity;
+import ru.forumcalendar.forumcalendar.domain.Activity;
 
-public abstract class ActivityRepository implements JpaRepository<Activity, Integer> {
+public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 }

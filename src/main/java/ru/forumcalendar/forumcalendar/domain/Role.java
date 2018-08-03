@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.model;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +10,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "team_roles")
+@Table(name = "roles")
 @Getter
 @Setter
-public class TeamRole extends AuditModel {
+public class Role extends AuditModel {
 
     @Id
     @GeneratedValue

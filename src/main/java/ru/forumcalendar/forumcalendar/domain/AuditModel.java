@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.model;
+package ru.forumcalendar.forumcalendar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

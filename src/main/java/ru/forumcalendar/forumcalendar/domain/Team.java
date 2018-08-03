@@ -1,18 +1,18 @@
-package ru.forumcalendar.forumcalendar.model;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "events")
+@Table(name = "teams")
 @Getter
 @Setter
-public class Event extends AuditModel {
+public class Team extends AuditModel {
 
     @Id
     @GeneratedValue
@@ -23,11 +23,16 @@ public class Event extends AuditModel {
     private Forum forum;
 
     @NotNull
-    private Date date;
+    private String name;
 
     @NotNull
-    private Time time;
+    private String gang;
 
     @NotNull
+    private String direction;
+
     private String description;
+
+    @OneToMany
+    private Set<Activity> activities = new HashSet<>();
 }
