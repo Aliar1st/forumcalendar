@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +18,8 @@ public class Activity extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(nullable = false)
     private Team team;
 
     @NotNull

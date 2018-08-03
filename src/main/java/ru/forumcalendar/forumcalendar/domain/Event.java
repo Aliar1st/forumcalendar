@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +18,8 @@ public class Event extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "forum_id")
+    @JoinColumn(nullable = false)
     private Forum forum;
 
     @NotNull

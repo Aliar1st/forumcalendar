@@ -1,7 +1,9 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +12,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "forums")
+@Table(name = "roles")
 @Getter
 @Setter
-public class Forum extends AuditModel {
+public class Role extends AuditModel implements GrantedAuthority {
 
     @Id
     @GeneratedValue
@@ -21,4 +23,8 @@ public class Forum extends AuditModel {
 
     @NotNull
     private String name;
+
+    @NotNull
+    @NaturalId
+    private String authority;
 }

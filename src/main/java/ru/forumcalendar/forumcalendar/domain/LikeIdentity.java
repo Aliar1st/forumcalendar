@@ -1,21 +1,21 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.domain;
+
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Embeddable
+@EqualsAndHashCode
 public class LikeIdentity implements Serializable {
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false)
     private User user;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(nullable = false)
     private Event event;
 }

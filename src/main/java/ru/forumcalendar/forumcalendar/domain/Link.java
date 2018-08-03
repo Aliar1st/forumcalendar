@@ -1,10 +1,9 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "links")
@@ -15,13 +14,11 @@ public class Link extends AuditModel {
     @Id
     private String link;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(nullable = false)
     private Team team;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_role_id")
+    @JoinColumn(nullable = false)
     private TeamRole teamRole;
 }
