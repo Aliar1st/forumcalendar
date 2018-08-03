@@ -2,6 +2,8 @@ package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "roles")
 @Getter
 @Setter
-public class Role extends AuditModel {
+public class Role extends AuditModel implements GrantedAuthority {
 
     @Id
     @GeneratedValue
@@ -23,5 +25,6 @@ public class Role extends AuditModel {
     private String name;
 
     @NotNull
-    private String slug;
+    @NaturalId
+    private String authority;
 }

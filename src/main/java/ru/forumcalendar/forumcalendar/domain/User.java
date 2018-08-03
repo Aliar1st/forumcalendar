@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,6 +27,7 @@ public class User extends AuditModel implements UserDetails {
     private Role role;
 
     @NotNull
+    @NaturalId
     private String login;
 
     @NotNull
@@ -39,26 +41,26 @@ public class User extends AuditModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return login;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
