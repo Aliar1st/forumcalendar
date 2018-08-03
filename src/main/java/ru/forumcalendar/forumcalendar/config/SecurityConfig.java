@@ -21,14 +21,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+                .authorizeRequests()
+                .antMatchers("/").permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(bCryptPasswordEncoder());
+
         auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder());
+                .inMemoryAuthentication()
+                    .withUser("user")
+                        .password("111111")
+                .and()
+                    .withUser("user1")
+                        .password(bCryptPasswordEncoder().encode("111111"));
+
     }
 
     @Bean
