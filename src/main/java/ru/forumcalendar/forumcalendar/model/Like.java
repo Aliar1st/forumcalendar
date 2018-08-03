@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.dal.model;
+package ru.forumcalendar.forumcalendar.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,10 +1,9 @@
-package ru.forumcalendar.forumcalendar.dal.model;
+package ru.forumcalendar.forumcalendar.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "links")

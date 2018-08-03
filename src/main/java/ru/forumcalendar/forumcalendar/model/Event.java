@@ -1,17 +1,18 @@
-package ru.forumcalendar.forumcalendar.dal.model;
+package ru.forumcalendar.forumcalendar.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
-@Table(name = "users")
+@Table(name = "events")
 @Getter
 @Setter
-public class User extends AuditModel {
+public class Event extends AuditModel {
 
     @Id
     @GeneratedValue
@@ -19,12 +20,14 @@ public class User extends AuditModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Role role;
+    private Forum forum;
 
     @NotNull
-    private String login;
+    private Date date;
 
     @NotNull
-    @JsonIgnore
-    private String password;
+    private Time time;
+
+    @NotNull
+    private String description;
 }
