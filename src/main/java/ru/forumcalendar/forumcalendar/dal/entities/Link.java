@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "links")
 @Getter
 @Setter
-public class Link {
+public class Link extends AuditModel {
 
     @Id
     private String link;

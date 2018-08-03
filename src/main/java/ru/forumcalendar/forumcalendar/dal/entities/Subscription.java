@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "subscriptions")
 @Getter
 @Setter
-public class Subscription {
+public class Subscription extends AuditModel {
 
     @EmbeddedId
     private SubscriptionIdentity subscriptionIdentity;
