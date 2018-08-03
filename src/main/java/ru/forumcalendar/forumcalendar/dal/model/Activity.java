@@ -18,9 +18,8 @@ public class Activity extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(nullable = false)
     private Team team;
 
     @NotNull

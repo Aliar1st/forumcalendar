@@ -16,14 +16,12 @@ public class Contact extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "contact_type_id")
+    @JoinColumn(nullable = false)
     private ContactType contactType;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "personal_info_id")
+    @JoinColumn(nullable = false)
     private PersonalInfo personalInfo;
 
     @NotNull

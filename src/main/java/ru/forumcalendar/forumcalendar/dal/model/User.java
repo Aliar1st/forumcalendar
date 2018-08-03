@@ -1,5 +1,6 @@
 package ru.forumcalendar.forumcalendar.dal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,14 +17,14 @@ public class User extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(nullable = false)
     private Role role;
 
     @NotNull
     private String login;
 
     @NotNull
+    @JsonIgnore
     private String password;
 }

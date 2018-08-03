@@ -15,13 +15,11 @@ public class Link extends AuditModel {
     @Id
     private String link;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(nullable = false)
     private Team team;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_role_id")
+    @JoinColumn(nullable = false)
     private TeamRole teamRole;
 }

@@ -18,9 +18,8 @@ public class Event extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "forum_id")
+    @JoinColumn(nullable = false)
     private Forum forum;
 
     @NotNull

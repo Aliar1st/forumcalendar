@@ -1,6 +1,6 @@
 package ru.forumcalendar.forumcalendar.dal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,21 +13,19 @@ import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(
-        value = {"createdAt", "updatedAt"},
-        allowGetters = true
-)
 @Getter
 @Setter
 public abstract class AuditModel implements Serializable {
 
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreatedDate
     private Date createdAt;
 
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     @LastModifiedDate
     private Date updatedAt;
 }

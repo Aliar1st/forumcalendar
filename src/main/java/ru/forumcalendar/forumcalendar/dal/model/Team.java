@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "teams")
@@ -16,9 +18,8 @@ public class Team extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "forum_id")
+    @JoinColumn(nullable = false)
     private Forum forum;
 
     @NotNull
@@ -31,4 +32,7 @@ public class Team extends AuditModel {
     private String direction;
 
     private String description;
+
+    @OneToMany
+    private Set<Activity> activities = new HashSet<>();
 }
