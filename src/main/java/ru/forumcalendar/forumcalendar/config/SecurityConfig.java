@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -23,7 +23,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll();
+                .antMatchers("/**")
+                .permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
+                .and()
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/login");
     }
 
     @Override
@@ -31,14 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth
 //                .userDetailsService(userDetailsService)
 //                .passwordEncoder(bCryptPasswordEncoder());
-
         auth
                 .inMemoryAuthentication()
-                    .withUser("user")
-                        .password("111111")
+                .withUser("user")
+                .password("111111")
+                .roles("USER")
                 .and()
-                    .withUser("user1")
-                        .password(bCryptPasswordEncoder().encode("111111"));
+                .withUser("user1")
+                .password(bCryptPasswordEncoder().encode("111111"))
+                .roles("USER");
 
     }
 
