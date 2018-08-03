@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.dal.model;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Embeddable
-public class SubscriptionIdentity implements Serializable {
+public class LikeIdentity implements Serializable {
 
     @NotNull
     @ManyToOne

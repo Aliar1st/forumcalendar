@@ -8,6 +8,5 @@ public class ForumcalendarApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ForumcalendarApplication.class, args);
-        System.out.println();
     }
 }

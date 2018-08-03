@@ -1,16 +1,18 @@
-package ru.forumcalendar.forumcalendar.dal.entities;
+package ru.forumcalendar.forumcalendar.dal.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
-@Table(name = "teams")
+@Table(name = "events")
 @Getter
 @Setter
-public class Team extends AuditModel {
+public class Event extends AuditModel {
 
     @Id
     @GeneratedValue
@@ -22,13 +24,11 @@ public class Team extends AuditModel {
     private Forum forum;
 
     @NotNull
-    private String name;
+    private Date date;
 
     @NotNull
-    private String gang;
+    private Time time;
 
     @NotNull
-    private String direction;
-
     private String description;
 }
