@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contact_types")
@@ -18,5 +19,6 @@ public class ContactType {
     @GeneratedValue
     private int id;
 
+    @NotNull
     private String name;
 }
