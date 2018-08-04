@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class BaseUserService implements UserService {
 
     private static int ROLE_USER_ID = 1;
     private static int ROLE_ADMIN_ID = 2;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(
+    public BaseUserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             RoleRepository roleRepository

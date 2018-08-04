@@ -29,5 +29,8 @@ public class Event extends AuditModel {
     private Time time;
 
     @NotNull
+    private String place;
+
+    @NotNull
     private String description;
 }
