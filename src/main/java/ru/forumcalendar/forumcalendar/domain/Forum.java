@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "forums")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Forum extends AuditModel {
 
     @Id

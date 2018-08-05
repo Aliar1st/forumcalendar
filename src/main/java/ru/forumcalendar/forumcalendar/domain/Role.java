@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "roles")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Role extends AuditModel implements GrantedAuthority {
 
     @Id

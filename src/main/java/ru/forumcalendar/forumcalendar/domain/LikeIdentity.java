@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Embeddable
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class LikeIdentity implements Serializable {
 
     @ManyToOne

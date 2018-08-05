@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "team_roles")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class TeamRole extends AuditModel {
 
     @Id

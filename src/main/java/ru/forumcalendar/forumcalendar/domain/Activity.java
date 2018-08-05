@@ -14,7 +14,7 @@ import java.sql.Time;
 @Table(name = "activities")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Activity extends AuditModel {
 
     @Id

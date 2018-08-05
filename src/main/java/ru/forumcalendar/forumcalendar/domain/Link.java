@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "links")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Link extends AuditModel {
 
     @Id

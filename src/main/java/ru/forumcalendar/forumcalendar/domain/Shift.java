@@ -5,26 +5,26 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "speakers")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class Speaker extends AuditModel {
+public class Shift {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
-    private String firstName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false)
+    private Forum forum;
 
     @Column(nullable = false)
-    private String lastName;
+    private String name;
 
     @Column(nullable = false)
-    private String link;
-
-    private String description;
+    private Date date;
 }

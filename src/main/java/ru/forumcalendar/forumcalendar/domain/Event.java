@@ -21,7 +21,7 @@ public class Event extends AuditModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Forum forum;
+    private Shift shift;
 
     @Column(nullable = false)
     private String name;

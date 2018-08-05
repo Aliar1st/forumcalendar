@@ -19,7 +19,7 @@ import java.util.Set;
 @Table
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class User extends AuditModel implements UserDetails {
 
     @Id

@@ -5,7 +5,7 @@ import ru.forumcalendar.forumcalendar.domain.User;
 
 public interface UserService extends UserDetailsService {
 
-    User signUpUser(User user);
+    User signUp(User user);
 
     User getCurrentUser();
 

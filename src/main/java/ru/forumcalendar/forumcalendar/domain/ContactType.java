@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "contact_types")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ContactType extends AuditModel {
 
     @Id

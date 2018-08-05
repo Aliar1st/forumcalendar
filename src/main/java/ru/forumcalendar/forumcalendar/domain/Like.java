@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "likes")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Like extends AuditModel {
 
     @EmbeddedId

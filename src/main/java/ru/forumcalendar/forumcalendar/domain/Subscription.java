@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "subscriptions")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Subscription extends AuditModel {
 
     @EmbeddedId

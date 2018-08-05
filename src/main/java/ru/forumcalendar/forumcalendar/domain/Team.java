@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "teams")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Team extends AuditModel {
 
     @Id
@@ -22,13 +22,10 @@ public class Team extends AuditModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Forum forum;
+    private Shift shift;
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private String gang;
 
     @Column(nullable = false)
     private String direction;
