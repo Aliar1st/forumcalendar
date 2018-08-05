@@ -3,11 +3,13 @@ package ru.forumcalendar.forumcalendar.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.forumcalendar.forumcalendar.domain.User;
 
-public interface UserService extends UserDetailsService {
+import java.util.Map;
 
-    User signUp(User user);
+public interface UserService {
+
+    User signUp(Map<String, Object> userMap);
 
     User getCurrentUser();
-
-    boolean hasRole(String role);
+//
+//    boolean hasRole(String role);
 }

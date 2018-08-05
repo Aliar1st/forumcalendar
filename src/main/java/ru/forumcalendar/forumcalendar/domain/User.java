@@ -10,33 +10,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "users")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
 public class User extends AuditModel implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private int id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Role role;
-
-    @Column(nullable = false)
-    @NaturalId
-    private String login;
-
-    @Column(nullable = false)
-    @JsonIgnore
-    private String password;
 
     @Column(nullable = false)
     private String firstName;
@@ -44,7 +36,16 @@ public class User extends AuditModel implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
+    private String email;
+
+    private String gender;
+
+    private String locale;
+
     private String photo;
+
+    private LocalDateTime lastVisit;
 
     @OneToMany(mappedBy = "likeIdentity.user")
     private Set<Like> likes = new HashSet<>();
@@ -64,7 +65,7 @@ public class User extends AuditModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return null;
     }
 
     @Override

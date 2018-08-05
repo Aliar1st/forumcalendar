@@ -9,6 +9,8 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "team_events")
@@ -26,10 +28,10 @@ public class TeamEvent extends AuditModel {
     private Team team;
 
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @Column(nullable = false)
-    private Time time;
+    private LocalTime time;
 
     @Column(nullable = false)
     private String place;
