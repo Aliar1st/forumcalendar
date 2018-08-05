@@ -1,5 +1,6 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "links")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Link extends AuditModel {
 
     @Id

@@ -1,10 +1,12 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -12,6 +14,7 @@ import java.sql.Time;
 @Table(name = "activities")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Activity extends AuditModel {
 
     @Id
@@ -22,15 +25,15 @@ public class Activity extends AuditModel {
     @JoinColumn(nullable = false)
     private Team team;
 
-    @NotNull
+    @Column(nullable = false)
     private Date date;
 
-    @NotNull
+    @Column(nullable = false)
     private Time time;
 
-    @NotNull
+    @Column(nullable = false)
     private String place;
 
-    @NotNull
+    @Column(nullable = false)
     private String description;
 }

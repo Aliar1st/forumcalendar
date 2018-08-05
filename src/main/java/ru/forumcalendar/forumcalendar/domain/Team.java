@@ -1,10 +1,11 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Table(name = "teams")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Team extends AuditModel {
 
     @Id
@@ -22,17 +24,17 @@ public class Team extends AuditModel {
     @JoinColumn(nullable = false)
     private Forum forum;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     private String gang;
 
-    @NotNull
+    @Column(nullable = false)
     private String direction;
 
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     private Set<Activity> activities = new HashSet<>();
 }

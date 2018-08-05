@@ -1,6 +1,7 @@
 package ru.forumcalendar.forumcalendar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
@@ -8,14 +9,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table
 @Getter
 @Setter
+@EqualsAndHashCode
 public class User extends AuditModel implements UserDetails {
 
     @Id
@@ -26,13 +30,19 @@ public class User extends AuditModel implements UserDetails {
     @JoinColumn(nullable = false)
     private Role role;
 
-    @NotNull
+    @Column(nullable = false)
     @NaturalId
     private String login;
 
-    @NotNull
+    @Column(nullable = false)
     @JsonIgnore
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Like> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Subscription> subscriptions = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
