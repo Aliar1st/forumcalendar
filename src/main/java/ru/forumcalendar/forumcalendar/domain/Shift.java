@@ -20,11 +20,14 @@ public class Shift {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Forum forum;
+    private Activity activity;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @Column(nullable = false)
-    private Date date;
+    private Date startDate;
+
+    @Column(nullable = false)
+    private Date endDate;
 }

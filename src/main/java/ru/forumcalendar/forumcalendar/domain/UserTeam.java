@@ -8,20 +8,16 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "activities")
+@Table(name = "user_teams")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class Activity extends AuditModel {
+public class UserTeam extends AuditModel {
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @EmbeddedId
+    private UserTeamIdentity userTeamIdentity;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private User user;
-
-    @Column(nullable = false)
-    private String name;
+    private TeamRole teamRole;
 }

@@ -5,23 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
-@Entity
-@Table(name = "activities")
-@Getter
-@Setter
+@Embeddable
 @EqualsAndHashCode(callSuper = false)
-public class Activity extends AuditModel {
+public class UserTeamIdentity implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private int id;
-
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Team team;
 }

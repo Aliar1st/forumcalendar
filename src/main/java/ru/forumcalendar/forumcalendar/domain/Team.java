@@ -33,5 +33,5 @@ public class Team extends AuditModel {
     private String description;
 
     @OneToMany(mappedBy = "team")
-    private Set<Activity> activities = new HashSet<>();
+    private Set<TeamEvent> activities = new HashSet<>();
 }

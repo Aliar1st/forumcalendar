@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("profile")
-public class ProfileController {
+public class UserController {
 }

@@ -1,40 +1,39 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
-@Table(name = "personal_info")
+@Table(name = "team_events")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class PersonalInfo extends AuditModel {
+public class TeamEvent extends AuditModel {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
-    private User user;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Team team;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
-    private TeamRole teamRole;
+    @Column(nullable = false)
+    private Date date;
 
     @Column(nullable = false)
-    private String firstName;
+    private Time time;
 
     @Column(nullable = false)
-    private String lastName;
+    private String place;
 
-    private String photo;
+    @Column(nullable = false)
+    private String description;
 }

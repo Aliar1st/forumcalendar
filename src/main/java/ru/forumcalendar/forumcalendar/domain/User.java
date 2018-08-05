@@ -38,10 +38,18 @@ public class User extends AuditModel implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    private String photo;
+
+    @OneToMany(mappedBy = "likeIdentity.user")
     private Set<Like> likes = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "subscriptionIdentity.user")
     private Set<Subscription> subscriptions = new HashSet<>();
 
     @Override

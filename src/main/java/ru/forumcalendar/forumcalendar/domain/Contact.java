@@ -24,7 +24,7 @@ public class Contact extends AuditModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private PersonalInfo personalInfo;
+    private User user;
 
     @Column(nullable = false)
     private String link;
