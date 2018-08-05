@@ -1,8 +1,6 @@
 package ru.forumcalendar.forumcalendar.domain;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,11 +10,11 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 public class UserTeamIdentity implements Serializable {
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Team team;
 }

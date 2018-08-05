@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Booking</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{~/user/__${user.id}__/edit}" th:object="${user}">
+        <p>
+            <img width="60" height="60" th:src="${user.photo}" alt="">
+            <label>Фотография
+                <input th:field="*{photo}" type="file">
+            </label>
+        </p>
+        <p>
+            <label>Имя
+                <input th:field="*{firstName}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Фамилия
+                <input th:field="*{lastName}" type="text">
+            </label>
+        </p>
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

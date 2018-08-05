@@ -1,15 +1,12 @@
 package ru.forumcalendar.forumcalendar.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +43,9 @@ public class User extends AuditModel implements UserDetails {
     private String photo;
 
     private LocalDateTime lastVisit;
+    
+    @OneToMany(mappedBy = "userTeamIdentity.user")
+    private Set<UserTeam> userTeams = new HashSet<>();
 
     @OneToMany(mappedBy = "likeIdentity.user")
     private Set<Like> likes = new HashSet<>();
