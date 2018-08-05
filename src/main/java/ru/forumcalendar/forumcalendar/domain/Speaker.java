@@ -6,13 +6,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "speakers")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Speaker {
+public class Speaker extends AuditModel {
 
     @Id
     @GeneratedValue
