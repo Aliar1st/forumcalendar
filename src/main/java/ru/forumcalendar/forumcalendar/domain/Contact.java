@@ -1,15 +1,17 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "contacts")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Contact extends AuditModel {
 
     @Id
@@ -24,6 +26,6 @@ public class Contact extends AuditModel {
     @JoinColumn(nullable = false)
     private PersonalInfo personalInfo;
 
-    @NotNull
+    @Column(nullable = false)
     private String link;
 }

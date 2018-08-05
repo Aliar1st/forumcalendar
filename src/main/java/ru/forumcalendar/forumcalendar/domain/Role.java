@@ -1,30 +1,29 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "roles")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Role extends AuditModel implements GrantedAuthority {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     @NaturalId
     private String authority;
 }

@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class DefaultUserService implements UserService {
 
     private static int ROLE_USER_ID = 1;
     private static int ROLE_ADMIN_ID = 2;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(
+    public DefaultUserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             RoleRepository roleRepository
@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean hasRole(String role) {
 
+        //noinspection unchecked
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext()
                 .getAuthentication().getAuthorities();
 

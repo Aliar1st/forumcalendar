@@ -8,16 +8,24 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "forums")
+@Table(name = "speakers")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Forum extends AuditModel {
+public class Speaker {
 
     @Id
     @GeneratedValue
     private int id;
 
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String link;
+
+    private String description;
 }
