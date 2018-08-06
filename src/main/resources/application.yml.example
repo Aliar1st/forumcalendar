@@ -38,3 +38,6 @@ logging:
       hibernate:
         SQL: DEBUG
         type: TRACE
+
+my:
+  uploadDirectory: E:\Projects\Forum calendar\forumcalendar\src\main\resources\static\uploads
