@@ -42,7 +42,8 @@ public class User extends AuditModel implements UserDetails {
 
     private String photo;
 
-    private LocalDateTime lastVisit;
+    @OneToMany(mappedBy = "user")
+    private Set<Activity> activities = new HashSet<>();
     
     @OneToMany(mappedBy = "userTeamIdentity.user")
     private Set<UserTeam> userTeams = new HashSet<>();

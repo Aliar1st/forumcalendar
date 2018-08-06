@@ -17,7 +17,7 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     @ResponseBody
     public String index() {
         return "123";
@@ -25,7 +25,9 @@ public class HomeController {
 
     @GetMapping("/home")
     public ModelAndView home() {
-        return new ModelAndView("user/profile")
+        return new ModelAndView("edit")
                 .addObject("user", userService.getCurrentUser());
     }
 }
+
+// TODO: 8/7/2018 Image don't reload after change or registration

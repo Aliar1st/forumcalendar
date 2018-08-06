@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/").permitAll()
+//                .mvcMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -36,10 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             UserRepository userRepository,
             UserService userService
     ) {
-        return map -> {
-            User user = userRepository.findById(map.get("sub").toString()).orElseGet(() -> userService.signUp(map));
-            user.setLastVisit(LocalDateTime.now());
-            return userRepository.save(user);
-        };
+        return map -> userRepository.save(
+                userRepository.findById(map.get("sub").toString())
+                        .orElseGet(() -> userService.signUp(map))
+        );
     }
 }

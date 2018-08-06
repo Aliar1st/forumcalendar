@@ -7,9 +7,9 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{~/user/__${user.id}__/edit}" th:object="${user}">
+    <form th:action="@{~/user/edit}" th:object="${user}" method="POST" enctype="multipart/form-data">
         <p>
-            <img width="60" height="60" th:src="${user.photo}" alt="">
+            <img width="60" height="60" th:src="@{/static/uploads/__${user.photo}__}" alt="">
             <label>Фотография
                 <input th:field="*{photo}" type="file">
             </label>
