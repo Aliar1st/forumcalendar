@@ -39,22 +39,18 @@ public class User extends AuditModel implements UserDetails {
 
     private String photo;
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user")
     @EqualsAndHashCode.Exclude
     private Set<Activity> activities = new HashSet<>();
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "userTeamIdentity.user")
     @EqualsAndHashCode.Exclude
     private Set<UserTeam> userTeams = new HashSet<>();
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "likeIdentity.user")
     @EqualsAndHashCode.Exclude
     private Set<Like> likes = new HashSet<>();
 
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "subscriptionIdentity.user")
     @EqualsAndHashCode.Exclude
     private Set<Subscription> subscriptions = new HashSet<>();
