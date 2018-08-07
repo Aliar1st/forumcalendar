@@ -32,5 +32,6 @@ public class Team extends AuditModel {
     private String description;
 
     @OneToMany(mappedBy = "team")
+    @EqualsAndHashCode.Exclude
     private Set<TeamEvent> activities = new HashSet<>();
 }

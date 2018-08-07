@@ -1,29 +1,40 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.Role;
-import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
-import ru.forumcalendar.forumcalendar.repository.RoleRepository;
-import ru.forumcalendar.forumcalendar.repository.UserRepository;
+import ru.forumcalendar.forumcalendar.repository.*;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 @Service
 public class BaseUserService implements UserService {
+
+    @Value("${my.inviteUrl}")
+    private String INVITE_URL;
+
+    private static int LINK_DELAY = 3600000; // 1 hour
 
     private static int ROLE_USER_ID = 1;
     private static int ROLE_ADMIN_ID = 2;
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private TeamRoleRepository teamRoleRepository;
+    private TeamRepository teamRepository;
+    private UserTeamRepository userTeamRepository;
+    private LinkRepository linkRepository;
 
     private UploadsService uploadsService;
 
@@ -31,10 +42,19 @@ public class BaseUserService implements UserService {
     public BaseUserService(
             UserRepository userRepository,
             RoleRepository roleRepository,
-            UploadsService uploadsService) {
+            TeamRoleRepository teamRoleRepository,
+            TeamRepository teamRepository,
+            UserTeamRepository userTeamRepository,
+            LinkRepository linkRepository,
+            UploadsService uploadsService
+    ) {
 
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.teamRoleRepository = teamRoleRepository;
+        this.teamRepository = teamRepository;
+        this.userTeamRepository = userTeamRepository;
+        this.linkRepository = linkRepository;
         this.uploadsService = uploadsService;
     }
 
@@ -68,6 +88,7 @@ public class BaseUserService implements UserService {
         user.setGender((String) userMap.get("gender"));
         user.setLocale((String) userMap.get("locale"));
 
+
         String photo = uploadsService.upload((String) userMap.get("picture"), user.getId())
                 .map(File::getName)
                 .orElse("DEFAULT");
@@ -84,6 +105,12 @@ public class BaseUserService implements UserService {
 
         return userRepository.findById(user.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + user.getId() + " not found"));
+    }
+
+    @Override
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User with id " + id + " not found"));
     }
 
     @Override
@@ -108,6 +135,61 @@ public class BaseUserService implements UserService {
 
         return userRepository.save(user);
     }
+
+    @Override
+    public String generateLink(
+            @NotNull int teamId,
+            @NotNull int roleId
+    ) {
+        Link link = new Link();
+        String uniqueParam = UUID.randomUUID().toString().replace("-","");
+        TeamRole teamRole = teamRoleRepository.findById(roleId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Can't find team role with id '" + roleId + "'")
+                );
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Can't find team with id '" + teamId + "'")
+                );
+
+        link.setLink(uniqueParam);
+        link.setTeam(team);
+        link.setTeamRole(teamRole);
+        linkRepository.save(link);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                linkRepository.delete(link);
+            }
+        }, LINK_DELAY);
+
+        return INVITE_URL + uniqueParam;
+    }
+
+    @Override
+    public void inviteViaLink(String uniqueParam) {
+        Link link = linkRepository.findById(uniqueParam)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Can't find link with id '" + uniqueParam)
+                );
+
+        User user = getCurrentUser();
+        UserTeam userTeam = new UserTeam();
+        UserTeamIdentity userTeamIdentity = new UserTeamIdentity();
+
+        userTeamIdentity.setTeam(link.getTeam());
+        userTeamIdentity.setUser(user);
+
+        userTeam.setTeamRole(link.getTeamRole());
+        userTeam.setUserTeamIdentity(userTeamIdentity);
+
+        userTeamRepository.save(userTeam);
+        linkRepository.delete(link);
+    }
+
 //
 //    @Override
 //    public boolean hasRole(String role) {

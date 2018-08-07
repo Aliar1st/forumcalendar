@@ -1,5 +1,6 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode(callSuper = false)
+@Data
 public class UserTeamIdentity implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER)

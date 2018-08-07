@@ -40,4 +40,5 @@ logging:
         type: TRACE
 
 my:
-  uploadDirectory: E:\Projects\Forum calendar\forumcalendar\src\main\resources\static\uploads
+  uploadDirectory: ./public/uploads
+  inviteUrl: http://localhost:8080/user/invite/

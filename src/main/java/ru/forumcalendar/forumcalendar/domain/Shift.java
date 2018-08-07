@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "speakers")
+@Table(name = "shifts")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class Shift {
+public class Shift extends AuditModel {
 
     @Id
     @GeneratedValue

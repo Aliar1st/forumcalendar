@@ -3,7 +3,6 @@ package ru.forumcalendar.forumcalendar.service;
 import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Map;
 
 public interface UserService {
@@ -12,7 +11,14 @@ public interface UserService {
 
     User getCurrentUser();
 
+    User getUserById(String id);
+
     User save(UserForm userForm);
+
+    String generateLink(int teamId, int roleId);
+
+    void inviteViaLink(String uniqueParam);
+
 
 //    User get(String id);
 //
