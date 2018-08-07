@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.Role;
 import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
 import ru.forumcalendar.forumcalendar.repository.RoleRepository;
 import ru.forumcalendar.forumcalendar.repository.UserRepository;
@@ -12,6 +13,7 @@ import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Map;
 
 @Service
@@ -77,18 +79,26 @@ public class BaseUserService implements UserService {
 
     @Override
     public User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext()
+        User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
+
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + user.getId() + " not found"));
     }
 
     @Override
     public User save(UserForm userForm) {
 
         User user = userRepository.findById(userForm.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with id " + userForm.getId() + " can't be found"));
+                .orElseThrow(() -> new IllegalArgumentException("User with id " + userForm.getId() + " not found"));
 
         String photo = uploadsService.upload(userForm.getPhoto(), userForm.getId())
-                .map(File::getName)
+                .map((f) -> {
+                    if (!user.getPhoto().equals(f.getName()))
+                        uploadsService.delete(user.getPhoto());
+
+                    return f.getName();
+                })
                 .orElse(user.getPhoto());
 
         user.setFirstName(userForm.getFirstName());

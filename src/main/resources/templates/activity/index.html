@@ -17,11 +17,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="forum:${forums}">
-                <td th:text="${forum.id}"></td>
-                <td th:text="${forum.name}"></td>
-                <td><a th:href="@{~/forum/__${forum.id}__/edit}">Edit</a></td>
-                <td><a th:href="@{~/forum/__${forum.id}__/delete}">Delete</a></td>
+            <tr th:each="activity:${activities}">
+                <td th:text="${activity.id}"></td>
+                <td th:text="${activity.name}"></td>
+                <td><a th:href="@{~/activity/__${activity.id}__/edit}">Edit</a></td>
+                <td><a th:href="@{~/activity/__${activity.id}__/delete}">Delete</a></td>
             </tr>
         </tbody>
     </table>

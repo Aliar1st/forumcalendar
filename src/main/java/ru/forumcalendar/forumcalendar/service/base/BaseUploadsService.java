@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -25,6 +27,11 @@ public class BaseUploadsService implements UploadsService {
     private String uploadDirectory;
 
     @Override
+    public Optional<File> upload(MultipartFile mFile) {
+        return upload(mFile, null);
+    }
+
+    @Override
     public Optional<File> upload(MultipartFile mFile, String name) {
 
         if (mFile == null)
@@ -34,24 +41,19 @@ public class BaseUploadsService implements UploadsService {
             return Optional.empty();
 
         File newFile = null;
-        String mName = mFile.getOriginalFilename();
 
         try {
-            byte[] nameBytes = name == null ? mFile.getBytes() : name.getBytes();
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] digest = md5.digest(nameBytes);
-            String hashString = new BigInteger(1, digest).toString(16);
+            String hashString = DigestUtils.md5Hex(name == null ? mFile.getBytes() : name.getBytes());
+            String ext = '.' + FilenameUtils.getExtension(mFile.getOriginalFilename());
 
-            newFile = ResourceUtils.getFile(uploadDirectory + SEP + hashString + mName.substring(mName.lastIndexOf('.')));
+            newFile = ResourceUtils.getFile(uploadDirectory + SEP + hashString + ext);
 
             if (newFile.exists() || newFile.createNewFile()) {
-                mFile.transferTo(newFile);
+                FileUtils.writeByteArrayToFile(newFile, mFile.getBytes());
             } else {
                 newFile = null;
             }
-
-        } catch (IOException | NoSuchAlgorithmException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException ignore) {
         }
 
         return Optional.ofNullable(newFile);
@@ -69,23 +71,28 @@ public class BaseUploadsService implements UploadsService {
         File newFile = null;
 
         try {
-            byte[] nameBytes = name.getBytes();
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] digest = md5.digest(nameBytes);
-            String hashString = new BigInteger(1, digest).toString(16);
+            String hashString = DigestUtils.md5Hex(name.getBytes());
+            String ext = '.' + FilenameUtils.getExtension(url);
 
-            newFile = ResourceUtils.getFile(uploadDirectory + SEP + hashString + url.substring(url.lastIndexOf('.')));
+            newFile = ResourceUtils.getFile(uploadDirectory + SEP + hashString + ext);
 
             if (newFile.exists() || newFile.createNewFile()) {
                 FileUtils.copyURLToFile(new URL(url), newFile);
             } else {
                 newFile = null;
             }
-
-        } catch (IOException | NoSuchAlgorithmException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException ignore) {
         }
 
         return Optional.ofNullable(newFile);
+    }
+
+    @Override
+    public boolean delete(String name) {
+        try {
+            return Files.deleteIfExists(new File(uploadDirectory + SEP + name).toPath());
+        } catch (IOException ignore) {
+        }
+        return false;
     }
 }
