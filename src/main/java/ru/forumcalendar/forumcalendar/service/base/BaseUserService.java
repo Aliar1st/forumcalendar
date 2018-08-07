@@ -13,7 +13,6 @@ import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.Map;
 
 @Service
@@ -89,8 +88,7 @@ public class BaseUserService implements UserService {
     @Override
     public User save(UserForm userForm) {
 
-        User user = userRepository.findById(userForm.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with id " + userForm.getId() + " not found"));
+        User user = getCurrentUser();
 
         String photo = uploadsService.upload(userForm.getPhoto(), userForm.getId())
                 .map((f) -> {

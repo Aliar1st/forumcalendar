@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -18,10 +20,14 @@ public class Activity extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(nullable = false)
     private User user;
 
     @Column(nullable = false)
     private String name;
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)
+    private Set<Shift> shifts = new HashSet<>();
 }

@@ -7,7 +7,46 @@
 </head>
 <body>
 <div layout:fragment="content">
-    
+    <form th:action="@{~/activity/add}" th:object="${activityForm}" method="POST" enctype="multipart/form-data">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+            </label>
+        </p>
+        <h2>Смена 1</h2>
+        <p>
+            <label>Название
+                <input name="shiftForms[0].name" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Дата начала
+                <input name="shiftForms[0].start_date" type="date">
+            </label>
+        </p>
+        <p>
+            <label>Дата конца
+                <input name="shiftForms[0].end_date" type="date">
+            </label>
+        </p>
+        <h2>Смена 2</h2>
+        <p>
+            <label>Название
+                <input name="shiftForms[1].name" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Дата начала
+                <input name="shiftForms[1].start_date" type="date">
+            </label>
+        </p>
+        <p>
+            <label>Дата конца
+                <input name="shiftForms[1].end_date" type="date">
+            </label>
+        </p>
+        <input type="submit" value="Создать">
+    </form>
 </div>
 </body>
 </html>

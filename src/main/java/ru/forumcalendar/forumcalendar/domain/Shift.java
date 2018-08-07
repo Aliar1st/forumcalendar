@@ -6,9 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "speakers")
+@Table(name = "shifts")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
@@ -30,4 +32,8 @@ public class Shift {
 
     @Column(nullable = false)
     private LocalDate endDate;
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)
+    private Set<Team> teams = new HashSet<>();
 }

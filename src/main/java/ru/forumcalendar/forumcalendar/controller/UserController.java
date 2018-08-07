@@ -52,7 +52,6 @@ public class UserController {
             return "user/edit";
         }
 
-        userForm.setId(userService.getCurrentUser().getId());
         userService.save(userForm);
 
         return "redirect:";

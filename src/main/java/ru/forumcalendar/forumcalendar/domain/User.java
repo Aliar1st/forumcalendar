@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -42,15 +39,19 @@ public class User extends AuditModel implements UserDetails {
 
     private String photo;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user")
     private Set<Activity> activities = new HashSet<>();
-    
+
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "userTeamIdentity.user")
     private Set<UserTeam> userTeams = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "likeIdentity.user")
     private Set<Like> likes = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "subscriptionIdentity.user")
     private Set<Subscription> subscriptions = new HashSet<>();
 
