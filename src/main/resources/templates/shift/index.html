@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show activity</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>team count</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>show</th>
+            <th>edit</th>
+            <th>delete</th>
+            <th><a th:href="@{~/shift/add}">add</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="shift:${shiftModels}">
+            <td th:text="${shift.id}"></td>
+            <td th:text="${shift.name}"></td>
+            <td th:text="${shift.teamCount}"></td>
+            <td th:text="${shift.startDate}"></td>
+            <td th:text="${shift.endDate}"></td>
+            <td><a th:href="@{~/shift/__${shift.id}__}">Show</a></td>
+            <td><a th:href="@{~/shift/__${shift.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{~/shift/__${shift.id}__/delete}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

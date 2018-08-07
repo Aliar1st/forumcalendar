@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "shifts")
@@ -30,4 +32,8 @@ public class Shift extends AuditModel {
 
     @Column(nullable = false)
     private LocalDate endDate;
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)
+    private Set<Team> teams = new HashSet<>();
 }

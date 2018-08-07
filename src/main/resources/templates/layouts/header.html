@@ -3,7 +3,11 @@
 <nav id="header" class="navbar navbar-expand-md bg-primary navbar-dark" th:fragment="header">
     <b>Header</b>
     <hr>
+    <ul>
+        <li><a th:href="@{~/user}">Profile</a></li>
+        <li><a th:href="@{~/activity}">User created activities</a></li>
+    </ul>
+    <hr>
 </nav>
-
 </body>
 </html>

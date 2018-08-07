@@ -116,8 +116,7 @@ public class BaseUserService implements UserService {
     @Override
     public User save(UserForm userForm) {
 
-        User user = userRepository.findById(userForm.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with id " + userForm.getId() + " not found"));
+        User user = getCurrentUser();
 
         String photo = uploadsService.upload(userForm.getPhoto(), userForm.getId())
                 .map((f) -> {
