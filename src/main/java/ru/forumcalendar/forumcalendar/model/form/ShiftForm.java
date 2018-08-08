@@ -20,16 +20,16 @@ public class ShiftForm {
     private int activityId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate start_date;
+    private LocalDate startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate end_date;
+    private LocalDate endDate;
 
     public ShiftForm(Shift shift) {
         this.id = shift.getId();
         this.name = shift.getName();
         this.activityId = shift.getActivity().getId();
-        this.start_date = shift.getStartDate();
-        this.end_date = shift.getEndDate();
+        this.startDate = shift.getStartDate();
+        this.endDate = shift.getEndDate();
     }
 }

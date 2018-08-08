@@ -3,27 +3,28 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Add shift</title>
+    <title>Edit team</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{~/activity/__${activityId}__/shift/add}" th:object="${shiftForm}" method="POST">
+    <form th:action="@{edit}"
+          th:object="${teamForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
             </label>
         </p>
         <p>
-            <label>Дата начала
-                <input th:field="*{start_date}" type="date">
+            <label>Направление
+                <input th:field="*{direction}" type="text">
             </label>
         </p>
         <p>
-            <label>Дата конца
-                <input th:field="*{end_date}" type="date">
+            <label>Описание
+                <input th:field="*{description}" type="text">
             </label>
         </p>
-        <input type="submit" value="Создать">
+        <input type="submit" value="Обновить">
     </form>
 </div>
 </body>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show shift</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>show</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>team</td>
+            <td><a th:href="@{__${shift.id}__/team}">Show</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

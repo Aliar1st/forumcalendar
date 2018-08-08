@@ -7,7 +7,6 @@ import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 
-@Component
 public class ShiftModelConverter implements Converter<Shift, ShiftModel> {
 
     private TeamRepository teamRepository;

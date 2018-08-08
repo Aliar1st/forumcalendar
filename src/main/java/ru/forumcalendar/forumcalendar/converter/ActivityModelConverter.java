@@ -9,7 +9,6 @@ import ru.forumcalendar.forumcalendar.model.ActivityModel;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Component
 public class ActivityModelConverter implements Converter<Activity, ActivityModel> {
 
     @Override

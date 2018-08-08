@@ -4,23 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.service.LinkService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 @Controller
 @RequestMapping("team")
-public class TeamController {
+public class LinkController {
 
     private final UserService userService;
     private final TeamService teamService;
+    private final LinkService linkService;
 
     @Autowired
-    public TeamController(
+    public LinkController(
             UserService userService,
-            TeamService teamService
+            TeamService teamService,
+            LinkService linkService
     ) {
         this.userService = userService;
         this.teamService = teamService;
+        this.linkService = linkService;
     }
 
     @GetMapping("/getLink")
@@ -39,12 +43,12 @@ public class TeamController {
             @RequestParam int teamId,
             Model model
     ) {
-        return teamService.generateLink(teamId, teamRoleId);
+        return linkService.generateLink(teamId, teamRoleId);
     }
 
     @GetMapping("/invite/{uniqueParam}")
-    private String inviteViaLink(@PathVariable("uniqueParam") String uniqueParam) {
-        teamService.inviteViaLink(uniqueParam);
+    private String inviteViaLink(@PathVariable String uniqueParam) {
+        linkService.inviteViaLink(uniqueParam);
         return "redirect:/user/";
     }
 }

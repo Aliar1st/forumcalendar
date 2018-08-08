@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
-    List<Activity> getAllByUser_id(String user_id);
+    List<Activity> getAllByUserId(String user_id);
 }

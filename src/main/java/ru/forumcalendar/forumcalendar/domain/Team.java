@@ -34,4 +34,8 @@ public class Team extends AuditModel {
     @OneToMany(mappedBy = "team")
     @EqualsAndHashCode.Exclude
     private Set<TeamEvent> teamEvents = new HashSet<>();
+
+    @OneToMany(mappedBy = "userTeamIdentity.team")
+    @EqualsAndHashCode.Exclude
+    private Set<UserTeam> userTeams = new HashSet<>();
 }

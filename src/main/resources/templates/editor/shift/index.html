@@ -18,7 +18,7 @@
             <th>show</th>
             <th>edit</th>
             <th>delete</th>
-            <th><a th:href="@{~/activity/__${activityId}__/shift/add}">add</a></th>
+            <th><a th:href="@{shift/add}">add</a></th>
         </tr>
         </thead>
         <tbody>
@@ -28,9 +28,9 @@
             <td th:text="${shift.teamCount}"></td>
             <td th:text="${shift.startDate}"></td>
             <td th:text="${shift.endDate}"></td>
-            <td><a th:href="@{~/activity/__${activityId}__/shift/__${shift.id}__}">Show</a></td>
-            <td><a th:href="@{~/activity/__${activityId}__/shift/__${shift.id}__/edit}">Edit</a></td>
-            <td><a th:href="@{~/activity/__${activityId}__/shift/__${shift.id}__/delete}">Delete</a></td>
+            <td><a th:href="@{shift/__${shift.id}__}">Show</a></td>
+            <td><a th:href="@{shift/__${shift.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{shift/__${shift.id}__/delete}">Delete</a></td>
         </tr>
         </tbody>
     </table>

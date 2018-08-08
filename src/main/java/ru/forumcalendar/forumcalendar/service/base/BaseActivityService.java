@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 @Service
 public class BaseActivityService implements ActivityService {
 
-    private ActivityRepository activityRepository;
-    private ShiftRepository shiftRepository;
+    private final ActivityRepository activityRepository;
+    private final ShiftRepository shiftRepository;
 
-    private ConversionService conversionService;
-    private UserService userService;
+    private final ConversionService conversionService;
+    private final UserService userService;
 
     @Autowired
     public BaseActivityService(
@@ -60,8 +60,8 @@ public class BaseActivityService implements ActivityService {
         for (ShiftForm sf : activityForm.getShiftForms()) {
             Shift shift = shiftRepository.findById(sf.getId()).orElse(new Shift());
             shift.setName(sf.getName());
-            shift.setStartDate(sf.getStart_date());
-            shift.setEndDate(sf.getEnd_date());
+            shift.setStartDate(sf.getStartDate());
+            shift.setEndDate(sf.getEndDate());
             shift.setActivity(activity);
             shifts.add(shift);
         }
@@ -79,7 +79,7 @@ public class BaseActivityService implements ActivityService {
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
 
-        return activityRepository.getAllByUser_id(userService.getCurrentUser().getId())
+        return activityRepository.getAllByUserId(userService.getCurrentUser().getId())
                 .stream()
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());

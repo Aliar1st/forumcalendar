@@ -1,7 +1,6 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.*;
@@ -11,23 +10,19 @@ import ru.forumcalendar.forumcalendar.repository.*;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
 
 @Service
 public class BaseUserService implements UserService {
 
-    private static int ROLE_USER_ID = 1;
-    private static int ROLE_ADMIN_ID = 2;
+    private static final int ROLE_USER_ID = 1;
+    private static final int ROLE_ADMIN_ID = 2;
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    private UploadsService uploadsService;
+    private final UploadsService uploadsService;
 
     @Autowired
     public BaseUserService(

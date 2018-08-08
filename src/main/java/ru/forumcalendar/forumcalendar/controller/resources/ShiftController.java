@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.controller;
+package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +14,12 @@ import ru.forumcalendar.forumcalendar.service.ShiftService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("activity/{activityId}/shift")
+@RequestMapping("editor/activity/{activityId}/shift")
 public class ShiftController {
 
-    private ShiftService shiftService;
+    private static final String HTML_FOLDER = "editor/shift/";
+
+    private final ShiftService shiftService;
 
     @Autowired
     public ShiftController(
@@ -28,29 +30,27 @@ public class ShiftController {
 
     @GetMapping("")
     public String index(
-            @PathVariable Integer activityId,
+            @PathVariable int activityId,
             Model model
     ) {
 
         model.addAttribute("shiftModels", shiftService.getShiftModelsByActivityId(activityId));
-        model.addAttribute(activityId);
 
-        return "shift/index";
+        return HTML_FOLDER + "index";
     }
 
-    @GetMapping("/add")
+    @GetMapping("add")
     public String add(
             @PathVariable int activityId,
             Model model
     ) {
 
         model.addAttribute(new ShiftForm());
-        model.addAttribute(activityId);
 
-        return "shift/add";
+        return HTML_FOLDER + "add";
     }
 
-    @PostMapping("/add")
+    @PostMapping("add")
     public String add(
             @PathVariable int activityId,
             @Valid ShiftForm shiftForm,
@@ -58,16 +58,16 @@ public class ShiftController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "shift/add";
+            return HTML_FOLDER + "add";
         }
 
         shiftForm.setActivityId(activityId);
         shiftService.save(shiftForm);
 
-        return "redirect:/activity/" + activityId + "/shift";
+        return "redirect:";
     }
 
-    @GetMapping("/{shiftId}/edit")
+    @GetMapping("{shiftId}/edit")
     public String edit(
             @PathVariable int shiftId,
             Model model
@@ -76,35 +76,33 @@ public class ShiftController {
         ShiftForm shiftForm = new ShiftForm(shiftService.get(shiftId));
         model.addAttribute(shiftForm);
 
-        return "shift/edit";
+        return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("/{shiftId}/edit")
+    @PostMapping("{shiftId}/edit")
     public String edit(
-            @PathVariable int activityId,
             @PathVariable int shiftId,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "shift/edit";
+            return HTML_FOLDER + "edit";
         }
 
         shiftForm.setId(shiftId);
         shiftService.save(shiftForm);
 
-        return "redirect:/activity/" + activityId + "/shift";
+        return "redirect:..";
     }
 
-    @GetMapping("/{shiftId}/delete")
+    @GetMapping("{shiftId}/delete")
     public String delete(
-            @PathVariable int activityId,
             @PathVariable int shiftId
     ) {
 
         shiftService.delete(shiftId);
 
-        return "redirect:/activity/" + activityId + "/shift";
+        return "redirect:..";
     }
 }

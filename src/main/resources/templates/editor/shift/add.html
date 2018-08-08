@@ -3,12 +3,11 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Edit shift</title>
+    <title>Add shift</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{~/activity/__${shiftForm.activityId}__/shift/__${shiftForm.id}__/edit}"
-          th:object="${shiftForm}" method="POST">
+    <form th:action="@{add}" th:object="${shiftForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -16,15 +15,15 @@
         </p>
         <p>
             <label>Дата начала
-                <input th:field="*{start_date}" type="date">
+                <input th:field="*{startDate}" type="date">
             </label>
         </p>
         <p>
             <label>Дата конца
-                <input th:field="*{end_date}" type="date">
+                <input th:field="*{endDate}" type="date">
             </label>
         </p>
-        <input type="submit" value="Обновить">
+        <input type="submit" value="Создать">
     </form>
 </div>
 </body>

@@ -1,106 +1,77 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.*;
-import ru.forumcalendar.forumcalendar.repository.LinkRepository;
+import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.TeamModel;
+import ru.forumcalendar.forumcalendar.model.form.TeamForm;
+import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
-import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.TeamService;
-import ru.forumcalendar.forumcalendar.service.UserService;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BaseTeamService implements TeamService {
 
-    @Value("${my.inviteUrl}")
-    private String INVITE_URL;
+    private final TeamRepository teamRepository;
+    private final TeamRoleRepository teamRoleRepository;
+    private final ShiftRepository shiftRepository;
 
-    private static int LINK_DELAY = 3600000; // 1 hour
-
-    private UserService userService;
-    private TeamRepository teamRepository;
-    private LinkRepository linkRepository;
-    private UserTeamRepository userTeamRepository;
-    private TeamRoleRepository teamRoleRepository;
+    private final ConversionService conversionService;
 
     @Autowired
     public BaseTeamService(
-            UserService userService,
             TeamRepository teamRepository,
-            LinkRepository linkRepository,
-            UserTeamRepository userTeamRepository,
-            TeamRoleRepository teamRoleRepository
+            TeamRoleRepository teamRoleRepository,
+            ShiftRepository shiftRepository,
+            @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
-        this.userService = userService;
         this.teamRepository = teamRepository;
-        this.linkRepository = linkRepository;
-        this.userTeamRepository = userTeamRepository;
         this.teamRoleRepository = teamRoleRepository;
+        this.shiftRepository = shiftRepository;
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public Team get(int id) {
+        return teamRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Team with id " + id + " not found"));
+    }
+
+    @Override
+    public Team save(TeamForm teamForm) {
+
+        Team team = teamRepository.findById(teamForm.getId()).orElse(new Team());
+        team.setName(teamForm.getName());
+        team.setDirection(teamForm.getDirection());
+        team.setDescription(teamForm.getDescription());
+        team.setShift(shiftRepository.findById(teamForm.getShiftId())
+                .orElseThrow(() -> new EntityNotFoundException("Shift with id " + teamForm.getShiftId() + " not found")));
+
+        return teamRepository.save(team);
+    }
+
+    @Override
+    public void delete(int id) {
+        teamRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TeamModel> getTeamModelsByShiftId(int id) {
+        return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
+                .stream()
+                .map((t) -> conversionService.convert(t, TeamModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TeamRole> getAllRoles() {
         return teamRoleRepository.findAll();
-    }
-
-    @Override
-    public String generateLink(
-            @NotNull int teamId,
-            @NotNull int roleId
-    ) {
-        Link link = new Link();
-        String uniqueParam = UUID.randomUUID().toString().replace("-", "");
-        TeamRole teamRole = teamRoleRepository.findById(roleId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Can't find team role with id '" + roleId + "'")
-                );
-
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Can't find team with id '" + teamId + "'")
-                );
-
-        link.setLink(uniqueParam);
-        link.setTeam(team);
-        link.setTeamRole(teamRole);
-        linkRepository.save(link);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                linkRepository.delete(link);
-            }
-        }, LINK_DELAY);
-
-        return INVITE_URL + uniqueParam;
-    }
-
-    @Override
-    public void inviteViaLink(String uniqueParam) {
-        Link link = linkRepository.findById(uniqueParam)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Can't find link with id '" + uniqueParam)
-                );
-
-        User user = userService.getCurrentUser();
-        UserTeam userTeam = new UserTeam();
-        UserTeamIdentity userTeamIdentity = new UserTeamIdentity();
-
-        userTeamIdentity.setTeam(link.getTeam());
-        userTeamIdentity.setUser(user);
-
-        userTeam.setTeamRole(link.getTeamRole());
-        userTeam.setUserTeamIdentity(userTeamIdentity);
-
-        userTeamRepository.save(userTeam);
     }
 }

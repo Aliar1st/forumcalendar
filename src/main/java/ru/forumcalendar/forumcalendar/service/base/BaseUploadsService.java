@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class BaseUploadsService implements UploadsService {
 
-    private static String SEP = "/";
+    private static final String SEP = "/";
 
     @Value("${my.uploadDirectory}")
     private String uploadDirectory;

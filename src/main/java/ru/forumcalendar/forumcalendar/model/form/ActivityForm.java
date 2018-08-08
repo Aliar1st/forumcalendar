@@ -7,6 +7,7 @@ import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -34,5 +35,7 @@ public class ActivityForm {
         for (Shift shift : shifts) {
             this.shiftForms.add(new ShiftForm(shift));
         }
+
+        this.shiftForms.sort(Comparator.comparing(ShiftForm::getStartDate));
     }
 }

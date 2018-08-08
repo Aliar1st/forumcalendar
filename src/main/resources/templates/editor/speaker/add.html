@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Add speaker</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{add}" th:object="${speakerForm}" method="POST">
+        <p>
+            <label>Имя
+                <input th:field="*{firstName}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Фамилия
+                <input th:field="*{lastName}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Ссылка
+                <input th:field="*{link}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+            </label>
+        </p>
+        <input type="submit" value="Создать">
+    </form>
+</div>
+</body>
+</html>

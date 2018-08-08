@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @Service
 public class BaseShiftService implements ShiftService {
 
-    private ActivityRepository activityRepository;
-    private ShiftRepository shiftRepository;
+    private final ActivityRepository activityRepository;
+    private final ShiftRepository shiftRepository;
 
-    private ConversionService conversionService;
+    private final ConversionService conversionService;
 
     @Autowired
     public BaseShiftService(
@@ -45,8 +45,8 @@ public class BaseShiftService implements ShiftService {
 
         Shift shift = shiftRepository.findById(shiftForm.getId()).orElse(new Shift());
         shift.setName(shiftForm.getName());
-        shift.setStartDate(shiftForm.getStart_date());
-        shift.setEndDate(shiftForm.getEnd_date());
+        shift.setStartDate(shiftForm.getStartDate());
+        shift.setEndDate(shiftForm.getEndDate());
         shift.setActivity(activityRepository.findById(shiftForm.getActivityId())
                 .orElseThrow(() -> new EntityNotFoundException("Activity with id " + shiftForm.getActivityId() + " not found")));
 
@@ -60,7 +60,7 @@ public class BaseShiftService implements ShiftService {
 
     @Override
     public List<ShiftModel> getShiftModelsByActivityId(int id) {
-        return shiftRepository.getAllByActivity_Id(id)
+        return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
                 .stream()
                 .map((s) -> conversionService.convert(s, ShiftModel.class))
                 .collect(Collectors.toList());

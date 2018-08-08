@@ -17,6 +17,10 @@ public class Speaker extends AuditModel {
     @GeneratedValue
     private int id;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Activity activity;
+
     @Column(nullable = false)
     private String firstName;
 

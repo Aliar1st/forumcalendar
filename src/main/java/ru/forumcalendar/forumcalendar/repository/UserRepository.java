@@ -5,4 +5,6 @@ import ru.forumcalendar.forumcalendar.domain.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
+//    int countAllByUserTeams
+
 }

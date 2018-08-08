@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ShiftRepository extends JpaRepository<Shift, Integer> {
 
-    List<Shift> getAllByActivity_Id(int activity_id);
+    List<Shift> getAllByActivityIdOrderByCreatedAt(int activity_id);
 }
