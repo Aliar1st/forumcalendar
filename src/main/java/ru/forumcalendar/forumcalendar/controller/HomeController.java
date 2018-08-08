@@ -29,5 +29,3 @@ public class HomeController {
                 .addObject("user", userService.getCurrentUser());
     }
 }
-
-// FIXME: 8/8/2018 Перенести приглашение в команду в сервис и контроллер команды
