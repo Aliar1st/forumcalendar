@@ -11,6 +11,8 @@ public class ShiftModel {
 
     private int id;
 
+    private int activityId;
+
     private String name;
 
     private LocalDate startDate;

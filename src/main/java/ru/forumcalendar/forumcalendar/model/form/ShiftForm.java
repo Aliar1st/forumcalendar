@@ -13,9 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ShiftForm {
 
-    private Integer id = -1;
+    private int id = -1;
 
     private String name;
+
+    private int activityId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
@@ -26,6 +28,7 @@ public class ShiftForm {
     public ShiftForm(Shift shift) {
         this.id = shift.getId();
         this.name = shift.getName();
+        this.activityId = shift.getActivity().getId();
         this.start_date = shift.getStartDate();
         this.end_date = shift.getEndDate();
     }

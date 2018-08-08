@@ -17,6 +17,7 @@ public class ShiftModelConverter implements Converter<Shift, ShiftModel> {
 
         ShiftModel shiftModel = new ShiftModel();
         shiftModel.setId(shift.getId());
+        shiftModel.setActivityId(shift.getActivity().getId());
         shiftModel.setName(shift.getName());
         shiftModel.setStartDate(shift.getStartDate());
         shiftModel.setEndDate(shift.getEndDate());
