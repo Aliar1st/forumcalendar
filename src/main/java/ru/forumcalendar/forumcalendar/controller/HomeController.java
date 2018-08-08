@@ -30,4 +30,4 @@ public class HomeController {
     }
 }
 
-// TODO: 8/7/2018 Image don't reload after change or registration
+// FIXME: 8/8/2018 Перенести приглашение в команду в сервис и контроллер команды
