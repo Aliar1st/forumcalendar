@@ -41,4 +41,4 @@ logging:
 
 my:
   uploadDirectory: ./public/uploads
-  inviteUrl: http://localhost:8080/user/invite/
+  inviteUrl: http://localhost:8080/team/invite/

@@ -15,11 +15,6 @@ public interface UserService {
 
     User save(UserForm userForm);
 
-    String generateLink(int teamId, int roleId);
-
-    void inviteViaLink(String uniqueParam);
-
-
 //    User get(String id);
 //
 //    User edit(String id, User user);

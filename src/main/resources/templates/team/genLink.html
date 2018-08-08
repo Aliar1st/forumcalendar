@@ -7,8 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-
-    <form th:action="@{~/user/getLink}" method="POST">
+    <form th:action="@{~/team/getLink}" method="POST">
         <p>
             <label>Роль<br/>
                 <th:block th:each="role, stat : ${teamRoles}">
