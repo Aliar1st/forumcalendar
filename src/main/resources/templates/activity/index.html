@@ -3,7 +3,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Booking</title>
+    <title>Show activities</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -28,7 +28,7 @@
                 <td th:text="${activity.shiftCount}"></td>
                 <td th:text="${activity.startDate}"></td>
                 <td th:text="${activity.endDate}"></td>
-                <td><a th:href="@{~/activity/__${activity.id}__}">Show</a></td>
+                <td><a th:href="@{~/activity/__${activity.id}__/shift}">Show</a></td>
                 <td><a th:href="@{~/activity/__${activity.id}__/edit}">Edit</a></td>
                 <td><a th:href="@{~/activity/__${activity.id}__/delete}">Delete</a></td>
             </tr>

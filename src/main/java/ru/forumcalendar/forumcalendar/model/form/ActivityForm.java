@@ -15,9 +15,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class ActivityForm {
 
-    private Integer id = -1;
+    private int id = -1;
 
-    private String user_id;
+    private String userId;
 
     private String name;
 
@@ -25,7 +25,7 @@ public class ActivityForm {
 
     public ActivityForm(Activity activity) {
         this.id = activity.getId();
-        this.user_id = activity.getUser().getId();
+        this.userId = activity.getUser().getId();
         this.name = activity.getName();
 
         Set<Shift> shifts = activity.getShifts();

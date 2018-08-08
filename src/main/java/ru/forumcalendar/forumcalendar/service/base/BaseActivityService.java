@@ -42,7 +42,7 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public Activity get(Integer id) {
+    public Activity get(int id) {
         return activityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Activity with id " + id + " not found"));
     }
@@ -72,7 +72,7 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(int id) {
         activityRepository.deleteById(id);
     }
 
