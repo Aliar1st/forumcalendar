@@ -7,11 +7,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.repository.UserRepository;
 import ru.forumcalendar.forumcalendar.service.UserService;
-
-import java.time.LocalDateTime;
 
 @EnableWebSecurity
 @EnableOAuth2Sso
