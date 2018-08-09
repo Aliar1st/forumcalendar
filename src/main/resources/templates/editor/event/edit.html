@@ -9,6 +9,9 @@
 <div layout:fragment="content">
     <form th:action="@{edit}" th:object="${eventForm}" method="POST">
         <p>
+            <input th:field="*{id}" type="hidden">
+        </p>
+        <p>
             <label>Название
                 <input th:field="*{name}" type="text">
             </label>
@@ -48,17 +51,17 @@
             </p>
             <p>
                 <label>Фамилия
-                    <input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">
+                    <input th:field="*{speakerForms[__${stat.index}__].lastName}" type="text">
                 </label>
             </p>
             <p>
                 <label>Ссылка
-                    <input th:field="*{speakerForms[__${stat.index}__].link}" type="date">
+                    <input th:field="*{speakerForms[__${stat.index}__].link}" type="text">
                 </label>
             </p>
             <p>
                 <label>Описание
-                    <input th:field="*{speakerForms[__${stat.index}__].description}" type="date">
+                    <input th:field="*{speakerForms[__${stat.index}__].description}" type="text">
                 </label>
             </p>
         </th:block>

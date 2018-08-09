@@ -19,6 +19,7 @@ import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,8 +77,10 @@ public class BaseEventService implements EventService {
                 speaker.setLink(sf.getLink());
                 speakers.add(speaker);
             }
+            event.setSpeakers(new HashSet<>(speakers));
             speakerRepository.saveAll(speakers);
         }
+
         return eventRepository.save(event);
     }
 

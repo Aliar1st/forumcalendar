@@ -15,4 +15,6 @@ public interface SpeakerService {
     void delete(int id);
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
+
+    List<SpeakerForm> getSpeakerFormsBySpeakersId(int... speakersId);
 }

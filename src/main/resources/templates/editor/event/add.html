@@ -33,6 +33,18 @@
                 <input th:field="*{description}" type="text">
             </label>
         </p>
+        <p>
+            <label>Спикеры
+                <select th:name="speakersId" multiple>
+                    <th:block th:each="speaker, stat : ${speakers}">
+                        <option selected
+                                th:value="${speaker.getId()}"
+                                th:text="|${speaker.getFirstName()} ${speaker.getLastName()}|">Speaker
+                        </option>
+                    </th:block>
+                </select>
+            </label>
+        </p>
         <input type="submit" value="Создать">
     </form>
 </div>

@@ -12,6 +12,7 @@ import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,5 +66,19 @@ public class BaseSpeakerService implements SpeakerService {
                 .stream()
                 .map((s) -> conversionService.convert(s, SpeakerModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SpeakerForm> getSpeakerFormsBySpeakersId(int... speakersId) {
+        List<SpeakerForm> speakerForms = new ArrayList<>();
+
+        for (int speakerId : speakersId) {
+            speakerForms.add(new SpeakerForm(speakerRepository.findById(speakerId).
+                    orElseThrow(() -> new IllegalArgumentException(
+                            "Can't find team with id '" + speakerId + "'")
+                    )));
+        }
+
+        return speakerForms;
     }
 }
