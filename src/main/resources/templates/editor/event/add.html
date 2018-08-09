@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Add forum</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{add}" th:object="${eventForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Дата
+                <input th:field="*{date}" type="date">
+            </label>
+        </p>
+        <p>
+            <label>Время
+                <input th:field="*{time}" type="time">
+            </label>
+        </p>
+        <p>
+            <label>Место
+                <input th:field="*{place}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+            </label>
+        </p>
+        <input type="submit" value="Создать">
+    </form>
+</div>
+</body>
+</html>

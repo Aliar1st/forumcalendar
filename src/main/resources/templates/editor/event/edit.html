@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit forum</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{edit}" th:object="${eventForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Дата
+                <input th:field="*{date}" type="date">
+            </label>
+        </p>
+        <p>
+            <label>Время
+                <input th:field="*{time}" type="time">
+            </label>
+        </p>
+        <p>
+            <label>Место
+                <input th:field="*{place}" type="text">
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+            </label>
+        </p>
+        <th:block th:each="speaker, stat:${eventForm.speakerForms}">
+            <h2 th:text="|Спикер ${stat.index+1}|"></h2>
+            <p>
+                <input th:field="*{speakerForms[__${stat.index}__].id}" type="hidden">
+            </p>
+            <p>
+                <input th:field="*{speakerForms[__${stat.index}__].activityId}" type="hidden">
+            </p>
+            <p>
+                <label>Имя
+                    <input th:field="*{speakerForms[__${stat.index}__].firstName}" type="text">
+                </label>
+            </p>
+            <p>
+                <label>Фамилия
+                    <input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">
+                </label>
+            </p>
+            <p>
+                <label>Ссылка
+                    <input th:field="*{speakerForms[__${stat.index}__].link}" type="date">
+                </label>
+            </p>
+            <p>
+                <label>Описание
+                    <input th:field="*{speakerForms[__${stat.index}__].description}" type="date">
+                </label>
+            </p>
+        </th:block>
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

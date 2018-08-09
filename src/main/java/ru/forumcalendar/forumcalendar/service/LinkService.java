@@ -4,7 +4,7 @@ import ru.forumcalendar.forumcalendar.domain.TeamRole;
 
 import java.util.List;
 
-public interface LinkService {;
+public interface LinkService {
 
     String generateLink(int teamId, int roleId);
 

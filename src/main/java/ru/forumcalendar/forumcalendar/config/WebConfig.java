@@ -7,10 +7,7 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import ru.forumcalendar.forumcalendar.converter.ActivityModelConverter;
-import ru.forumcalendar.forumcalendar.converter.ShiftModelConverter;
-import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
-import ru.forumcalendar.forumcalendar.converter.TeamModelConverter;
+import ru.forumcalendar.forumcalendar.converter.*;
 import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(shiftModelConverter());
         registry.addConverter(teamModelConverter());
         registry.addConverter(new SpeakerModelConverter());
+        registry.addConverter(new EventModelConverter());
     }
 
     @Bean
