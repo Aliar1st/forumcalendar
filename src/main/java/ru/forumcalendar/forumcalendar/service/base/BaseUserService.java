@@ -36,20 +36,6 @@ public class BaseUserService implements UserService {
         this.uploadsService = uploadsService;
     }
 
-    //
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//
-//        User user = userRepository.findByLogin(username);
-//
-//        if (Objects.isNull(user)) {
-//            throw new UsernameNotFoundException("Can't find user with username " + username);
-//        }
-//
-//        return (UserDetails) user;
-//    }
-//
-//
     @Override
     public User signUp(Map<String, Object> userMap) {
 
@@ -83,6 +69,12 @@ public class BaseUserService implements UserService {
 
         return userRepository.findById(user.getId())
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + user.getId() + " not found"));
+    }
+
+    @Override
+    public String getCurrentId() {
+        return ((User) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getId();
     }
 
     @Override

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p th:text="|Likes: ${likes}|"></p>
+    <p th:text="|Dislikes: ${dislikes}|"></p>
+    <form th:action="@{~/like}" method="POST">
+        <button type="submit">like 1 event</button>
+    </form>
+    <form th:action="@{~/dislike}" method="POST">
+        <button type="submit">dislike 1 event</button>
+    </form>
+</div>
+</body>
+</html>

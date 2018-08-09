@@ -79,7 +79,7 @@ public class BaseActivityService implements ActivityService {
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
 
-        return activityRepository.getAllByUserId(userService.getCurrentUser().getId())
+        return activityRepository.getAllByUserId(userService.getCurrentId())
                 .stream()
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());

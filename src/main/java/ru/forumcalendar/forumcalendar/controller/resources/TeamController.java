@@ -28,7 +28,6 @@ public class TeamController {
 
     @GetMapping("")
     public String index(
-            @PathVariable int activityId,
             @PathVariable int shiftId,
             Model model
     ) {
@@ -40,8 +39,6 @@ public class TeamController {
 
     @GetMapping("add")
     public String add(
-            @PathVariable int activityId,
-            @PathVariable int shiftId,
             Model model
     ) {
 

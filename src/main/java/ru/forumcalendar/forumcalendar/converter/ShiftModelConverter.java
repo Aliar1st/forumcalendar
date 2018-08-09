@@ -9,8 +9,6 @@ import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 
 public class ShiftModelConverter implements Converter<Shift, ShiftModel> {
 
-    private TeamRepository teamRepository;
-
     @Override
     public ShiftModel convert(Shift shift) {
 
@@ -20,13 +18,8 @@ public class ShiftModelConverter implements Converter<Shift, ShiftModel> {
         shiftModel.setName(shift.getName());
         shiftModel.setStartDate(shift.getStartDate());
         shiftModel.setEndDate(shift.getEndDate());
-        shiftModel.setTeamCount(teamRepository.countAllByShift_id(shift.getId()));
+        shiftModel.setTeamCount(shift.getTeams().size());
 
         return shiftModel;
-    }
-
-    @Autowired
-    public void setTeamRepository(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
     }
 }

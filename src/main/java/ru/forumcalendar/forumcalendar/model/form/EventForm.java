@@ -9,6 +9,7 @@ import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,8 @@ public class EventForm {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-
-    private LocalTime time;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime datetime;
 
     private String place;
 
@@ -39,8 +38,7 @@ public class EventForm {
     public EventForm(Event event) {
         this.id = event.getId();
         this.name = event.getName();
-        this.date = event.getDate();
-        this.time = event.getTime();
+        this.datetime = event.getDatetime();
         this.place = event.getPlace();
         this.description = event.getDescription();
         this.shiftId = event.getShift().getId();

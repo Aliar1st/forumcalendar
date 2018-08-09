@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -15,9 +16,7 @@ public class EventModel {
 
     private String name;
 
-    private LocalDate date;
-
-    private LocalTime time;
+    private LocalDateTime datetime;
 
     private String place;
 
