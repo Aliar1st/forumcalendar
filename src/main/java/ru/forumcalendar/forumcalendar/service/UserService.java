@@ -11,6 +11,8 @@ public interface UserService {
 
     User getCurrentUser();
 
+    String getCurrentId();
+
     User getUserById(String id);
 
     User save(UserForm userForm);

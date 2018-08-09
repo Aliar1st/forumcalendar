@@ -55,13 +55,12 @@ public class BaseEventService implements EventService {
     @Override
     public Event save(EventForm eventForm) {
         Event event = eventRepository.findById(eventForm.getId()).orElse(new Event());
-        event.setDate(eventForm.getDate());
+        event.setDatetime(eventForm.getDatetime());
         event.setDescription(eventForm.getDescription());
         event.setId(eventForm.getId());
         event.setName(eventForm.getName());
         event.setPlace(eventForm.getPlace());
         event.setShift(shiftRepository.findById(eventForm.getShiftId()).orElse(new Shift()));
-        event.setTime(eventForm.getTime());
 
         List<SpeakerForm> speakerForms = eventForm.getSpeakerForms();
         if (speakerForms != null) {

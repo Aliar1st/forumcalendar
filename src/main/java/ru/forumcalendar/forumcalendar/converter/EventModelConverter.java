@@ -11,13 +11,12 @@ public class EventModelConverter implements Converter<Event, EventModel> {
 
         EventModel eventModel = new EventModel();
 
-        eventModel.setDate(event.getDate());
+        eventModel.setDatetime(event.getDatetime());
         eventModel.setDescription(event.getDescription());
         eventModel.setId(event.getId());
         eventModel.setName(event.getName());
         eventModel.setPlace(event.getPlace());
         eventModel.setShift(event.getShift());
-        eventModel.setTime(event.getTime());
         eventModel.setSpeakersCount(event.getSpeakers().size());
 
         return eventModel;

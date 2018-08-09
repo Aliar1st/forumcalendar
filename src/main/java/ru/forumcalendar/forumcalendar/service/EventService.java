@@ -14,5 +14,5 @@ public interface EventService {
 
     void delete(int id);
 
-    List<EventModel> getEventModelsByShiftId(int activityId);
+    List<EventModel> getEventModelsByShiftId(int shiftId);
 }
