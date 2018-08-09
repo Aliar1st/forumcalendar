@@ -17,7 +17,7 @@ public class TrailingSlashRemoveInterceptor implements HandlerInterceptor {
 
         String requestURI = request.getRequestURI();
 
-        if (requestURI.endsWith("/")) {
+        if (requestURI.endsWith("/") && !requestURI.equals("/")) {
             String queryString = request.getQueryString();
             queryString = (queryString != null ? "?" + queryString : "");
 
