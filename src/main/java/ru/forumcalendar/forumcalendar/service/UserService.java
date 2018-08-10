@@ -7,15 +7,15 @@ import java.util.Map;
 
 public interface UserService {
 
-    boolean exist(String id);
-
     User signUp(Map<String, Object> userMap);
 
     User getCurrentUser();
 
     String getCurrentId();
 
-    User get(String id);
+    boolean isCurrentSuperUser();
+
+    User getUserById(String id);
 
     User save(UserForm userForm);
 

@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
+import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
-import java.util.Map;
+import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/event")
@@ -21,22 +25,25 @@ public class EventController {
 
     private static final String HTML_FOLDER = "editor/event/";
 
+    private final SpeakerService speakerService;
     private final SpeakerRepository speakerRepository;
     private final EventService eventService;
 
     @Autowired
     public EventController(
+            SpeakerService speakerService,
             SpeakerRepository speakerRepository,
             EventService eventService
     ) {
+        this.speakerService = speakerService;
         this.speakerRepository = speakerRepository;
         this.eventService = eventService;
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @PathVariable int activityId,
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
 
@@ -45,9 +52,11 @@ public class EventController {
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("(@baseShiftService.isUserShift(#shiftId) and @baseActivityService.isUserActivity(#activityId)) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("shiftId") @PathVariable int shiftId,
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -57,29 +66,30 @@ public class EventController {
         return HTML_FOLDER + "add";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("shiftId") @PathVariable int shiftId,
+            int[] speakersId,
             @Valid EventForm eventForm,
-            BindingResult bindingResult,
-            Model model
+            BindingResult bindingResult
     ) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("speakers", speakerRepository.getAllByActivityIdOrderByCreatedAt(activityId));
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "add";
         }
 
+        eventForm.setShiftId(shiftId);
+        eventForm.setSpeakerForms(speakerService.getSpeakerFormsBySpeakersId(speakersId));
         eventService.save(eventForm);
 
         return "redirect:";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/edit")
     public String edit(
-            @PathVariable int eventId,
+            @P("eventId") @PathVariable int eventId,
             Model model
     ) {
 
@@ -89,29 +99,28 @@ public class EventController {
         return HTML_FOLDER + "edit";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @PostMapping("{eventId}/edit")
     public String edit(
-            @PathVariable int eventId,
+            @P("eventId") @PathVariable int eventId,
             @Valid EventForm eventForm,
-            BindingResult bindingResult,
-            Model model
+            BindingResult bindingResult
     ) {
 
-        eventForm.setId(eventId);
         if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "edit";
         }
 
+        eventForm.setId(eventId);
         eventService.save(eventForm);
 
         return "redirect:..";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/delete")
     public String delete(
-            @PathVariable int eventId
+            @P("eventId") @PathVariable int eventId
     ) {
 
         eventService.delete(eventId);
