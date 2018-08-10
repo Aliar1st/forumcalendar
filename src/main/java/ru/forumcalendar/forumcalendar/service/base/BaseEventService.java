@@ -6,7 +6,6 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Event;
-import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.EventModel;
@@ -17,6 +16,7 @@ import ru.forumcalendar.forumcalendar.repository.EventRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
+import ru.forumcalendar.forumcalendar.service.SpeakerService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class BaseEventService implements EventService {
 
+    private final SpeakerService speakerService;
     private final ShiftRepository shiftRepository;
     private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
@@ -37,12 +38,14 @@ public class BaseEventService implements EventService {
 
     @Autowired
     public BaseEventService(
+            SpeakerService speakerService,
             ShiftRepository shiftRepository,
             @Qualifier("mvcConversionService") ConversionService conversionService,
             ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
             EventRepository eventRepository,
             UserService userService) {
+        this.speakerService = speakerService;
         this.shiftRepository = shiftRepository;
         this.conversionService = conversionService;
         this.activityRepository = activityRepository;
@@ -65,14 +68,16 @@ public class BaseEventService implements EventService {
         event.setId(eventForm.getId());
         event.setName(eventForm.getName());
         event.setPlace(eventForm.getPlace());
-        event.setShift(shiftRepository.findById(eventForm.getShiftId()).orElse(new Shift()));
+        event.setShift(shiftRepository.findById(eventForm.getShiftId())
+                .orElseThrow(() -> new EntityNotFoundException("Shift with id " + eventForm.getShiftId() + " not found")));
 
-        List<SpeakerForm> speakerForms = eventForm.getSpeakerForms();
+        List<SpeakerForm> speakerForms = speakerService.getSpeakerFormsBySpeakersId(eventForm.getSpeakersId());
         if (speakerForms != null) {
-            List<Speaker> speakers = new ArrayList<>(eventForm.getSpeakerForms().size());
-            for (SpeakerForm sf : eventForm.getSpeakerForms()) {
+            List<Speaker> speakers = new ArrayList<>(speakerForms.size());
+            for (SpeakerForm sf : speakerForms) {
                 Speaker speaker = speakerRepository.findById(sf.getId()).orElse(new Speaker());
-                Activity activity = activityRepository.findById(sf.getActivityId()).orElse(new Activity());
+                Activity activity = activityRepository.findById(sf.getActivityId())
+                        .orElseThrow(() -> new EntityNotFoundException("Activity with id " + sf.getActivityId() + " not found"));
 
                 speaker.setActivity(activity);
                 speaker.setDescription(sf.getDescription());

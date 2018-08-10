@@ -6,8 +6,10 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
@@ -57,11 +59,11 @@ public class TeamController {
             BindingResult bindingResult
     ) {
 
+        teamForm.setShiftId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
-        teamForm.setShiftId(shiftId);
         teamService.save(teamForm);
 
         return "redirect:";
@@ -83,16 +85,18 @@ public class TeamController {
     @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @PostMapping("{teamId}/edit")
     public String edit(
+            @P("shiftId") @PathVariable int shiftId,
             @P("teamId") @PathVariable int teamId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
 
+        teamForm.setId(teamId);
+        teamForm.setShiftId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        teamForm.setId(teamId);
         teamService.save(teamForm);
 
         return "redirect:..";

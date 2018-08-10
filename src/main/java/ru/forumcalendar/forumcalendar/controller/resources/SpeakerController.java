@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/speaker")
@@ -63,11 +63,11 @@ public class SpeakerController {
             BindingResult bindingResult
     ) {
 
+        speakerForm.setActivityId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
-        speakerForm.setActivityId(activityId);
         speakerService.save(speakerForm);
 
         return "redirect:";
@@ -94,11 +94,11 @@ public class SpeakerController {
             BindingResult bindingResult
     ) {
 
+        speakerForm.setId(speakerId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        speakerForm.setId(speakerId);
         speakerService.save(speakerForm);
 
         return "redirect:..";
