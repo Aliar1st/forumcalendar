@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit forum</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{edit}" th:object="${eventForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+                <label th:text="${nameError}">Error</label>
+            </label>
+        </p>
+        <p>
+            <label>Дата и время
+                <input th:field="*{datetime}" type="datetime-local">
+                <label th:text="${datetimeError}">Error</label>
+            </label>
+        </p>
+        <p>
+            <label>Место
+                <input th:field="*{place}" type="text">
+                <label th:text="${placeError}">Error</label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:text="${descriptionError}">Error</label>
+            </label>
+        </p>
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

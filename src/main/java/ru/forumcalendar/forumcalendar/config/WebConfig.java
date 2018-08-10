@@ -3,18 +3,11 @@ package ru.forumcalendar.forumcalendar.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import ru.forumcalendar.forumcalendar.converter.ActivityModelConverter;
-import ru.forumcalendar.forumcalendar.converter.ShiftModelConverter;
-import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
-import ru.forumcalendar.forumcalendar.converter.TeamModelConverter;
-import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.forumcalendar.forumcalendar.converter.*;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -29,14 +22,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new ActivityModelConverter());
-        registry.addConverter(shiftModelConverter());
+        registry.addConverter(new ShiftModelConverter());
         registry.addConverter(teamModelConverter());
         registry.addConverter(new SpeakerModelConverter());
-    }
-
-    @Bean
-    public ShiftModelConverter shiftModelConverter() {
-        return new ShiftModelConverter();
+        registry.addConverter(new EventModelConverter());
     }
 
     @Bean

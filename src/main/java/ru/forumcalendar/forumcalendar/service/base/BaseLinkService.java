@@ -67,8 +67,7 @@ public class BaseLinkService implements LinkService {
         link.setTeamRole(teamRole);
         linkRepository.save(link);
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 linkRepository.delete(link);

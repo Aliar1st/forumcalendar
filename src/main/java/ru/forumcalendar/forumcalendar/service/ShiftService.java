@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ShiftService {
 
+    boolean exist(int id);
+
     Shift get(int id);
 
     Shift save(ShiftForm shiftForm);
@@ -15,4 +17,6 @@ public interface ShiftService {
     void delete(int id);
 
     List<ShiftModel> getShiftModelsByActivityId(int id);
+
+    boolean isUserShift(int id);
 }

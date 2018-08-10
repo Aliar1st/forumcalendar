@@ -11,7 +11,9 @@ import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,17 +23,25 @@ public class BaseSpeakerService implements SpeakerService {
     private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
 
+    private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseSpeakerService(
             ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
+            UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.activityRepository = activityRepository;
         this.speakerRepository = speakerRepository;
+        this.userService = userService;
         this.conversionService = conversionService;
+    }
+
+    @Override
+    public boolean exist(int id) {
+        return speakerRepository.findById(id).isPresent();
     }
 
     @Override
@@ -65,5 +75,27 @@ public class BaseSpeakerService implements SpeakerService {
                 .stream()
                 .map((s) -> conversionService.convert(s, SpeakerModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId) {
+        if (speakersId == null) {
+            return null;
+        }
+
+        List<SpeakerForm> speakerForms = new ArrayList<>();
+        for (int speakerId : speakersId) {
+            speakerForms.add(new SpeakerForm(speakerRepository.findById(speakerId).
+                    orElseThrow(() -> new IllegalArgumentException(
+                            "Can't find team with id '" + speakerId + "'")
+                    )));
+        }
+
+        return speakerForms;
+    }
+
+    @Override
+    public boolean isUserSpeaker(int id) {
+        return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

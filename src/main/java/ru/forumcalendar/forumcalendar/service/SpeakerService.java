@@ -8,11 +8,17 @@ import java.util.List;
 
 public interface SpeakerService {
 
+    boolean exist(int id);
+
     Speaker get(int id);
 
     Speaker save(SpeakerForm speakerForm);
 
     void delete(int id);
 
+    List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
+
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
+
+    boolean isUserSpeaker(int id);
 }

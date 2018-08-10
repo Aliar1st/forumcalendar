@@ -42,6 +42,11 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
+    public boolean exist(int id) {
+        return activityRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Activity get(int id) {
         return activityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Activity with id " + id + " not found"));
@@ -79,9 +84,14 @@ public class BaseActivityService implements ActivityService {
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
 
-        return activityRepository.getAllByUserId(userService.getCurrentUser().getId())
+        return activityRepository.getAllByUserId(userService.getCurrentId())
                 .stream()
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isUserActivity(int id) {
+        return get(id).getUser().getId().equals(userService.getCurrentId());
     }
 }

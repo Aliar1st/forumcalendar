@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ActivityService {
 
+    boolean exist(int id);
+
     Activity get(int id);
 
     Activity save(ActivityForm activityForm);
@@ -15,4 +17,6 @@ public interface ActivityService {
     void delete(int id);
 
     List<ActivityModel> getCurrentUserActivityModels();
+
+    boolean isUserActivity(int id);
 }

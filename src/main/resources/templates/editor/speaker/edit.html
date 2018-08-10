@@ -11,24 +11,29 @@
         <p>
             <label>Имя
                 <input th:field="*{firstName}" type="text">
+                <label th:text="${firstNameError}">Error</label>
             </label>
         </p>
         <p>
             <label>Фамилия
                 <input th:field="*{lastName}" type="text">
+                <label th:text="${lastNameError}">Error</label>
             </label>
         </p>
         <p>
             <label>Ссылка
                 <input th:field="*{link}" type="text">
+                <label th:text="${linkError}">Error</label>
             </label>
         </p>
         <p>
             <label>Описание
                 <input th:field="*{description}" type="text">
+                <label th:text="${descriptionError}">Error</label>
             </label>
         </p>
-        <input type="submit" value="Создать">
+        <label th:text="${activityIdError}">Error</label><br/>
+        <input type="submit" value="Обновить">
     </form>
 </div>
 </body>

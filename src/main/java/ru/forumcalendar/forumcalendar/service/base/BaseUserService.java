@@ -3,10 +3,12 @@ package ru.forumcalendar.forumcalendar.service.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.*;
+import ru.forumcalendar.forumcalendar.domain.Role;
+import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
-import ru.forumcalendar.forumcalendar.repository.*;
+import ru.forumcalendar.forumcalendar.repository.RoleRepository;
+import ru.forumcalendar.forumcalendar.repository.UserRepository;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -17,7 +19,7 @@ import java.util.Map;
 public class BaseUserService implements UserService {
 
     private static final int ROLE_USER_ID = 1;
-    private static final int ROLE_ADMIN_ID = 2;
+    private static final int ROLE_SUPERUSER_ID = 2;
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -36,20 +38,11 @@ public class BaseUserService implements UserService {
         this.uploadsService = uploadsService;
     }
 
-    //
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//
-//        User user = userRepository.findByLogin(username);
-//
-//        if (Objects.isNull(user)) {
-//            throw new UsernameNotFoundException("Can't find user with username " + username);
-//        }
-//
-//        return (UserDetails) user;
-//    }
-//
-//
+    @Override
+    public boolean exist(String id) {
+        return userRepository.findById(id).isPresent();
+    }
+
     @Override
     public User signUp(Map<String, Object> userMap) {
 
@@ -86,7 +79,17 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    public User getUserById(String id) {
+    public String getCurrentId() {
+        return getCurrentUser().getId();
+    }
+
+    @Override
+    public boolean isCurrentSuperUser() {
+        return getCurrentUser().getRole().getId() == ROLE_SUPERUSER_ID;
+    }
+
+    @Override
+    public User get(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User with id " + id + " not found"));
     }
@@ -96,7 +99,7 @@ public class BaseUserService implements UserService {
 
         User user = getCurrentUser();
 
-        String photo = uploadsService.upload(userForm.getPhoto(), userForm.getId())
+        String photo = uploadsService.upload(userForm.getPhoto(), getCurrentId())
                 .map((f) -> {
                     if (!user.getPhoto().equals(f.getName()))
                         uploadsService.delete(user.getPhoto());

@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "team_events")
@@ -24,10 +23,7 @@ public class TeamEvent extends AuditModel {
     private Team team;
 
     @Column(nullable = false)
-    private LocalDate date;
-
-    @Column(nullable = false)
-    private LocalTime time;
+    private LocalDateTime datetime;
 
     @Column(nullable = false)
     private String place;
