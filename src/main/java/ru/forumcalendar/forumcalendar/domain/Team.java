@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,11 @@ public class Team extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+    @ManyToOne
     @JoinColumn(nullable = false)
     private Shift shift;
 
