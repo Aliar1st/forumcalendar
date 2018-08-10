@@ -11,6 +11,7 @@ import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +23,19 @@ public class BaseSpeakerService implements SpeakerService {
     private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
 
+    private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseSpeakerService(
             ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
+            UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.activityRepository = activityRepository;
         this.speakerRepository = speakerRepository;
+        this.userService = userService;
         this.conversionService = conversionService;
     }
 
@@ -88,5 +92,10 @@ public class BaseSpeakerService implements SpeakerService {
         }
 
         return speakerForms;
+    }
+
+    @Override
+    public boolean isUserSpeaker(int id) {
+        return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

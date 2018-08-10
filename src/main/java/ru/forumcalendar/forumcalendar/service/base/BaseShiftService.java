@@ -11,6 +11,7 @@ import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,16 +22,19 @@ public class BaseShiftService implements ShiftService {
     private final ActivityRepository activityRepository;
     private final ShiftRepository shiftRepository;
 
+    private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseShiftService(
             ActivityRepository activityRepository,
             ShiftRepository shiftRepository,
+            UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.activityRepository = activityRepository;
         this.shiftRepository = shiftRepository;
+        this.userService = userService;
         this.conversionService = conversionService;
     }
 
@@ -69,5 +73,10 @@ public class BaseShiftService implements ShiftService {
                 .stream()
                 .map((s) -> conversionService.convert(s, ShiftModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isUserShift(int id) {
+        return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

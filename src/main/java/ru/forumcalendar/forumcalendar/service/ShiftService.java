@@ -17,4 +17,6 @@ public interface ShiftService {
     void delete(int id);
 
     List<ShiftModel> getShiftModelsByActivityId(int id);
+
+    boolean isUserShift(int id);
 }

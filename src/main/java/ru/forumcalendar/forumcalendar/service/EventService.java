@@ -15,4 +15,6 @@ public interface EventService {
     void delete(int id);
 
     List<EventModel> getEventModelsByShiftId(int shiftId);
+
+    boolean isUserEvent(int id);
 }
