@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift")
@@ -54,16 +54,19 @@ public class ShiftController {
     @PostMapping("add")
     public String add(
             @PathVariable int activityId,
-            @Valid ShiftForm shiftForm,
-            BindingResult bindingResult
+            @Valid ShiftForm shiftEditForm,
+            BindingResult bindingResult,
+            Model model
     ) {
 
         if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "add";
         }
 
-        shiftForm.setActivityId(activityId);
-        shiftService.save(shiftForm);
+        shiftEditForm.setActivityId(activityId);
+        shiftService.save(shiftEditForm);
 
         return "redirect:";
     }
@@ -74,8 +77,8 @@ public class ShiftController {
             Model model
     ) {
 
-        ShiftForm shiftForm = new ShiftForm(shiftService.get(shiftId));
-        model.addAttribute(shiftForm);
+        ShiftForm shiftEditForm = new ShiftForm(shiftService.get(shiftId));
+        model.addAttribute(shiftEditForm);
 
         return HTML_FOLDER + "edit";
     }
@@ -83,16 +86,19 @@ public class ShiftController {
     @PostMapping("{shiftId}/edit")
     public String edit(
             @PathVariable int shiftId,
-            @Valid ShiftForm shiftForm,
-            BindingResult bindingResult
+            @Valid ShiftForm shiftEditForm,
+            BindingResult bindingResult,
+            Model model
     ) {
 
+        shiftEditForm.setId(shiftId);
         if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "edit";
         }
 
-        shiftForm.setId(shiftId);
-        shiftService.save(shiftForm);
+        shiftService.save(shiftEditForm);
 
         return "redirect:..";
     }

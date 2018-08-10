@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ShiftService {
 
+    boolean exist(int id);
+
     Shift get(int id);
 
     Shift save(ShiftForm shiftForm);

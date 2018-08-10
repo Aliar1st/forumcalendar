@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface SpeakerService {
 
+    boolean exist(int id);
+
     Speaker get(int id);
 
     Speaker save(SpeakerForm speakerForm);
@@ -16,5 +18,5 @@ public interface SpeakerService {
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
 
-    List<SpeakerForm> getSpeakerFormsBySpeakersId(int... speakersId);
+    List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
 }

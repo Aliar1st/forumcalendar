@@ -3,9 +3,12 @@ package ru.forumcalendar.forumcalendar.model.form;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,15 +21,15 @@ public class ActivityForm {
 
     private int id = -1;
 
-    private String userId;
-
+    @Length(max = 50, message = "Activity name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Activity name is too short or contains invalid characters")
     private String name;
 
-    private List<ShiftForm> shiftForms;
+    @Valid
+    private List<ShiftForm> shiftForms; //FIXME формы не контрятся
 
     public ActivityForm(Activity activity) {
         this.id = activity.getId();
-        this.userId = activity.getUser().getId();
         this.name = activity.getName();
 
         Set<Shift> shifts = activity.getShifts();
@@ -38,4 +41,5 @@ public class ActivityForm {
 
         this.shiftForms.sort(Comparator.comparing(ShiftForm::getStartDate));
     }
+
 }

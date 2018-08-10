@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
-import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/event")
@@ -23,17 +21,14 @@ public class EventController {
 
     private static final String HTML_FOLDER = "editor/event/";
 
-    private final SpeakerService speakerService;
     private final SpeakerRepository speakerRepository;
     private final EventService eventService;
 
     @Autowired
     public EventController(
-            SpeakerService speakerService,
             SpeakerRepository speakerRepository,
             EventService eventService
     ) {
-        this.speakerService = speakerService;
         this.speakerRepository = speakerRepository;
         this.eventService = eventService;
     }
@@ -44,8 +39,6 @@ public class EventController {
             @PathVariable int shiftId,
             Model model
     ) {
-
-        List<EventModel> f =  eventService.getEventModelsByShiftId(shiftId);
 
         model.addAttribute("eventModels", eventService.getEventModelsByShiftId(shiftId));
 
@@ -66,16 +59,19 @@ public class EventController {
 
     @PostMapping("add")
     public String add(
-            int[] speakersId,
+            @PathVariable int activityId,
             @Valid EventForm eventForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("speakers", speakerRepository.getAllByActivityIdOrderByCreatedAt(activityId));
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "add";
         }
 
-        eventForm.setSpeakerForms(speakerService.getSpeakerFormsBySpeakersId(speakersId));
         eventService.save(eventForm);
 
         return "redirect:";
@@ -95,11 +91,16 @@ public class EventController {
 
     @PostMapping("{eventId}/edit")
     public String edit(
+            @PathVariable int eventId,
             @Valid EventForm eventForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
 
+        eventForm.setId(eventId);
         if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "edit";
         }
 

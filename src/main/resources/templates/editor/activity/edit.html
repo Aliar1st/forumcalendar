@@ -11,30 +11,45 @@
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
             </label>
         </p>
 
-        <th:block th:each="shift, stat:${activityForm.shiftForms}">
+        <th:block th:each="shift, stat:${activityForm.shiftEditForms}">
             <h2 th:text="|Смена ${stat.index+1}|"></h2>
             <p>
-                <input th:field="*{shiftForms[__${stat.index}__].id}" type="hidden">
+                <input th:field="*{shiftEditForms[__${stat.index}__].id}" type="hidden">
             </p>
             <p>
                 <label>Название
-                    <input th:field="*{shiftForms[__${stat.index}__].name}" type="text">
+                    <input th:field="*{shiftEditForms[__${stat.index}__].name}" type="text">
+                    <label th:if="${#fields.hasErrors('shiftEditForms['+__${stat.index}__+'].name')}"
+                           th:errors="*{shiftEditForms[__${stat.index}__].name}">error
+                    </label>
                 </label>
             </p>
             <p>
                 <label>Дата начала
-                    <input th:field="*{shiftForms[__${stat.index}__].startDate}" type="date">
+                    <input th:field="*{shiftEditForms[__${stat.index}__].startDate}" type="date">
+                    <label th:if="${#fields.hasErrors('shiftEditForms['+__${stat.index}__+'].startDate')}"
+                           th:errors="*{shiftEditForms[__${stat.index}__].startDate}">error
+                    </label>
                 </label>
             </p>
             <p>
                 <label>Дата конца
-                    <input th:field="*{shiftForms[__${stat.index}__].endDate}" type="date">
+                    <input th:field="*{shiftEditForms[__${stat.index}__].endDate}" type="date">
+                    <label th:if="${#fields.hasErrors('shiftEditForms['+__${stat.index}__+'].endDate')}"
+                           th:errors="*{shiftEditForms[__${stat.index}__].startDate}">error
+                    </label>
                 </label>
             </p>
         </th:block>
+        <label th:if="${#fields.hasErrors('shiftEditForms[0].activityId')}" th:errors="*{activityId}"
+               class="invalid-feedback">error
+        </label>
         <input type="submit" value="Обновить">
     </form>
 </div>

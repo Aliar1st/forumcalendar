@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/team")
@@ -51,14 +54,17 @@ public class TeamController {
     public String add(
             @PathVariable int shiftId,
             @Valid TeamForm teamForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
 
+        teamForm.setShiftId(shiftId);
         if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return HTML_FOLDER + "add";
         }
 
-        teamForm.setShiftId(shiftId);
         teamService.save(teamForm);
 
         return "redirect:";
@@ -81,15 +87,18 @@ public class TeamController {
             @PathVariable int shiftId,
             @PathVariable int teamId,
             @Valid TeamForm teamForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
-
-        if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "edit";
-        }
 
         teamForm.setId(teamId);
         teamForm.setShiftId(shiftId);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            return HTML_FOLDER + "edit";
+        }
+
         teamService.save(teamForm);
 
         return "redirect:..";

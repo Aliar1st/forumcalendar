@@ -40,8 +40,7 @@ public class LinkController {
     @PostMapping("/getLink")
     private String generateLink(
             @RequestParam int teamRoleId,
-            @RequestParam int teamId,
-            Model model
+            @RequestParam int teamId
     ) {
         return linkService.generateLink(teamId, teamRoleId);
     }

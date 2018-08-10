@@ -1,6 +1,5 @@
 package ru.forumcalendar.forumcalendar.service;
 
-import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.model.EventModel;
 
 import java.util.List;

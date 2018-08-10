@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter
