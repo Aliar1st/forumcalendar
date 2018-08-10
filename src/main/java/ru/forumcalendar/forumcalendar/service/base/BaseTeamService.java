@@ -12,6 +12,7 @@ import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
 import ru.forumcalendar.forumcalendar.service.TeamService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class BaseTeamService implements TeamService {
     private final TeamRoleRepository teamRoleRepository;
     private final ShiftRepository shiftRepository;
 
+    private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
@@ -30,11 +32,13 @@ public class BaseTeamService implements TeamService {
             TeamRepository teamRepository,
             TeamRoleRepository teamRoleRepository,
             ShiftRepository shiftRepository,
+            UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.teamRepository = teamRepository;
         this.teamRoleRepository = teamRoleRepository;
         this.shiftRepository = shiftRepository;
+        this.userService = userService;
         this.conversionService = conversionService;
     }
 
@@ -73,5 +77,10 @@ public class BaseTeamService implements TeamService {
     @Override
     public List<TeamRole> getAllRoles() {
         return teamRoleRepository.findAll();
+    }
+
+    @Override
+    public boolean isUserTeam(int id) {
+        return get(id).getShift().getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

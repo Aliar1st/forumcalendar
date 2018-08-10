@@ -17,7 +17,7 @@ import java.util.Map;
 public class BaseUserService implements UserService {
 
     private static final int ROLE_USER_ID = 1;
-    private static final int ROLE_ADMIN_ID = 2;
+    private static final int ROLE_SUPERUSER_ID = 2;
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -73,8 +73,12 @@ public class BaseUserService implements UserService {
 
     @Override
     public String getCurrentId() {
-        return ((User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal()).getId();
+        return getCurrentUser().getId();
+    }
+
+    @Override
+    public boolean isCurrentSuperUser() {
+        return getCurrentUser().getRole().getId() == ROLE_SUPERUSER_ID;
     }
 
     @Override

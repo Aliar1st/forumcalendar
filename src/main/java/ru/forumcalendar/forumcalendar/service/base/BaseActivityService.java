@@ -84,4 +84,9 @@ public class BaseActivityService implements ActivityService {
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean isUserActivity(int id) {
+        return get(id).getUser().getId().equals(userService.getCurrentId());
+    }
 }

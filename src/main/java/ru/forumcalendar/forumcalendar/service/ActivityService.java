@@ -15,4 +15,6 @@ public interface ActivityService {
     void delete(int id);
 
     List<ActivityModel> getCurrentUserActivityModels();
+
+    boolean isUserActivity(int id);
 }

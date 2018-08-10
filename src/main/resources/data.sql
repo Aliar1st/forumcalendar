@@ -1,6 +1,6 @@
 INSERT INTO roles (id, name, authority, created_at, updated_at) values
-  (1, 'User',      'USER',      NOW(), NOW()),
-  (2, 'Superuser', 'SUPERUSER', NOW(), NOW());
+  (1, 'User',      'ROLE_USER',      NOW(), NOW()),
+  (2, 'Superuser', 'ROLE_SUPERUSER', NOW(), NOW());
 
 INSERT INTO team_roles (id, name, slug, created_at, updated_at) values
   (1, 'Curator', 'CURATOR', NOW(), NOW()),

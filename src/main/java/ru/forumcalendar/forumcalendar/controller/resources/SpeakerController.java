@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,9 +31,10 @@ public class SpeakerController {
         this.speakerService = speakerService;
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @PathVariable int activityId,
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -40,8 +43,10 @@ public class SpeakerController {
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -50,9 +55,10 @@ public class SpeakerController {
         return HTML_FOLDER + "add";
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("activityId") @PathVariable int activityId,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
@@ -67,21 +73,23 @@ public class SpeakerController {
         return "redirect:";
     }
 
-    @GetMapping("{teamId}/edit")
+    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
+    @GetMapping("{speakerId}/edit")
     public String edit(
-            @PathVariable int teamId,
+            @P("speakerId") @PathVariable int speakerId,
             Model model
     ) {
 
-        SpeakerForm speakerForm = new SpeakerForm(speakerService.get(teamId));
+        SpeakerForm speakerForm = new SpeakerForm(speakerService.get(speakerId));
         model.addAttribute(speakerForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("{teamId}/edit")
+    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
+    @PostMapping("{speakerId}/edit")
     public String edit(
-            @PathVariable int teamId,
+            @P("speakerId") @PathVariable int speakerId,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
@@ -90,18 +98,19 @@ public class SpeakerController {
             return HTML_FOLDER + "edit";
         }
 
-        speakerForm.setId(teamId);
+        speakerForm.setId(speakerId);
         speakerService.save(speakerForm);
 
         return "redirect:..";
     }
 
-    @GetMapping("{teamId}/delete")
+    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
+    @GetMapping("{speakerId}/delete")
     public String delete(
-            @PathVariable int teamId
+            @P("speakerId") @PathVariable int speakerId
     ) {
 
-        speakerService.delete(teamId);
+        speakerService.delete(speakerId);
 
         return "redirect:..";
     }

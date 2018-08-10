@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,23 +40,23 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @PathVariable int activityId,
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
-
-        List<EventModel> f =  eventService.getEventModelsByShiftId(shiftId);
 
         model.addAttribute("eventModels", eventService.getEventModelsByShiftId(shiftId));
 
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("(@baseShiftService.isUserShift(#shiftId) and @baseActivityService.isUserActivity(#activityId)) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("shiftId") @PathVariable int shiftId,
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -64,8 +66,10 @@ public class EventController {
         return HTML_FOLDER + "add";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
+            @P("shiftId") @PathVariable int shiftId,
             int[] speakersId,
             @Valid EventForm eventForm,
             BindingResult bindingResult
@@ -75,15 +79,17 @@ public class EventController {
             return HTML_FOLDER + "add";
         }
 
+        eventForm.setShiftId(shiftId);
         eventForm.setSpeakerForms(speakerService.getSpeakerFormsBySpeakersId(speakersId));
         eventService.save(eventForm);
 
         return "redirect:";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/edit")
     public String edit(
-            @PathVariable int eventId,
+            @P("eventId") @PathVariable int eventId,
             Model model
     ) {
 
@@ -93,8 +99,10 @@ public class EventController {
         return HTML_FOLDER + "edit";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @PostMapping("{eventId}/edit")
     public String edit(
+            @P("eventId") @PathVariable int eventId,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
@@ -103,14 +111,16 @@ public class EventController {
             return HTML_FOLDER + "edit";
         }
 
+        eventForm.setId(eventId);
         eventService.save(eventForm);
 
         return "redirect:..";
     }
 
+    @PreAuthorize("@baseEventService.isUserEvent(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/delete")
     public String delete(
-            @PathVariable int eventId
+            @P("eventId") @PathVariable int eventId
     ) {
 
         eventService.delete(eventId);

@@ -19,4 +19,6 @@ public interface TeamService {
     List<TeamModel> getTeamModelsByShiftId(int id);
 
     List<TeamRole> getAllRoles();
+
+    boolean isUserTeam(int id);
 }

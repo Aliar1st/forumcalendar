@@ -17,6 +17,7 @@ import ru.forumcalendar.forumcalendar.repository.EventRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,10 +28,12 @@ import java.util.stream.Collectors;
 public class BaseEventService implements EventService {
 
     private final ShiftRepository shiftRepository;
-    private final ConversionService conversionService;
     private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
     private final EventRepository eventRepository;
+
+    private final UserService userService;
+    private final ConversionService conversionService;
 
     @Autowired
     public BaseEventService(
@@ -38,12 +41,14 @@ public class BaseEventService implements EventService {
             @Qualifier("mvcConversionService") ConversionService conversionService,
             ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
-            EventRepository eventRepository) {
+            EventRepository eventRepository,
+            UserService userService) {
         this.shiftRepository = shiftRepository;
         this.conversionService = conversionService;
         this.activityRepository = activityRepository;
         this.speakerRepository = speakerRepository;
         this.eventRepository = eventRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -94,5 +99,10 @@ public class BaseEventService implements EventService {
                 .stream()
                 .map((a) -> conversionService.convert(a, EventModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isUserEvent(int id) {
+        return get(id).getShift().getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

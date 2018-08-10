@@ -13,6 +13,8 @@ public interface UserService {
 
     String getCurrentId();
 
+    boolean isCurrentSuperUser();
+
     User getUserById(String id);
 
     User save(UserForm userForm);

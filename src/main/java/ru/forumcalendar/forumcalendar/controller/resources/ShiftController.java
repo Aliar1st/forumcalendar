@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,9 +31,10 @@ public class ShiftController {
         this.shiftService = shiftService;
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @PathVariable int activityId,
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -40,9 +43,10 @@ public class ShiftController {
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("activityId") @PathVariable int activityId,
             Model model
     ) {
 
@@ -51,9 +55,10 @@ public class ShiftController {
         return HTML_FOLDER + "add";
     }
 
+    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @P("activityId") @PathVariable int activityId,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
@@ -68,9 +73,10 @@ public class ShiftController {
         return "redirect:";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("{shiftId}/edit")
     public String edit(
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
 
@@ -80,9 +86,10 @@ public class ShiftController {
         return HTML_FOLDER + "edit";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("{shiftId}/edit")
     public String edit(
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
@@ -97,9 +104,10 @@ public class ShiftController {
         return "redirect:..";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("{shiftId}/delete")
     public String delete(
-            @PathVariable int shiftId
+            @P("shiftId") @PathVariable int shiftId
     ) {
 
         shiftService.delete(shiftId);

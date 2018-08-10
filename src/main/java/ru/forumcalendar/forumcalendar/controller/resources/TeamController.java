@@ -1,6 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,9 +28,10 @@ public class TeamController {
         this.teamService = teamService;
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
 
@@ -37,8 +40,10 @@ public class TeamController {
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
+            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
 
@@ -47,9 +52,10 @@ public class TeamController {
         return HTML_FOLDER + "add";
     }
 
+    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @PathVariable int shiftId,
+            @P("shiftId") @PathVariable int shiftId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
@@ -64,9 +70,10 @@ public class TeamController {
         return "redirect:";
     }
 
+    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @GetMapping("{teamId}/edit")
     public String edit(
-            @PathVariable int teamId,
+            @P("teamId") @PathVariable int teamId,
             Model model
     ) {
 
@@ -76,10 +83,10 @@ public class TeamController {
         return HTML_FOLDER + "edit";
     }
 
+    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @PostMapping("{teamId}/edit")
     public String edit(
-            @PathVariable int shiftId,
-            @PathVariable int teamId,
+            @P("teamId") @PathVariable int teamId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
@@ -89,15 +96,15 @@ public class TeamController {
         }
 
         teamForm.setId(teamId);
-        teamForm.setShiftId(shiftId);
         teamService.save(teamForm);
 
         return "redirect:..";
     }
 
+    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @GetMapping("{teamId}/delete")
     public String delete(
-            @PathVariable int teamId
+            @P("teamId") @PathVariable int teamId
     ) {
 
         teamService.delete(teamId);
