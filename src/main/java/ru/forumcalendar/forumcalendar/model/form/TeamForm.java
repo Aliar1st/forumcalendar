@@ -12,6 +12,8 @@ public class TeamForm {
 
     private int id = -1;
 
+    private String userId;
+
     private int shiftId;
 
     private String name;
@@ -22,6 +24,7 @@ public class TeamForm {
 
     public TeamForm(Team team) {
         this.id = team.getId();
+        this.userId = team.getUser().getId();
         this.shiftId = team.getShift().getId();
         this.name = team.getName();
         this.direction = team.getDirection();
