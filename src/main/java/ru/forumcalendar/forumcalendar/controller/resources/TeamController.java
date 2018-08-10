@@ -40,10 +40,8 @@ public class TeamController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @P("shiftId") @PathVariable int shiftId,
             Model model
     ) {
 
@@ -52,7 +50,6 @@ public class TeamController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
             @P("shiftId") @PathVariable int shiftId,

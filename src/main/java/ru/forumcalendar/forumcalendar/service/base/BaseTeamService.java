@@ -58,6 +58,7 @@ public class BaseTeamService implements TeamService {
     public Team save(TeamForm teamForm) {
 
         Team team = teamRepository.findById(teamForm.getId()).orElse(new Team());
+        team.setUser(userService.getCurrentUser());
         team.setName(teamForm.getName());
         team.setDirection(teamForm.getDirection());
         team.setDescription(teamForm.getDescription());
@@ -87,6 +88,6 @@ public class BaseTeamService implements TeamService {
 
     @Override
     public boolean isUserTeam(int id) {
-        return get(id).getShift().getActivity().getUser().getId().equals(userService.getCurrentId());
+        return get(id).getUser().getId().equals(userService.getCurrentId());
     }
 }
