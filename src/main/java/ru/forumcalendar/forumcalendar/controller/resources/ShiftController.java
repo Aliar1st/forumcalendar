@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
@@ -63,11 +62,12 @@ public class ShiftController {
             BindingResult bindingResult
     ) {
 
+        shiftForm.setActivityId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
-        shiftForm.setActivityId(activityId);
+
         shiftService.save(shiftForm);
 
         return "redirect:";
@@ -94,11 +94,11 @@ public class ShiftController {
             BindingResult bindingResult
     ) {
 
+        shiftForm.setId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        shiftForm.setId(shiftId);
         shiftService.save(shiftForm);
 
         return "redirect:..";
