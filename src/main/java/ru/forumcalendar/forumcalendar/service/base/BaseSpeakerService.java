@@ -40,6 +40,11 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
+    public boolean exist(int id) {
+        return speakerRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Speaker get(int id) {
         return speakerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Speaker with id " + id + " not found"));
@@ -73,9 +78,12 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
-    public List<SpeakerForm> getSpeakerFormsBySpeakersId(int... speakersId) {
-        List<SpeakerForm> speakerForms = new ArrayList<>();
+    public List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId) {
+        if (speakersId == null) {
+            return null;
+        }
 
+        List<SpeakerForm> speakerForms = new ArrayList<>();
         for (int speakerId : speakersId) {
             speakerForms.add(new SpeakerForm(speakerRepository.findById(speakerId).
                     orElseThrow(() -> new IllegalArgumentException(

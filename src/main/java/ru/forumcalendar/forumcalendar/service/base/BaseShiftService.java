@@ -39,6 +39,11 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
+    public boolean exist(int id) {
+        return shiftRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Shift get(int id) {
         return shiftRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Shift with id " + id + " not found"));

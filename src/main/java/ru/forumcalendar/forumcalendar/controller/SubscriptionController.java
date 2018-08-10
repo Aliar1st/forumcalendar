@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
 
-import javax.jws.WebParam;
 import java.util.HashMap;
 import java.util.Map;
 

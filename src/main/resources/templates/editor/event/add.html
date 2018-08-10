@@ -11,21 +11,25 @@
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
+                <label th:text="${nameError}">Error</label>
             </label>
         </p>
         <p>
             <label>Дата и время
                 <input th:field="*{datetime}" type="datetime-local">
+                <label th:text="${datetimeError}">Error</label>
             </label>
         </p>
         <p>
             <label>Место
                 <input th:field="*{place}" type="text">
+                <label th:text="${placeError}">Error</label>
             </label>
         </p>
         <p>
             <label>Описание
                 <input th:field="*{description}" type="text">
+                <label th:text="${descriptionError}">Error</label>
             </label>
         </p>
         <p>
@@ -40,6 +44,8 @@
                 </select>
             </label>
         </p>
+        <label th:text="${shiftIdError}">Error</label><br/>
+        <label th:text="${speakersIdError}">Error</label><br/>
         <input type="submit" value="Создать">
     </form>
 </div>

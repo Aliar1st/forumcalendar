@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ActivityService {
 
+    boolean exist(int id);
+
     Activity get(int id);
 
     Activity save(ActivityForm activityForm);

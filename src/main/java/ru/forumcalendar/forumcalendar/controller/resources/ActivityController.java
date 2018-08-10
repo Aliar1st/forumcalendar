@@ -6,7 +6,10 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 
@@ -90,11 +93,11 @@ public class ActivityController {
             BindingResult bindingResult
     ) {
 
+        activityForm.setId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        activityForm.setId(activityId);
         activityService.save(activityForm);
 
         return "redirect:..";
@@ -109,3 +112,5 @@ public class ActivityController {
         return "redirect:..";
     }
 }
+
+//FIXME Во всех html'ках исправить вывод ошибок

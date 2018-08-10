@@ -42,6 +42,11 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
+    public boolean exist(int id) {
+        return activityRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Activity get(int id) {
         return activityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Activity with id " + id + " not found"));

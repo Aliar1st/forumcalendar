@@ -1,7 +1,6 @@
 package ru.forumcalendar.forumcalendar.converter;
 
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.ActivityModel;

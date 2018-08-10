@@ -3,16 +3,15 @@ package ru.forumcalendar.forumcalendar.model.form;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.forumcalendar.forumcalendar.domain.Event;
-import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
+import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
+import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
-import java.time.LocalDate;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,18 +21,28 @@ public class EventForm {
 
     private int id = -1;
 
+    @Length(max = 50, message = "Event name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Event name is too short or contains invalid characters")
     private String name;
 
+    //TODO Добавить аннотациб для даты
+    //@NotBlank(message = "Enter date and time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime datetime;
 
+    @Length(max = 500, message = "Place field is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я ]+", message = "Place field is too short or contains invalid characters")
     private String place;
 
+    @Length(max = 5000, message = "Description is too long")
+    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
     private String description;
 
+    @ShiftExist
     private int shiftId;
 
-    private List<SpeakerForm> speakerForms;
+    @SpeakersExist
+    private Integer[] speakersId;
 
     public EventForm(Event event) {
         this.id = event.getId();
@@ -44,10 +53,12 @@ public class EventForm {
         this.shiftId = event.getShift().getId();
 
         Set<Speaker> speakers = event.getSpeakers();
-        this.speakerForms = new ArrayList<>(speakers.size());
+        this.speakersId = new Integer[speakers.size()];
 
+        int i = 0;
         for (Speaker speaker : speakers) {
-            this.speakerForms.add(new SpeakerForm(speaker));
+            this.speakersId[i] = speaker.getId();
+            i++;
         }
     }
 }

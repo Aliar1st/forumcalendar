@@ -3,10 +3,12 @@ package ru.forumcalendar.forumcalendar.service.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.*;
+import ru.forumcalendar.forumcalendar.domain.Role;
+import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
-import ru.forumcalendar.forumcalendar.repository.*;
+import ru.forumcalendar.forumcalendar.repository.RoleRepository;
+import ru.forumcalendar.forumcalendar.repository.UserRepository;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -34,6 +36,11 @@ public class BaseUserService implements UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.uploadsService = uploadsService;
+    }
+
+    @Override
+    public boolean exist(String id) {
+        return userRepository.findById(id).isPresent();
     }
 
     @Override
@@ -82,7 +89,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    public User getUserById(String id) {
+    public User get(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User with id " + id + " not found"));
     }
@@ -92,7 +99,7 @@ public class BaseUserService implements UserService {
 
         User user = getCurrentUser();
 
-        String photo = uploadsService.upload(userForm.getPhoto(), userForm.getId())
+        String photo = uploadsService.upload(userForm.getPhoto(), getCurrentId())
                 .map((f) -> {
                     if (!user.getPhoto().equals(f.getName()))
                         uploadsService.delete(user.getPhoto());
