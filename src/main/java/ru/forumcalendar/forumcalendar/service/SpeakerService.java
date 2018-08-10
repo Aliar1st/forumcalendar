@@ -18,5 +18,7 @@ public interface SpeakerService {
 
     List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
 
+    List<SpeakerModel> getSpeakerModelsByActivityId(int id);
+
     boolean isUserSpeaker(int id);
 }
