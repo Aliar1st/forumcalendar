@@ -20,7 +20,7 @@
         <h2>Смена 1</h2>
         <p>
             <label>Название
-                <input name="shiftForms[0].name" type="text">
+                <input th:field="*{shiftForms[0].name}" type="text">
                 <label th:if="${#fields.hasErrors('shiftForms[0].name')}"
                        th:errors="*{shiftForms[0].name}">error
                 </label>
@@ -28,7 +28,7 @@
         </p>
         <p>
             <label>Дата начала
-                <input name="shiftForms[0].startDate" type="date">
+                <input th:field="*{shiftForms[0].startDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[0].startDate')}"
                        th:errors="*{shiftForms[0].startDate}">error
                 </label>
@@ -36,7 +36,7 @@
         </p>
         <p>
             <label>Дата конца
-                <input name="shiftForms[0].endDate" type="date">
+                <input th:field="*{shiftForms[0].endDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[0].endDate')}"
                        th:errors="*{shiftForms[0].endDate}">error
                 </label>
@@ -50,7 +50,7 @@
         <h2>Смена 2</h2>
         <p>
             <label>Название
-                <input name="shiftForms[1].name" type="text">
+                <input th:field="*{shiftForms[1].name}" type="text">
                 <label th:if="${#fields.hasErrors('shiftForms[1].name')}"
                        th:errors="*{shiftForms[1].name}">error
                 </label>
@@ -58,7 +58,7 @@
         </p>
         <p>
             <label>Дата начала
-                <input name="shiftForms[1].startDate" type="date">
+                <input th:field="*{shiftForms[1].startDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[1].startDate')}"
                        th:errors="*{shiftForms[1].startDate}">error
                 </label>
@@ -66,7 +66,7 @@
         </p>
         <p>
             <label>Дата конца
-                <input name="shiftForms[1].endDate" type="date">
+                <input th:field="*{shiftForms[1].endDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[1].endDate')}"
                        th:errors="*{shiftForms[1].endDate}">error
                 </label>

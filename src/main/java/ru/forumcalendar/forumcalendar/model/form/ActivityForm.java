@@ -41,5 +41,4 @@ public class ActivityForm {
 
         this.shiftForms.sort(Comparator.comparing(ShiftForm::getStartDate));
     }
-
 }
