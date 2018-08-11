@@ -7,8 +7,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.UserExist;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UserValidator implements
-        ConstraintValidator<UserExist, String> {
+public class UserValidator implements ConstraintValidator<UserExist, String> {
 
     private final UserService userService;
 

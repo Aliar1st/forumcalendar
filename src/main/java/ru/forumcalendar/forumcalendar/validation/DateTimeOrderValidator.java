@@ -22,17 +22,11 @@ public class DateTimeOrderValidator implements ConstraintValidator<DateTimeOrder
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        String dateTimeBeforeValue = new BeanWrapperImpl(value).getPropertyValue(dateTimeBefore).toString();
-        String dateTimeAfterValue = new BeanWrapperImpl(value).getPropertyValue(dateTimeAfter).toString();
+        LocalDateTime dateTimeBeforeValue = (LocalDateTime) new BeanWrapperImpl(value).getPropertyValue(dateTimeBefore);
+        LocalDateTime dateTimeAfterValue = (LocalDateTime) new BeanWrapperImpl(value).getPropertyValue(dateTimeAfter);
 
-        try {
-            LocalDateTime localDateBefore = LocalDateTime.parse(dateTimeBeforeValue, formatter);
-            LocalDateTime localDateAfter = LocalDateTime.parse(dateTimeAfterValue, formatter);
-
-            return localDateBefore.isBefore(localDateAfter);
-        } catch (Exception e) {
-            return false;
-        }
+        return dateTimeBeforeValue != null
+            && dateTimeAfterValue != null
+            && dateTimeBeforeValue.isBefore(dateTimeAfterValue);
     }
 }

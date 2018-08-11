@@ -11,28 +11,38 @@
         <p>
             <label>Имя
                 <input th:field="*{firstName}" type="text">
-                <label th:text="${firstNameError}">Error</label>
+                <label th:if="${#fields.hasErrors('firstName')}"
+                       th:errors="*{firstName}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Фамилия
                 <input th:field="*{lastName}" type="text">
-                <label th:text="${lastNameError}">Error</label>
+                <label th:if="${#fields.hasErrors('lastName')}"
+                       th:errors="*{lastName}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Ссылка
                 <input th:field="*{link}" type="text">
-                <label th:text="${linkError}">Error</label>
+                <label th:if="${#fields.hasErrors('link')}"
+                       th:errors="*{link}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Описание
                 <input th:field="*{description}" type="text">
-                <label th:text="${descriptionError}">Error</label>
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
             </label>
         </p>
-        <label th:text="${activityIdError}">Error</label><br/>
+        <label th:if="${#fields.hasErrors('activityId')}"
+               th:errors="*{activityId}">error
+        </label>
         <input type="submit" value="Создать">
     </form>
 </div>

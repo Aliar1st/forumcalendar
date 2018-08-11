@@ -7,8 +7,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.ActivityExist;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ActivityExistValidator implements
-        ConstraintValidator<ActivityExist, Integer> {
+public class ActivityExistValidator implements ConstraintValidator<ActivityExist, Integer> {
 
     private final ActivityService activityService;
 

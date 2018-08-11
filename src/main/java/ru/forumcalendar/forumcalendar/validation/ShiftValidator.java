@@ -7,8 +7,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ShiftValidator implements
-        ConstraintValidator<ShiftExist, Integer> {
+public class ShiftValidator implements ConstraintValidator<ShiftExist, Integer> {
 
     private final ShiftService shiftService;
 
