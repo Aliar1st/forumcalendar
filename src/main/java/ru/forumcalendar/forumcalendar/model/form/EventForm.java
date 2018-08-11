@@ -10,6 +10,8 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -25,8 +27,7 @@ public class EventForm {
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Event name is too short or contains invalid characters")
     private String name;
 
-    //TODO Добавить аннотациб для даты
-    //@NotBlank(message = "Enter date and time")
+    @NotNull(message = "Enter date and time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime datetime;
 

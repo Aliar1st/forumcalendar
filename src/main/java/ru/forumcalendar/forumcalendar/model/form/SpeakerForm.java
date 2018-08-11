@@ -16,7 +16,7 @@ public class SpeakerForm {
 
     private int id = -1;
 
-    @ActivityExist
+    //@ActivityExist
     private int activityId;
 
     @Length(max = 50, message = "First name is too long")

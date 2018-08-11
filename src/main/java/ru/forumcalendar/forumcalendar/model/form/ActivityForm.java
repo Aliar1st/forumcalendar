@@ -26,7 +26,7 @@ public class ActivityForm {
     private String name;
 
     @Valid
-    private List<ShiftForm> shiftForms; //FIXME формы не контрятся
+    private List<ShiftForm> shiftForms;
 
     public ActivityForm(Activity activity) {
         this.id = activity.getId();

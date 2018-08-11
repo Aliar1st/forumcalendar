@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.forumcalendar.forumcalendar.domain.Shift;
+import ru.forumcalendar.forumcalendar.validation.annotation.ActivityExist;
+import ru.forumcalendar.forumcalendar.validation.annotation.DateTimeOrder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -14,10 +16,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-//@DateTimeOrder(
-//        dateTimeBefore = "startDate",
-//        dateTimeAfter = "endDate"
-//)
+@DateTimeOrder(
+        dateTimeBefore = "startDate",
+        dateTimeAfter = "endDate"
+)
 public class ShiftForm {
 
     private int id = -1;
@@ -31,13 +33,11 @@ public class ShiftForm {
 
     //TODO добавить аннотацию для даты
     @NotNull(message = "Enter start date")
-    //@DateTimeOrder
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     //TODO добавить аннотацию для даты
     @NotNull(message = "Enter end date")
-    //@DateTimeOrder
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

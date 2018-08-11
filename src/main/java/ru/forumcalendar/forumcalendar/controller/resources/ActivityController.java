@@ -6,6 +6,8 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
@@ -112,5 +115,3 @@ public class ActivityController {
         return "redirect:..";
     }
 }
-
-//FIXME Во всех html'ках исправить вывод ошибок

@@ -41,6 +41,35 @@
             </label>
         </p>
         <label th:text="${shiftId}">Error</label><br/>
+        <!--<th:block th:each="speaker, stat:${eventForm.speakerForms}">-->
+            <!--<h2 th:text="|Спикер ${stat.index+1}|"></h2>-->
+            <!--<p>-->
+                <!--<input th:field="*{speakerForms[__${stat.index}__].id}" type="hidden">-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<input th:field="*{speakerForms[__${stat.index}__].activityId}" type="hidden">-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Имя-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].firstName}" type="text">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Фамилия-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Ссылка-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].link}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Описание-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].description}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+        <!--</th:block>-->
         <!--todo список спикеров редактировать-->
         <input type="submit" value="Обновить">
     </form>

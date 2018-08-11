@@ -67,7 +67,6 @@ public class ShiftController {
             return HTML_FOLDER + "add";
         }
 
-
         shiftService.save(shiftForm);
 
         return "redirect:";
