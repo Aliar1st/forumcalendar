@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Entrance</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{5}" method="POST">
+        <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
+        <label>Смена
+            <select name="teamId">
+                <option value="0" selected>Выберите команду</option>
+                <option th:each="team: ${teams}"
+                        th:value="${team.id}"
+                        th:text="${team.name}">
+                </option>
+            </select>
+            <label th:if="${#fields.hasErrors('teamRoleId')}"
+                   th:errors="*{teamRoleId}">error
+            </label>
+            <label th:if="${#fields.hasErrors('teamId')}"
+                   th:errors="*{teamId}">error
+            </label>
+        </label>
+        <button type="submit">Далее</button>
+    </form>
+</div>
+</body>
+</html>
