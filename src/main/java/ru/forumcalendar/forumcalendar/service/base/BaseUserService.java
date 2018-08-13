@@ -18,9 +18,6 @@ import java.util.Map;
 @Service
 public class BaseUserService implements UserService {
 
-    private static final int ROLE_USER_ID = 1;
-    private static final int ROLE_SUPERUSER_ID = 2;
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
@@ -48,8 +45,8 @@ public class BaseUserService implements UserService {
 
         User user = new User();
 
-        Role roleUser = roleRepository.findById(ROLE_USER_ID)
-                .orElseThrow(() -> new IllegalArgumentException("Can't find role with id " + ROLE_USER_ID));
+        Role roleUser = roleRepository.findById(Role.ROLE_USER_ID)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find role with id " + Role.ROLE_USER_ID));
 
         user.setRole(roleUser);
         user.setId((String) userMap.get("sub"));
@@ -85,7 +82,7 @@ public class BaseUserService implements UserService {
 
     @Override
     public boolean isCurrentSuperUser() {
-        return getCurrentUser().getRole().getId() == ROLE_SUPERUSER_ID;
+        return getCurrentUser().getRole().getId() == Role.ROLE_SUPERUSER_ID;
     }
 
     @Override

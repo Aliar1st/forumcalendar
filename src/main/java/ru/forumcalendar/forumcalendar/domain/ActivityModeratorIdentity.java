@@ -4,28 +4,23 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
-
-@Entity
-@Table(name = "contacts")
 @Getter
 @Setter
+@Embeddable
 @EqualsAndHashCode(callSuper = false)
-public class Contact extends AuditModel {
-
-    @Id
-    @GeneratedValue
-    private int id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
-    private ContactType contactType;
+public class ActivityModeratorIdentity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private User user;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String link;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false)
+    private Activity activity;
 }

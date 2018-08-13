@@ -10,7 +10,6 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
@@ -19,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EventForm {
+public class EventForm {// implements ResourceForm<Event> {
 
     private int id = -1;
 

@@ -29,7 +29,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
             @P("shiftId") @PathVariable int shiftId,

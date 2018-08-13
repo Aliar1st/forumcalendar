@@ -9,6 +9,7 @@ import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.ActivityModel;
 import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
+import ru.forumcalendar.forumcalendar.model.form.ResourceForm;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
@@ -53,6 +54,14 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
+    public List<ActivityModel> getAll() {
+        return activityRepository.findAll()
+                .stream()
+                .map((a) -> conversionService.convert(a, ActivityModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Activity save(ActivityForm activityForm) {
 
         Activity activity = activityRepository.findById(activityForm.getId()).orElse(new Activity());
@@ -91,7 +100,7 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public boolean isUserActivity(int id) {
+    public boolean hasPermissionToWrite(int id) {
         return get(id).getUser().getId().equals(userService.getCurrentId());
     }
 }

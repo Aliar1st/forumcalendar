@@ -16,9 +16,9 @@ public interface SpeakerService {
 
     void delete(int id);
 
+    boolean hasPermissionToWrite(int id);
+
     List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
-
-    boolean isUserSpeaker(int id);
 }

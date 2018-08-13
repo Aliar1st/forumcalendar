@@ -5,14 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
-import ru.forumcalendar.forumcalendar.validation.annotation.ActivityExist;
 
 import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class SpeakerForm {
+public class SpeakerForm {// implements ResourceForm<Speaker> {
 
     private int id = -1;
 

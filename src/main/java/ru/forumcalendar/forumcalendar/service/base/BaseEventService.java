@@ -55,6 +55,11 @@ public class BaseEventService implements EventService {
     }
 
     @Override
+    public boolean exist(int id) {
+        return eventRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Event get(int id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Event with id " + id + " not found"));
@@ -107,7 +112,7 @@ public class BaseEventService implements EventService {
     }
 
     @Override
-    public boolean isUserEvent(int id) {
+    public boolean hasPermissionToWrite(int id) {
         return get(id).getShift().getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

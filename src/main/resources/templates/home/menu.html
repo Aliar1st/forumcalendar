@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Menu</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p th:text="|Team ID: ${teamId}|"></p>
+    <ul>
+        <li><a th:href="@{/user}">Мой профиль</a></li>
+        <li><a href="">Календарь событий</a></li>
+        <li><a href="">Моя команда</a></li>
+        <li><a href="">Спикеры</a></li>
+        <li><a href="">Мероприприятия</a></li>
+        <li><a href="">Команды</a></li>
+        <li><a href="">Избранное</a></li>
+        <li><a href="">Форумы</a></li>
+        <li></li>
+        <li><a th:href="@{/menuExit}">Выйти из форума</a></li>
+        <li><a th:href="@{/logout}">Выйти из аккаунта</a></li>
+    </ul>
+</div>
+</body>
+</html>

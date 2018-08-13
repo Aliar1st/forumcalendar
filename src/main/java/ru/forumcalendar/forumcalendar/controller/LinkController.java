@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.service.LinkService;
+import ru.forumcalendar.forumcalendar.service.TeamRoleService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -14,16 +15,19 @@ public class LinkController {
 
     private final UserService userService;
     private final TeamService teamService;
+    private final TeamRoleService teamRoleService;
     private final LinkService linkService;
 
     @Autowired
     public LinkController(
             UserService userService,
             TeamService teamService,
+            TeamRoleService teamRoleService,
             LinkService linkService
     ) {
         this.userService = userService;
         this.teamService = teamService;
+        this.teamRoleService = teamRoleService;
         this.linkService = linkService;
     }
 
@@ -32,7 +36,7 @@ public class LinkController {
         //для теста, т.к. на твоём акке нет команд.
         //model.addAttribute("teamsList", userService.getUserById("1").getUserTeams());
         model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
-        model.addAttribute("teamRoles", teamService.getAllRoles());
+        model.addAttribute("teamRoles", teamRoleService.getAllRoles());
         return "team/genLink";
     }
 

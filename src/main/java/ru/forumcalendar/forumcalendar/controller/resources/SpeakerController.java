@@ -31,7 +31,7 @@ public class SpeakerController {
         this.speakerService = speakerService;
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
             @P("activityId") @PathVariable int activityId,
@@ -43,7 +43,7 @@ public class SpeakerController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,
@@ -55,7 +55,7 @@ public class SpeakerController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,

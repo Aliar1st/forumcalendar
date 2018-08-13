@@ -6,7 +6,9 @@ import ru.forumcalendar.forumcalendar.model.form.EventForm;
 
 import java.util.List;
 
-public interface EventService {
+public interface EventService {// extends ResourceService<Event, EventForm> {
+
+    boolean exist(int id);
 
     Event get(int id);
 
@@ -16,5 +18,5 @@ public interface EventService {
 
     List<EventModel> getEventModelsByShiftId(int shiftId);
 
-    boolean isUserEvent(int id);
+    boolean hasPermissionToWrite(int id);
 }

@@ -41,7 +41,7 @@ public class ActivityController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("{activityId}")
     public String show(
             @P("activityId") @PathVariable int activityId,
@@ -76,7 +76,7 @@ public class ActivityController {
         return "redirect:";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("{activityId}/edit")
     public String edit(
             @P("activityId") @PathVariable int activityId,
@@ -88,7 +88,7 @@ public class ActivityController {
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("{activityId}/edit")
     public String edit(
             @P("activityId") @PathVariable int activityId,
@@ -106,7 +106,7 @@ public class ActivityController {
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("{activityId}/delete")
     public String delete(@P("activityId") @PathVariable int activityId) {
 

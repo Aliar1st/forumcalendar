@@ -14,6 +14,10 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 public class TeamRole extends AuditModel {
 
+    public static final int ROLE_CURATOR_ID = 1;
+    public static final int ROLE_CAPTAIN_ID = 2;
+    public static final int ROLE_MEMBER_ID = 3;
+
     @Id
     @GeneratedValue
     private int id;

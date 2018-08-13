@@ -8,7 +8,7 @@ import ru.forumcalendar.forumcalendar.domain.Team;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TeamForm {
+public class TeamForm {// implements ResourceForm<Team> {
 
     private int id = -1;
 
@@ -24,7 +24,7 @@ public class TeamForm {
 
     public TeamForm(Team team) {
         this.id = team.getId();
-        this.userId = team.getUser().getId();
+//        this.userId = team.getUser().getId();
         this.shiftId = team.getShift().getId();
         this.name = team.getName();
         this.direction = team.getDirection();

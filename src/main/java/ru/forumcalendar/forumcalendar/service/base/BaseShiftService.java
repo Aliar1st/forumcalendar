@@ -5,15 +5,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.Shift;
+import ru.forumcalendar.forumcalendar.domain.UserTeam;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
+import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +24,7 @@ public class BaseShiftService implements ShiftService {
 
     private final ActivityRepository activityRepository;
     private final ShiftRepository shiftRepository;
+    private final UserTeamRepository userTeamRepository;
 
     private final UserService userService;
     private final ConversionService conversionService;
@@ -29,11 +33,13 @@ public class BaseShiftService implements ShiftService {
     public BaseShiftService(
             ActivityRepository activityRepository,
             ShiftRepository shiftRepository,
+            UserTeamRepository userTeamRepository,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.activityRepository = activityRepository;
         this.shiftRepository = shiftRepository;
+        this.userTeamRepository = userTeamRepository;
         this.userService = userService;
         this.conversionService = conversionService;
     }
@@ -68,6 +74,15 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
+    public Integer getCurrentUserTeamByShift(int id) {
+
+        UserTeam userTeam = userTeamRepository
+                .getByUserTeamIdentityUserIdAndUserTeamIdentityTeamShiftId(userService.getCurrentId(), id);
+
+        return userTeam == null ? null : userTeam.getUserTeamIdentity().getTeam().getId();
+    }
+
+    @Override
     public List<ShiftModel> getShiftModelsByActivityId(int id) {
         return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
                 .stream()
@@ -76,7 +91,14 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
-    public boolean isUserShift(int id) {
+    public Map<Integer, String> getShiftIdNameMapByActivityId(int id) {
+        return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
+                .stream()
+                .collect(Collectors.toMap(Shift::getId, Shift::getName));
+    }
+
+    @Override
+    public boolean hasPermissionToWrite(int id) {
         return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
     }
 }

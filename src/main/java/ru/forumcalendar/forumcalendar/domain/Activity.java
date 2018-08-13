@@ -27,6 +27,9 @@ public class Activity extends AuditModel {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)
     private Set<Shift> shifts = new HashSet<>();

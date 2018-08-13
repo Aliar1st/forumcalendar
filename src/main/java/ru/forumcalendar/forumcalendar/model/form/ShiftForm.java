@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.forumcalendar.forumcalendar.domain.Shift;
-import ru.forumcalendar.forumcalendar.validation.annotation.ActivityExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.DateTimeOrder;
 
 import javax.validation.constraints.NotNull;
@@ -20,7 +19,7 @@ import java.time.LocalDate;
         dateTimeBefore = "startDate",
         dateTimeAfter = "endDate"
 )
-public class ShiftForm {
+public class ShiftForm {// implements ResourceForm<Shift> {
 
     private int id = -1;
 

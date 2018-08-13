@@ -4,6 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Forum calendar</title>
+
+    <th:block layout:fragment="styles"> </th:block>
 </head>
 <body>
 <div th:replace="layouts/header::header"></div>
@@ -11,5 +13,9 @@
 <div id="content" layout:fragment="content"></div>
 
 <div th:replace="layouts/footer::footer"></div>
+
+<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+
+<th:block layout:fragment="scripts"> </th:block>
 </body>
 </html>

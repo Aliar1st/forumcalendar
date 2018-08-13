@@ -30,7 +30,7 @@ public class Event extends AuditModel {
     @Column(nullable = false)
     private String place;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)

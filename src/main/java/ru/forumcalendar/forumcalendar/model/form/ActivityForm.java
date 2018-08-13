@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityForm {
+public class ActivityForm {// implements ResourceForm<Activity> {
 
     private int id = -1;
 

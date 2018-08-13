@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Entrance</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{3}" method="POST">
+        <label>Смена
+            <select name="shiftId">
+                <option value="0" selected>Выберите смену</option>
+                <option th:each="shift: ${shifts}"
+                        th:value="${shift.id}"
+                        th:text="${shift.name}">
+                </option>
+            </select>
+            <label th:if="${#fields.hasErrors('shiftId')}"
+                   th:errors="*{shiftId}">error
+            </label>
+        </label>
+        <button type="submit">Далее</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Entrance</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{4}" method="POST">
+        <input name="teamRoleId" value="1" type="hidden">
+        <input name="shiftId" th:value="${shiftId}" type="hidden">
+        <button type="submit">Я куротор</button>
+    </form>
+
+    <form th:action="@{4}" method="POST">
+        <input name="teamRoleId" value="3" type="hidden">
+        <input name="shiftId" th:value="${shiftId}" type="hidden">
+        <button type="submit">Я просто чел</button>
+    </form>
+    <label th:if="${#fields.hasErrors('shiftId')}"
+           th:errors="*{shiftId}">error
+    </label>
+    <label th:if="${#fields.hasErrors('teamRoleId')}"
+           th:errors="*{teamRoleId}">error
+    </label>
+</div>
+</body>
+</html>

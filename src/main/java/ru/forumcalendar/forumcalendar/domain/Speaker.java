@@ -27,8 +27,9 @@ public class Speaker extends AuditModel {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String link;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 }
