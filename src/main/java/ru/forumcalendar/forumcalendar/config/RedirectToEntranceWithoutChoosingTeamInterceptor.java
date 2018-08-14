@@ -5,7 +5,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class TrailingSlashRemoveInterceptor implements HandlerInterceptor {
+public class RedirectToEntranceWithoutChoosingTeamInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
@@ -15,13 +15,13 @@ public class TrailingSlashRemoveInterceptor implements HandlerInterceptor {
     ) throws Exception {
 
         String requestURI = request.getRequestURI();
+        String queryString = request.getQueryString();
+        queryString = (queryString != null ? "?" + queryString : "");
 
-        if (requestURI.endsWith("/") && !requestURI.equals("/")) {
-            String queryString = request.getQueryString();
-            queryString = (queryString != null ? "?" + queryString : "");
+        Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
 
-            requestURI = requestURI.substring(0, requestURI.length() - 1);
-            response.sendRedirect(requestURI + queryString);
+        if (team == null && !requestURI.contains("/entrance/")) {
+            response.sendRedirect("/entrance/1");
             return false;
         }
 

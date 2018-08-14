@@ -159,10 +159,6 @@ public class HomeController {
 
         Team team = (Team) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
 
-        if (team == null) {
-            return "redirect:/entrance/1";
-        }
-
         User user = userService.getCurrentUser();
 
         model.addAttribute("userPhoto", user.getPhoto());

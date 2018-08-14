@@ -25,17 +25,14 @@ public class EventController {
 
     private static final String HTML_FOLDER = "editor/event/";
 
-    private final SpeakerService speakerService;
     private final SpeakerRepository speakerRepository;
     private final EventService eventService;
 
     @Autowired
     public EventController(
-            SpeakerService speakerService,
             SpeakerRepository speakerRepository,
             EventService eventService
     ) {
-        this.speakerService = speakerService;
         this.speakerRepository = speakerRepository;
         this.eventService = eventService;
     }
