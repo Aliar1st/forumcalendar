@@ -1,6 +1,7 @@
-package ru.forumcalendar.forumcalendar.config;
+package ru.forumcalendar.forumcalendar.config.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

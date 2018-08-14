@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.forumcalendar.forumcalendar.config.interceptor.RedirectToEntranceWithoutChoosingTeamInterceptor;
+import ru.forumcalendar.forumcalendar.config.interceptor.TrailingSlashRemoveInterceptor;
 import ru.forumcalendar.forumcalendar.converter.*;
 import ru.forumcalendar.forumcalendar.repository.UserRepository;
 import ru.forumcalendar.forumcalendar.service.UserService;
@@ -26,9 +28,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new ActivityModelConverter());
         registry.addConverter(new ShiftModelConverter());
-        registry.addConverter(teamModelConverter());
         registry.addConverter(new SpeakerModelConverter());
         registry.addConverter(new EventModelConverter());
+        registry.addConverter(new TeamModelConverter());
+        registry.addConverter(contactModelConverter());
+        registry.addConverter(userModelConverter());
     }
 
     @Override
@@ -43,8 +47,13 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public TeamModelConverter teamModelConverter() {
-        return new TeamModelConverter();
+    public UserModelConverter userModelConverter() {
+        return new UserModelConverter();
+    }
+
+    @Bean
+    ContactModelConverter contactModelConverter() {
+        return new ContactModelConverter();
     }
 
     @Bean

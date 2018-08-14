@@ -1,14 +1,22 @@
-INSERT INTO roles (id, name, authority, created_at, updated_at) values
+INSERT INTO roles (id, name, authority, created_at, updated_at) VALUES
   (1, 'User',      'ROLE_USER',      NOW(), NOW()),
   (2, 'Superuser', 'ROLE_SUPERUSER', NOW(), NOW());
 
-INSERT INTO team_roles (id, name, slug, created_at, updated_at) values
+INSERT INTO team_roles (id, name, slug, created_at, updated_at) VALUES
   (1, 'Curator', 'CURATOR', NOW(), NOW()),
   (2, 'Captain', 'CAPTAIN', NOW(), NOW()),
-  (3, 'Member',  'MEMBER', NOW(), NOW());
+  (3, 'Member',  'MEMBER',  NOW(), NOW());
 
-INSERT INTO users (id, email, first_name, last_name, gender, locale, photo, role_id, created_at, updated_at) values
-  (1, 'email@mail.ru', 'First name', 'Last name','Male','locale','fsdfa.jpg', 1, NOW(), NOW());
+INSERT INTO contact_types (id, name, created_at, updated_at) VALUES
+  (1, 'ВКонтакте',     NOW(), NOW()),
+  (2, 'Facebook',      NOW(), NOW()),
+  (3, 'Instagram',     NOW(), NOW()),
+  (4, 'Одноклассники', NOW(), NOW()),
+  (5, 'Twitter',       NOW(), NOW()),
+  (6, 'Google+',       NOW(), NOW());
+
+-- INSERT INTO users (id, email, first_name, last_name, gender, locale, photo, role_id, created_at, updated_at) VALUES
+--   (1, 'email@mail.ru', 'First name', 'Last name','Male','locale','fsdfa.jpg', 1, NOW(), NOW());
 --
 -- INSERT INTO activities (id, user_id, name, created_at, updated_at) values
 --   (1, 1, 'FirstForum', NOW(), NOW());

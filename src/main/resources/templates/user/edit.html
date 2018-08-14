@@ -7,26 +7,52 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{edit}" th:object="${user}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{edit}" th:object="${userForm}" method="POST" enctype="multipart/form-data">
         <p>
-            <img width="60" height="60" th:src="@{/uploads/__${user.photo}__}" alt="">
+            <img width="60" height="60" th:src="@{/uploads/__${userForm.photoUrl}__}" alt="">
             <label>Фотография
                 <input th:field="*{photo}" type="file">
-                <label th:text="${photoError}">Error</label>
+                <label th:if="${#fields.hasErrors('photo')}"
+                       th:errors="*{photo}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Имя
                 <input th:field="*{firstName}" type="text">
-                <label th:text="${firstNameError}">Error</label>
+                <label th:if="${#fields.hasErrors('firstName')}"
+                       th:errors="*{firstName}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Фамилия
                 <input th:field="*{lastName}" type="text">
-                <label th:text="${lastNameError}">Error</label>
+                <label th:if="${#fields.hasErrors('lastName')}"
+                       th:errors="*{lastName}">error
+                </label>
             </label>
         </p>
+        <hr>
+        <p th:each="contact, stat:${userForm.contactForms}">
+            <label>Тип
+                <select th:field="*{contactForms[__${stat.index}__].contactTypeId}">
+                    <option th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==0}?''"
+                            value="0">Выберите тип
+                    </option>
+                    <option th:each="contactType: ${contactTypes}"
+                            th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==contactType.id}?''"
+                            th:value="${contactType.id}"
+                            th:text="${contactType.name}">
+                    </option>
+                </select>
+            </label>
+            <label>Ссылка
+                <input th:field="*{contactForms[__${stat.index}__].link}" type="text">
+            </label>
+            <input type="hidden" th:field="*{contactForms[__${stat.index}__].id}">
+        </p>
+        <button type="button">Добавить ссылку</button>
         <input type="submit" value="Обновить">
     </form>
 </div>

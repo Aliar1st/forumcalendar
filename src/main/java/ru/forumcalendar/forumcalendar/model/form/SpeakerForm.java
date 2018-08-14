@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class SpeakerForm {
 
-    private int id = -1;
+    private int id;
 
     //@ActivityExist
     private int activityId;
@@ -27,7 +27,7 @@ public class SpeakerForm {
     private String lastName;
 
     @Length(max = 2000, message = "Link is too long")
-    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
+    @Pattern(regexp = "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 
     @Length(max = 5000, message = "Description is too long")

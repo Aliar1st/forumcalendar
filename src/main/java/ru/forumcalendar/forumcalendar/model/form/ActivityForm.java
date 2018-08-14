@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ActivityForm {// implements ResourceForm<Activity> {
 
-    private int id = -1;
+    private int id;
 
     @Length(max = 50, message = "Activity name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Activity name is too short or contains invalid characters")

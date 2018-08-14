@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.config;
+package ru.forumcalendar.forumcalendar.config.constt;
 
 
 public final class SessionAttributeName {

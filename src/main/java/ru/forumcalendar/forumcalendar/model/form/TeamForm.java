@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class TeamForm {
 
-    private int id = -1;
+    private int id;
 
 //    private String userId;
 

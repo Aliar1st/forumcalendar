@@ -101,6 +101,7 @@
                    th:errors="*{shiftForms[1]}">error
             </label>
         </p>
+        <button type="button">Добавить смену</button>
         <label th:if="${#fields.hasErrors('shiftForms[0].activityId')}"
                th:errors="*{shiftForms[0].activityId}">error
         </label>

@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.config;
+package ru.forumcalendar.forumcalendar.config.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

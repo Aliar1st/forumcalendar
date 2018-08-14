@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class EventForm {
 
-    private int id = -1;
+    private int id;
 
     @Length(max = 50, message = "Event name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Event name is too short or contains invalid characters")

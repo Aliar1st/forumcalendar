@@ -11,8 +11,15 @@
         <b>Фотография:</b><br>
         <img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="">
     </p>
+
     <p><b>Имя: </b><span th:text="${user.firstName}"></span></p>
     <p><b>Фамилия: </b><span th:text="${user.lastName}"></span></p>
+
+    <p><b>Социальные сети:</b></p>
+    <p th:each="contact: ${user.contacts}">
+        <b th:text="|${contact.contactTypeName}: |"></b>
+        <span th:text="${contact.link}"></span>
+    </p>
     <a th:href="@{~/user/edit}">Изменить</a>
 </div>
 </body>

@@ -21,7 +21,7 @@ import java.time.LocalDate;
 )
 public class ShiftForm {
 
-    private int id = -1;
+    private int id;
 
     //@ActivityExist
     private int activityId;

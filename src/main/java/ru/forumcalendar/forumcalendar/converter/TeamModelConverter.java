@@ -8,8 +8,6 @@ import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 
 public class TeamModelConverter implements Converter<Team, TeamModel> {
 
-    private UserTeamRepository userTeamRepository;
-
     @Override
     public TeamModel convert(Team team) {
 
@@ -21,13 +19,8 @@ public class TeamModelConverter implements Converter<Team, TeamModel> {
         teamModel.setName(team.getName());
         teamModel.setDirection(team.getDirection());
         teamModel.setDescription(team.getDescription());
-        teamModel.setUserCount(userTeamRepository.countAllByUserTeamIdentityTeamId(team.getId()));
+        teamModel.setUserCount(team.getUserTeams().size());
 
         return teamModel;
-    }
-
-    @Autowired
-    public void setUserTeamRepository(UserTeamRepository userTeamRepository) {
-        this.userTeamRepository = userTeamRepository;
     }
 }

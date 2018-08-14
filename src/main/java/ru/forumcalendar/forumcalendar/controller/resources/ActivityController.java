@@ -96,11 +96,11 @@ public class ActivityController {
             BindingResult bindingResult
     ) {
 
-        activityForm.setId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        activityForm.setId(activityId);
         activityService.save(activityForm);
 
         return "redirect:..";

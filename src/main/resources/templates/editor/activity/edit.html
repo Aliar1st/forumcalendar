@@ -27,9 +27,6 @@
         <th:block th:each="shift, stat:${activityForm.shiftForms}">
             <h2 th:text="|Смена ${stat.index+1}|"></h2>
             <p>
-                <input th:field="*{shiftForms[__${stat.index}__].id}" type="hidden">
-            </p>
-            <p>
                 <label>Название
                     <input th:field="*{shiftForms[__${stat.index}__].name}" type="text">
                     <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].name')}"
@@ -66,7 +63,9 @@
                        th:errors="*{shiftForms[__${stat.index}__]}">error
                 </label>
             </p>
+            <input type="hidden" th:field="*{shiftForms[__${stat.index}__].id}">
         </th:block>
+        <button type="button">Добавить смену</button>
         <label th:if="${#fields.hasErrors('shiftForms[0].activityId')}" th:errors="*{activityId}"
                class="invalid-feedback">error
         </label>
