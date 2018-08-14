@@ -1,23 +1,33 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import ru.forumcalendar.forumcalendar.Quartz.NotificationExecutor;
+import ru.forumcalendar.forumcalendar.Quartz.NotificationJob;
+import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Subscription;
 import ru.forumcalendar.forumcalendar.domain.SubscriptionIdentity;
-import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.repository.SubscriptionRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class BaseSubscriptionService implements SubscriptionService {
+
+    private final static int TRIGGERING_MINUTES_BEFORE = 10;
+
+    private List<NotificationExecutor> notifyExecs;
 
     private final SubscriptionRepository subscriptionRepository;
 
@@ -35,16 +45,16 @@ public class BaseSubscriptionService implements SubscriptionService {
         this.eventService = eventService;
         this.userService = userService;
         this.conversionService = conversionService;
+        notifyExecs = new ArrayList<>();
     }
 
     @Override
-    public void subscribe(int eventId) {
+    public void subscribe(int eventId, String userId) {
 
-        String userId = userService.getCurrentId();
         Subscription subscription = subscriptionRepository.getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
 
         if (subscription == null) {
-            subscribe(eventId, userService.getCurrentUser());
+            _subscribe(eventId, userId);
         }
     }
 
@@ -52,7 +62,8 @@ public class BaseSubscriptionService implements SubscriptionService {
     public void unsubscribe(int eventId) {
 
         String userId = userService.getCurrentId();
-        Subscription subscription = subscriptionRepository.getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
+        Subscription subscription = subscriptionRepository
+                .getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
 
         if (subscription != null) {
             unsubscribe(subscription);
@@ -60,15 +71,35 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public void toggleSubscribe(int eventId) {
+    public boolean toggleSubscribe(int eventId, String userId, NotificationJob.Job jobToDone) throws SchedulerException {
 
-        String userId = userService.getCurrentId();
-        Subscription subscription = subscriptionRepository.getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
+        Subscription subscription = subscriptionRepository
+                .getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
 
         if (subscription == null) {
-            subscribe(eventId, userService.getCurrentUser());
+            Event event = eventService.get(eventId);
+
+            if (event.getDatetime().isAfter(LocalDateTime.now().plus(TRIGGERING_MINUTES_BEFORE + 1, ChronoUnit.MINUTES))) {
+                NotificationExecutor notifyExec = new NotificationExecutor(eventId);
+                notifyExecs.add(notifyExec);
+                notifyExec.executeAt(
+                        jobToDone,
+                        event.getDatetime().minus(TRIGGERING_MINUTES_BEFORE, ChronoUnit.MINUTES)
+                );
+            }
+
+            subscribe(eventId, userId);
+            return true;
         } else {
+            for (NotificationExecutor ne : notifyExecs) {
+                if (ne.getEventId() == eventId) {
+                    ne.clear();
+                    notifyExecs.remove(ne);
+                    break;
+                }
+            }
             unsubscribe(subscription);
+            return false;
         }
     }
 
@@ -80,10 +111,10 @@ public class BaseSubscriptionService implements SubscriptionService {
                 .collect(Collectors.toList());
     }
 
-    private void subscribe(int eventId, User user) {
+    private void _subscribe(int eventId, String userId) {
 
         SubscriptionIdentity subscriptionIdentity = new SubscriptionIdentity();
-        subscriptionIdentity.setUser(user);
+        subscriptionIdentity.setUser(userService.get(userId));
         subscriptionIdentity.setEvent(eventService.get(eventId));
 
         Subscription subscription = new Subscription();

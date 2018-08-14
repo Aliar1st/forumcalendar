@@ -1,7 +1,9 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 import ru.forumcalendar.forumcalendar.domain.Contact;
 import ru.forumcalendar.forumcalendar.domain.ContactType;
@@ -18,6 +20,7 @@ import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,11 @@ public class BaseUserService implements UserService {
         user.setPhoto(photo);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getCurrentUser(Principal principal) {
+        return ((User) ((OAuth2Authentication) principal).getUserAuthentication().getPrincipal());
     }
 
     @Override

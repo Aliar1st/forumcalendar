@@ -15,16 +15,16 @@ public class RedirectToEntranceWithoutChoosingTeamInterceptor implements Handler
             Object handler
     ) throws Exception {
 
-        String requestURI = request.getRequestURI();
-        String queryString = request.getQueryString();
-        queryString = (queryString != null ? "?" + queryString : "");
-
-        Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-
-        if (team == null && !requestURI.contains("/entrance/")) {
-            response.sendRedirect("/entrance/1");
-            return false;
-        }
+//        String requestURI = request.getRequestURI();
+//        String queryString = request.getQueryString();
+//        queryString = (queryString != null ? "?" + queryString : "");
+//
+//        Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+//
+//        if (team == null && !requestURI.contains("/entrance/")) {
+//            response.sendRedirect("/entrance/1");
+//            return false;
+//        }
 
         return true;
     }
