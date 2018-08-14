@@ -17,6 +17,14 @@
                 </label>
             </label>
         </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
         <h2>Смена 1</h2>
         <p>
             <label>Название
@@ -39,6 +47,14 @@
                 <input th:field="*{shiftForms[0].endDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[0].endDate')}"
                        th:errors="*{shiftForms[0].endDate}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{shiftForms[0].description}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[0].description')}"
+                       th:errors="*{shiftForms[0].description}">error
                 </label>
             </label>
         </p>
@@ -69,6 +85,14 @@
                 <input th:field="*{shiftForms[1].endDate}" type="date">
                 <label th:if="${#fields.hasErrors('shiftForms[1].endDate')}"
                        th:errors="*{shiftForms[1].endDate}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{shiftForms[1].description}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[1].description')}"
+                       th:errors="*{shiftForms[1].description}">error
                 </label>
             </label>
         </p>

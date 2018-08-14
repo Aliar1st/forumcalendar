@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
 
-    <form th:action="@{5}" method="POST">
+    <form th:action="@{5}" th:object="${choosingTeamForm}" method="POST">
         <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
         <label>Смена
             <select name="teamId">

@@ -42,6 +42,18 @@ public class ShiftController {
         return HTML_FOLDER + "index";
     }
 
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
+    @GetMapping("{shiftId}")
+    public String show(
+            @P("shiftId") @PathVariable int shiftId,
+            Model model
+    ) {
+
+        model.addAttribute(shiftId);
+
+        return HTML_FOLDER + "show";
+    }
+
     @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(

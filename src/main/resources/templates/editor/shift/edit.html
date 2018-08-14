@@ -32,6 +32,14 @@
                 </label>
             </label>
         </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
         <label th:if="${#fields.hasErrors('activityId')}"
                th:errors="*{activityId}">error
         </label>

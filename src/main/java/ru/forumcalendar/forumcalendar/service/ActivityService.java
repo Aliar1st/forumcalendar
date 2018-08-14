@@ -7,7 +7,7 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 
 import java.util.List;
 
-public interface ActivityService {// extends ResourceService<Activity, ActivityForm> {
+public interface ActivityService extends SecuredService {
 
     boolean exist(int id);
 
@@ -18,8 +18,6 @@ public interface ActivityService {// extends ResourceService<Activity, ActivityF
     Activity save(ActivityForm activityForm);
 
     void delete(int id);
-
-    boolean hasPermissionToWrite(int id);
 
     List<ActivityModel> getCurrentUserActivityModels();
 }

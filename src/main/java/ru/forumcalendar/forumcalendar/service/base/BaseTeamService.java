@@ -119,6 +119,16 @@ public class BaseTeamService implements TeamService {
                 .collect(Collectors.toMap(Team::getId, Team::getName));
     }
 
+    @Override
+    public boolean hasPermissionToWrite(int id) {
+        return true;
+    }
+
+    @Override
+    public boolean hasPermissionToRead(int id) {
+        return false;
+    }
+
 //    @Override
 //    public boolean isUserTeam(int id) {
 //        return get(id).getUser().getId().equals(userService.getCurrentId());

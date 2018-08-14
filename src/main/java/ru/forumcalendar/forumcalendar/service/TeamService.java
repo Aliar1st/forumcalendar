@@ -9,7 +9,7 @@ import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import java.util.List;
 import java.util.Map;
 
-public interface TeamService {
+public interface TeamService extends SecuredService {
 
     boolean exist(int id);
 

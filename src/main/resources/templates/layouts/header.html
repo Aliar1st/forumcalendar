@@ -5,7 +5,7 @@
     <b>Header</b>
     <hr>
     <ul>
-        <li sec:authorize="hasPermission(1, 'Activity', 'Read')"><a th:href="@{~/user}">Profile</a></li>
+        <li><a th:href="@{~/user}">Profile</a></li>
         <li><a th:href="@{~/editor/activity}">User created activities</a></li>
 
         <th:block sec:authorize="isAuthenticated()">

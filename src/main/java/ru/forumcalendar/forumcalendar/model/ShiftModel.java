@@ -19,5 +19,7 @@ public class ShiftModel {
 
     private LocalDate endDate;
 
+    private String description;
+
     private int teamCount;
 }

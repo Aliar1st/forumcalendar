@@ -19,7 +19,7 @@ import java.time.LocalDate;
         dateTimeBefore = "startDate",
         dateTimeAfter = "endDate"
 )
-public class ShiftForm {// implements ResourceForm<Shift> {
+public class ShiftForm {
 
     private int id = -1;
 
@@ -40,11 +40,15 @@ public class ShiftForm {// implements ResourceForm<Shift> {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    @Length(max = 5000, message = "Description is too long")
+    private String description;
+
     public ShiftForm(Shift shift) {
         this.id = shift.getId();
         this.activityId = shift.getActivity().getId();
         this.name = shift.getName();
         this.startDate = shift.getStartDate();
         this.endDate = shift.getEndDate();
+        this.description = shift.getDescription();
     }
 }

@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EventForm {// implements ResourceForm<Event> {
+public class EventForm {
 
     private int id = -1;
 
@@ -35,7 +35,7 @@ public class EventForm {// implements ResourceForm<Event> {
     private String place;
 
     @Length(max = 5000, message = "Description is too long")
-    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
     private String description;
 
     @ShiftExist

@@ -6,7 +6,7 @@ import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 
 import java.util.List;
 
-public interface SpeakerService {
+public interface SpeakerService extends SecuredService {
 
     boolean exist(int id);
 

@@ -101,4 +101,9 @@ public class BaseShiftService implements ShiftService {
     public boolean hasPermissionToWrite(int id) {
         return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
     }
+
+    @Override
+    public boolean hasPermissionToRead(int id) {
+        return true;
+    }
 }

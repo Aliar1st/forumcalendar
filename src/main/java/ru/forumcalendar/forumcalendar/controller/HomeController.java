@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.forumcalendar.forumcalendar.config.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
+import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
 import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingActivityForm;
@@ -18,6 +19,7 @@ import ru.forumcalendar.forumcalendar.model.form.ChoosingTeamRoleForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
+import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,19 +28,24 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    private static final String HTML_FOLDER = "home/";
+
     private final ActivityService activityService;
     private final ShiftService shiftService;
     private final TeamService teamService;
+    private final UserService userService;
 
     @Autowired
     public HomeController(
             ActivityService activityService,
             ShiftService shiftService,
-            TeamService teamService
+            TeamService teamService,
+            UserService userService
     ) {
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.teamService = teamService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -52,8 +59,9 @@ public class HomeController {
     ) {
 
         model.addAttribute("activities", activityService.getAll());
+        model.addAttribute(new ChoosingActivityForm());
 
-        return "entrance1_choosing_activity";
+        return HTML_FOLDER + "entrance1_choosing_activity";
     }
 
     @PostMapping("/entrance/2")
@@ -64,12 +72,13 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "entrance1_choosing_activity";
+            return HTML_FOLDER + "entrance1_choosing_activity";
         }
 
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
+        model.addAttribute(new ChoosingShiftForm());
 
-        return "entrance2_choosing_shift";
+        return HTML_FOLDER + "entrance2_choosing_shift";
     }
 
     @PostMapping("/entrance/3")
@@ -81,14 +90,15 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "entrance2_choosing_shift";
+            return HTML_FOLDER + "entrance2_choosing_shift";
         }
 
         Integer teamId = shiftService.getCurrentUserTeamByShift(choosingShiftForm.getShiftId());
 
         if (teamId == null) {
             model.addAttribute("shiftId", choosingShiftForm.getShiftId());
-            return "entrance3_choosing_teamrole";
+            model.addAttribute(new ChoosingTeamRoleForm());
+            return HTML_FOLDER + "entrance3_choosing_teamrole";
         } else {
             httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, teamService.get(teamId));
             return "redirect:/menu";
@@ -103,7 +113,7 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "entrance3_choosing_teamrole";
+            return HTML_FOLDER + "entrance3_choosing_teamrole";
         }
 
         List<TeamModel> teams;
@@ -119,8 +129,9 @@ public class HomeController {
 
         model.addAttribute("teams", teams);
         model.addAttribute("teamRoleId", choosingTeamRoleForm.getTeamRoleId());
+        model.addAttribute(new ChoosingTeamForm());
 
-        return "entrance4_choosing_team";
+        return HTML_FOLDER + "entrance4_choosing_team";
     }
 
     @PostMapping("/entrance/5")
@@ -131,7 +142,7 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "entrance4_choosing_team";
+            return HTML_FOLDER + "entrance4_choosing_team";
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());
@@ -152,9 +163,13 @@ public class HomeController {
             return "redirect:/entrance/1";
         }
 
-        model.addAttribute("teamId", team);
+        User user = userService.getCurrentUser();
 
-        return "home/menu";
+        model.addAttribute("userPhoto", user.getPhoto());
+        model.addAttribute("userName", user.getFirstName() + ' ' + user.getLastName());
+        model.addAttribute("teamName", team.getName());
+
+        return HTML_FOLDER + "menu";
     }
 
     @GetMapping("/menuExit")
@@ -193,3 +208,5 @@ public class HomeController {
 
 // TODO: 8/13/2018 Проверка куратор вбивает команду с уже существующим куратором
 // TODO: 8/13/2018 Нормальные страницы с ошибками
+// TODO: 8/14/2018 Описание не обязательное поля в форме, а сейчас да
+// TODO: 8/14/2018 Shift name is too short or contains invalid characters - уита, разделить too short и contains invalid characters

@@ -115,4 +115,9 @@ public class BaseEventService implements EventService {
     public boolean hasPermissionToWrite(int id) {
         return get(id).getShift().getActivity().getUser().getId().equals(userService.getCurrentId());
     }
+
+    @Override
+    public boolean hasPermissionToRead(int id) {
+        return true;
+    }
 }

@@ -28,15 +28,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/");
     }
-
-    @Bean
-    public PrincipalExtractor principalExtractor(
-            UserRepository userRepository,
-            UserService userService
-    ) {
-        return map -> userRepository.save(
-                userRepository.findById(map.get("sub").toString())
-                        .orElseGet(() -> userService.signUp(map))
-        );
-    }
 }

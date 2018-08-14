@@ -7,7 +7,7 @@ import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import java.util.List;
 import java.util.Map;
 
-public interface ShiftService {
+public interface ShiftService extends SecuredService {
 
     boolean exist(int id);
 
@@ -22,6 +22,4 @@ public interface ShiftService {
     List<ShiftModel> getShiftModelsByActivityId(int id);
 
     Map<Integer, String> getShiftIdNameMapByActivityId(int id);
-
-    boolean hasPermissionToWrite(int id);
 }

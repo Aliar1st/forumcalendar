@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
 
-    <form th:action="@{3}" method="POST">
+    <form th:action="@{3}" th:object="${choosingShiftForm}" method="POST">
         <label>Смена
             <select name="shiftId">
                 <option value="0" selected>Выберите смену</option>

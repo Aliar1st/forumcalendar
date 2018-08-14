@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
 
-    <form th:action="@{2}" method="POST">
+    <form th:action="@{2}" th:object="${choosingActivityForm}" method="POST">
         <label>Мероприятие
             <select name="activityId">
                 <option value="0" selected>Выберите мероприятие</option>
