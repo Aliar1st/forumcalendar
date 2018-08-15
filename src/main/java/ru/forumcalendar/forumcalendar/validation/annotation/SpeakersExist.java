@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SpeakersExist {
+
     String message() default "Speaker does not exist";
 
     Class<?>[] groups() default {};

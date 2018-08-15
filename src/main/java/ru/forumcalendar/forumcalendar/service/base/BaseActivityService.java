@@ -53,11 +53,20 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
+    public List<ActivityModel> getAll() {
+        return activityRepository.findAll()
+                .stream()
+                .map((a) -> conversionService.convert(a, ActivityModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Activity save(ActivityForm activityForm) {
 
         Activity activity = activityRepository.findById(activityForm.getId()).orElse(new Activity());
         activity.setName(activityForm.getName());
         activity.setUser(userService.getCurrentUser());
+        activity.setDescription(activityForm.getDescription());
         activity = activityRepository.save(activity);
 
         List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
@@ -68,6 +77,7 @@ public class BaseActivityService implements ActivityService {
             shift.setStartDate(sf.getStartDate());
             shift.setEndDate(sf.getEndDate());
             shift.setActivity(activity);
+            shift.setDescription(sf.getDescription());
             shifts.add(shift);
         }
 
@@ -91,7 +101,12 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public boolean isUserActivity(int id) {
+    public boolean hasPermissionToWrite(int id) {
         return get(id).getUser().getId().equals(userService.getCurrentId());
+    }
+
+    @Override
+    public boolean hasPermissionToRead(int id) {
+        return true;
     }
 }

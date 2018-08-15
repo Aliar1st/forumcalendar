@@ -6,31 +6,30 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/team")
-public class TeamController {
+public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";
 
     private final TeamService teamService;
 
     @Autowired
-    public TeamController(
+    public TeamResourceController(
             TeamService teamService
     ) {
         this.teamService = teamService;
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
             @P("shiftId") @PathVariable int shiftId,
@@ -59,11 +58,11 @@ public class TeamController {
             BindingResult bindingResult
     ) {
 
-        teamForm.setShiftId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
+        teamForm.setShiftId(shiftId);
         teamService.save(teamForm);
 
         return "redirect:";
@@ -85,18 +84,16 @@ public class TeamController {
     @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @PostMapping("{teamId}/edit")
     public String edit(
-            @P("shiftId") @PathVariable int shiftId,
             @P("teamId") @PathVariable int teamId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
 
-        teamForm.setId(teamId);
-        teamForm.setShiftId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        teamForm.setId(teamId);
         teamService.save(teamForm);
 
         return "redirect:..";

@@ -16,6 +16,7 @@ public class ActivityModelConverter implements Converter<Activity, ActivityModel
         ActivityModel activityModel = new ActivityModel();
         activityModel.setId(activity.getId());
         activityModel.setName(activity.getName());
+        activityModel.setDescription(activity.getDescription());
 
         Set<Shift> shifts = activity.getShifts();
         activityModel.setShiftCount(shifts.size());

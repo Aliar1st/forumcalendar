@@ -12,63 +12,98 @@
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
-                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                     class="invalid-feedback">error
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
                 </label>
             </label>
         </p>
         <h2>Смена 1</h2>
         <p>
             <label>Название
-                <input name="shiftForms[0].shiftName" type="text">
-                <label th:if="${#fields.hasErrors('shiftForms[0].name')}" th:errors="*{shiftForms[0].name}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[0].name}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[0].name')}"
+                       th:errors="*{shiftForms[0].name}">error
                 </label>
             </label>
         </p>
         <p>
             <label>Дата начала
-                <input name="shiftForms[0].startDate" type="date">
-                <label th:if="${#fields.hasErrors('shiftForms[0].startDate')}" th:errors="*{shiftForms[0].name}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[0].startDate}" type="date">
+                <label th:if="${#fields.hasErrors('shiftForms[0].startDate')}"
+                       th:errors="*{shiftForms[0].startDate}">error
                 </label>
             </label>
         </p>
         <p>
             <label>Дата конца
-                <input name="shiftForms[0].endDate" type="date">
-                <label th:if="${#fields.hasErrors('shiftForms[0].endDate')}" th:errors="*{shiftForms[0].endDate}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[0].endDate}" type="date">
+                <label th:if="${#fields.hasErrors('shiftForms[0].endDate')}"
+                       th:errors="*{shiftForms[0].endDate}">error
                 </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{shiftForms[0].description}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[0].description')}"
+                       th:errors="*{shiftForms[0].description}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label th:if="${#fields.hasErrors('shiftForms[0]')}"
+                   th:errors="*{shiftForms[0]}">error
             </label>
         </p>
         <h2>Смена 2</h2>
         <p>
             <label>Название
-                <input name="shiftForms[1].shiftName" type="text">
-                <label th:if="${#fields.hasErrors('shiftForms[1].name')}" th:errors="*{shiftForms[1].name}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[1].name}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[1].name')}"
+                       th:errors="*{shiftForms[1].name}">error
                 </label>
             </label>
         </p>
         <p>
             <label>Дата начала
-                <input name="shiftForms[1].startDate" type="date">
-                <label th:if="${#fields.hasErrors('shiftForms[1].startDate')}" th:errors="*{shiftForms[1].startDate}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[1].startDate}" type="date">
+                <label th:if="${#fields.hasErrors('shiftForms[1].startDate')}"
+                       th:errors="*{shiftForms[1].startDate}">error
                 </label>
             </label>
         </p>
         <p>
             <label>Дата конца
-                <input name="shiftForms[1].endDate" type="date">
-                <label th:if="${#fields.hasErrors('shiftForms[1].endDate')}" th:errors="*{shiftForms[1].endDate}"
-                       class="invalid-feedback">error
+                <input th:field="*{shiftForms[1].endDate}" type="date">
+                <label th:if="${#fields.hasErrors('shiftForms[1].endDate')}"
+                       th:errors="*{shiftForms[1].endDate}">error
                 </label>
             </label>
         </p>
-        <label th:if="${#fields.hasErrors('shiftForms[0].activityId')}" th:errors="*{shiftForms[0].activityId}"
-               class="invalid-feedback">error
+        <p>
+            <label>Описание
+                <input th:field="*{shiftForms[1].description}" type="text">
+                <label th:if="${#fields.hasErrors('shiftForms[1].description')}"
+                       th:errors="*{shiftForms[1].description}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label th:if="${#fields.hasErrors('shiftForms[1]')}"
+                   th:errors="*{shiftForms[1]}">error
+            </label>
+        </p>
+        <button type="button">Добавить смену</button>
+        <label th:if="${#fields.hasErrors('shiftForms[0].activityId')}"
+               th:errors="*{shiftForms[0].activityId}">error
         </label>
         <input type="submit" value="Создать">
     </form>

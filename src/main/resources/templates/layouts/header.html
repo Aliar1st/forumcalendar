@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org/">
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <nav id="header" class="navbar navbar-expand-md bg-primary navbar-dark" th:fragment="header">
     <b>Header</b>
@@ -6,6 +7,13 @@
     <ul>
         <li><a th:href="@{~/user}">Profile</a></li>
         <li><a th:href="@{~/editor/activity}">User created activities</a></li>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <li><a th:href="@{~/logout}">Logout</a></li>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <li><a th:href="@{~/login}">Login</a></li>
+        </th:block>
     </ul>
     <hr>
 </nav>

@@ -3,13 +3,26 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/static/styles/jquery.toastmessage.css" rel="stylesheet">
+    <link href="/static/styles/style.css" rel="stylesheet">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Forum calendar</title>
-</head>
+
+    <th:block layout:fragment="styles"> </th:block>
+</head>`
 <body>
 <div th:replace="layouts/header::header"></div>
 
 <div id="content" layout:fragment="content"></div>
 
 <div th:replace="layouts/footer::footer"></div>
+
+
+<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script type="text/javascript" src="/static/scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="/static/scripts/jquery.toastmessage.js"></script>
+<script type="text/javascript" src="/static/scripts/script.js"></script>
+<th:block layout:fragment="scripts"> </th:block>
 </body>
 </html>

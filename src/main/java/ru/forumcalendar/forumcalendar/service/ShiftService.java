@@ -5,8 +5,9 @@ import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 
 import java.util.List;
+import java.util.Map;
 
-public interface ShiftService {
+public interface ShiftService extends SecuredService {
 
     boolean exist(int id);
 
@@ -16,7 +17,9 @@ public interface ShiftService {
 
     void delete(int id);
 
+    Integer getCurrentUserTeamByShift(int id);
+
     List<ShiftModel> getShiftModelsByActivityId(int id);
 
-    boolean isUserShift(int id);
+    Map<Integer, String> getShiftIdNameMapByActivityId(int id);
 }

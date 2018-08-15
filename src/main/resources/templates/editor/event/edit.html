@@ -11,27 +11,66 @@
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
-                <label th:text="${nameError}">Error</label>
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Дата и время
                 <input th:field="*{datetime}" type="datetime-local">
-                <label th:text="${datetimeError}">Error</label>
+                <label th:if="${#fields.hasErrors('datetime')}"
+                       th:errors="*{datetime}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Место
                 <input th:field="*{place}" type="text">
-                <label th:text="${placeError}">Error</label>
+                <label th:if="${#fields.hasErrors('place')}"
+                       th:errors="*{place}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Описание
                 <input th:field="*{description}" type="text">
-                <label th:text="${descriptionError}">Error</label>
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
             </label>
         </p>
+        <!--<label th:text="${shiftId}">Error</label><br/>-->
+        <!--<th:block th:each="speaker, stat:${eventForm.speakerForms}">-->
+            <!--<h2 th:text="|Спикер ${stat.index+1}|"></h2>-->
+            <!--<p>-->
+                <!--<input th:field="*{speakerForms[__${stat.index}__].id}" type="hidden">-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<input th:field="*{speakerForms[__${stat.index}__].activityId}" type="hidden">-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Имя-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].firstName}" type="text">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Фамилия-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Ссылка-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].link}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label>Описание-->
+                    <!--<input th:field="*{speakerForms[__${stat.index}__].description}" type="date">-->
+                <!--</label>-->
+            <!--</p>-->
+        <!--</th:block>-->
+        <!--todo список спикеров редактировать-->
         <input type="submit" value="Обновить">
     </form>
 </div>

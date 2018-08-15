@@ -17,20 +17,24 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityForm {
+public class ActivityForm {// implements ResourceForm<Activity> {
 
-    private int id = -1;
+    private int id;
 
     @Length(max = 50, message = "Activity name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Activity name is too short or contains invalid characters")
     private String name;
 
+    @Length(max = 5000, message = "Description is too long")
+    private String description;
+
     @Valid
-    private List<ShiftForm> shiftForms; //FIXME формы не контрятся
+    private List<ShiftForm> shiftForms;
 
     public ActivityForm(Activity activity) {
         this.id = activity.getId();
         this.name = activity.getName();
+        this.description = activity.getDescription();
 
         Set<Shift> shifts = activity.getShifts();
         this.shiftForms = new ArrayList<>(shifts.size());
@@ -41,5 +45,4 @@ public class ActivityForm {
 
         this.shiftForms.sort(Comparator.comparing(ShiftForm::getStartDate));
     }
-
 }

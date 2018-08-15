@@ -6,7 +6,9 @@ import ru.forumcalendar.forumcalendar.model.form.EventForm;
 
 import java.util.List;
 
-public interface EventService {
+public interface EventService extends SecuredService {
+
+    boolean exist(int id);
 
     Event get(int id);
 
@@ -15,6 +17,4 @@ public interface EventService {
     void delete(int id);
 
     List<EventModel> getEventModelsByShiftId(int shiftId);
-
-    boolean isUserEvent(int id);
 }

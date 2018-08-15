@@ -10,6 +10,7 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,14 +20,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class EventForm {
 
-    private int id = -1;
+    private int id;
 
     @Length(max = 50, message = "Event name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Event name is too short or contains invalid characters")
     private String name;
 
-    //TODO Добавить аннотациб для даты
-    //@NotBlank(message = "Enter date and time")
+    @NotNull(message = "Enter date and time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime datetime;
 
@@ -35,7 +35,7 @@ public class EventForm {
     private String place;
 
     @Length(max = 5000, message = "Description is too long")
-    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
     private String description;
 
     @ShiftExist

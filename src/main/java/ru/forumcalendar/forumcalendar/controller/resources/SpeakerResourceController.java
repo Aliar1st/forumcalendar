@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/speaker")
-public class SpeakerController {
+public class SpeakerResourceController {
 
     private static final String HTML_FOLDER = "editor/speaker/";
 
     private final SpeakerService speakerService;
 
     @Autowired
-    public SpeakerController(
+    public SpeakerResourceController(
             SpeakerService speakerService
     ) {
         this.speakerService = speakerService;
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
             @P("activityId") @PathVariable int activityId,
@@ -43,7 +43,7 @@ public class SpeakerController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,
@@ -55,7 +55,7 @@ public class SpeakerController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,
@@ -63,7 +63,6 @@ public class SpeakerController {
             BindingResult bindingResult
     ) {
 
-        speakerForm.setActivityId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
@@ -94,11 +93,11 @@ public class SpeakerController {
             BindingResult bindingResult
     ) {
 
-        speakerForm.setId(speakerId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        speakerForm.setId(speakerId);
         speakerService.save(speakerForm);
 
         return "redirect:..";

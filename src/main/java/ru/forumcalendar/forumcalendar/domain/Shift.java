@@ -33,6 +33,9 @@ public class Shift extends AuditModel {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)
     private Set<Team> teams = new HashSet<>();

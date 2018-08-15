@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Entrance</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{2}" th:object="${choosingActivityForm}" method="POST">
+        <label>Мероприятие
+            <select name="activityId">
+                <option value="0" selected>Выберите мероприятие</option>
+                <option th:each="activity: ${activities}"
+                        th:value="${activity.id}"
+                        th:text="${activity.name}">
+                </option>
+            </select>
+            <label th:if="${#fields.hasErrors('activityId')}"
+                   th:errors="*{activityId}">error
+            </label>
+        </label>
+        <button type="submit">Далее</button>
+    </form>
+</div>
+</body>
+</html>

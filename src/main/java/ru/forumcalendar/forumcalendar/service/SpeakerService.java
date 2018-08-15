@@ -6,7 +6,7 @@ import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 
 import java.util.List;
 
-public interface SpeakerService {
+public interface SpeakerService extends SecuredService {
 
     boolean exist(int id);
 
@@ -16,9 +16,9 @@ public interface SpeakerService {
 
     void delete(int id);
 
+    boolean hasPermissionToWrite(int id);
+
     List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
-
-    boolean isUserSpeaker(int id);
 }

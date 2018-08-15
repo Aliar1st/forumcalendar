@@ -1,0 +1,8 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<form id="editTeamNameForm" th:action="@{~/team/editName}" method="POST" xmlns:th="http://www.thymeleaf.org/">
+    <input th:name="teamName" th:value="${teamName}" placeholder="Новое имя команды">
+    <button type="button">Change name</button>
+    <button type="reset">Close gen link form</button>
+</form>
+

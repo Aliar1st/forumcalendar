@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
@@ -20,13 +21,16 @@ public class Team extends AuditModel {
     @GeneratedValue
     private int id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(nullable = false)
+//    private User user;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Shift shift;
+
+    @Column(nullable = false)
+    private int number;
 
     @Column(nullable = false)
     private String name;
@@ -34,6 +38,7 @@ public class Team extends AuditModel {
     @Column(nullable = false)
     private String direction;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "team")

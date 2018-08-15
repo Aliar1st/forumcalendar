@@ -16,6 +16,9 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 public class Role extends AuditModel implements GrantedAuthority {
 
+    public static final int ROLE_USER_ID = 1;
+    public static final int ROLE_SUPERUSER_ID = 2;
+
     @Id
     @GeneratedValue
     private int id;

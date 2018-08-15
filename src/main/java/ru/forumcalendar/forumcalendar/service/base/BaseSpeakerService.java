@@ -95,7 +95,12 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
-    public boolean isUserSpeaker(int id) {
+    public boolean hasPermissionToWrite(int id) {
         return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
+    }
+
+    @Override
+    public boolean hasPermissionToRead(int id) {
+        return true;
     }
 }

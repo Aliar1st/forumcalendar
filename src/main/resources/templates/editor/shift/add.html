@@ -7,26 +7,42 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{add}" th:object="${shiftEditForm}" method="POST">
+    <form th:action="@{add}" th:object="${shiftForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
-                <label th:text="${shiftNameError}">Error</label>
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Дата начала
                 <input th:field="*{startDate}" type="date">
-                <label th:text="${startDateError}">Error</label>
+                <label th:if="${#fields.hasErrors('startDate')}"
+                       th:errors="*{startDate}">error
+                </label>
             </label>
         </p>
         <p>
             <label>Дата конца
                 <input th:field="*{endDate}" type="date">
-                <label th:text="${endDateError}">Error</label>
+                <label th:if="${#fields.hasErrors('endDate')}"
+                       th:errors="*{endDate}">error
+                </label>
             </label>
         </p>
-        <label th:text="${activityIdError}">Error</label><br/>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
+        <label th:if="${#fields.hasErrors('activityId')}"
+               th:errors="*{activityId}">error
+        </label>
         <input type="submit" value="Создать">
     </form>
 </div>

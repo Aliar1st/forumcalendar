@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.service;
 import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
 
+import java.security.Principal;
 import java.util.Map;
 
 public interface UserService {
@@ -10,6 +11,8 @@ public interface UserService {
     boolean exist(String id);
 
     User signUp(Map<String, Object> userMap);
+
+    User getCurrentUser(Principal principal);
 
     User getCurrentUser();
 

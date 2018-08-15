@@ -5,6 +5,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.DateTimeOrder;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,17 +23,11 @@ public class DateTimeOrderValidator implements ConstraintValidator<DateTimeOrder
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        String dateTimeBeforeValue = new BeanWrapperImpl(value).getPropertyValue(dateTimeBefore).toString();
-        String dateTimeAfterValue = new BeanWrapperImpl(value).getPropertyValue(dateTimeAfter).toString();
+        LocalDate dateTimeBeforeValue = (LocalDate) new BeanWrapperImpl(value).getPropertyValue(dateTimeBefore);
+        LocalDate dateTimeAfterValue = (LocalDate) new BeanWrapperImpl(value).getPropertyValue(dateTimeAfter);
 
-        try {
-            LocalDateTime localDateBefore = LocalDateTime.parse(dateTimeBeforeValue, formatter);
-            LocalDateTime localDateAfter = LocalDateTime.parse(dateTimeAfterValue, formatter);
-
-            return localDateBefore.isBefore(localDateAfter);
-        } catch (Exception e) {
-            return false;
-        }
+        return dateTimeBeforeValue != null
+            && dateTimeAfterValue != null
+            && dateTimeBeforeValue.isBefore(dateTimeAfterValue);
     }
 }

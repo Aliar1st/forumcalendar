@@ -7,8 +7,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class SpeakersValidator implements
-        ConstraintValidator<SpeakersExist, Integer[]> {
+public class SpeakersValidator implements ConstraintValidator<SpeakersExist, Integer[]> {
 
     private final SpeakerService speakerService;
 

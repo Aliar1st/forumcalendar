@@ -1,28 +1,37 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import ru.forumcalendar.forumcalendar.domain.Contact;
+import ru.forumcalendar.forumcalendar.domain.ContactType;
 import ru.forumcalendar.forumcalendar.domain.Role;
 import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.form.ContactForm;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
+import ru.forumcalendar.forumcalendar.repository.ContactRepository;
+import ru.forumcalendar.forumcalendar.repository.ContactTypeRepository;
 import ru.forumcalendar.forumcalendar.repository.RoleRepository;
 import ru.forumcalendar.forumcalendar.repository.UserRepository;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import java.io.File;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class BaseUserService implements UserService {
 
-    private static final int ROLE_USER_ID = 1;
-    private static final int ROLE_SUPERUSER_ID = 2;
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ContactRepository contactRepository;
+    private final ContactTypeRepository contactTypeRepository;
 
     private final UploadsService uploadsService;
 
@@ -30,11 +39,14 @@ public class BaseUserService implements UserService {
     public BaseUserService(
             UserRepository userRepository,
             RoleRepository roleRepository,
-            UploadsService uploadsService
+            ContactRepository contactRepository,
+            ContactTypeRepository contactTypeRepository, UploadsService uploadsService
     ) {
 
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.contactRepository = contactRepository;
+        this.contactTypeRepository = contactTypeRepository;
         this.uploadsService = uploadsService;
     }
 
@@ -48,8 +60,8 @@ public class BaseUserService implements UserService {
 
         User user = new User();
 
-        Role roleUser = roleRepository.findById(ROLE_USER_ID)
-                .orElseThrow(() -> new IllegalArgumentException("Can't find role with id " + ROLE_USER_ID));
+        Role roleUser = roleRepository.findById(Role.ROLE_USER_ID)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find role with id " + Role.ROLE_USER_ID));
 
         user.setRole(roleUser);
         user.setId((String) userMap.get("sub"));
@@ -70,6 +82,11 @@ public class BaseUserService implements UserService {
     }
 
     @Override
+    public User getCurrentUser(Principal principal) {
+        return ((User) ((OAuth2Authentication) principal).getUserAuthentication().getPrincipal());
+    }
+
+    @Override
     public User getCurrentUser() {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
@@ -85,7 +102,7 @@ public class BaseUserService implements UserService {
 
     @Override
     public boolean isCurrentSuperUser() {
-        return getCurrentUser().getRole().getId() == ROLE_SUPERUSER_ID;
+        return getCurrentUser().getRole().getId() == Role.ROLE_SUPERUSER_ID;
     }
 
     @Override
@@ -99,19 +116,39 @@ public class BaseUserService implements UserService {
 
         User user = getCurrentUser();
 
-        String photo = uploadsService.upload(userForm.getPhoto(), getCurrentId())
-                .map((f) -> {
-                    if (!user.getPhoto().equals(f.getName()))
-                        uploadsService.delete(user.getPhoto());
+        if (!userForm.getPhoto().isEmpty()) {
+            String photo = uploadsService.upload(userForm.getPhoto(), getCurrentId())
+                    .map((f) -> {
+                        if (!user.getPhoto().equals(f.getName()))
+                            uploadsService.delete(user.getPhoto());
 
-                    return f.getName();
-                })
-                .orElse(user.getPhoto());
+                        return f.getName();
+                    })
+                    .orElse(user.getPhoto());
+            user.setPhoto(photo);
+        }
 
         user.setFirstName(userForm.getFirstName());
         user.setLastName(userForm.getLastName());
 
-        user.setPhoto(photo);
+        if (userForm.getContactForms() != null) {
+            List<Contact> contacts = new ArrayList<>(userForm.getContactForms().size());
+
+            for (ContactForm cf : userForm.getContactForms()) {
+                Contact contact = contactRepository.findById(cf.getId()).orElse(new Contact());
+                contact.setUser(user);
+                contact.setLink(cf.getLink());
+
+                ContactType contactType = contactTypeRepository.findById(cf.getContactTypeId())
+                        .orElseThrow(() -> new EntityNotFoundException("Contact type with id " + cf.getContactTypeId() + " not found"));
+
+                contact.setContactType(contactType);
+
+                contacts.add(contact);
+            }
+
+            contactRepository.saveAll(contacts);
+        }
 
         return userRepository.save(user);
     }

@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,21 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-//                .mvcMatchers("/").permitAll()
+                .mvcMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login");
-    }
-
-    @Bean
-    public PrincipalExtractor principalExtractor(
-            UserRepository userRepository,
-            UserService userService
-    ) {
-        return map -> userRepository.save(
-                userRepository.findById(map.get("sub").toString())
-                        .orElseGet(() -> userService.signUp(map))
-        );
+                .logoutSuccessUrl("/");
     }
 }

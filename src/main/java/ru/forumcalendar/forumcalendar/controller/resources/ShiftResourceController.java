@@ -17,20 +17,20 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift")
-public class ShiftController {
+public class ShiftResourceController {
 
     private static final String HTML_FOLDER = "editor/shift/";
 
     private final ShiftService shiftService;
 
     @Autowired
-    public ShiftController(
+    public ShiftResourceController(
             ShiftService shiftService
     ) {
         this.shiftService = shiftService;
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
             @P("activityId") @PathVariable int activityId,
@@ -42,7 +42,19 @@ public class ShiftController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
+    @GetMapping("{shiftId}")
+    public String show(
+            @P("shiftId") @PathVariable int shiftId,
+            Model model
+    ) {
+
+        model.addAttribute(shiftId);
+
+        return HTML_FOLDER + "show";
+    }
+
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,
@@ -54,7 +66,7 @@ public class ShiftController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.isUserActivity(#activityId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
             @P("activityId") @PathVariable int activityId,
@@ -67,13 +79,12 @@ public class ShiftController {
             return HTML_FOLDER + "add";
         }
 
-
         shiftService.save(shiftForm);
 
         return "redirect:";
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("{shiftId}/edit")
     public String edit(
             @P("shiftId") @PathVariable int shiftId,
@@ -86,7 +97,7 @@ public class ShiftController {
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("{shiftId}/edit")
     public String edit(
             @P("shiftId") @PathVariable int shiftId,
@@ -104,7 +115,7 @@ public class ShiftController {
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseShiftService.isUserShift(#shiftId) or hasRole('SUPERUSER')")
+    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("{shiftId}/delete")
     public String delete(
             @P("shiftId") @PathVariable int shiftId

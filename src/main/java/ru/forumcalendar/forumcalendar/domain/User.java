@@ -43,6 +43,10 @@ public class User extends AuditModel implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @EqualsAndHashCode.Exclude
+    private Set<Contact> contacts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
     private Set<Activity> activities = new HashSet<>();
 
     @OneToMany(mappedBy = "userTeamIdentity.user")

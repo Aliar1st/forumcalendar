@@ -17,5 +17,7 @@ public class ActivityModel {
 
     private LocalDate endDate;
 
+    private String description;
+
     private int shiftCount;
 }

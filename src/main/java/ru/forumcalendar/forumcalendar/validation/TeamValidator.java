@@ -7,8 +7,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.TeamExist;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class TeamValidator implements
-        ConstraintValidator<TeamExist, Integer> {
+public class TeamValidator implements ConstraintValidator<TeamExist, Integer> {
 
     private final TeamService teamService;
 

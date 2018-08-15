@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.config;
+package ru.forumcalendar.forumcalendar.config.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class TrailingSlashRemoveInterceptor implements HandlerInterceptor {
-
 
     @Override
     public boolean preHandle(
