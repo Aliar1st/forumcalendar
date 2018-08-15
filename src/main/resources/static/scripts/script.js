@@ -1,49 +1,51 @@
-var stompClient = null;
+$(function() {
+    var uniqueId = $.cookie("uniqueId");
+    var stompClient = null;
 
-$(document).ready(function () {
-    connect();
+    $(document).ready(function () {
+        connect();
+    });
 
     $("#subscribe").click(function () {
         subscribe();
     });
+
+    function connect() {
+        var socket = new SockJS('/notification');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/successSub/'+uniqueId, function (message) {
+                showMessage(message.body);
+            });
+            stompClient.subscribe('/notify/'+uniqueId, function (eventJSON) {
+                showEvent(JSON.parse(eventJSON.body));
+            });
+        });
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+        }
+        console.log("Disconnected");
+    }
+
+    function subscribe() {
+        var eventId = $('#eventId').val();
+        stompClient.send("/sub/"+uniqueId, {}, eventId);
+        //stompClient.send("/send", {}, JSON.stringify({'name': $("#name").val()}));
+    }
+
+    function showMessage(message) {
+        $().toastmessage('showNoticeToast', message);
+    }
+
+    function showEvent(event) {
+        $().toastmessage('showNoticeToast', 'Скоро событие ' + event.name);
+    }
 });
 
-var uniqueId = $.cookie("uniqueId");
-
-function connect() {
-    var socket = new SockJS('/notification');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/successSub/'+uniqueId, function (message) {
-            showMessage(message.body);
-        });
-        stompClient.subscribe('/notify/'+uniqueId, function (eventJSON) {
-            showEvent(JSON.parse(eventJSON.body));
-        });
-    });
-}
-
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
-    console.log("Disconnected");
-}
-
-function subscribe() {
-    eventId = $('#eventId').val();
-    stompClient.send("/sub/"+uniqueId, {}, eventId);
-    //stompClient.send("/send", {}, JSON.stringify({'name': $("#name").val()}));
-}
-
-function showMessage(message) {
-    $().toastmessage('showNoticeToast', message);
-}
-
-function showEvent(event) {
-    $().toastmessage('showNoticeToast', 'Скоро событие ' + event.name);
-}
 
 // toastMessageSettings = {
 //     text: message,

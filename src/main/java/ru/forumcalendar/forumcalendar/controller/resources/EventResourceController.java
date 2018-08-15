@@ -21,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/event")
-public class EventController {
+public class EventResourceController {
 
     private static final String HTML_FOLDER = "editor/event/";
 
@@ -29,7 +29,7 @@ public class EventController {
     private final EventService eventService;
 
     @Autowired
-    public EventController(
+    public EventResourceController(
             SpeakerRepository speakerRepository,
             EventService eventService
     ) {

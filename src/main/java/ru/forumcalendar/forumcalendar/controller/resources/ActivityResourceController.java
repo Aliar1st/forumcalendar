@@ -20,14 +20,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
-public class ActivityController {
+public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";
 
     private final ActivityService activityService;
 
     @Autowired
-    public ActivityController(
+    public ActivityResourceController(
             ActivityService activityService
     ) {
         this.activityService = activityService;

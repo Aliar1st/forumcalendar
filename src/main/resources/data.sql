@@ -15,22 +15,23 @@ INSERT INTO contact_types (id, name, created_at, updated_at) VALUES
   (5, 'Twitter',       NOW(), NOW()),
   (6, 'Google+',       NOW(), NOW());
 
--- INSERT INTO users (id, email, first_name, last_name, gender, locale, photo, role_id, created_at, updated_at) VALUES
---   (1, 'email@mail.ru', 'First name', 'Last name','Male','locale','fsdfa.jpg', 1, NOW(), NOW());
+INSERT INTO users (id, email, first_name, last_name, gender, locale, photo, role_id, created_at, updated_at) VALUES
+  (1, 'email@mail.ru', 'First name', 'Last name','Male','locale','fsdfa.jpg', 1, NOW(), NOW());
+
+INSERT INTO activities (id, user_id, name, created_at, updated_at) values
+  (1, 1, 'FirstForum', NOW(), NOW());
 --
--- INSERT INTO activities (id, user_id, name, created_at, updated_at) values
---   (1, 1, 'FirstForum', NOW(), NOW());
--- --
--- INSERT INTO shifts (id, activity_id, name, start_date, end_date, created_at, updated_at) values
---   (1, 1, 'Shift1', NOW(), NOW(), NOW(), NOW());
---
--- INSERT INTO teams (id, shift_id, name, direction, description, created_at, updated_at) values
---   (1, 1, 'Team1', 'direction1','description', NOW(), NOW()),
---   (2, 1, 'Team2', 'direction2','description', NOW(), NOW());
---
--- INSERT INTO user_teams (user_id, team_id, team_role_id, created_at, updated_at) values
---   (1, 1, 1, NOW(), NOW());
--- --
--- INSERT INTO speakers (id, description, first_name, last_name, link, activity_id, created_at, updated_at) values
---   (1, 'description1', 'Jon', 'Potter' , 'link', 1, NOW(), NOW()),
---   (2, 'description2', 'Ron', 'Midfild', 'link', 1, NOW(), NOW());
+INSERT INTO shifts (id, activity_id, name, start_date, end_date, created_at, updated_at) values
+  (1, 1, 'Shift1', NOW(), NOW(), NOW(), NOW());
+
+INSERT INTO teams (id, number, shift_id, name, direction, description, created_at, updated_at) values
+  (1, 1, 1, 'Team1', 'direction1','description', NOW(), NOW()),
+  (2, 2, 1, 'Team2', 'direction2','description', NOW(), NOW());
+
+INSERT INTO user_teams (user_id, team_id, team_role_id, created_at, updated_at) values
+  (1, 1, 2, NOW(), NOW()),
+  (1, 2, 3, NOW(), NOW());
+
+INSERT INTO speakers (id, description, first_name, last_name, link, activity_id, created_at, updated_at) values
+  (1, 'description1', 'Jon', 'Potter' , 'link', 1, NOW(), NOW()),
+  (2, 'description2', 'Ron', 'Midfild', 'link', 1, NOW(), NOW());

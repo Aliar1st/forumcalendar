@@ -101,7 +101,7 @@ public class HomeController {
             model.addAttribute(new ChoosingTeamRoleForm());
             return HTML_FOLDER + "entrance3_choosing_teamrole";
         } else {
-            httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, teamService.get(teamId));
+            httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, teamId);
             return "redirect:/menu";
         }
     }
@@ -147,7 +147,7 @@ public class HomeController {
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());
-        httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, userTeam.getUserTeamIdentity().getTeam());
+        httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, userTeam.getUserTeamIdentity().getTeam().getId());
 
         return "redirect:/menu";
     }
@@ -158,7 +158,7 @@ public class HomeController {
             HttpSession httpSession
     ) {
 
-        Team team = (Team) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
 
         User user = userService.getCurrentUser();
 

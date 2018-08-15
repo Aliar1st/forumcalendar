@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;

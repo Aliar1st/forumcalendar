@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show shifts</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <label id="teamName" th:text="${teamName}">Team name</label><br/>
+
+    <button id="editTeamName" type="button">Edit team name</button>
+    <button id="getLink" type="button">Get link</button>
+    <button id="becomeCaptain" type="button">Become captain</button><br/>
+
+    <div th:each="user, stat : ${teamUsers}" class="team-member">
+        <img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="profile photo"><br/>
+        <label th:text="|${user.firstName} ${user.lastName}|"></label><br/>
+        <label th:text="${user.teamRole}"></label><br/>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/my_team.js"></script>
+</div>
+</body>
+</html>

@@ -9,4 +9,6 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, UserTeamIden
     int countAllByUserTeamIdentityTeamId(int team_id);
 
     UserTeam getByUserTeamIdentityUserIdAndUserTeamIdentityTeamShiftId(String user_id, int shift_id);
+
+    UserTeam getByUserTeamIdentityUserIdAndUserTeamIdentityTeamId(String userId, int teamId);
 }

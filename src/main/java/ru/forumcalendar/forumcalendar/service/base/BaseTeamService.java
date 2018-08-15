@@ -9,6 +9,7 @@ import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
 import ru.forumcalendar.forumcalendar.domain.UserTeamIdentity;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.TeamMemberModel;
 import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
@@ -18,6 +19,7 @@ import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +50,62 @@ public class BaseTeamService implements TeamService {
         this.userTeamRepository = userTeamRepository;
         this.userService = userService;
         this.conversionService = conversionService;
+    }
+
+    @Override
+    public Team updateTeamName(int teamId, String name) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team with id " + teamId + " not found"));
+        team.setName(name);
+        return teamRepository.save(team);
+    }
+
+    @Override
+    public List<TeamMemberModel> getTeamMembers(int teamId) {
+        Team team = get(teamId);
+        List<TeamMemberModel> users = new ArrayList<>();
+        for (UserTeam userTeam : team.getUserTeams()) {
+            TeamMemberModel teamMemberModel = new TeamMemberModel();
+            teamMemberModel.setId(userTeam.getUserTeamIdentity().getUser().getId());
+            teamMemberModel.setFirstName(userTeam.getUserTeamIdentity().getUser().getFirstName());
+            teamMemberModel.setLastName(userTeam.getUserTeamIdentity().getUser().getLastName());
+            teamMemberModel.setPhoto(userTeam.getUserTeamIdentity().getUser().getPhoto());
+            teamMemberModel.setTeamRole(userTeam.getTeamRole().getName());
+            users.add(teamMemberModel);
+        }
+        return users;
+    }
+
+    @Override
+    public boolean becomeCaptainToggle(String userId, int teamId) {
+
+        UserTeam userTeam = userTeamRepository.getByUserTeamIdentityUserIdAndUserTeamIdentityTeamId(userId, teamId);
+        TeamRole captainRole = teamRoleRepository.getById(TeamRole.ROLE_CAPTAIN_ID);
+        TeamRole memberRole = teamRoleRepository.getById(TeamRole.ROLE_MEMBER_ID);
+
+        long captainCount = get(teamId)
+                .getUserTeams()
+                .stream()
+                .filter(u -> u.getTeamRole().getName().equals(captainRole.getName()))
+                .count();
+
+        if (captainCount == 0) {
+            switch (userTeam.getTeamRole().getId()) {
+                case TeamRole.ROLE_MEMBER_ID: {
+                    userTeam.setTeamRole(captainRole);
+                    userTeamRepository.save(userTeam);
+                    return true;
+                }
+                case TeamRole.ROLE_CAPTAIN_ID: {
+                    userTeam.setTeamRole(memberRole);
+                    userTeamRepository.save(userTeam);
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -1,0 +1,67 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<form id="genLinkForm" th:action="@{~/team/getLink}" method="POST" xmlns:th="http://www.thymeleaf.org/">
+    <p>
+        <label>Роль<br/>
+            <th:block th:each="role, stat : ${teamRoles}">
+                <input checked type="radio"
+                       th:id="teamRoleId"
+                       th:name="teamRoleId"
+                       th:value="${role.getId()}"
+                       th:text="${role.getName()}">
+            </th:block>
+        </label>
+    </p>
+    <p>
+        <label>Команда
+            <select th:id="teamId" th:name="teamId">
+                <th:block th:each="team, stat : ${teamsList}">
+                    <option selected
+                            th:value="${team.getUserTeamIdentity().getTeam().getId()}"
+                            th:text="${team.getUserTeamIdentity().getTeam().getName()}">Team
+                    </option>
+                </th:block>
+            </select>
+        </label>
+    </p>
+    <button type="button">Get invite link</button>
+    <button type="reset">Close gen link form</button>
+</form>
+
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"-->
+<!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+<!--<title>Test</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+<!--<form th:action="@{~/link/getLink}" method="POST">-->
+<!--<p>-->
+<!--<label>Роль<br/>-->
+<!--<th:block th:each="role, stat : ${teamRoles}">-->
+<!--<input checked type="radio"-->
+<!--th:name="teamRoleId"-->
+<!--th:value="${role.getId()}"-->
+<!--th:text="${role.getName()}">-->
+<!--</th:block>-->
+<!--</label>-->
+<!--</p>-->
+<!--<p>-->
+<!--<label>Команда-->
+<!--<select th:name="teamId">-->
+<!--<th:block th:each="team, stat : ${teamsList}">-->
+<!--<option selected-->
+<!--th:value="${team.getUserTeamIdentity().getTeam().getId()}"-->
+<!--th:text="${team.getUserTeamIdentity().getTeam().getName()}">Team-->
+<!--</option>-->
+<!--</th:block>-->
+<!--</select>-->
+<!--</label>-->
+<!--</p>-->
+<!--<input type="submit" value="Отправить">-->
+<!--</form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

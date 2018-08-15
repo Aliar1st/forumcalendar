@@ -1,0 +1,7 @@
+.team-member {
+    display: -webkit-inline-box;
+    border: 1px solid;
+    border-color: #333333;
+    padding: 5px;
+    margin: 10px;
+}

@@ -66,6 +66,7 @@ public class BaseActivityService implements ActivityService {
         Activity activity = activityRepository.findById(activityForm.getId()).orElse(new Activity());
         activity.setName(activityForm.getName());
         activity.setUser(userService.getCurrentUser());
+        activity.setDescription(activityForm.getDescription());
         activity = activityRepository.save(activity);
 
         List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
@@ -76,6 +77,7 @@ public class BaseActivityService implements ActivityService {
             shift.setStartDate(sf.getStartDate());
             shift.setEndDate(sf.getEndDate());
             shift.setActivity(activity);
+            shift.setDescription(sf.getDescription());
             shifts.add(shift);
         }
 

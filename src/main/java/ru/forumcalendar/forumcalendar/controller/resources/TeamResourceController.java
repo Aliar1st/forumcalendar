@@ -16,14 +16,14 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("editor/activity/{activityId}/shift/{shiftId}/team")
-public class TeamController {
+public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";
 
     private final TeamService teamService;
 
     @Autowired
-    public TeamController(
+    public TeamResourceController(
             TeamService teamService
     ) {
         this.teamService = teamService;

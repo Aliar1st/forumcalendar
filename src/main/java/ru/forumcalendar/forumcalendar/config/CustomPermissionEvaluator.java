@@ -20,10 +20,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     private final static String TYPE_EVENT = "EVENT".toUpperCase();
 
     private ActivityService activityService;
-    private ShiftService shiftService;
     private SpeakerService speakerService;
-    private TeamService teamService;
+    private ShiftService shiftService;
     private EventService eventService;
+    private TeamService teamService;
 
     @Override
     public boolean hasPermission(
