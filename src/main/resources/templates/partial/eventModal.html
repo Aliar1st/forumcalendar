@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<div class="modal" id="eventModal" th:fragment="eventModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form th:action="@{~/account/login}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&#215;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" name="username" class="form-control" placeholder="Enter email"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password"/></div>
+                    <a class="dropdown-item" th:href="@{~/account/registration}">New around here? Sign up!</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.forumcalendar.forumcalendar.model.UserModel;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
-import ru.forumcalendar.forumcalendar.service.ContactService;
+import ru.forumcalendar.forumcalendar.service.ContactTypeService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.validation.Valid;
@@ -21,17 +21,17 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    private final ContactService contactService;
+    private final ContactTypeService contactTypeService;
     private final ConversionService conversionService;
 
     @Autowired
     public UserController(
             UserService userService,
-            ContactService contactService,
+            ContactTypeService contactTypeService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.userService = userService;
-        this.contactService = contactService;
+        this.contactTypeService = contactTypeService;
         this.conversionService = conversionService;
     }
 
@@ -49,7 +49,7 @@ public class UserController {
             Model model
     ) {
         model.addAttribute(new UserForm(userService.getCurrentUser()));
-        model.addAttribute("contactTypes", contactService.getAllContactTypes());
+        model.addAttribute("contactTypes", contactTypeService.getAll());
 
         return "user/edit";
     }

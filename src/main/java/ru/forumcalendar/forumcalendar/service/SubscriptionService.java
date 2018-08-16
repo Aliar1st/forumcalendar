@@ -14,7 +14,9 @@ public interface SubscriptionService {
 
     void unsubscribe(int eventId);
 
+    boolean isSubscribed(int eventId);
+
     boolean toggleSubscribe(int eventId, String userId, NotificationJob.Job jobToDone) throws SchedulerException;
 
-    List<EventModel> getEventModelsBySubscription();
+    List<EventModel> getEventModelsBySubscription(int shiftId);
 }

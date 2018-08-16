@@ -205,5 +205,3 @@ public class HomeController {
 
 // TODO: 8/13/2018 Проверка куратор вбивает команду с уже существующим куратором
 // TODO: 8/13/2018 Нормальные страницы с ошибками
-// TODO: 8/14/2018 Описание не обязательное поля в форме, а сейчас да
-// TODO: 8/14/2018 Shift name is too short or contains invalid characters - уита, разделить too short и contains invalid characters

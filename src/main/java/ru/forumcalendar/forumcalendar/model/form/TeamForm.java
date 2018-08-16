@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Team;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -19,16 +21,16 @@ public class TeamForm {
 
     private int shiftId;
 
-    @Length(max = 50, message = "Team name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Shift name is too short or contains invalid characters")
+    @Min(value = 2, message = "Name is too short")
+    @Max(value = 50, message = "Name is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
-    @Length(max = 500, message = "Team direction is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Shift name is too short or contains invalid characters")
+    @Max(value = 500, message = "Direction is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Direction contains invalid characters")
     private String direction;
 
-    @Length(max = 5000, message = "Description is too long")
-//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+    @Max(value = 5000, message = "Description is too long")
     private String description;
 
     public TeamForm(Team team) {

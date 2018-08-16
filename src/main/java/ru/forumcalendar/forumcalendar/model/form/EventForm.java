@@ -10,6 +10,8 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
@@ -22,19 +24,24 @@ public class EventForm {
 
     private int id;
 
-    @Length(max = 50, message = "Event name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Event name is too short or contains invalid characters")
+    @Min(value = 2, message = "Name is too short")
+    @Max(value = 50, message = "Name is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
-    @NotNull(message = "Enter date and time")
+    @NotNull(message = "Enter start date and time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime datetime;
+    private LocalDateTime startDatetime;
 
-    @Length(max = 500, message = "Place field is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я ]+", message = "Place field is too short or contains invalid characters")
+    @NotNull(message = "Enter end date and time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime endDatetime;
+
+    @Max(value = 500, message = "Place field is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9.,]\\s?)+", message = "Place field is too short or contains invalid characters")
     private String place;
 
-    @Length(max = 5000, message = "Description is too long")
+    @Max(value = 5000, message = "Description is too long")
 //    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
     private String description;
 
@@ -47,7 +54,8 @@ public class EventForm {
     public EventForm(Event event) {
         this.id = event.getId();
         this.name = event.getName();
-        this.datetime = event.getDatetime();
+        this.startDatetime = event.getStartDatetime();
+        this.endDatetime = event.getEndDatetime();
         this.place = event.getPlace();
         this.description = event.getDescription();
         this.shiftId = event.getShift().getId();

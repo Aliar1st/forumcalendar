@@ -8,6 +8,8 @@ import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,11 +23,12 @@ public class ActivityForm {// implements ResourceForm<Activity> {
 
     private int id;
 
-    @Length(max = 50, message = "Activity name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Activity name is too short or contains invalid characters")
+    @Min(value = 2, message = "Name is too short")
+    @Max(value = 50, message = "Name is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
-    @Length(max = 5000, message = "Description is too long")
+    @Max(value = 5000, message = "Description is too long")
     private String description;
 
     @Valid

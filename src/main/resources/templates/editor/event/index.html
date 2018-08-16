@@ -12,7 +12,8 @@
             <tr>
                 <th>id</th>
                 <th>name</th>
-                <th>datetime</th>
+                <th>start</th>
+                <th>end</th>
                 <th>place</th>
                 <th>description</th>
                 <th>shift</th>
@@ -24,11 +25,12 @@
             <tr th:each="event:${eventModels}">
                 <td th:text="${event.id}"></td>
                 <td th:text="${event.name}"></td>
-                <td th:text="${event.datetime}"></td>
+                <td th:text="${event.startDatetime}"></td>
+                <td th:text="${event.endDatetime}"></td>
                 <td th:text="${event.place}"></td>
                 <td th:text="${event.description}"></td>
                 <td th:text="${event.shift.name}"></td>
-                <td th:text="${event.speakersCount}"></td>
+                <td th:text="${event.speakers.size()}"></td>
                 <td><a th:href="@{event/__${event.id}__/show}">Show</a></td>
                 <td><a th:href="@{event/__${event.id}__/edit}">Edit</a></td>
                 <td><a th:href="@{event/__${event.id}__/delete}">Delete</a></td>

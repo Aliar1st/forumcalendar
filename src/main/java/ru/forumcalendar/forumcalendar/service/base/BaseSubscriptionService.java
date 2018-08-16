@@ -71,6 +71,11 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
+    public boolean isSubscribed(int eventId) {
+        return false;
+    }
+
+    @Override
     public boolean toggleSubscribe(int eventId, String userId, NotificationJob.Job jobToDone) throws SchedulerException {
 
         Subscription subscription = subscriptionRepository
@@ -79,12 +84,12 @@ public class BaseSubscriptionService implements SubscriptionService {
         if (subscription == null) {
             Event event = eventService.get(eventId);
 
-            if (event.getDatetime().isAfter(LocalDateTime.now().plus(TRIGGERING_MINUTES_BEFORE + 1, ChronoUnit.MINUTES))) {
+            if (event.getStartDatetime().isAfter(LocalDateTime.now().plus(TRIGGERING_MINUTES_BEFORE + 1, ChronoUnit.MINUTES))) {
                 NotificationExecutor notifyExec = new NotificationExecutor(eventId);
                 notifyExecs.add(notifyExec);
                 notifyExec.executeAt(
                         jobToDone,
-                        event.getDatetime().minus(TRIGGERING_MINUTES_BEFORE, ChronoUnit.MINUTES)
+                        event.getStartDatetime().minus(TRIGGERING_MINUTES_BEFORE, ChronoUnit.MINUTES)
                 );
             }
 
@@ -104,8 +109,8 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public List<EventModel> getEventModelsBySubscription() {
-        return subscriptionRepository.getAllBySubscriptionIdentityUserId(userService.getCurrentId())
+    public List<EventModel> getEventModelsBySubscription(int shiftId) {
+        return subscriptionRepository.getAllByUserIdAndShiftId(userService.getCurrentId(), shiftId)
                 .stream()
                 .map((s) -> conversionService.convert(s.getSubscriptionIdentity().getEvent(), EventModel.class))
                 .collect(Collectors.toList());

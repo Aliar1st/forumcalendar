@@ -5,6 +5,8 @@ import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RedirectToEntranceWithoutChoosingTeamInterceptor implements HandlerInterceptor {
 
@@ -15,16 +17,18 @@ public class RedirectToEntranceWithoutChoosingTeamInterceptor implements Handler
             Object handler
     ) throws Exception {
 
-//        String requestURI = request.getRequestURI();
-//        String queryString = request.getQueryString();
-//        queryString = (queryString != null ? "?" + queryString : "");
-//
-//        Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-//
-//        if (team == null && !requestURI.contains("/entrance/")) {
-//            response.sendRedirect("/entrance/1");
-//            return false;
-//        }
+        String requestURI = request.getRequestURI();
+        String queryString = request.getQueryString();
+        queryString = (queryString != null ? "?" + queryString : "");
+
+        Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        Pattern p = Pattern.compile("((/editor/)|(/entrance/)).+");
+
+        if (team == null && !p.matcher(requestURI).matches()) {
+            response.sendRedirect("/entrance/1");
+            return false;
+        }
 
         return true;
     }

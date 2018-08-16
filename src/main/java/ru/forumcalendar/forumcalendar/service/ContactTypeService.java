@@ -4,7 +4,9 @@ import ru.forumcalendar.forumcalendar.domain.ContactType;
 
 import java.util.List;
 
-public interface ContactService {
+public interface ContactTypeService {
 
-    List<ContactType> getAllContactTypes();
+    boolean exist(int id);
+
+    List<ContactType> getAll();
 }

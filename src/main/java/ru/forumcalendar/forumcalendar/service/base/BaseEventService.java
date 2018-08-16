@@ -68,7 +68,8 @@ public class BaseEventService implements EventService {
     @Override
     public Event save(EventForm eventForm) {
         Event event = eventRepository.findById(eventForm.getId()).orElse(new Event());
-        event.setDatetime(eventForm.getDatetime());
+        event.setStartDatetime(eventForm.getStartDatetime());
+        event.setEndDatetime(eventForm.getEndDatetime());
         event.setDescription(eventForm.getDescription());
         event.setId(eventForm.getId());
         event.setName(eventForm.getName());

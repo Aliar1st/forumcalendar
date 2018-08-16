@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -18,20 +20,21 @@ public class SpeakerForm {
     //@ActivityExist
     private int activityId;
 
-    @Length(max = 50, message = "First name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name is too short or contains invalid characters")
+    @Min(value = 2, message = "First name is too short")
+    @Max(value = 50, message = "First name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
     private String firstName;
 
-    @Length(max = 50, message = "Last name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name is too short or contains invalid characters")
+    @Min(value = 2, message = "Last name is too short")
+    @Max(value = 50, message = "Last name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name contains invalid characters")
     private String lastName;
 
-    @Length(max = 2000, message = "Link is too long")
+    @Max(value = 2000, message = "Link is too long")
     @Pattern(regexp = "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 
-    @Length(max = 5000, message = "Description is too long")
-//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+    @Max(value = 5000, message = "Description is too long")
     private String description;
 
     public SpeakerForm(Speaker speaker) {
