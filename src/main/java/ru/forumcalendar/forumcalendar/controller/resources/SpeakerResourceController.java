@@ -17,7 +17,8 @@ import ru.forumcalendar.forumcalendar.service.SpeakerService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("editor/activity/{activityId}/speaker")
+@RequestMapping("editor/speaker")
+@PreAuthorize("hasRole('SUPERUSER')")
 public class SpeakerResourceController {
 
     private static final String HTML_FOLDER = "editor/speaker/";
@@ -31,10 +32,9 @@ public class SpeakerResourceController {
         this.speakerService = speakerService;
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int activityId,
             Model model
     ) {
 
@@ -43,10 +43,9 @@ public class SpeakerResourceController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int activityId,
             Model model
     ) {
 
@@ -55,10 +54,9 @@ public class SpeakerResourceController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int activityId,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
@@ -72,10 +70,9 @@ public class SpeakerResourceController {
         return "redirect:";
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
     @GetMapping("{speakerId}/edit")
     public String edit(
-            @P("speakerId") @PathVariable int speakerId,
+            @PathVariable int speakerId,
             Model model
     ) {
 
@@ -85,10 +82,9 @@ public class SpeakerResourceController {
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
     @PostMapping("{speakerId}/edit")
     public String edit(
-            @P("speakerId") @PathVariable int speakerId,
+            @PathVariable int speakerId,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
@@ -103,10 +99,9 @@ public class SpeakerResourceController {
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
     @GetMapping("{speakerId}/delete")
     public String delete(
-            @P("speakerId") @PathVariable int speakerId
+            @PathVariable int speakerId
     ) {
 
         speakerService.delete(speakerId);

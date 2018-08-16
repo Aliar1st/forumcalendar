@@ -20,6 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
+@PreAuthorize("hasRole('SUPERUSER')")
 public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";
@@ -41,14 +42,13 @@ public class ActivityResourceController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}")
+    @GetMapping("{id}")
     public String show(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             Model model
     ) {
 
-        model.addAttribute(activityId);
+        model.addAttribute(id);
 
         return HTML_FOLDER + "show";
     }
@@ -76,22 +76,20 @@ public class ActivityResourceController {
         return "redirect:";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             Model model
     ) {
 
-        model.addAttribute(new ActivityForm(activityService.get(activityId)));
+        model.addAttribute(new ActivityForm(activityService.get(id)));
 
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @PostMapping("{activityId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             @Valid ActivityForm activityForm,
             BindingResult bindingResult
     ) {
@@ -100,17 +98,16 @@ public class ActivityResourceController {
             return HTML_FOLDER + "edit";
         }
 
-        activityForm.setId(activityId);
+        activityForm.setId(id);
         activityService.save(activityForm);
 
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}/delete")
-    public String delete(@P("activityId") @PathVariable int activityId) {
+    @GetMapping("{id}/delete")
+    public String delete(@PathVariable int id) {
 
-        activityService.delete(activityId);
+        activityService.delete(id);
 
         return "redirect:..";
     }

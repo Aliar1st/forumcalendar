@@ -169,7 +169,7 @@ public class HomeController {
         return HTML_FOLDER + "menu";
     }
 
-    @GetMapping("/menuExit")
+    @GetMapping("/menu_exit")
     public String menuExit(
             HttpSession httpSession
     ) {

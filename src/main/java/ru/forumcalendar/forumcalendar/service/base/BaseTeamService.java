@@ -120,6 +120,11 @@ public class BaseTeamService implements TeamService {
     }
 
     @Override
+    public List<TeamModel> getAll() {
+        return null;
+    }
+
+    @Override
     public Team save(TeamForm teamForm) {
 
         Team team = teamRepository.findById(teamForm.getId()).orElse(new Team());

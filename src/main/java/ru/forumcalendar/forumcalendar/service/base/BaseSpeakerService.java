@@ -51,6 +51,11 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
+    public List<SpeakerModel> getAll() {
+        return null;
+    }
+
+    @Override
     public Speaker save(SpeakerForm speakerForm) {
 
         Speaker speaker = speakerRepository.findById(speakerForm.getId()).orElse(new Speaker());

@@ -15,7 +15,8 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-@RequestMapping("editor/activity/{activityId}/shift/{shiftId}/team")
+@RequestMapping("editor/team")
+@PreAuthorize("hasRole('SUPERUSER')")
 public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";
@@ -29,10 +30,9 @@ public class TeamResourceController {
         this.teamService = teamService;
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int shiftId,
             Model model
     ) {
 
@@ -53,7 +53,7 @@ public class TeamResourceController {
 
     @PostMapping("add")
     public String add(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int shiftId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
@@ -68,10 +68,9 @@ public class TeamResourceController {
         return "redirect:";
     }
 
-    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @GetMapping("{teamId}/edit")
     public String edit(
-            @P("teamId") @PathVariable int teamId,
+            @PathVariable int teamId,
             Model model
     ) {
 
@@ -81,10 +80,9 @@ public class TeamResourceController {
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @PostMapping("{teamId}/edit")
     public String edit(
-            @P("teamId") @PathVariable int teamId,
+            @PathVariable int teamId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
@@ -99,10 +97,9 @@ public class TeamResourceController {
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseTeamService.isUserTeam(#teamId) or hasRole('SUPERUSER')")
     @GetMapping("{teamId}/delete")
     public String delete(
-            @P("teamId") @PathVariable int teamId
+            @PathVariable int teamId
     ) {
 
         teamService.delete(teamId);

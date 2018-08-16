@@ -56,6 +56,11 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
+    public List<ShiftModel> getAll() {
+        return null;
+    }
+
+    @Override
     public Shift save(ShiftForm shiftForm) {
 
         Shift shift = shiftRepository.findById(shiftForm.getId()).orElse(new Shift());

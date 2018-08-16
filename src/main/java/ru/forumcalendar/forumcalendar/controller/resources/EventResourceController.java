@@ -6,21 +6,20 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("editor/activity/{activityId}/shift/{shiftId}/event")
+@RequestMapping("editor/event")
+@PreAuthorize("hasRole('SUPERUSER')")
 public class EventResourceController {
 
     private static final String HTML_FOLDER = "editor/event/";
@@ -37,10 +36,9 @@ public class EventResourceController {
         this.eventService = eventService;
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @P("shiftId") @PathVariable int shiftId,
+            @RequestParam(required = false) Integer shiftId,
             Model model
     ) {
 
@@ -49,11 +47,10 @@ public class EventResourceController {
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("(@baseShiftService.hasPermissionToWrite(#shiftId) and @baseActivityService.hasPermissionToWrite(#activityId)) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @P("shiftId") @PathVariable int shiftId,
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int shiftId,
+            @PathVariable int activityId,
             Model model
     ) {
 
@@ -63,10 +60,9 @@ public class EventResourceController {
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int shiftId,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
@@ -80,10 +76,9 @@ public class EventResourceController {
         return "redirect:";
     }
 
-    @PreAuthorize("@baseEventService.hasPermissionToWrite(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/edit")
     public String edit(
-            @P("eventId") @PathVariable int eventId,
+            @PathVariable int eventId,
             Model model
     ) {
 
@@ -93,10 +88,9 @@ public class EventResourceController {
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseEventService.hasPermissionToWrite(#eventId) or hasRole('SUPERUSER')")
     @PostMapping("{eventId}/edit")
     public String edit(
-            @P("eventId") @PathVariable int eventId,
+            @PathVariable int eventId,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
@@ -111,10 +105,9 @@ public class EventResourceController {
         return "redirect:..";
     }
 
-    @PreAuthorize("@baseEventService.hasPermissionToWrite(#eventId) or hasRole('SUPERUSER')")
     @GetMapping("{eventId}/delete")
     public String delete(
-            @P("eventId") @PathVariable int eventId
+            @PathVariable int eventId
     ) {
 
         eventService.delete(eventId);
