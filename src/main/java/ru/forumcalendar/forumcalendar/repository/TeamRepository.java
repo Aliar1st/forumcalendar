@@ -18,7 +18,7 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
            "             AND ut.teamRole.id = 1 " +
            "       ) " +
            " ORDER BY t.createdAt")
-    List<Team> getAllByShiftIdAndWithoutCuratorOrderByCreatedAt(int shift_id);
+    List<Team> getAllByShiftIdAndWithoutCurator(int shift_id);
 
     int countAllByShift_id(int shift_id);
 }

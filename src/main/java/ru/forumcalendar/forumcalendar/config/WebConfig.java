@@ -70,14 +70,12 @@ public class WebConfig implements WebMvcConfigurer {
         return new EventModelConverter();
     }
 
-    @Bean
-    public PrincipalExtractor principalExtractor(
-            UserRepository userRepository,
-            UserService userService
-    ) {
-        return map -> userRepository.save(
-                userRepository.findById(map.get("sub").toString())
-                        .orElseGet(() -> userService.signUp(map))
-        );
-    }
+//    @Bean
+//    public PrincipalExtractor principalExtractor(
+//            UserRepository userRepository,
+//            UserService userService
+//    ) {
+//        return map -> userRepository.findById(map.get("sub").toString())
+//                        .orElseGet(() -> userService.signUp(map));
+//    }
 }

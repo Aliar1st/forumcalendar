@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("editor/team_event")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class TeamEventResourceController {
 }

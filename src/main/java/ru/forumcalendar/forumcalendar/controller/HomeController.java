@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
@@ -69,11 +70,13 @@ public class HomeController {
     public String entranceStepChoosingShift(
             Model model,
             @Valid ChoosingActivityForm choosingActivityForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance1_choosing_activity";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "redirect:/entrance/1";
         }
 
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
@@ -87,11 +90,13 @@ public class HomeController {
             Model model,
             HttpSession httpSession,
             @Valid ChoosingShiftForm choosingShiftForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance2_choosing_shift";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         Integer teamId = shiftService.getCurrentUserTeamByShift(choosingShiftForm.getShiftId());
@@ -110,11 +115,13 @@ public class HomeController {
     public String entranceStepChoosingTeam(
             Model model,
             @Valid ChoosingTeamRoleForm choosingTeamRoleForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance3_choosing_teamrole";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         List<TeamModel> teams;
@@ -139,11 +146,13 @@ public class HomeController {
     public String entranceStepFinal(
             HttpSession httpSession,
             @Valid ChoosingTeamForm choosingTeamForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance4_choosing_team";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());

@@ -17,9 +17,6 @@
                         th:text="${shift.name}">
                 </option>
             </select>
-            <label th:if="${#fields.hasErrors('shiftId')}"
-                   th:errors="*{shiftId}">error
-            </label>
         </label>
         <button type="submit">Далее</button>
     </form>

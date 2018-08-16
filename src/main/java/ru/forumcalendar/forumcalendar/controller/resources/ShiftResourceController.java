@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("editor/shift")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class ShiftResourceController {
 
     private static final String HTML_FOLDER = "editor/shift/";

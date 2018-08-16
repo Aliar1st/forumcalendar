@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SpeakerRepository extends JpaRepository<Speaker, Integer> {
 
-    List<Speaker> getAllByActivityIdOrderByCreatedAt(int activity_id);
+    List<Speaker> getAllByActivityId(int activity_id);
 }

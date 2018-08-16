@@ -67,7 +67,10 @@ public class BaseEventService implements EventService {
 
     @Override
     public List<EventModel> getAll() {
-        return null;
+        return eventRepository.findAll()
+                .stream()
+                .map((e) -> conversionService.convert(e, EventModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override

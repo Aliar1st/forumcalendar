@@ -8,8 +8,8 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
-import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
+import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -20,21 +20,21 @@ import java.util.stream.Collectors;
 @Service
 public class BaseSpeakerService implements SpeakerService {
 
-    private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
 
+    private final ActivityService activityService;
     private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseSpeakerService(
-            ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
+            ActivityService activityService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
-        this.activityRepository = activityRepository;
         this.speakerRepository = speakerRepository;
+        this.activityService = activityService;
         this.userService = userService;
         this.conversionService = conversionService;
     }
@@ -52,7 +52,10 @@ public class BaseSpeakerService implements SpeakerService {
 
     @Override
     public List<SpeakerModel> getAll() {
-        return null;
+        return speakerRepository.findAll()
+                .stream()
+                .map((s) -> conversionService.convert(s, SpeakerModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -63,8 +66,7 @@ public class BaseSpeakerService implements SpeakerService {
         speaker.setLastName(speakerForm.getLastName());
         speaker.setLink(speakerForm.getLink());
         speaker.setDescription(speakerForm.getDescription());
-        speaker.setActivity(activityRepository.findById(speakerForm.getActivityId())
-                .orElseThrow(() -> new EntityNotFoundException("Activity with id " + speakerForm.getActivityId() + " not found")));
+        speaker.setActivity(activityService.get(speakerForm.getActivityId()));
 
         return speakerRepository.save(speaker);
     }
@@ -76,7 +78,7 @@ public class BaseSpeakerService implements SpeakerService {
 
     @Override
     public List<SpeakerModel> getSpeakerModelsByActivityId(int id) {
-        return speakerRepository.getAllByActivityIdOrderByCreatedAt(id)
+        return speakerRepository.getAllByActivityId(id)
                 .stream()
                 .map((s) -> conversionService.convert(s, SpeakerModel.class))
                 .collect(Collectors.toList());
@@ -90,10 +92,7 @@ public class BaseSpeakerService implements SpeakerService {
 
         List<SpeakerForm> speakerForms = new ArrayList<>();
         for (int speakerId : speakersId) {
-            speakerForms.add(new SpeakerForm(speakerRepository.findById(speakerId).
-                    orElseThrow(() -> new IllegalArgumentException(
-                            "Can't find team with id '" + speakerId + "'")
-                    )));
+            speakerForms.add(new SpeakerForm(get(speakerId)));
         }
 
         return speakerForms;
@@ -101,7 +100,7 @@ public class BaseSpeakerService implements SpeakerService {
 
     @Override
     public boolean hasPermissionToWrite(int id) {
-        return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
+        return activityService.hasPermissionToWrite(get(id).getActivity().getId());
     }
 
     @Override

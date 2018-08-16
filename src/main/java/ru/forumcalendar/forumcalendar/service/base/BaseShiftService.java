@@ -12,6 +12,7 @@ import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
+import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -26,6 +27,7 @@ public class BaseShiftService implements ShiftService {
     private final ShiftRepository shiftRepository;
     private final UserTeamRepository userTeamRepository;
 
+    private final ActivityService activityService;
     private final UserService userService;
     private final ConversionService conversionService;
 
@@ -34,12 +36,14 @@ public class BaseShiftService implements ShiftService {
             ActivityRepository activityRepository,
             ShiftRepository shiftRepository,
             UserTeamRepository userTeamRepository,
+            ActivityService activityService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.activityRepository = activityRepository;
         this.shiftRepository = shiftRepository;
         this.userTeamRepository = userTeamRepository;
+        this.activityService = activityService;
         this.userService = userService;
         this.conversionService = conversionService;
     }
@@ -57,7 +61,10 @@ public class BaseShiftService implements ShiftService {
 
     @Override
     public List<ShiftModel> getAll() {
-        return null;
+        return shiftRepository.findAll()
+                .stream()
+                .map((s) -> conversionService.convert(s, ShiftModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -82,7 +89,7 @@ public class BaseShiftService implements ShiftService {
     public Integer getCurrentUserTeamByShift(int id) {
 
         UserTeam userTeam = userTeamRepository
-                .getByUserTeamIdentityUserIdAndUserTeamIdentityTeamShiftId(userService.getCurrentId(), id);
+                .getByUserIdAndTeamShiftId(userService.getCurrentId(), id);
 
         return userTeam == null ? null : userTeam.getUserTeamIdentity().getTeam().getId();
     }
@@ -104,7 +111,7 @@ public class BaseShiftService implements ShiftService {
 
     @Override
     public boolean hasPermissionToWrite(int id) {
-        return get(id).getActivity().getUser().getId().equals(userService.getCurrentId());
+        return activityService.hasPermissionToWrite(get(id).getActivity().getId());
     }
 
     @Override

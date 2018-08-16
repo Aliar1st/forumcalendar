@@ -2,7 +2,6 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,26 +12,25 @@ import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("editor/event")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class EventResourceController {
 
     private static final String HTML_FOLDER = "editor/event/";
 
-    private final SpeakerRepository speakerRepository;
+    private final SpeakerService speakerService;
     private final EventService eventService;
 
     @Autowired
     public EventResourceController(
-            SpeakerRepository speakerRepository,
+            SpeakerService speakerService,
             EventService eventService
     ) {
-        this.speakerRepository = speakerRepository;
+        this.speakerService = speakerService;
         this.eventService = eventService;
     }
 
@@ -41,32 +39,35 @@ public class EventResourceController {
             @RequestParam(required = false) Integer shiftId,
             Model model
     ) {
+        List<EventModel> events;
 
-        model.addAttribute("eventModels", eventService.getEventModelsByShiftId(shiftId));
+        if (shiftId != null) {
+            events = eventService.getEventModelsByShiftId(shiftId);
+        } else {
+            events = eventService.getAll();
+        }
+
+        model.addAttribute("events", events);
 
         return HTML_FOLDER + "index";
     }
 
     @GetMapping("add")
     public String add(
-            @PathVariable int shiftId,
-            @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
-
         model.addAttribute(new EventForm());
-        model.addAttribute("speakers", speakerRepository.getAllByActivityIdOrderByCreatedAt(activityId));
+        model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(activityId));
 
         return HTML_FOLDER + "add";
     }
 
     @PostMapping("add")
     public String add(
-            @PathVariable int shiftId,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
@@ -76,41 +77,38 @@ public class EventResourceController {
         return "redirect:";
     }
 
-    @GetMapping("{eventId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @PathVariable int eventId,
+            @PathVariable int id,
             Model model
     ) {
-
-        EventForm eventForm = new EventForm(eventService.get(eventId));
+        EventForm eventForm = new EventForm(eventService.get(id));
         model.addAttribute(eventForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("{eventId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @PathVariable int eventId,
+            @PathVariable int id,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
-
-        eventForm.setId(eventId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        eventForm.setId(id);
         eventService.save(eventForm);
 
         return "redirect:..";
     }
 
-    @GetMapping("{eventId}/delete")
+    @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int eventId
+            @PathVariable int id
     ) {
-
-        eventService.delete(eventId);
+        eventService.delete(id);
 
         return "redirect:..";
     }

@@ -1,9 +1,7 @@
 package ru.forumcalendar.forumcalendar.service;
 
 import org.quartz.SchedulerException;
-import ru.forumcalendar.forumcalendar.Quartz.NotificationExecutor;
-import ru.forumcalendar.forumcalendar.Quartz.NotificationJob;
-import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.model.EventModel;
 
 import java.util.List;

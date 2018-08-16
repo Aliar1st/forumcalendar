@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("editor/team")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";

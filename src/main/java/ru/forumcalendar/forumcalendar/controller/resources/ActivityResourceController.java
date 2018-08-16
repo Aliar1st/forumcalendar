@@ -16,11 +16,12 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";

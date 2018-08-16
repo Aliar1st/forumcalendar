@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("editor/speaker")
-@PreAuthorize("hasRole('SUPERUSER')")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class SpeakerResourceController {
 
     private static final String HTML_FOLDER = "editor/speaker/";
