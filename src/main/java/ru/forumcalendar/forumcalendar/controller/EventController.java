@@ -46,26 +46,24 @@ public class EventController {
         return HTML_FOLDER + "show";
     }
 
-    @GetMapping("{eventId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @P("eventId") @PathVariable int eventId,
+            @PathVariable int id,
             Model model
     ) {
-
-        EventForm eventForm = new EventForm(eventService.get(eventId));
+        EventForm eventForm = new EventForm(eventService.get(id));
         model.addAttribute(eventForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("{eventId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @P("eventId") @PathVariable int eventId,
+            @PathVariable int id,
             @Valid EventForm eventForm,
             BindingResult bindingResult
     ) {
-
-        eventForm.setId(eventId);
+        eventForm.setId(id);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }

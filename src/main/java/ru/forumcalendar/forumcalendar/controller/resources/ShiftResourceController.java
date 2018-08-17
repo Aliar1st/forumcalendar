@@ -2,18 +2,15 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.domain.Shift;
-import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("editor/shift")
@@ -21,7 +18,7 @@ import java.util.List;
 public class ShiftResourceController {
 
     private static final String HTML_FOLDER = "editor/shift/";
-    private static final String ROOT_MAPPING = "/editor/shift?activityId=";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/shift?activityId=";
 
     private final ShiftService shiftService;
 
@@ -78,7 +75,7 @@ public class ShiftResourceController {
 
         shiftService.save(shiftForm);
 
-        return "redirect:" + ROOT_MAPPING + shiftForm.getActivityId();
+        return REDIRECT_ROOT_MAPPING + shiftForm.getActivityId();
     }
 
     @GetMapping("{id}/edit")
@@ -105,7 +102,7 @@ public class ShiftResourceController {
         shiftForm.setId(id);
         shiftService.save(shiftForm);
 
-        return "redirect:" + ROOT_MAPPING + shiftForm.getActivityId();
+        return REDIRECT_ROOT_MAPPING + shiftForm.getActivityId();
     }
 
     @GetMapping("{id}/delete")
@@ -114,6 +111,6 @@ public class ShiftResourceController {
     ) {
         Shift shift = shiftService.delete(id);
 
-        return "redirect:" + ROOT_MAPPING + shift.getActivity().getId();
+        return REDIRECT_ROOT_MAPPING + shift.getActivity().getId();
     }
 }

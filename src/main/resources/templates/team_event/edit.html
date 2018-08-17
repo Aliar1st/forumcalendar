@@ -3,11 +3,11 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Edit event</title>
+    <title>Edit team event</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/event/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">
+    <form th:action="@{/team_events/__${teamEventForm.id}__/edit}" th:object="${teamEventForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -48,41 +48,10 @@
                 </label>
             </label>
         </p>
-        <label th:if="${#fields.hasErrors('shiftId')}"
-               th:errors="*{shiftId}">error
+        <input type="hidden" th:field="*{teamId}">
+        <label th:if="${#fields.hasErrors('teamId')}"
+               th:errors="*{teamId}">error
         </label>
-        <input type="hidden" th:field="*{shiftId}">
-        <!--<label th:text="${shiftId}">Error</label><br/>-->
-        <!--<th:block th:each="speaker, stat:${eventForm.speakerForms}">-->
-            <!--<h2 th:text="|Спикер ${stat.index+1}|"></h2>-->
-            <!--<p>-->
-                <!--<input th:field="*{speakerForms[__${stat.index}__].id}" type="hidden">-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<input th:field="*{speakerForms[__${stat.index}__].activityId}" type="hidden">-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Имя-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].firstName}" type="text">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Фамилия-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Ссылка-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].link}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Описание-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].description}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-        <!--</th:block>-->
-        <!--todo список спикеров редактировать-->
         <input type="submit" value="Обновить">
     </form>
 </div>

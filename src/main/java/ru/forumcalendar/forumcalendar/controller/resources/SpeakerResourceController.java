@@ -2,26 +2,23 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/editor/speaker")
+@RequestMapping("editor/speaker")
 @PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class SpeakerResourceController {
 
     private static final String HTML_FOLDER = "editor/speaker/";
-    private static final String ROOT_MAPPING = "/editor/speaker?activityId=";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/speaker?activityId=";
 
     private final SpeakerService speakerService;
 
@@ -67,7 +64,7 @@ public class SpeakerResourceController {
 
         speakerService.save(speakerForm);
 
-        return "redirect:" + ROOT_MAPPING + speakerForm.getActivityId();
+        return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
     }
 
     @GetMapping("{id}/edit")
@@ -94,7 +91,7 @@ public class SpeakerResourceController {
         speakerForm.setId(id);
         speakerService.save(speakerForm);
 
-        return "redirect:" + ROOT_MAPPING + speakerForm.getActivityId();
+        return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
     }
 
     @GetMapping("{id}/delete")
@@ -103,6 +100,6 @@ public class SpeakerResourceController {
     ) {
         Speaker speaker = speakerService.delete(id);
 
-        return "redirect:" + ROOT_MAPPING + speaker.getActivity().getId();
+        return REDIRECT_ROOT_MAPPING + speaker.getActivity().getId();
     }
 }

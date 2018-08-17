@@ -23,7 +23,7 @@ import java.util.List;
 public class EventResourceController {
 
     private static final String HTML_FOLDER = "editor/event/";
-    private static final String ROOT_MAPPING = "/editor/event?shiftId=";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/event?shiftId=";
 
     private final SpeakerService speakerService;
     private final EventService eventService;
@@ -79,7 +79,7 @@ public class EventResourceController {
 
         eventService.save(eventForm);
 
-        return "redirect:" + ROOT_MAPPING + eventForm.getShiftId();
+        return REDIRECT_ROOT_MAPPING + eventForm.getShiftId();
     }
 
     @GetMapping("{id}/edit")
@@ -106,7 +106,7 @@ public class EventResourceController {
         eventForm.setId(id);
         eventService.save(eventForm);
 
-        return "redirect:" + ROOT_MAPPING + eventForm.getShiftId();
+        return REDIRECT_ROOT_MAPPING + eventForm.getShiftId();
     }
 
     @GetMapping("{id}/delete")
@@ -115,6 +115,6 @@ public class EventResourceController {
     ) {
         Event event = eventService.delete(id);
 
-        return "redirect:" + ROOT_MAPPING + event.getShift().getId();
+        return REDIRECT_ROOT_MAPPING + event.getShift().getId();
     }
 }

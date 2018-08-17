@@ -2,18 +2,15 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.domain.Team;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
 @RequestMapping("editor/team")
@@ -21,7 +18,7 @@ import java.util.Map;
 public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";
-    private static final String ROOT_MAPPING = "/editor/team?shiftId=";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/team?shiftId=";
 
     private final TeamService teamService;
 
@@ -79,7 +76,7 @@ public class TeamResourceController {
 
         teamService.save(teamForm);
 
-        return "redirect:" + ROOT_MAPPING + teamForm.getShiftId();
+        return REDIRECT_ROOT_MAPPING + teamForm.getShiftId();
     }
 
     @GetMapping("{id}/edit")
@@ -106,7 +103,7 @@ public class TeamResourceController {
         teamForm.setId(id);
         teamService.save(teamForm);
 
-        return "redirect:" + ROOT_MAPPING + teamForm.getShiftId();
+        return REDIRECT_ROOT_MAPPING + teamForm.getShiftId();
     }
 
     @GetMapping("{id}/delete")
@@ -115,6 +112,6 @@ public class TeamResourceController {
     ) {
         Team team = teamService.delete(id);
 
-        return "redirect:" + ROOT_MAPPING + team.getShift().getId();
+        return REDIRECT_ROOT_MAPPING + team.getShift().getId();
     }
 }

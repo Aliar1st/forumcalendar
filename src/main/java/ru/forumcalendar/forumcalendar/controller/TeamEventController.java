@@ -1,50 +1,72 @@
-package ru.forumcalendar.forumcalendar.controller.resources;
+package ru.forumcalendar.forumcalendar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.TeamEvent;
+import ru.forumcalendar.forumcalendar.model.TeamEventModel;
 import ru.forumcalendar.forumcalendar.model.form.TeamEventForm;
 import ru.forumcalendar.forumcalendar.service.TeamEventService;
+import ru.forumcalendar.forumcalendar.service.TeamService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("editor/team_event")
-@PreAuthorize("hasRole('ROLE_SUPERUSER')")
-public class TeamEventResourceController {
+@RequestMapping("/team_events")
+public class TeamEventController {
 
-    private static final String HTML_FOLDER = "editor/team_event/";
-    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/team_event?teamId=";
+    private static final String HTML_FOLDER = "team_event/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/team_events";
 
+    private final TeamService teamService;
     private final TeamEventService teamEventService;
+    private final ConversionService conversionService;
 
     @Autowired
-    public TeamEventResourceController(
-            TeamEventService teamEventService
+    public TeamEventController(
+            TeamService teamService,
+            TeamEventService teamEventService,
+            @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
+        this.teamService = teamService;
         this.teamEventService = teamEventService;
+        this.conversionService = conversionService;
     }
 
     @GetMapping("")
     public String index(
-            @RequestParam int teamId,
-            Model model
+            Model model,
+            HttpSession httpSession
     ) {
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
         model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamId(teamId));
-        model.addAttribute("teamId", teamId);
 
         return HTML_FOLDER + "index";
     }
 
-    @GetMapping("add")
-    public String add(
-            @RequestParam int teamId,
+    @GetMapping("{id}")
+    public String show(
+            @PathVariable int id,
             Model model
     ) {
+        model.addAttribute("event", conversionService.convert(teamEventService.get(id), TeamEventModel.class));
+
+        return HTML_FOLDER + "show";
+    }
+
+    @GetMapping("add")
+    public String add(
+            Model model,
+            HttpSession httpSession
+    ) {
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
         TeamEventForm teamEventForm = new TeamEventForm();
         teamEventForm.setTeamId(teamId);
 
@@ -64,7 +86,7 @@ public class TeamEventResourceController {
 
         teamEventService.save(teamEventForm);
 
-        return REDIRECT_ROOT_MAPPING + teamEventForm.getTeamId();
+        return REDIRECT_ROOT_MAPPING;
     }
 
     @GetMapping("{id}/edit")
@@ -91,15 +113,15 @@ public class TeamEventResourceController {
         teamEventForm.setId(id);
         teamEventService.save(teamEventForm);
 
-        return REDIRECT_ROOT_MAPPING + teamEventForm.getTeamId();
+        return REDIRECT_ROOT_MAPPING;
     }
 
     @GetMapping("{id}/delete")
     public String delete(
             @PathVariable int id
     ) {
-        TeamEvent teamEvent = teamEventService.delete(id);
+        teamEventService.delete(id);
 
-        return REDIRECT_ROOT_MAPPING + teamEvent.getTeam().getId();
+        return REDIRECT_ROOT_MAPPING;
     }
 }

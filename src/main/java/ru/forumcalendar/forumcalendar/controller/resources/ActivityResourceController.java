@@ -2,12 +2,9 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +13,6 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
@@ -25,7 +20,7 @@ import java.util.List;
 public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";
-    private static final String ROOT_MAPPING = "/editor/activity";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/activity";
 
     private final ActivityService activityService;
 
@@ -75,7 +70,7 @@ public class ActivityResourceController {
 
         activityService.save(activityForm);
 
-        return "redirect:" + ROOT_MAPPING;
+        return REDIRECT_ROOT_MAPPING;
     }
 
     @GetMapping("{id}/edit")
@@ -101,7 +96,7 @@ public class ActivityResourceController {
         activityForm.setId(id);
         activityService.save(activityForm);
 
-        return "redirect:" + ROOT_MAPPING;
+        return REDIRECT_ROOT_MAPPING;
     }
 
     @GetMapping("{id}/delete")
@@ -110,6 +105,6 @@ public class ActivityResourceController {
     ) {
         activityService.delete(id);
 
-        return "redirect:" + ROOT_MAPPING;
+        return REDIRECT_ROOT_MAPPING;
     }
 }
