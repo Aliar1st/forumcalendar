@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.forumcalendar.forumcalendar.domain.Activity;
+import ru.forumcalendar.forumcalendar.domain.ActivityModerator;
+import ru.forumcalendar.forumcalendar.domain.Shift;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.ActivityModel;
@@ -97,7 +101,6 @@ public class BaseActivityService implements ActivityService {
         activityRepository.deleteById(id);
         return activity;
     }
-
 
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {

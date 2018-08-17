@@ -71,14 +71,8 @@ public class EventController {
             return REDIRECT_ROOT_MAPPING;
         }
 
-        model.addAttribute("events", eventService.getEventModelsByShiftIdAndDate(shift.getId(), LocalDate.now()));
-        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, LocalDate.now()));
-
-        return HTML_FOLDER + "index";
-    }
-
-    @GetMapping("shift")
-    public String indexShift(
+    @GetMapping("day")
+    public String indexDay(
             Model model,
             HttpSession httpSession,
             Authentication authentication
@@ -90,8 +84,8 @@ public class EventController {
             return REDIRECT_ROOT_MAPPING;
         }
 
-        model.addAttribute("events", eventService.getEventModelsByShiftId(shift.getId()));
-        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamId(teamId));
+        model.addAttribute("events", eventService.getEventModelsByShiftIdAndDate(shift.getId(), LocalDate.now()));
+        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, LocalDate.now()));
 
         return HTML_FOLDER + "index";
     }
