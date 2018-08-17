@@ -2,6 +2,7 @@ package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
 import ru.forumcalendar.forumcalendar.service.TeamRoleService;
@@ -10,6 +11,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.ActivityExist;
 import java.util.List;
 
 @Service
+@Transactional
 public class BaseTeamRoleService implements TeamRoleService {
 
     private final TeamRoleRepository teamRoleRepository;

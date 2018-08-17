@@ -13,6 +13,8 @@ public class EventModel {
 
     private int id;
 
+    private int day;
+
     private String name;
 
     private LocalDateTime startDatetime;

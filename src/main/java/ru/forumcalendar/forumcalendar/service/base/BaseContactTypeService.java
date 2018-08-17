@@ -2,6 +2,7 @@ package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.ContactType;
 import ru.forumcalendar.forumcalendar.repository.ContactTypeRepository;
 import ru.forumcalendar.forumcalendar.service.ContactTypeService;
@@ -9,6 +10,7 @@ import ru.forumcalendar.forumcalendar.service.ContactTypeService;
 import java.util.List;
 
 @Service
+@Transactional
 public class BaseContactTypeService implements ContactTypeService {
 
     private final ContactTypeRepository contactTypeRepository;

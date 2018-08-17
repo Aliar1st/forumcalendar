@@ -17,6 +17,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     private final static String TYPE_SHIFT = "SHIFT".toUpperCase();
     private final static String TYPE_SPEAKER = "SPEAKER".toUpperCase();
     private final static String TYPE_TEAM = "TEAM".toUpperCase();
+    private final static String TYPE_TEAM_EVENT = "TEAM_EVENT".toUpperCase();
     private final static String TYPE_EVENT = "EVENT".toUpperCase();
 
     private ActivityService activityService;
@@ -24,6 +25,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     private ShiftService shiftService;
     private EventService eventService;
     private TeamService teamService;
+    private TeamEventService teamEventService;
 
     @Override
     public boolean hasPermission(
@@ -31,9 +33,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             Object object,
             Object permission
     ) {
-        if ((auth == null) || (object == null) || !(permission instanceof String)){
+        if ((auth == null) || !(object instanceof String) || !(permission instanceof String)){
             return false;
         }
+
 
         return false;
     }
@@ -97,5 +100,11 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
         TYPE_SERVICE_MAP.put(TYPE_EVENT, this.eventService);
+    }
+
+    @Autowired
+    public void setTeamEventService(TeamEventService teamEventService) {
+        this.teamEventService = teamEventService;
+        TYPE_SERVICE_MAP.put(TYPE_TEAM_EVENT, this.teamEventService);
     }
 }

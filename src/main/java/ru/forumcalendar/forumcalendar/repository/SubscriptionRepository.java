@@ -6,6 +6,7 @@ import ru.forumcalendar.forumcalendar.domain.Subscription;
 import ru.forumcalendar.forumcalendar.domain.SubscriptionIdentity;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, SubscriptionIdentity> {
 
@@ -15,5 +16,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Subs
            " WHERE s.subscriptionIdentity.user.id = ?1 " +
            "   AND s.subscriptionIdentity.event.shift.id = ?2 " +
            " ORDER BY s.subscriptionIdentity.event.startDatetime")
-    List<Subscription> getAllByUserIdAndShiftId(String user_id, int shift_id);
+    Stream<Subscription> getAllByUserIdAndShiftId(String user_id, int shift_id);
 }

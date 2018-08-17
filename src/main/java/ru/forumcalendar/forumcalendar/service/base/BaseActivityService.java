@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.ActivityModerator;
 import ru.forumcalendar.forumcalendar.domain.Shift;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseActivityService implements ActivityService {
 
     private final ActivityRepository activityRepository;
@@ -102,7 +104,6 @@ public class BaseActivityService implements ActivityService {
     public List<ActivityModel> getCurrentUserActivityModels() {
 
         return activityRepository.getAllByUserId(userService.getCurrentId())
-                .stream()
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());
     }

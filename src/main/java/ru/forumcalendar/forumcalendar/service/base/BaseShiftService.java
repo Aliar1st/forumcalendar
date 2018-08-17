@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseShiftService implements ShiftService {
 
     private final ActivityRepository activityRepository;
@@ -100,7 +102,6 @@ public class BaseShiftService implements ShiftService {
     @Override
     public List<ShiftModel> getShiftModelsByActivityId(int id) {
         return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
-                .stream()
                 .map((s) -> conversionService.convert(s, ShiftModel.class))
                 .collect(Collectors.toList());
     }
@@ -108,7 +109,6 @@ public class BaseShiftService implements ShiftService {
     @Override
     public Map<Integer, String> getShiftIdNameMapByActivityId(int id) {
         return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
-                .stream()
                 .collect(Collectors.toMap(Shift::getId, Shift::getName));
     }
 

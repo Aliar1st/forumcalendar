@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseTeamService implements TeamService {
 
     private final TeamRepository teamRepository;
@@ -165,7 +167,6 @@ public class BaseTeamService implements TeamService {
     @Override
     public List<TeamModel> getTeamModelsByShiftId(int id) {
         return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
-                .stream()
                 .map((t) -> conversionService.convert(t, TeamModel.class))
                 .collect(Collectors.toList());
     }
@@ -173,7 +174,6 @@ public class BaseTeamService implements TeamService {
     @Override
     public List<TeamModel> getTeamModelsWithoutCuratorByShiftId(int id) {
         return teamRepository.getAllByShiftIdAndWithoutCurator(id)
-                .stream()
                 .map((t) -> conversionService.convert(t, TeamModel.class))
                 .collect(Collectors.toList());
     }
@@ -181,7 +181,6 @@ public class BaseTeamService implements TeamService {
     @Override
     public Map<Integer, String> getTeamIdNameMapByShiftId(int id) {
         return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
-                .stream()
                 .collect(Collectors.toMap(Team::getId, Team::getName));
     }
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.quartz.NotificationExecutor;
 import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.domain.Event;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseSubscriptionService implements SubscriptionService {
 
     private final static int TRIGGERING_MINUTES_BEFORE = 10;
@@ -111,7 +113,6 @@ public class BaseSubscriptionService implements SubscriptionService {
     @Override
     public List<EventModel> getEventModelsBySubscription(int shiftId) {
         return subscriptionRepository.getAllByUserIdAndShiftId(userService.getCurrentId(), shiftId)
-                .stream()
                 .map((s) -> conversionService.convert(s.getSubscriptionIdentity().getEvent(), EventModel.class))
                 .collect(Collectors.toList());
     }

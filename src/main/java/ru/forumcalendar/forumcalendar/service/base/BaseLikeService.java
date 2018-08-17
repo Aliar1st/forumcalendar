@@ -1,6 +1,7 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Like;
 import ru.forumcalendar.forumcalendar.domain.LikeIdentity;
 import ru.forumcalendar.forumcalendar.repository.LikeRepository;
@@ -9,6 +10,7 @@ import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 @Service
+@Transactional
 public class BaseLikeService implements LikeService {
 
     private final LikeRepository likeRepository;

@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Contact;
 import ru.forumcalendar.forumcalendar.domain.ContactType;
 import ru.forumcalendar.forumcalendar.domain.Role;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class BaseUserService implements UserService {
 
     private final UserRepository userRepository;
