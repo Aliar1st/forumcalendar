@@ -1,0 +1,7 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<div th:each="team, stat : ${teams}" class="team" th:fragment="teams" xmlns:th="http://www.thymeleaf.org/">
+    <input type="hidden" name="teamId" th:value="${team.id}">
+    <label th:text="${team.name}"></label><br/>
+    <label th:text="${team.description}"></label><br/>
+</div>

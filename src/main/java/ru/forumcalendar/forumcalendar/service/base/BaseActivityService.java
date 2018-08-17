@@ -98,6 +98,7 @@ public class BaseActivityService implements ActivityService {
         return activity;
     }
 
+
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
 

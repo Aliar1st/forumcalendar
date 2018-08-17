@@ -17,7 +17,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("team")
-public class TeamController {
+public class MyTeamController {
 
     private final TeamRoleService teamRoleService;
     private final TeamService teamService;
@@ -25,7 +25,7 @@ public class TeamController {
     private final LinkService linkService;
 
     @Autowired
-    public TeamController(
+    public MyTeamController(
             TeamRoleService teamRoleService,
             TeamService teamService,
             UserService userService,
@@ -100,8 +100,8 @@ public class TeamController {
     @GetMapping("/getLink")
     private String generateLink(Model model) {
         //для теста, т.к. на твоём акке нет команд.
-        model.addAttribute("teamsList", userService.get("1").getUserTeams());
-        //model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
+        //model.addAttribute("teamsList", userService.get("1").getUserTeams());
+        model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
         model.addAttribute("teamRoles", teamRoleService.getAllRoles());
         return "team/_genLink";
     }

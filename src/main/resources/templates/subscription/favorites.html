@@ -24,7 +24,7 @@
             <td th:text="${event.endDatetime}"></td>
             <td><a th:href="@{/event/__${event.id}__}">Show</a></td>
             <td>
-                <form name="toggleSubscription" action="" method="POST">
+                <form name="toggleSubscription" th:action="@{sub}" method="POST">
                     <input type="hidden" name="eventId" th:value="${event.id}">
                     <button type="button">1</button>
                 </form>
@@ -34,7 +34,7 @@
     </table>
 </div>
 <div layout:fragment="scripts">
-
+    <script type="text/javascript" src="/static/scripts/favorites.js"></script>
 </div>
 </body>
 </html>

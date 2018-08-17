@@ -1,21 +1,15 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.Contact;
-import ru.forumcalendar.forumcalendar.domain.ContactType;
-import ru.forumcalendar.forumcalendar.domain.Role;
-import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.TeamMemberModel;
 import ru.forumcalendar.forumcalendar.model.form.ContactForm;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
-import ru.forumcalendar.forumcalendar.repository.ContactRepository;
-import ru.forumcalendar.forumcalendar.repository.ContactTypeRepository;
-import ru.forumcalendar.forumcalendar.repository.RoleRepository;
-import ru.forumcalendar.forumcalendar.repository.UserRepository;
+import ru.forumcalendar.forumcalendar.repository.*;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -40,9 +34,9 @@ public class BaseUserService implements UserService {
             UserRepository userRepository,
             RoleRepository roleRepository,
             ContactRepository contactRepository,
-            ContactTypeRepository contactTypeRepository, UploadsService uploadsService
+            ContactTypeRepository contactTypeRepository,
+            UploadsService uploadsService
     ) {
-
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.contactRepository = contactRepository;

@@ -1,5 +1,6 @@
 package ru.forumcalendar.forumcalendar.service;
 
+import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
 

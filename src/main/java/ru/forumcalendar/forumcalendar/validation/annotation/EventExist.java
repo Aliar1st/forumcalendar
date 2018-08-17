@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventExist {
 
-    String message() default "Activity does not exist";
+    String message() default "Event does not exist";
 
     Class<?>[] groups() default {};
 

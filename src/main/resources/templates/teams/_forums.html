@@ -1,0 +1,8 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<div th:each="forum, stat : ${forums}" class="forum" th:fragment="forums" xmlns:th="http://www.thymeleaf.org/">
+    <input type="hidden" name="teamId" th:value="${forum.id}">
+    <label th:text="${forum.name}"></label><br/>
+    <label th:text="${forum.description}"></label><br/>
+    <label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>
+</div>
