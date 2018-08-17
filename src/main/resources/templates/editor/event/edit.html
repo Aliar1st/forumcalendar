@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{edit}" th:object="${eventForm}" method="POST">
+    <form th:action="@{/editor/event/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -79,6 +79,10 @@
             <!--</p>-->
         <!--</th:block>-->
         <!--todo список спикеров редактировать-->
+        <label th:if="${#fields.hasErrors('shiftId')}"
+               th:errors="*{shiftId}">error
+        </label>
+        <input type="hidden" th:field="*{shiftId}">
         <input type="submit" value="Обновить">
     </form>
 </div>

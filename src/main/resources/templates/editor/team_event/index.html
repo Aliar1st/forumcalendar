@@ -10,7 +10,7 @@
     <table>
         <thead>
         <tr>
-            <th><a th:href="@{/editor/shift/__${shiftId}__}">Back to shift</a></th>
+            <th><a th:href="@{/editor/team/__${teamId}__}">Back to team</a></th>
         </tr>
         <tr>
             <th>id</th>
@@ -19,24 +19,21 @@
             <th>end</th>
             <th>place</th>
             <th>description</th>
-            <th>speakersCount</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th><a th:href="@{/editor/event/add(shiftId=__${shiftId}__)}">add</a></th>
+            <th>edit</th>
+            <th>delete</th>
+            <th><a th:href="@{/editor/team_event/add(teamId=__${teamId}__)}">add</a></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="event:${events}">
+        <tr th:each="event:${teamEvents}">
             <td th:text="${event.id}"></td>
             <td th:text="${event.name}"></td>
             <td th:text="${event.startDatetime}"></td>
             <td th:text="${event.endDatetime}"></td>
             <td th:text="${event.place}"></td>
             <td th:text="${event.description}"></td>
-            <td th:text="${event.speakers.size()}"></td>
-            <!--<td><a th:href="@{/editor/event/__${event.id}__/show}">Show</a></td>-->
-            <td><a th:href="@{/editor/event/__${event.id}__/edit}">Edit</a></td>
-            <td><a th:href="@{/editor/event/__${event.id}__/delete}">Delete</a></td>
+            <td><a th:href="@{/editor/team_event/__${event.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/editor/team_event/__${event.id}__/delete}">Delete</a></td>
         </tr>
         </tbody>
     </table>

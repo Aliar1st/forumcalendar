@@ -3,11 +3,11 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Edit shift</title>
+    <title>Edit forum</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/editor/shift/__${shiftForm.id}__/edit}" th:object="${shiftForm}" method="POST">
+    <form th:action="@{/editor/team_event/__${teamEventForm.id}__/edit}" th:object="${teamEventForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -17,18 +17,26 @@
             </label>
         </p>
         <p>
-            <label>Дата начала
-                <input th:field="*{startDate}" type="date">
-                <label th:if="${#fields.hasErrors('startDate')}"
-                       th:errors="*{startDate}">error
+            <label>Дата и время начала
+                <input th:field="*{startDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('startDatetime')}"
+                       th:errors="*{startDatetime}">error
                 </label>
             </label>
         </p>
         <p>
-            <label>Дата конца
-                <input th:field="*{endDate}" type="date">
-                <label th:if="${#fields.hasErrors('endDate')}"
-                       th:errors="*{endDate}">error
+            <label>Дата и время конца
+                <input th:field="*{endDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('endDatetime')}"
+                       th:errors="*{endDatetime}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Место
+                <input th:field="*{place}" type="text">
+                <label th:if="${#fields.hasErrors('place')}"
+                       th:errors="*{place}">error
                 </label>
             </label>
         </p>
@@ -40,10 +48,10 @@
                 </label>
             </label>
         </p>
-        <label th:if="${#fields.hasErrors('activityId')}"
-               th:errors="*{activityId}">error
+        <label th:if="${#fields.hasErrors('teamId')}"
+               th:errors="*{teamId}">error
         </label>
-        <input type="hidden" th:field="*{activityId}">
+        <input type="hidden" th:field="*{teamId}">
         <input type="submit" value="Обновить">
     </form>
 </div>

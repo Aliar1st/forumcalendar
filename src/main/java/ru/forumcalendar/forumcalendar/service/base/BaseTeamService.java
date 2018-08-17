@@ -85,8 +85,10 @@ public class BaseTeamService implements TeamService {
     }
 
     @Override
-    public void delete(int id) {
+    public Team delete(int id) {
+        Team team = get(id);
         teamRepository.deleteById(id);
+        return team;
     }
 
     @Override

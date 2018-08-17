@@ -10,10 +10,7 @@ import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -24,8 +21,8 @@ public class EventForm {
 
     private int id;
 
-    @Min(value = 2, message = "Name is too short")
-    @Max(value = 50, message = "Name is too long")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
@@ -37,12 +34,11 @@ public class EventForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDatetime;
 
-    @Max(value = 500, message = "Place field is too long")
+    @Size(max = 500, message = "Description is too long")
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9.,]\\s?)+", message = "Place field is too short or contains invalid characters")
     private String place;
 
-    @Max(value = 5000, message = "Description is too long")
-//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+    @Size(max = 5000, message = "Description is too long")
     private String description;
 
     @ShiftExist

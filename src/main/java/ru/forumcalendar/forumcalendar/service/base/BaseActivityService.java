@@ -92,8 +92,10 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public void delete(int id) {
+    public Activity delete(int id) {
+        Activity activity = get(id);
         activityRepository.deleteById(id);
+        return activity;
     }
 
     @Override

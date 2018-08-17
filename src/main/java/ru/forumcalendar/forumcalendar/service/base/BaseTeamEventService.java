@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamEvent;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
-import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.TeamEventForm;
 import ru.forumcalendar.forumcalendar.repository.TeamEventRepository;
 import ru.forumcalendar.forumcalendar.service.TeamEventService;
+import ru.forumcalendar.forumcalendar.service.TeamService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +21,17 @@ public class BaseTeamEventService implements TeamEventService {
 
     private final TeamEventRepository teamEventRepository;
 
+    private final TeamService teamService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseTeamEventService(
             TeamEventRepository teamEventRepository,
+            TeamService teamService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.teamEventRepository = teamEventRepository;
+        this.teamService = teamService;
         this.conversionService = conversionService;
     }
 
@@ -52,21 +56,40 @@ public class BaseTeamEventService implements TeamEventService {
 
     @Override
     public TeamEvent save(TeamEventForm form) {
-        return null;
+
+        TeamEvent teamEvent = teamEventRepository.findById(form.getId()).orElse(new TeamEvent());
+        teamEvent.setName(form.getName());
+        teamEvent.setStartDatetime(form.getStartDatetime());
+        teamEvent.setEndDatetime(form.getEndDatetime());
+        teamEvent.setPlace(form.getPlace());
+        teamEvent.setDescription(form.getDescription());
+        teamEvent.setTeam(teamService.get(form.getTeamId()));
+
+        return teamEventRepository.save(teamEvent);
     }
 
     @Override
-    public void delete(int id) {
+    public TeamEvent delete(int id) {
+        TeamEvent teamEvent = get(id);
         teamEventRepository.deleteById(id);
+        return teamEvent;
     }
 
     @Override
     public boolean hasPermissionToWrite(int id) {
-        return false;
+        return teamService.hasPermissionToWrite(get(id).getTeam().getId());
     }
 
     @Override
     public boolean hasPermissionToRead(int id) {
         return true;
+    }
+
+    @Override
+    public List<TeamEventModel> getTeamEventModelsByTeamId(int team_id) {
+        return teamEventRepository.getByTeamId(team_id)
+                .stream()
+                .map((t) -> conversionService.convert(t, TeamEventModel.class))
+                .collect(Collectors.toList());
     }
 }

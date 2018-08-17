@@ -12,5 +12,5 @@ public interface ResourceService<T, M, F> {
 
     T save(F form);
 
-    void delete(int id);
+    T delete(int id);
 }

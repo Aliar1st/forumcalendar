@@ -72,8 +72,10 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
-    public void delete(int id) {
+    public Speaker delete(int id) {
+        Speaker speaker = get(id);
         speakerRepository.deleteById(id);
+        return speaker;
     }
 
     @Override

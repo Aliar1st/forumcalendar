@@ -9,6 +9,7 @@ import ru.forumcalendar.forumcalendar.validation.annotation.ContactTypeExist;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class ContactForm {
     @ContactTypeExist
     private int contactTypeId;
 
-    @Max(value = 2000, message = "Link is too long")
+    @Size(max = 2000, message = "Description is too long")
     @Pattern(regexp = "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 

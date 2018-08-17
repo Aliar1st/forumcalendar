@@ -33,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new ActivityModelConverter());
         registry.addConverter(new ShiftModelConverter());
         registry.addConverter(new TeamModelConverter());
+        registry.addConverter(new TeamEvenModelConverter());
         registry.addConverter(speakerModelConverter());
         registry.addConverter(eventModelConverter());
         registry.addConverter(contactModelConverter());
@@ -41,12 +42,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.setUseTrailingSlashMatch(false);
+//        configurer.setUseTrailingSlashMatch(false);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TrailingSlashRemoveInterceptor());
+//        registry.addInterceptor(new TrailingSlashRemoveInterceptor());
         registry.addInterceptor(new RedirectToEntranceWithoutChoosingTeamInterceptor());
     }
 

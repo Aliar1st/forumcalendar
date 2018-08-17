@@ -10,6 +10,9 @@
     <table>
         <thead>
         <tr>
+            <th><a th:href="@{/editor/team(shiftId=__${shiftId}__)}">Back to teams</a></th>
+        </tr>
+        <tr>
             <th>name</th>
             <th>show</th>
         </tr>
@@ -17,7 +20,7 @@
         <tbody>
         <tr>
             <td>event</td>
-            <td><a th:href="@{__${teamId}__/event}">Show</a></td>
+            <td><a th:href="@{/editor/team_event(teamId=__${id}__)}">Show</a></td>
         </tr>
         </tbody>
     </table>

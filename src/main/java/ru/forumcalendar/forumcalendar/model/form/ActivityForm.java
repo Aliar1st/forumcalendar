@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,12 +24,12 @@ public class ActivityForm {// implements ResourceForm<Activity> {
 
     private int id;
 
-    @Min(value = 2, message = "Name is too short")
-    @Max(value = 50, message = "Name is too long")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
-    @Max(value = 5000, message = "Description is too long")
+    @Size(max = 5000, message = "Description is too long")
     private String description;
 
     @Valid

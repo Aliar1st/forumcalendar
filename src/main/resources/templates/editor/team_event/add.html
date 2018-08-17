@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/editor/event/add}" th:object="${eventForm}" method="POST">
+    <form th:action="@{/editor/team_event/add}" th:object="${teamEventForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -48,25 +48,10 @@
                 </label>
             </label>
         </p>
-        <p>
-            <label>Спикеры
-                <select th:name="speakersId" multiple>
-                    <th:block th:each="speaker, stat : ${speakers}">
-                        <option selected
-                                th:value="${speaker.getId()}"
-                                th:text="|${speaker.getFirstName()} ${speaker.getLastName()}|">Speaker
-                        </option>
-                    </th:block>
-                </select>
-                <label th:if="${#fields.hasErrors('speakersId')}"
-                       th:errors="*{speakersId}">error
-                </label>
-            </label>
-        </p>
-        <label th:if="${#fields.hasErrors('shiftId')}"
-               th:errors="*{shiftId}">error
+        <label th:if="${#fields.hasErrors('teamId')}"
+               th:errors="*{teamId}">error
         </label>
-        <input type="hidden" th:field="*{shiftId}">
+        <input type="hidden" th:field="*{teamId}">
         <input type="submit" value="Создать">
     </form>
 </div>

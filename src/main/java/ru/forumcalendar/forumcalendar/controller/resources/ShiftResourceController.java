@@ -6,14 +6,14 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.domain.Shift;
+import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("editor/shift")
@@ -21,6 +21,7 @@ import javax.validation.Valid;
 public class ShiftResourceController {
 
     private static final String HTML_FOLDER = "editor/shift/";
+    private static final String ROOT_MAPPING = "/editor/shift?activityId=";
 
     private final ShiftService shiftService;
 
@@ -33,90 +34,86 @@ public class ShiftResourceController {
 
     @GetMapping("")
     public String index(
-            @P("activityId") @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
-
-        model.addAttribute("shiftModels", shiftService.getShiftModelsByActivityId(activityId));
+        model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(activityId));
+        model.addAttribute("activityId", activityId);
 
         return HTML_FOLDER + "index";
     }
 
-    @GetMapping("{shiftId}")
+    @GetMapping("{id}")
     public String show(
-            @PathVariable int shiftId,
+            @PathVariable int id,
             Model model
     ) {
-
-        model.addAttribute(shiftId);
+        model.addAttribute(id);
+        model.addAttribute("activityId", shiftService.get(id).getActivity().getId());
 
         return HTML_FOLDER + "show";
     }
 
     @GetMapping("add")
     public String add(
-            @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
+        ShiftForm shiftForm = new ShiftForm();
+        shiftForm.setActivityId(activityId);
 
-        model.addAttribute(new ShiftForm());
+        model.addAttribute(shiftForm);
 
         return HTML_FOLDER + "add";
     }
 
     @PostMapping("add")
     public String add(
-            @PathVariable int activityId,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
-
-        shiftForm.setActivityId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
         shiftService.save(shiftForm);
 
-        return "redirect:";
+        return "redirect:" + ROOT_MAPPING + shiftForm.getActivityId();
     }
 
-    @GetMapping("{shiftId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @PathVariable int shiftId,
+            @PathVariable int id,
             Model model
     ) {
-
-        ShiftForm shiftForm = new ShiftForm(shiftService.get(shiftId));
+        ShiftForm shiftForm = new ShiftForm(shiftService.get(id));
         model.addAttribute(shiftForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("{shiftId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @PathVariable int shiftId,
+            @PathVariable int id,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
-
-        shiftForm.setId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        shiftForm.setId(id);
         shiftService.save(shiftForm);
 
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING + shiftForm.getActivityId();
     }
 
-    @GetMapping("{shiftId}/delete")
+    @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int shiftId
+            @PathVariable int id
     ) {
+        Shift shift = shiftService.delete(id);
 
-        shiftService.delete(shiftId);
-
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING + shift.getActivity().getId();
     }
 }

@@ -13,11 +13,8 @@ import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.EventRepository;
-import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
-import ru.forumcalendar.forumcalendar.service.EventService;
-import ru.forumcalendar.forumcalendar.service.SpeakerService;
-import ru.forumcalendar.forumcalendar.service.UserService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,30 +24,30 @@ import java.util.stream.Collectors;
 @Service
 public class BaseEventService implements EventService {
 
-    private final SpeakerService speakerService;
-    private final ShiftRepository shiftRepository;
-    private final ActivityRepository activityRepository;
     private final SpeakerRepository speakerRepository;
     private final EventRepository eventRepository;
 
+    private final ActivityService activityService;
+    private final SpeakerService speakerService;
+    private final ShiftService shiftService;
     private final UserService userService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseEventService(
             SpeakerService speakerService,
-            ShiftRepository shiftRepository,
             @Qualifier("mvcConversionService") ConversionService conversionService,
-            ActivityRepository activityRepository,
             SpeakerRepository speakerRepository,
             EventRepository eventRepository,
+            ActivityService activityService,
+            ShiftService shiftService,
             UserService userService) {
         this.speakerService = speakerService;
-        this.shiftRepository = shiftRepository;
         this.conversionService = conversionService;
-        this.activityRepository = activityRepository;
         this.speakerRepository = speakerRepository;
         this.eventRepository = eventRepository;
+        this.activityService = activityService;
+        this.shiftService = shiftService;
         this.userService = userService;
     }
 
@@ -82,16 +79,14 @@ public class BaseEventService implements EventService {
         event.setId(eventForm.getId());
         event.setName(eventForm.getName());
         event.setPlace(eventForm.getPlace());
-        event.setShift(shiftRepository.findById(eventForm.getShiftId())
-                .orElseThrow(() -> new EntityNotFoundException("Shift with id " + eventForm.getShiftId() + " not found")));
+        event.setShift(shiftService.get(eventForm.getShiftId()));
 
         List<SpeakerForm> speakerForms = speakerService.getSpeakerFormsBySpeakersId(eventForm.getSpeakersId());
         if (speakerForms != null) {
             List<Speaker> speakers = new ArrayList<>(speakerForms.size());
             for (SpeakerForm sf : speakerForms) {
                 Speaker speaker = speakerRepository.findById(sf.getId()).orElse(new Speaker());
-                Activity activity = activityRepository.findById(sf.getActivityId())
-                        .orElseThrow(() -> new EntityNotFoundException("Activity with id " + sf.getActivityId() + " not found"));
+                Activity activity = activityService.get(sf.getActivityId());
 
                 speaker.setActivity(activity);
                 speaker.setDescription(sf.getDescription());
@@ -108,8 +103,10 @@ public class BaseEventService implements EventService {
     }
 
     @Override
-    public void delete(int id) {
+    public Event delete(int id) {
+        Event event = get(id);
         eventRepository.deleteById(id);
+        return event;
     }
 
     @Override

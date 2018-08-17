@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.TeamService;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class TeamResourceController {
 
     private static final String HTML_FOLDER = "editor/team/";
+    private static final String ROOT_MAPPING = "/editor/team?shiftId=";
 
     private final TeamService teamService;
 
@@ -32,78 +34,87 @@ public class TeamResourceController {
 
     @GetMapping("")
     public String index(
-            @PathVariable int shiftId,
+            @RequestParam int shiftId,
             Model model
     ) {
 
-        model.addAttribute("teamModels", teamService.getTeamModelsByShiftId(shiftId));
+        model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
+        model.addAttribute("shiftId", shiftId);
 
         return HTML_FOLDER + "index";
     }
 
-    @GetMapping("add")
-    public String add(
+    @GetMapping("{id}")
+    public String show(
+            @PathVariable int id,
             Model model
     ) {
+        model.addAttribute(id);
+        model.addAttribute("shiftId", teamService.get(id).getShift().getId());
 
-        model.addAttribute(new TeamForm());
+        return HTML_FOLDER + "show";
+    }
+
+    @GetMapping("add")
+    public String add(
+            @RequestParam int shiftId,
+            Model model
+    ) {
+        TeamForm teamForm = new TeamForm();
+        teamForm.setShiftId(shiftId);
+
+        model.addAttribute(teamForm);
 
         return HTML_FOLDER + "add";
     }
 
     @PostMapping("add")
     public String add(
-            @PathVariable int shiftId,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
-        teamForm.setShiftId(shiftId);
         teamService.save(teamForm);
 
-        return "redirect:";
+        return "redirect:" + ROOT_MAPPING + teamForm.getShiftId();
     }
 
-    @GetMapping("{teamId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @PathVariable int teamId,
+            @PathVariable int id,
             Model model
     ) {
-
-        TeamForm teamForm = new TeamForm(teamService.get(teamId));
+        TeamForm teamForm = new TeamForm(teamService.get(id));
         model.addAttribute(teamForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PostMapping("{teamId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @PathVariable int teamId,
+            @PathVariable int id,
             @Valid TeamForm teamForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        teamForm.setId(teamId);
+        teamForm.setId(id);
         teamService.save(teamForm);
 
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING + teamForm.getShiftId();
     }
 
-    @GetMapping("{teamId}/delete")
+    @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int teamId
+            @PathVariable int id
     ) {
+        Team team = teamService.delete(id);
 
-        teamService.delete(teamId);
-
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING + team.getShift().getId();
     }
 }

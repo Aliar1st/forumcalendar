@@ -25,6 +25,7 @@ import java.util.List;
 public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";
+    private static final String ROOT_MAPPING = "/editor/activity";
 
     private final ActivityService activityService;
 
@@ -36,9 +37,10 @@ public class ActivityResourceController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
-
-        model.addAttribute("activityModels", activityService.getCurrentUserActivityModels());
+    public String index(
+            Model model
+    ) {
+        model.addAttribute("activities", activityService.getCurrentUserActivityModels());
 
         return HTML_FOLDER + "index";
     }
@@ -48,15 +50,15 @@ public class ActivityResourceController {
             @PathVariable int id,
             Model model
     ) {
-
         model.addAttribute(id);
 
         return HTML_FOLDER + "show";
     }
 
     @GetMapping("add")
-    public String add(Model model) {
-
+    public String add(
+            Model model
+    ) {
         model.addAttribute(new ActivityForm());
 
         return HTML_FOLDER + "add";
@@ -67,14 +69,13 @@ public class ActivityResourceController {
             @Valid ActivityForm activityForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
         activityService.save(activityForm);
 
-        return "redirect:";
+        return "redirect:" + ROOT_MAPPING;
     }
 
     @GetMapping("{id}/edit")
@@ -82,7 +83,6 @@ public class ActivityResourceController {
             @PathVariable int id,
             Model model
     ) {
-
         model.addAttribute(new ActivityForm(activityService.get(id)));
 
         return HTML_FOLDER + "edit";
@@ -94,7 +94,6 @@ public class ActivityResourceController {
             @Valid ActivityForm activityForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
@@ -102,14 +101,15 @@ public class ActivityResourceController {
         activityForm.setId(id);
         activityService.save(activityForm);
 
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING;
     }
 
     @GetMapping("{id}/delete")
-    public String delete(@PathVariable int id) {
-
+    public String delete(
+            @PathVariable int id
+    ) {
         activityService.delete(id);
 
-        return "redirect:..";
+        return "redirect:" + ROOT_MAPPING;
     }
 }

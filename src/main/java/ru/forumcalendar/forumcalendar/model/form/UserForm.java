@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,13 +26,13 @@ public class UserForm {
 
     private MultipartFile photo;
 
-    @Min(value = 2, message = "First name is too short")
-    @Max(value = 50, message = "First name is too long")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
     private String firstName;
 
-    @Min(value = 2, message = "Last name is too short")
-    @Max(value = 50, message = "Last name is too long")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name contains invalid characters")
     private String lastName;
 

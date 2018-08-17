@@ -5,14 +5,13 @@
     <b>Header</b>
     <hr>
     <ul>
-        <li><a th:href="@{~/user}">Profile</a></li>
-        <li><a th:href="@{~/editor/activity}">User created activities</a></li>
+        <li><a th:href="@{/editor/activity}">Editor</a></li>
 
         <th:block sec:authorize="isAuthenticated()">
-            <li><a th:href="@{~/logout}">Logout</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
         </th:block>
         <th:block sec:authorize="isAnonymous()">
-            <li><a th:href="@{~/login}">Login</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
         </th:block>
     </ul>
     <hr>

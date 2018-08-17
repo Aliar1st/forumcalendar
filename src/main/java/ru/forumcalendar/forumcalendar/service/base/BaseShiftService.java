@@ -74,6 +74,7 @@ public class BaseShiftService implements ShiftService {
         shift.setName(shiftForm.getName());
         shift.setStartDate(shiftForm.getStartDate());
         shift.setEndDate(shiftForm.getEndDate());
+        shift.setDescription(shiftForm.getDescription());
         shift.setActivity(activityRepository.findById(shiftForm.getActivityId())
                 .orElseThrow(() -> new EntityNotFoundException("Activity with id " + shiftForm.getActivityId() + " not found")));
 
@@ -81,8 +82,10 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
-    public void delete(int id) {
+    public Shift delete(int id) {
+        Shift shift = get(id);
         shiftRepository.deleteById(id);
+        return shift;
     }
 
     @Override

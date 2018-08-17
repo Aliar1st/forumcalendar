@@ -9,29 +9,29 @@
 <div layout:fragment="content">
     <table>
         <thead>
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>shift count</th>
-                <th>start date</th>
-                <th>end date</th>
-                <th>show</th>
-                <th>edit</th>
-                <th>delete</th>
-                <th><a th:href="@{activity/add}">add</a></th>
-            </tr>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>shift count</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>show</th>
+            <th>edit</th>
+            <th>delete</th>
+            <th><a th:href="@{activity/add}">add</a></th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="activity:${activityModels}">
-                <td th:text="${activity.id}"></td>
-                <td th:text="${activity.name}"></td>
-                <td th:text="${activity.shiftCount}"></td>
-                <td th:text="${activity.startDate}"></td>
-                <td th:text="${activity.endDate}"></td>
-                <td><a th:href="@{activity/__${activity.id}__}">Show</a></td>
-                <td><a th:href="@{activity/__${activity.id}__/edit}">Edit</a></td>
-                <td><a th:href="@{activity/__${activity.id}__/delete}">Delete</a></td>
-            </tr>
+        <tr th:each="activity:${activities}">
+            <td th:text="${activity.id}"></td>
+            <td th:text="${activity.name}"></td>
+            <td th:text="${activity.shiftCount}"></td>
+            <td th:text="${activity.startDate}"></td>
+            <td th:text="${activity.endDate}"></td>
+            <td><a th:href="@{/editor/activity/__${activity.id}__}">Show</a></td>
+            <td><a th:href="@{/editor/activity/__${activity.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/editor/activity/__${activity.id}__/delete}">Delete</a></td>
+        </tr>
         </tbody>
     </table>
 </div>
