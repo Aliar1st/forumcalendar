@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Teams</title>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <!--<label sec:authorize="hasRole('ROLE_SUPERUSER')">fsdfasfaf</label>-->
+
+
+        <div class="teams-container">
+            <label>Teams</label>
+            <div th:each="team, stat : ${teams}" class="team">
+                <input type="hidden" name="teamId" th:value="${team.id}">
+                <label th:text="${team.name}"></label><br/>
+                <label th:text="${team.description}"></label><br/>
+            </div>
+        </div>
+
+        <a th:if="${isModerator} or ${isAdmin}" th:href="@{'/editor/team/add?shiftId='+__${curShiftId}__}">Добавить команду</a>
+
+
+        <!--<div th:replace="kfc/_teams :: teams" ></div>-->
+
+        <!--<div th:replace="kfc/_speakers :: speakers" ></div>-->
+
+        <!--<div th:replace="kfc/_forums :: forums" ></div>-->
+
+    </div>
+
+    <div layout:fragment="scripts">
+
+    </div>
+</body>
+</html>
+
+
+<!--<div th:if="${!superuser}" class="teams-container">-->
+<!--<label>Teams</label>-->
+<!--<div th:replace="kfc/_teams :: teams" ></div>-->
+<!--</div>-->
+<!--<div th:if="${!superuser}" class="speakers-container">-->
+<!--<label>Speakers</label>-->
+<!--<div th:replace="kfc/_speakers :: speakers" ></div>-->
+<!--</div>-->
+<!--<div th:if="${superuser}" class="forums-container">-->
+<!--<label>Forums</label>-->
+<!--<div th:replace="kfc/_forums :: forums" ></div>-->
+<!--</div>-->
+
+
+
+<!--suppress ThymeleafVariablesResolveInspection -->
+<!--<div th:if="${superuser}" class="forums-container" th:fragment="forums"  xmlns:th="http://www.thymeleaf.org/">-->
+    <!--<label>Forums</label>-->
+    <!--<div th:each="forum, stat : ${forums}" class="forum" >-->
+        <!--<input type="hidden" name="teamId" th:value="${forum.id}">-->
+        <!--<label th:text="${forum.name}"></label><br/>-->
+        <!--<label th:text="${forum.description}"></label><br/>-->
+        <!--<label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div th:unless="${superuser}" class="speakers-container" th:fragment="speakers" xmlns:th="http://www.thymeleaf.org/">-->
+    <!--<label>Speakers</label>-->
+    <!--<div th:each="speaker, stat : ${speakers}" class="speaker">-->
+        <!--<input type="hidden" name="teamId" th:value="${speaker.id}">-->
+        <!--<img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profile photo">-->
+        <!--<label th:text="|${speaker.firstName} ${speaker.lastName}|"></label><br/>-->
+        <!--<label th:text="${speaker.description}"></label><br/>-->
+        <!--<a th:href="@{speaker.link}" th:text="${speaker.link}"></a><br/>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div th:unless="${superuser}" class="teams-container"  th:fragment="teams" xmlns:th="http://www.thymeleaf.org/">-->
+    <!--<label>Teams</label>-->
+    <!--<div th:each="team, stat : ${teams}" class="team">-->
+        <!--<input type="hidden" name="teamId" th:value="${team.id}">-->
+        <!--<label th:text="${team.name}"></label><br/>-->
+        <!--<label th:text="${team.description}"></label><br/>-->
+    <!--</div>-->
+<!--</div>-->

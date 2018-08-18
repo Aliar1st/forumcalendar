@@ -19,7 +19,7 @@ $(function () {
         if (!editNameFormFlag) {
             $.ajax({
                 type: "GET",
-                url: "/team/editName",
+                url: location.href + "/editName",
                 success: function (data) {
                     $("#content").append(data);
                     editNameFormFlag = true;
@@ -61,7 +61,7 @@ $(function () {
             success: function (data) {
                 $("#content").append(data);
                 $(genLinkForm).remove();
-                genLinkFormFlag = true;
+                genLinkFormFlag = false;
             }
         });
     });

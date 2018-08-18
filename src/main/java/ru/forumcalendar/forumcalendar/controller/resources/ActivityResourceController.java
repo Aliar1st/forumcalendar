@@ -2,12 +2,9 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,13 +13,14 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("editor/activity")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class ActivityResourceController {
 
     private static final String HTML_FOLDER = "editor/activity/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/activity";
 
     private final ActivityService activityService;
 
@@ -34,28 +32,28 @@ public class ActivityResourceController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
-
-        model.addAttribute("activityModels", activityService.getCurrentUserActivityModels());
+    public String index(
+            Model model
+    ) {
+        model.addAttribute("activities", activityService.getCurrentUserActivityModels());
 
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}")
+    @GetMapping("{id}")
     public String show(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             Model model
     ) {
-
-        model.addAttribute(activityId);
+        model.addAttribute(id);
 
         return HTML_FOLDER + "show";
     }
 
     @GetMapping("add")
-    public String add(Model model) {
-
+    public String add(
+            Model model
+    ) {
         model.addAttribute(new ActivityForm());
 
         return HTML_FOLDER + "add";
@@ -66,52 +64,47 @@ public class ActivityResourceController {
             @Valid ActivityForm activityForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
         activityService.save(activityForm);
 
-        return "redirect:";
+        return REDIRECT_ROOT_MAPPING;
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             Model model
     ) {
-
-        model.addAttribute(new ActivityForm(activityService.get(activityId)));
+        model.addAttribute(new ActivityForm(activityService.get(id)));
 
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @PostMapping("{activityId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @P("activityId") @PathVariable int activityId,
+            @PathVariable int id,
             @Valid ActivityForm activityForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        activityForm.setId(activityId);
+        activityForm.setId(id);
         activityService.save(activityForm);
 
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING;
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
-    @GetMapping("{activityId}/delete")
-    public String delete(@P("activityId") @PathVariable int activityId) {
+    @GetMapping("{id}/delete")
+    public String delete(
+            @PathVariable int id
+    ) {
+        activityService.delete(id);
 
-        activityService.delete(activityId);
-
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING;
     }
 }

@@ -6,7 +6,10 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -18,20 +21,21 @@ public class SpeakerForm {
     //@ActivityExist
     private int activityId;
 
-    @Length(max = 50, message = "First name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name is too short or contains invalid characters")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
     private String firstName;
 
-    @Length(max = 50, message = "Last name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name is too short or contains invalid characters")
+    @Size(min = 2, message = "Name is too short")
+    @Size(max = 50, message = "Name is too long")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name contains invalid characters")
     private String lastName;
 
-    @Length(max = 2000, message = "Link is too long")
-    @Pattern(regexp = "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
+    @Size(max = 2000, message = "Description is too long")
+    @Pattern(regexp = "(https?://)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 
-    @Length(max = 5000, message = "Description is too long")
-//    @Pattern(regexp = "[A-ZА-Я].+", message = "Description is too short or contains invalid characters")
+    @Size(max = 5000, message = "Description is too long")
     private String description;
 
     public SpeakerForm(Speaker speaker) {

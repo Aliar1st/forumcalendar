@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.service.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.repository.LinkRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRepository;
@@ -17,6 +18,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class BaseLinkService implements LinkService {
 
     @Value("${my.inviteUrl}")

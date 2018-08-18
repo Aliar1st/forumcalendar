@@ -1,16 +1,14 @@
 package ru.forumcalendar.forumcalendar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.User;
-import ru.forumcalendar.forumcalendar.service.LinkService;
-import ru.forumcalendar.forumcalendar.service.TeamRoleService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
-import ru.forumcalendar.forumcalendar.service.UserService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -19,6 +17,9 @@ import java.security.Principal;
 @RequestMapping("team")
 public class TeamController {
 
+    private static final String HTML_FOLDER = "team/";
+
+    private final PermissionService permissionService;
     private final TeamRoleService teamRoleService;
     private final TeamService teamService;
     private final UserService userService;
@@ -26,30 +27,75 @@ public class TeamController {
 
     @Autowired
     public TeamController(
+            PermissionService permissionService,
             TeamRoleService teamRoleService,
             TeamService teamService,
             UserService userService,
             LinkService linkService
     ) {
+        this.permissionService = permissionService;
         this.teamRoleService = teamRoleService;
         this.teamService = teamService;
         this.userService = userService;
         this.linkService = linkService;
     }
 
-    @GetMapping("/my")
-    public String teamUsers(
+    @GetMapping("/teams")
+    public String teams(
+            @RequestParam int shiftId,
+            Authentication authentication,
+            Model model
+    ) {
+        String perm = permissionService.identifyUser(authentication, shiftId, "Shift", "w");
+
+        model.addAttribute(perm, true);
+        model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
+        model.addAttribute("curShiftId", shiftId);
+
+        return HTML_FOLDER + "/teams";
+    }
+
+    @GetMapping("/{teamId}")
+    public String showTeam(
+            @PathVariable int teamId,
             Model model,
-            HttpSession httpSession
+            Principal principal,
+            Authentication authentication
     ) {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        Team team = teamService.get(teamId);
+        User user = userService.getCurrentUser(principal);
 
+        if (teamRoleService.isUserCuratorOfTeam(user.getId(), team.getId())) {
+            model.addAttribute("isCurator", true);
+        } else if (teamRoleService.isUserCaptainOfTeam(user.getId(), team.getId())) {
+            model.addAttribute("isCaptain", true);
+        } else if (teamRoleService.isUserMemberOfTeam(user.getId(), team.getId())) {
+            model.addAttribute("isMember", true);
+        }
+
+        String perm = permissionService.identifyUser(authentication, team.getId(), "Team", "w");
+
+        model.addAttribute(perm, true);
         model.addAttribute("teamName", team.getName());
         model.addAttribute("teamUsers", teamService.getTeamMembers(team.getId()));
 
-        return "team/index";
+        return HTML_FOLDER + "/team";
     }
+
+//    @GetMapping("/my")
+//    public String teamUsers(
+//            Model model,
+//            HttpSession httpSession
+//    ) {
+//
+//        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+//
+//        model.addAttribute("teamName", team.getName());
+//        model.addAttribute("teamUsers", teamService.getTeamMembers(team.getId()));
+//
+//        return "team/index";
+//    }
 
     @ResponseBody
     @PostMapping("/becomeCaptain")
@@ -68,42 +114,40 @@ public class TeamController {
         }
     }
 
-    @GetMapping("/editName")
+    @GetMapping("{teamId}/editName")
     public String editName(
-            Model model,
-            HttpSession httpSession
+            @PathVariable int teamId,
+            Model model
     ) {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        Team team = teamService.get(teamId);
+        model.addAttribute("teamId", teamId);
         model.addAttribute("teamName", team.getName());
 
-        return "team/_edit_team_name";
+        return HTML_FOLDER + "/_edit_team_name";
     }
 
     @ResponseBody
-    @PostMapping("/editName")
+    @PostMapping("{teamId}/editName")
     public String editName(
-            String teamName,
-            HttpSession httpSession
+            @PathVariable int teamId,
+            String teamName
     ) {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        Team team = teamService.get(teamId);
 
         if (!teamName.isEmpty()) {
-            return teamService.updateTeamName(team.getId(), teamName).getName();
+            return teamService.updateTeamName(teamId, teamName).getName();
         }
 
         return team.getName();
     }
 
-
     @GetMapping("/getLink")
     private String generateLink(Model model) {
-        //для теста, т.к. на твоём акке нет команд.
-        model.addAttribute("teamsList", userService.get("1").getUserTeams());
-        //model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
+        model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
         model.addAttribute("teamRoles", teamRoleService.getAllRoles());
-        return "team/_genLink";
+        return HTML_FOLDER + "/_genLink";
     }
 
     @ResponseBody
@@ -120,4 +164,5 @@ public class TeamController {
         linkService.inviteViaLink(uniqueParam);
         return "redirect:/user/";
     }
+
 }

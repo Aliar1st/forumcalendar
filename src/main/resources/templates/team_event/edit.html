@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit team event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/team_events/__${teamEventForm.id}__/edit}" th:object="${teamEventForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Дата и время начала
+                <input th:field="*{startDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('startDatetime')}"
+                       th:errors="*{startDatetime}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Дата и время конца
+                <input th:field="*{endDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('endDatetime')}"
+                       th:errors="*{endDatetime}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Место
+                <input th:field="*{place}" type="text">
+                <label th:if="${#fields.hasErrors('place')}"
+                       th:errors="*{place}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
+        <input type="hidden" th:field="*{teamId}">
+        <label th:if="${#fields.hasErrors('teamId')}"
+               th:errors="*{teamId}">error
+        </label>
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

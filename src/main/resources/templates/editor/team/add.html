@@ -7,8 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{add}"
-          th:object="${teamForm}" method="POST">
+    <form th:action="@{/editor/team/add}" th:object="${teamForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -36,6 +35,7 @@
         <label th:if="${#fields.hasErrors('shiftId')}"
                th:errors="*{shiftId}">error
         </label>
+        <input type="hidden" th:field="*{shiftId}">
         <input type="submit" value="Создать">
     </form>
 </div>

@@ -2,24 +2,23 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("editor/activity/{activityId}/shift")
+@RequestMapping("editor/shift")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class ShiftResourceController {
 
     private static final String HTML_FOLDER = "editor/shift/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/shift?activityId=";
 
     private final ShiftService shiftService;
 
@@ -30,99 +29,88 @@ public class ShiftResourceController {
         this.shiftService = shiftService;
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @P("activityId") @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
-
-        model.addAttribute("shiftModels", shiftService.getShiftModelsByActivityId(activityId));
+        model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(activityId));
+        model.addAttribute("activityId", activityId);
 
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
-    @GetMapping("{shiftId}")
+    @GetMapping("{id}")
     public String show(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int id,
             Model model
     ) {
-
-        model.addAttribute(shiftId);
+        model.addAttribute(id);
+        model.addAttribute("activityId", shiftService.get(id).getActivity().getId());
 
         return HTML_FOLDER + "show";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
+        ShiftForm shiftForm = new ShiftForm();
+        shiftForm.setActivityId(activityId);
 
-        model.addAttribute(new ShiftForm());
+        model.addAttribute(shiftForm);
 
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
-
-        shiftForm.setActivityId(activityId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
         shiftService.save(shiftForm);
 
-        return "redirect:";
+        return REDIRECT_ROOT_MAPPING + shiftForm.getActivityId();
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
-    @GetMapping("{shiftId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int id,
             Model model
     ) {
-
-        ShiftForm shiftForm = new ShiftForm(shiftService.get(shiftId));
+        ShiftForm shiftForm = new ShiftForm(shiftService.get(id));
         model.addAttribute(shiftForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
-    @PostMapping("{shiftId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @P("shiftId") @PathVariable int shiftId,
+            @PathVariable int id,
             @Valid ShiftForm shiftForm,
             BindingResult bindingResult
     ) {
-
-        shiftForm.setId(shiftId);
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
+        shiftForm.setId(id);
         shiftService.save(shiftForm);
 
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING + shiftForm.getActivityId();
     }
 
-    @PreAuthorize("@baseShiftService.hasPermissionToWrite(#shiftId) or hasRole('SUPERUSER')")
-    @GetMapping("{shiftId}/delete")
+    @GetMapping("{id}/delete")
     public String delete(
-            @P("shiftId") @PathVariable int shiftId
+            @PathVariable int id
     ) {
+        Shift shift = shiftService.delete(id);
 
-        shiftService.delete(shiftId);
-
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING + shift.getActivity().getId();
     }
 }

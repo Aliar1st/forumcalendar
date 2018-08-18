@@ -25,7 +25,10 @@ public class Event extends AuditModel {
     private String name;
 
     @Column(nullable = false)
-    private LocalDateTime datetime;
+    private LocalDateTime startDatetime;
+
+    @Column(nullable = false)
+    private LocalDateTime endDatetime;
 
     @Column(nullable = false)
     private String place;

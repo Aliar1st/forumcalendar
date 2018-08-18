@@ -9,6 +9,9 @@
 <div layout:fragment="content">
     <table>
         <thead>
+        <tr>
+            <th><a th:href="@{/editor/activity}">Back to activities</a></th>
+        </tr>
             <tr>
                 <th>name</th>
                 <th>show</th>
@@ -17,11 +20,11 @@
         <tbody>
             <tr>
                 <td>Shifts</td>
-                <td><a th:href="@{__${activityId}__/shift}">Show</a></td>
+                <td><a th:href="@{/editor/shift(activityId=__${id}__)}">Show</a></td>
             </tr>
             <tr>
                 <td>Speakers</td>
-                <td><a th:href="@{__${activityId}__/speaker}">Show</a></td>
+                <td><a th:href="@{/editor/speaker(activityId=__${id}__)}">Show</a></td>
             </tr>
         </tbody>
     </table>

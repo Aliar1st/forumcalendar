@@ -1,17 +1,16 @@
 package ru.forumcalendar.forumcalendar.controller;
 
-import netscape.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
-import ru.forumcalendar.forumcalendar.domain.Team;
-import ru.forumcalendar.forumcalendar.domain.TeamRole;
-import ru.forumcalendar.forumcalendar.domain.User;
-import ru.forumcalendar.forumcalendar.domain.UserTeam;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingActivityForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingShiftForm;
@@ -36,17 +35,21 @@ public class HomeController {
     private final TeamService teamService;
     private final UserService userService;
 
+    private final PermissionEvaluator permissionEvaluator;
+
+
     @Autowired
     public HomeController(
             ActivityService activityService,
             ShiftService shiftService,
             TeamService teamService,
-            UserService userService
-    ) {
+            UserService userService,
+            PermissionEvaluator permissionEvaluator) {
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.teamService = teamService;
         this.userService = userService;
+        this.permissionEvaluator = permissionEvaluator;
     }
 
     @GetMapping("/")
@@ -69,11 +72,13 @@ public class HomeController {
     public String entranceStepChoosingShift(
             Model model,
             @Valid ChoosingActivityForm choosingActivityForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance1_choosing_activity";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "redirect:/entrance/1";
         }
 
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
@@ -87,11 +92,13 @@ public class HomeController {
             Model model,
             HttpSession httpSession,
             @Valid ChoosingShiftForm choosingShiftForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance2_choosing_shift";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         Integer teamId = shiftService.getCurrentUserTeamByShift(choosingShiftForm.getShiftId());
@@ -110,11 +117,13 @@ public class HomeController {
     public String entranceStepChoosingTeam(
             Model model,
             @Valid ChoosingTeamRoleForm choosingTeamRoleForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance3_choosing_teamrole";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         List<TeamModel> teams;
@@ -139,11 +148,13 @@ public class HomeController {
     public String entranceStepFinal(
             HttpSession httpSession,
             @Valid ChoosingTeamForm choosingTeamForm,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "entrance4_choosing_team";
+            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            return "/entrance/1";
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());
@@ -155,6 +166,7 @@ public class HomeController {
     @GetMapping("/menu")
     public String menu(
             Model model,
+            Authentication authentication,
             HttpSession httpSession
     ) {
 
@@ -162,6 +174,17 @@ public class HomeController {
 
         User user = userService.getCurrentUser();
 
+        if (permissionEvaluator.hasPermission(authentication, team.getShift().getActivity().getId(), "Activity", "w") &&
+                user.getRole().getId() == Role.ROLE_USER_ID) {
+            model.addAttribute("isModerator", true);
+        }
+        else if(user.getRole().getId() == Role.ROLE_USER_ID) {
+            model.addAttribute("isJustUser", true);
+        }
+
+        model.addAttribute("curActivityId", team.getShift().getActivity().getId());
+        model.addAttribute("curShiftId", team.getShift().getId());
+        model.addAttribute("myTeamId", team.getId());
         model.addAttribute("userPhoto", user.getPhoto());
         model.addAttribute("userName", user.getFirstName() + ' ' + user.getLastName());
         model.addAttribute("teamName", team.getName());
@@ -169,7 +192,7 @@ public class HomeController {
         return HTML_FOLDER + "menu";
     }
 
-    @GetMapping("/menuExit")
+    @GetMapping("/menu_exit")
     public String menuExit(
             HttpSession httpSession
     ) {
@@ -205,5 +228,3 @@ public class HomeController {
 
 // TODO: 8/13/2018 Проверка куратор вбивает команду с уже существующим куратором
 // TODO: 8/13/2018 Нормальные страницы с ошибками
-// TODO: 8/14/2018 Описание не обязательное поля в форме, а сейчас да
-// TODO: 8/14/2018 Shift name is too short or contains invalid characters - уита, разделить too short и contains invalid characters

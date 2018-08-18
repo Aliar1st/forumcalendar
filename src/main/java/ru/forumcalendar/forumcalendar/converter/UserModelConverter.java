@@ -2,6 +2,7 @@ package ru.forumcalendar.forumcalendar.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Contact;
@@ -38,7 +39,7 @@ public class UserModelConverter implements Converter<User, UserModel> {
     }
 
     @Autowired
-    public void setConversionService(ContactModelConverter contactModelConverter) {
+    public void setConversionService(@Lazy ContactModelConverter contactModelConverter) {
         this.contactModelConverter = contactModelConverter;
     }
 }

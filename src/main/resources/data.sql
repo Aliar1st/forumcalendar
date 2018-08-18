@@ -35,3 +35,11 @@ INSERT INTO user_teams (user_id, team_id, team_role_id, created_at, updated_at) 
 INSERT INTO speakers (id, description, first_name, last_name, link, activity_id, created_at, updated_at) values
   (1, 'description1', 'Jon', 'Potter' , 'link', 1, NOW(), NOW()),
   (2, 'description2', 'Ron', 'Midfild', 'link', 1, NOW(), NOW());
+
+
+INSERT INTO events (id, description, end_datetime, start_datetime, name, place, shift_id, created_at, updated_at) values
+  (1, 'description1', NOW(), NOW(), 'name', 'place', 1, NOW(), NOW());
+
+INSERT INTO subscriptions (user_id, event_id, created_at, updated_at) values
+  (1, 1, NOW(), NOW());
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p><b>Название: </b><span th:text="${event.name}"></span></p>
+    <p><b>Начало: </b><span th:text="${event.startDatetime}"></span></p>
+    <p><b>Конец: </b><span th:text="${event.endDatetime}"></span></p>
+    <p><b>Место: </b><span th:text="${event.place}"></span></p>
+    <p><b>Описание: </b><span th:text="${event.description}"></span></p>
+    <hr>
+    <p><b>Спикеры: </b></p>
+    <th:block th:each="speaker:${event.speakers}">
+        <p><b>Имя: </b><span th:text="|${speaker.firstName} ${speaker.lastName}|"></span></p>
+        <p><b>Ссылка: </b><span th:text="${speaker.link}"></span></p>
+        <p><b>Описание: </b><span th:text="${speaker.description}"></span></p>
+    </th:block>
+    <hr>
+    <p><b>Лайки: </b><span th:text="${event.likes}"></span></p>
+    <p><b>Дизлайки: </b><span th:text="${event.dislikes}"></span></p>
+    <p><b>Подписка: </b><span th:text="${event.favorite}"></span></p>
+    <p><a th:href="@{/events/__${event.id}__/edit}">Edit</a></p>
+</div>
+</body>
+</html>
+<!--todo: сделать подписку/отписку-->

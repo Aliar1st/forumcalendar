@@ -15,9 +15,9 @@ $(function() {
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/successSub/'+uniqueId, function (message) {
-                showMessage(message.body);
-            });
+            // stompClient.subscribe('/successSub/'+uniqueId, function (message) {
+            //     showMessage(message.body);
+            // });
             stompClient.subscribe('/notify/'+uniqueId, function (eventJSON) {
                 showEvent(JSON.parse(eventJSON.body));
             });

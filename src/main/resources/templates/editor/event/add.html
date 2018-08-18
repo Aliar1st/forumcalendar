@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{add}" th:object="${eventForm}" method="POST">
+    <form th:action="@{/editor/event/add}" th:object="${eventForm}" method="POST">
         <p>
             <label>Название
                 <input th:field="*{name}" type="text">
@@ -17,10 +17,18 @@
             </label>
         </p>
         <p>
-            <label>Дата и время
-                <input th:field="*{datetime}" type="datetime-local">
-                <label th:if="${#fields.hasErrors('datetime')}"
-                       th:errors="*{datetime}">error
+            <label>Дата и время начала
+                <input th:field="*{startDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('startDatetime')}"
+                       th:errors="*{startDatetime}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Дата и время конца
+                <input th:field="*{endDatetime}" type="datetime-local">
+                <label th:if="${#fields.hasErrors('endDatetime')}"
+                       th:errors="*{endDatetime}">error
                 </label>
             </label>
         </p>
@@ -55,7 +63,10 @@
                 </label>
             </label>
         </p>
-        <!--<label th:text="${shiftId}">Error</label><br/>-->
+        <label th:if="${#fields.hasErrors('shiftId')}"
+               th:errors="*{shiftId}">error
+        </label>
+        <input type="hidden" th:field="*{shiftId}">
         <input type="submit" value="Создать">
     </form>
 </div>

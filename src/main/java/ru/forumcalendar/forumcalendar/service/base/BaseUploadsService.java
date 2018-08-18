@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class BaseUploadsService implements UploadsService {
 
     private static final String SEP = "/";

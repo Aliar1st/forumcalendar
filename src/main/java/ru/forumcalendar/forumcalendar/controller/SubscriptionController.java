@@ -2,63 +2,63 @@ package ru.forumcalendar.forumcalendar.controller;
 
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Event;
+import ru.forumcalendar.forumcalendar.domain.Team;
+import ru.forumcalendar.forumcalendar.model.form.ToggleSubscribeForm;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
+import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class SubscriptionController {
 
+    private static final String HTML_FOLDER = "subscription/";
+
+    private final TeamService teamService;
     private final UserService userService;
-    private final SimpMessagingTemplate template;
     private final SubscriptionService subscriptionService;
     private final EventService eventService;
 
+    private final SimpMessagingTemplate template;
+
     @Autowired
     public SubscriptionController(
+            TeamService teamService,
             UserService userService,
-            SimpMessagingTemplate template,
             SubscriptionService subscriptionService,
-            EventService eventService) throws SchedulerException {
+            EventService eventService,
+            SimpMessagingTemplate template
+    ) {
+        this.teamService = teamService;
         this.userService = userService;
-        this.template = template;
         this.subscriptionService = subscriptionService;
         this.eventService = eventService;
-
+        this.template = template;
     }
 
-//    @PostMapping("/sub")
-//    @ResponseBody
-//    public Map<String, Object> toggleSub() {
-//
-//        subscriptionService.toggleSubscribe(1);
-//
-//        Map<String, Object> map = new HashMap<>();
-//
-//        map.put("status", "ok");
-//        map.put("subcount", subscriptionService.getEventModelsBySubscription().size());
-//
-//        return map;
-//    }
-
-
-    @GetMapping("/subs")
-    public String subs(
-            Model model,
+    @GetMapping("/favorites")
+    public String favorites(
+            HttpSession httpSession,
             Principal principal,
-            HttpServletResponse response
+            HttpServletResponse response,
+            Model model
     ) throws SchedulerException {
 
         Cookie cookie = new Cookie(
@@ -68,33 +68,67 @@ public class SubscriptionController {
         cookie.setMaxAge(3600);
         response.addCookie(cookie);
 
-        model.addAttribute("eventModels", subscriptionService.getEventModelsBySubscription());
+        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
 
-        return "event/subsTest";
+        model.addAttribute("events", subscriptionService.getEventModelsBySubscription(team.getShift().getId()));
+
+        return HTML_FOLDER + "favorites";
     }
 
-    @MessageMapping("/sub/{uniqueId}")
-    @SendTo("/successSub/{uniqueId}")
-    public String toggleSub(
-            int eventId,
-            Principal principal,
-            @DestinationVariable String uniqueId
+    @ResponseBody
+    @PostMapping("/sub")
+    public Map<String, Object> toggleSubscribe(
+            @Valid ToggleSubscribeForm form,
+            BindingResult bindingResult,
+            Principal principal
     ) throws SchedulerException {
 
         boolean sub;
+        Map<String, Object> map = new HashMap<>();
 
-        Event event = eventService.get(eventId);
+        if (bindingResult.hasErrors()) {
+            map.put("status", "error");
+            map.put("cause", bindingResult.getAllErrors());
+            return map;
+        }
+
+        Event event = eventService.get(form.getEventId());
 
         sub = subscriptionService.toggleSubscribe(
-                eventId,
+                form.getEventId(),
                 userService.getCurrentUser(principal).getId(),
-                () -> template.convertAndSend("/notify/" + uniqueId, event)
+                () -> template.convertAndSend("/notify/" + form.getUniqueId(), event)
         );
 
-        if (sub) {
-            return "Вы подписались на событие " + event.getName();
-        } else {
-            return "Вы отписались от события " + event.getName();
-        }
+        map.put("eventName", event.getName());
+        map.put("isSubscribe", sub);
+        map.put("status", "ok");
+
+        return map;
     }
+
+//    @MessageMapping("/sub/{uniqueId}")
+//    @SendTo("/successSub/{uniqueId}")
+//    public String toggleSub(
+//            int eventId,
+//            Principal principal,
+//            @DestinationVariable String uniqueId
+//    ) throws SchedulerException {
+//
+//        boolean sub;
+//
+//        Event event = eventService.get(eventId);
+//
+//        sub = subscriptionService.toggleSubscribe(
+//                eventId,
+//                userService.getCurrentUser(principal).getId(),
+//                () -> template.convertAndSend("/notify/" + uniqueId, event)
+//        );
+//
+//        if (sub) {
+//            return "Вы подписались на событие " + event.getName();
+//        } else {
+//            return "Вы отписались от события " + event.getName();
+//        }
+//    }
 }

@@ -18,12 +18,6 @@
                         th:text="${team.name}">
                 </option>
             </select>
-            <label th:if="${#fields.hasErrors('teamRoleId')}"
-                   th:errors="*{teamRoleId}">error
-            </label>
-            <label th:if="${#fields.hasErrors('teamId')}"
-                   th:errors="*{teamId}">error
-            </label>
         </label>
         <button type="submit">Далее</button>
     </form>

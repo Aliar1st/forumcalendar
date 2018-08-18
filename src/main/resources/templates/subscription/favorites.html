@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Favorites</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>show</th>
+            <th>toggle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event:${events}">
+            <td th:text="${event.name}"></td>
+            <td th:text="${event.startDatetime}"></td>
+            <td th:text="${event.endDatetime}"></td>
+            <td><a th:href="@{/event/__${event.id}__}">Show</a></td>
+            <td>
+                <form name="toggleSubscription" th:action="@{sub}" method="POST">
+                    <input type="hidden" name="eventId" th:value="${event.id}">
+                    <button type="button">1</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/favorites.js"></script>
+</div>
+</body>
+</html>

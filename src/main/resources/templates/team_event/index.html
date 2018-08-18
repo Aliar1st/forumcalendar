@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Team events</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>place</th>
+            <th>show</th>
+            <th>delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event:${teamEvents}">
+            <td th:text="${event.name}"></td>
+            <td th:text="${event.startDatetime}"></td>
+            <td th:text="${event.endDatetime}"></td>
+            <td th:text="${event.place}"></td>
+            <td><a th:href="@{/team_events/__${event.id}__}">Show</a></td>
+            <td><a th:href="@{/team_events/__${event.id}__/delete}">Show</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div layout:fragment="scripts">
+
+</div>
+</body>
+</html>

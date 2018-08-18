@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.Activity;
-import ru.forumcalendar.forumcalendar.domain.Shift;
+import org.springframework.transaction.annotation.Transactional;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.ActivityModel;
 import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
+import ru.forumcalendar.forumcalendar.repository.ActivityModeratorRepository;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
@@ -20,10 +21,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseActivityService implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final ShiftRepository shiftRepository;
+    private final ActivityModeratorRepository activityModeratorRepository;
 
     private final ConversionService conversionService;
     private final UserService userService;
@@ -32,11 +35,13 @@ public class BaseActivityService implements ActivityService {
     public BaseActivityService(
             ActivityRepository activityRepository,
             ShiftRepository shiftRepository,
+            ActivityModeratorRepository activityModeratorRepository,
             @Qualifier("mvcConversionService") ConversionService conversionService,
             UserService userService
     ) {
         this.activityRepository = activityRepository;
         this.shiftRepository = shiftRepository;
+        this.activityModeratorRepository = activityModeratorRepository;
         this.conversionService = conversionService;
         this.userService = userService;
     }
@@ -87,22 +92,29 @@ public class BaseActivityService implements ActivityService {
     }
 
     @Override
-    public void delete(int id) {
+    public Activity delete(int id) {
+        Activity activity = get(id);
         activityRepository.deleteById(id);
+        return activity;
     }
+
 
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
 
         return activityRepository.getAllByUserId(userService.getCurrentId())
-                .stream()
                 .map((a) -> conversionService.convert(a, ActivityModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public boolean hasPermissionToWrite(int id) {
-        return get(id).getUser().getId().equals(userService.getCurrentId());
+        User user = userService.getCurrentUser();
+        Activity activity = get(id);
+        ActivityModerator activityModerator = activityModeratorRepository.getByUserIdAndActivityId(user.getId(), id);
+        return activity.getUser().getId().equals(userService.getCurrentId()) ||
+                activityModerator != null ||
+                user.getRole().getId() == Role.ROLE_SUPERUSER_ID;
     }
 
     @Override

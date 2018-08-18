@@ -23,7 +23,13 @@ public class TeamEvent extends AuditModel {
     private Team team;
 
     @Column(nullable = false)
-    private LocalDateTime datetime;
+    private String name;
+
+    @Column(nullable = false)
+    private LocalDateTime startDatetime;
+
+    @Column
+    private LocalDateTime endDatetime;
 
     @Column(nullable = false)
     private String place;

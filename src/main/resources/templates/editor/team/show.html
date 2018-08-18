@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show team</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th><a th:href="@{/editor/team(shiftId=__${shiftId}__)}">Back to teams</a></th>
+        </tr>
+        <tr>
+            <th>name</th>
+            <th>show</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>event</td>
+            <td><a th:href="@{/editor/team_event(teamId=__${id}__)}">Show</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

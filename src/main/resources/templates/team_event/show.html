@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p><b>Название: </b><span th:text="${event.name}"></span></p>
+    <p><b>Начало: </b><span th:text="${event.startDatetime}"></span></p>
+    <p><b>Конец: </b><span th:text="${event.endDatetime}"></span></p>
+    <p><b>Место: </b><span th:text="${event.place}"></span></p>
+    <p><b>Описание: </b><span th:text="${event.description}"></span></p>
+    <p><a th:href="@{/team_events/__${event.id}__/edit}">Edit</a></p>
+</div>
+</body>
+</html>

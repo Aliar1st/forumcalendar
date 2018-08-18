@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show activities</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p><a th:href="@{/events/day}">день</a></p>
+    <p><a th:href="@{/events/shift}">смена</a></p>
+    <p><a th:href="@{/favorites}">избранное</a></p>
+    <p><a th:href="@{/events/shift/add}">добавить</a></p>
+    <p><b>Все</b></p>
+    <table>
+        <thead>
+        <tr>
+            <th>day</th>
+            <th>name</th>
+            <th>start</th>
+            <th>end</th>
+            <th>place</th>
+            <th>description</th>
+            <th>show</th>
+            <th>edit</th>
+            <th>delete</th>
+            <th><a th:href="@{/events/add}">add</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event:${events}">
+            <td th:text="${event.day}"></td>
+            <td th:text="${event.name}"></td>
+            <td th:text="${event.startDatetime}"></td>
+            <td th:text="${event.endDatetime}"></td>
+            <td th:text="${event.place}"></td>
+            <td th:text="${event.description}"></td>
+            <td><a th:href="@{/events/__${event.id}__}">Show</a></td>
+            <td><a th:href="@{/events/__${event.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/events/__${event.id}__/delete}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><b>Командные</b></p>
+    <table>
+        <thead>
+        <tr>
+            <th>day</th>
+            <th>name</th>
+            <th>start</th>
+            <th>end</th>
+            <th>place</th>
+            <th>description</th>
+            <th>show</th>
+            <th>edit</th>
+            <th>delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event:${teamEvents}">
+            <td th:text="${event.day}"></td>
+            <td th:text="${event.name}"></td>
+            <td th:text="${event.startDatetime}"></td>
+            <td th:text="${event.endDatetime}"></td>
+            <td th:text="${event.place}"></td>
+            <td th:text="${event.description}"></td>
+            <td><a th:href="@{/team_events/__${event.id}__}">Show</a></td>
+            <td><a th:href="@{/team_events/__${event.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/team_events/__${event.id}__/delete}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

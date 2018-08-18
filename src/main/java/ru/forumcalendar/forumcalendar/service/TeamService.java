@@ -10,21 +10,15 @@ import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import java.util.List;
 import java.util.Map;
 
-public interface TeamService extends SecuredService {
+public interface TeamService extends SecuredService, ResourceService<Team, TeamModel, TeamForm> {
+
+    List<TeamModel> searchByName(String query) throws InterruptedException;
 
     Team updateTeamName(int teamId, String name);
 
     List<TeamMemberModel> getTeamMembers(int teamId);
 
     boolean becomeCaptainToggle(String userId, int teamId);
-
-    boolean exist(int id);
-
-    Team get(int id);
-
-    Team save(TeamForm teamForm);
-
-    void delete(int id);
 
     UserTeam joinCurrentUserToTeam(int teamId, int teamRoleId);
 

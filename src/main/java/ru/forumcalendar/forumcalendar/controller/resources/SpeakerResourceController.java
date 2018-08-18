@@ -2,25 +2,23 @@ package ru.forumcalendar.forumcalendar.controller.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
+import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("editor/activity/{activityId}/speaker")
+@RequestMapping("editor/speaker")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class SpeakerResourceController {
 
     private static final String HTML_FOLDER = "editor/speaker/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/editor/speaker?activityId=";
 
     private final SpeakerService speakerService;
 
@@ -31,86 +29,77 @@ public class SpeakerResourceController {
         this.speakerService = speakerService;
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("")
     public String index(
-            @P("activityId") @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
-
-        model.addAttribute("speakerModels", speakerService.getSpeakerModelsByActivityId(activityId));
+        model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(activityId));
+        model.addAttribute("activityId", activityId);
 
         return HTML_FOLDER + "index";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @GetMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
+            @RequestParam int activityId,
             Model model
     ) {
+        SpeakerForm speakerForm = new SpeakerForm();
+        speakerForm.setActivityId(activityId);
 
-        model.addAttribute(new SpeakerForm());
+        model.addAttribute(speakerForm);
 
         return HTML_FOLDER + "add";
     }
 
-    @PreAuthorize("@baseActivityService.hasPermissionToWrite(#activityId) or hasRole('SUPERUSER')")
     @PostMapping("add")
     public String add(
-            @P("activityId") @PathVariable int activityId,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "add";
         }
 
         speakerService.save(speakerForm);
 
-        return "redirect:";
+        return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
-    @GetMapping("{speakerId}/edit")
+    @GetMapping("{id}/edit")
     public String edit(
-            @P("speakerId") @PathVariable int speakerId,
+            @PathVariable int id,
             Model model
     ) {
-
-        SpeakerForm speakerForm = new SpeakerForm(speakerService.get(speakerId));
+        SpeakerForm speakerForm = new SpeakerForm(speakerService.get(id));
         model.addAttribute(speakerForm);
 
         return HTML_FOLDER + "edit";
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
-    @PostMapping("{speakerId}/edit")
+    @PostMapping("{id}/edit")
     public String edit(
-            @P("speakerId") @PathVariable int speakerId,
+            @PathVariable int id,
             @Valid SpeakerForm speakerForm,
             BindingResult bindingResult
     ) {
-
         if (bindingResult.hasErrors()) {
             return HTML_FOLDER + "edit";
         }
 
-        speakerForm.setId(speakerId);
+        speakerForm.setId(id);
         speakerService.save(speakerForm);
 
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
     }
 
-    @PreAuthorize("@baseSpeakerService.isUserSpeaker(#speakerId) or hasRole('SUPERUSER')")
-    @GetMapping("{speakerId}/delete")
+    @GetMapping("{id}/delete")
     public String delete(
-            @P("speakerId") @PathVariable int speakerId
+            @PathVariable int id
     ) {
+        Speaker speaker = speakerService.delete(id);
 
-        speakerService.delete(speakerId);
-
-        return "redirect:..";
+        return REDIRECT_ROOT_MAPPING + speaker.getActivity().getId();
     }
 }

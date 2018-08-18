@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import ru.forumcalendar.forumcalendar.domain.Team;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
-    List<Team> getAllByShiftIdOrderByCreatedAt(int shift_id);
+    Stream<Team> getAllByShiftIdOrderByCreatedAt(int shift_id);
 
     @Query("SELECT t FROM Team t " +
            " WHERE t.shift.id = ?1 " +
@@ -18,7 +19,5 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
            "             AND ut.teamRole.id = 1 " +
            "       ) " +
            " ORDER BY t.createdAt")
-    List<Team> getAllByShiftIdAndWithoutCuratorOrderByCreatedAt(int shift_id);
-
-    int countAllByShift_id(int shift_id);
+    Stream<Team> getAllByShiftIdAndWithoutCurator(int shift_id);
 }

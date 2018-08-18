@@ -10,27 +10,28 @@
     <table>
         <thead>
         <tr>
+            <th><a th:href="@{/editor/activity/__${activityId}__}">Back to activity</a></th>
+        </tr>
+        <tr>
             <th>id</th>
             <th>first name</th>
             <th>last name</th>
             <th>direction</th>
             <th>description</th>
-            <th>show</th>
             <th>edit</th>
             <th>delete</th>
-            <th><a th:href="@{speaker/add}">add</a></th>
+            <th><a th:href="@{/editor/speaker/add(activityId=__${activityId}__)}">add</a></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="speaker:${speakerModels}">
+        <tr th:each="speaker:${speakers}">
             <td th:text="${speaker.id}"></td>
             <td th:text="${speaker.firstName}"></td>
             <td th:text="${speaker.lastName}"></td>
             <td th:text="${speaker.link}"></td>
             <td th:text="${speaker.description}"></td>
-            <td><a th:href="@{speaker/__${speaker.id}__}">Show</a></td>
-            <td><a th:href="@{speaker/__${speaker.id}__/edit}">Edit</a></td>
-            <td><a th:href="@{speaker/__${speaker.id}__/delete}">Delete</a></td>
+            <td><a th:href="@{/editor/speaker/__${speaker.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/editor/speaker/__${speaker.id}__/delete}">Delete</a></td>
         </tr>
         </tbody>
     </table>

@@ -7,15 +7,7 @@ import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import java.util.List;
 import java.util.Map;
 
-public interface ShiftService extends SecuredService {
-
-    boolean exist(int id);
-
-    Shift get(int id);
-
-    Shift save(ShiftForm shiftForm);
-
-    void delete(int id);
+public interface ShiftService extends SecuredService, ResourceService<Shift, ShiftModel, ShiftForm> {
 
     Integer getCurrentUserTeamByShift(int id);
 

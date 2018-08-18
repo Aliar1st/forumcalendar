@@ -1,4 +1,4 @@
-package ru.forumcalendar.forumcalendar.Quartz;
+package ru.forumcalendar.forumcalendar.quartz;
 
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;

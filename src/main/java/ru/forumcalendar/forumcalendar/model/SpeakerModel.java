@@ -11,6 +11,8 @@ public class SpeakerModel {
 
     private int activityId;
 
+    private String photo;
+
     private String firstName;
 
     private String lastName;

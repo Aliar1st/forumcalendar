@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.Quartz.NotificationExecutor;
-import ru.forumcalendar.forumcalendar.Quartz.NotificationJob;
+import org.springframework.transaction.annotation.Transactional;
+import ru.forumcalendar.forumcalendar.quartz.NotificationExecutor;
+import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Subscription;
 import ru.forumcalendar.forumcalendar.domain.SubscriptionIdentity;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseSubscriptionService implements SubscriptionService {
 
     private final static int TRIGGERING_MINUTES_BEFORE = 10;
@@ -71,6 +73,11 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
+    public boolean isSubscribed(int eventId) {
+        return false;
+    }
+
+    @Override
     public boolean toggleSubscribe(int eventId, String userId, NotificationJob.Job jobToDone) throws SchedulerException {
 
         Subscription subscription = subscriptionRepository
@@ -79,12 +86,12 @@ public class BaseSubscriptionService implements SubscriptionService {
         if (subscription == null) {
             Event event = eventService.get(eventId);
 
-            if (event.getDatetime().isAfter(LocalDateTime.now().plus(TRIGGERING_MINUTES_BEFORE + 1, ChronoUnit.MINUTES))) {
+            if (event.getStartDatetime().isAfter(LocalDateTime.now().plus(TRIGGERING_MINUTES_BEFORE + 1, ChronoUnit.MINUTES))) {
                 NotificationExecutor notifyExec = new NotificationExecutor(eventId);
                 notifyExecs.add(notifyExec);
                 notifyExec.executeAt(
                         jobToDone,
-                        event.getDatetime().minus(TRIGGERING_MINUTES_BEFORE, ChronoUnit.MINUTES)
+                        event.getStartDatetime().minus(TRIGGERING_MINUTES_BEFORE, ChronoUnit.MINUTES)
                 );
             }
 
@@ -104,9 +111,8 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public List<EventModel> getEventModelsBySubscription() {
-        return subscriptionRepository.getAllBySubscriptionIdentityUserId(userService.getCurrentId())
-                .stream()
+    public List<EventModel> getEventModelsBySubscription(int shiftId) {
+        return subscriptionRepository.getAllByUserIdAndShiftId(userService.getCurrentId(), shiftId)
                 .map((s) -> conversionService.convert(s.getSubscriptionIdentity().getEvent(), EventModel.class))
                 .collect(Collectors.toList());
     }
