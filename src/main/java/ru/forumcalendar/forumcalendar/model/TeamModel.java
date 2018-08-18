@@ -3,6 +3,8 @@ package ru.forumcalendar.forumcalendar.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
 public class TeamModel {
@@ -12,6 +14,8 @@ public class TeamModel {
     private int shiftId;
 
     private String name;
+
+    private int number;
 
     private String direction;
 

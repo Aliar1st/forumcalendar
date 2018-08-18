@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
-import ru.forumcalendar.forumcalendar.domain.Team;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.TeamEvent;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
@@ -13,10 +13,13 @@ import ru.forumcalendar.forumcalendar.repository.TeamEventRepository;
 import ru.forumcalendar.forumcalendar.service.TeamEventService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BaseTeamEventService implements TeamEventService {
 
     private final TeamEventRepository teamEventRepository;
@@ -86,9 +89,19 @@ public class BaseTeamEventService implements TeamEventService {
     }
 
     @Override
+    public List<TeamEventModel> getTeamEventModelsByTeamIdAndDate(int teamId, LocalDate date) {
+
+        LocalDateTime startDate = date.atStartOfDay();
+        LocalDateTime endDate = startDate.plusDays(1);
+
+        return teamEventRepository.getAllByTeamIdAndStartDatetimeBetween(teamId, startDate, endDate)
+                .map((t) -> conversionService.convert(t, TeamEventModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<TeamEventModel> getTeamEventModelsByTeamId(int team_id) {
-        return teamEventRepository.getByTeamId(team_id)
-                .stream()
+        return teamEventRepository.getByTeamIdOrderByStartDatetime(team_id)
                 .map((t) -> conversionService.convert(t, TeamEventModel.class))
                 .collect(Collectors.toList());
     }

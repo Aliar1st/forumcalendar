@@ -9,6 +9,8 @@ import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,11 @@ public class EventModelConverter implements Converter<Event, EventModel> {
                 .collect(Collectors.toList());
 
         eventModel.setSpeakers(speakers);
+
+        LocalDateTime startEvent = event.getStartDatetime();
+        LocalDateTime startShift = event.getShift().getStartDate().atStartOfDay();
+
+        eventModel.setDay((int) ChronoUnit.DAYS.between(startShift, startEvent));
 
         return eventModel;
 

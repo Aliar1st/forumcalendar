@@ -4,8 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface ShiftRepository extends JpaRepository<Shift, Integer> {
 
-    List<Shift> getAllByActivityIdOrderByCreatedAt(int activity_id);
+    Stream<Shift> getAllByActivityIdOrderByCreatedAt(int activity_id);
 }

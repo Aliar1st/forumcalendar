@@ -1,9 +1,0 @@
-<!--suppress ThymeleafVariablesResolveInspection -->
-
-<div th:each="speaker, stat : ${speakers}" class="speaker" th:fragment="speakers" xmlns:th="http://www.thymeleaf.org/">
-    <input type="hidden" name="teamId" th:value="${speaker.id}">
-    <img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profile photo">
-    <label th:text="|${speaker.firstName} ${speaker.lastName}|"></label><br/>
-    <label th:text="${speaker.description}"></label><br/>
-    <a th:href="@{speaker.link}" th:text="${speaker.link}"></a><br/>
-</div>

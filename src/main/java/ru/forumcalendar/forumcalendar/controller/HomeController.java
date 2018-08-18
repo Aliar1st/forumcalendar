@@ -1,7 +1,8 @@
 package ru.forumcalendar.forumcalendar.controller;
 
-import netscape.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,10 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
-import ru.forumcalendar.forumcalendar.domain.Team;
-import ru.forumcalendar.forumcalendar.domain.TeamRole;
-import ru.forumcalendar.forumcalendar.domain.User;
-import ru.forumcalendar.forumcalendar.domain.UserTeam;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingActivityForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingShiftForm;
@@ -37,17 +35,21 @@ public class HomeController {
     private final TeamService teamService;
     private final UserService userService;
 
+    private final PermissionEvaluator permissionEvaluator;
+
+
     @Autowired
     public HomeController(
             ActivityService activityService,
             ShiftService shiftService,
             TeamService teamService,
-            UserService userService
-    ) {
+            UserService userService,
+            PermissionEvaluator permissionEvaluator) {
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.teamService = teamService;
         this.userService = userService;
+        this.permissionEvaluator = permissionEvaluator;
     }
 
     @GetMapping("/")
@@ -164,6 +166,7 @@ public class HomeController {
     @GetMapping("/menu")
     public String menu(
             Model model,
+            Authentication authentication,
             HttpSession httpSession
     ) {
 
@@ -171,6 +174,17 @@ public class HomeController {
 
         User user = userService.getCurrentUser();
 
+        if (permissionEvaluator.hasPermission(authentication, team.getShift().getActivity().getId(), "Activity", "w") &&
+                user.getRole().getId() == Role.ROLE_USER_ID) {
+            model.addAttribute("isModerator", true);
+        }
+        else if(user.getRole().getId() == Role.ROLE_USER_ID) {
+            model.addAttribute("isJustUser", true);
+        }
+
+        model.addAttribute("curActivityId", team.getShift().getActivity().getId());
+        model.addAttribute("curShiftId", team.getShift().getId());
+        model.addAttribute("myTeamId", team.getId());
         model.addAttribute("userPhoto", user.getPhoto());
         model.addAttribute("userName", user.getFirstName() + ' ' + user.getLastName());
         model.addAttribute("teamName", team.getName());

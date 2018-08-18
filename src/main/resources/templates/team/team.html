@@ -3,15 +3,15 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Show shifts</title>
+    <title></title>
 </head>
 <body>
 <div layout:fragment="content">
     <label id="teamName" th:text="${teamName}">Team name</label><br/>
 
-    <button id="editTeamName" type="button">Edit team name</button>
-    <button id="getLink" type="button">Get link</button>
-    <button id="becomeCaptain" type="button">Become captain</button><br/>
+    <button th:if="${isCurator} or ${isModerator} or ${isAdmin}" id="editTeamName" type="button">Edit team name</button>
+    <button th:if="${isCurator} or ${isMember}" id="getLink" type="button">Get link</button>
+    <button th:if="${isCaptain} or ${isMember}" id="becomeCaptain" type="button">Become captain</button><br/>
 
     <div th:each="user, stat : ${teamUsers}" class="team-member">
         <img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="profile photo"><br/>
@@ -22,7 +22,7 @@
 </div>
 
 <div layout:fragment="scripts">
-    <script type="text/javascript" src="/static/scripts/my_team.js"></script>
+    <script type="text/javascript" src="/static/scripts/team.js"></script>
 </div>
 </body>
 </html>

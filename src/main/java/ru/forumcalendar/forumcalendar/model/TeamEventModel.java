@@ -11,6 +11,8 @@ public class TeamEventModel {
 
     private int id;
 
+    private int day;
+
     private String name;
 
     private LocalDateTime startDatetime;

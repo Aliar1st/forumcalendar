@@ -1,9 +1,14 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
@@ -19,13 +24,19 @@ import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
+@Transactional
 public class BaseTeamService implements TeamService {
+
+
+    private EntityManager entityManager;
 
     private final TeamRepository teamRepository;
     private final TeamRoleRepository teamRoleRepository;
@@ -37,6 +48,7 @@ public class BaseTeamService implements TeamService {
 
     @Autowired
     public BaseTeamService(
+            EntityManager entityManager,
             TeamRepository teamRepository,
             TeamRoleRepository teamRoleRepository,
             UserTeamRepository userTeamRepository,
@@ -44,6 +56,7 @@ public class BaseTeamService implements TeamService {
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
+        this.entityManager = entityManager;
         this.teamRepository = teamRepository;
         this.teamRoleRepository = teamRoleRepository;
         this.userTeamRepository = userTeamRepository;
@@ -89,6 +102,30 @@ public class BaseTeamService implements TeamService {
         Team team = get(id);
         teamRepository.deleteById(id);
         return team;
+    }
+
+    @Override
+    public List<TeamModel> searchByName(String q) throws InterruptedException {
+
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        fullTextEntityManager.createIndexer().startAndWait();
+
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(Team.class)
+                .get();
+
+        Query query = queryBuilder
+                .keyword()
+                .wildcard()
+                .onField("name")
+                .matching(q.toLowerCase())
+                .createQuery();
+
+        org.hibernate.search.jpa.FullTextQuery jpaQuery
+                = fullTextEntityManager.createFullTextQuery(query, Team.class);
+
+        return convertTeams(jpaQuery.getResultList().stream());
     }
 
     @Override
@@ -164,24 +201,17 @@ public class BaseTeamService implements TeamService {
 
     @Override
     public List<TeamModel> getTeamModelsByShiftId(int id) {
-        return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
-                .stream()
-                .map((t) -> conversionService.convert(t, TeamModel.class))
-                .collect(Collectors.toList());
+        return convertTeams(teamRepository.getAllByShiftIdOrderByCreatedAt(id));
     }
 
     @Override
     public List<TeamModel> getTeamModelsWithoutCuratorByShiftId(int id) {
-        return teamRepository.getAllByShiftIdAndWithoutCurator(id)
-                .stream()
-                .map((t) -> conversionService.convert(t, TeamModel.class))
-                .collect(Collectors.toList());
+        return convertTeams(teamRepository.getAllByShiftIdAndWithoutCurator(id));
     }
 
     @Override
     public Map<Integer, String> getTeamIdNameMapByShiftId(int id) {
         return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
-                .stream()
                 .collect(Collectors.toMap(Team::getId, Team::getName));
     }
 
@@ -194,6 +224,13 @@ public class BaseTeamService implements TeamService {
     public boolean hasPermissionToRead(int id) {
         return true;
     }
+
+    private List<TeamModel> convertTeams(Stream<Team> teams) {
+        return teams
+                .map((t) -> conversionService.convert(t, TeamModel.class))
+                .collect(Collectors.toList());
+    }
+
 
 //    @Override
 //    public boolean isUserTeam(int id) {

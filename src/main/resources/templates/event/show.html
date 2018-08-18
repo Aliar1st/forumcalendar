@@ -23,7 +23,8 @@
     <p><b>Лайки: </b><span th:text="${event.likes}"></span></p>
     <p><b>Дизлайки: </b><span th:text="${event.dislikes}"></span></p>
     <p><b>Подписка: </b><span th:text="${event.favorite}"></span></p>
-    <p><a th:href="@{/event/__${event.id}__/edit}">Edit</a></p>
+    <p><a th:href="@{/events/__${event.id}__/edit}">Edit</a></p>
 </div>
 </body>
 </html>
+<!--todo: сделать подписку/отписку-->

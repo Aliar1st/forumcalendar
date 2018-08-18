@@ -12,6 +12,8 @@ import java.util.Map;
 
 public interface TeamService extends SecuredService, ResourceService<Team, TeamModel, TeamForm> {
 
+    List<TeamModel> searchByName(String query) throws InterruptedException;
+
     Team updateTeamName(int teamId, String name);
 
     List<TeamMemberModel> getTeamMembers(int teamId);
