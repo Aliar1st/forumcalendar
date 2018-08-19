@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "speakers")
@@ -32,4 +34,9 @@ public class Speaker extends AuditModel {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "speakers")
+//    @JoinTable
+    private Set<Event> events = new HashSet<>();
 }
