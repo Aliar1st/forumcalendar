@@ -2,14 +2,12 @@ package ru.forumcalendar.forumcalendar.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
-public class EventModel {
+public abstract class EventModel implements Comparable<EventModel> {
 
     private int id;
 
@@ -25,13 +23,14 @@ public class EventModel {
 
     private String description;
 
-//    private Shift shift;
+    private boolean shiftEvent;
 
-    private boolean favorite;
-
-    private int likes;
-
-    private int dislikes;
-
-    private List<SpeakerModel> speakers;
+    @Override
+    public int compareTo(EventModel o) {
+        if (startDatetime.isAfter(o.startDatetime)) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 }

@@ -77,7 +77,7 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
             return "redirect:/entrance/1";
         }
 
@@ -97,8 +97,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/entrance/1";
         }
 
         Integer teamId = shiftService.getCurrentUserTeamByShift(choosingShiftForm.getShiftId());
@@ -122,8 +122,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/entrance/1";
         }
 
         List<TeamModel> teams;
@@ -153,8 +153,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/entrance/1";
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());

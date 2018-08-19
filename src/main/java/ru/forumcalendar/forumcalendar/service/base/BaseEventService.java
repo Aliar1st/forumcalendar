@@ -9,7 +9,7 @@ import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
-import ru.forumcalendar.forumcalendar.model.EventModel;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.EventRepository;
@@ -66,10 +66,10 @@ public class BaseEventService implements EventService {
     }
 
     @Override
-    public List<EventModel> getAll() {
+    public List<ShiftEventModel> getAll() {
         return eventRepository.findAll()
                 .stream()
-                .map((e) -> conversionService.convert(e, EventModel.class))
+                .map((e) -> conversionService.convert(e, ShiftEventModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -113,20 +113,20 @@ public class BaseEventService implements EventService {
     }
 
     @Override
-    public List<EventModel> getEventModelsByShiftIdAndDate(int shiftId, LocalDate date) {
+    public List<ShiftEventModel> getEventModelsByShiftIdAndDate(int shiftId, LocalDate date) {
 
         LocalDateTime startDate = date.atStartOfDay();
         LocalDateTime endDate = startDate.plusDays(1);
 
         return eventRepository.getAllByShiftIdAndStartDatetimeBetween(shiftId, startDate, endDate)
-                .map((a) -> conversionService.convert(a, EventModel.class))
+                .map((a) -> conversionService.convert(a, ShiftEventModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<EventModel> getEventModelsByShiftId(int shiftId) {
+    public List<ShiftEventModel> getEventModelsByShiftId(int shiftId) {
         return eventRepository.getAllByShiftIdOrderByStartDatetime(shiftId)
-                .map((a) -> conversionService.convert(a, EventModel.class))
+                .map((a) -> conversionService.convert(a, ShiftEventModel.class))
                 .collect(Collectors.toList());
     }
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Event;
-import ru.forumcalendar.forumcalendar.model.EventModel;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
@@ -14,7 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventModelConverter implements Converter<Event, EventModel> {
+public class EventModelConverter implements Converter<Event, ShiftEventModel> {
 
     private SpeakerModelConverter speakerModelConverter;
 
@@ -23,34 +23,34 @@ public class EventModelConverter implements Converter<Event, EventModel> {
     private SubscriptionService subscriptionService;
 
     @Override
-    public EventModel convert(Event event) {
+    public ShiftEventModel convert(Event event) {
 
-        EventModel eventModel = new EventModel();
-        eventModel.setId(event.getId());
-        eventModel.setName(event.getName());
-        eventModel.setPlace(event.getPlace());
-        eventModel.setStartDatetime(event.getStartDatetime());
-        eventModel.setEndDatetime(event.getEndDatetime());
-        eventModel.setDescription(event.getDescription());
-//        eventModel.setShift(event.getShift());
+        ShiftEventModel shiftEventModel = new ShiftEventModel();
+        shiftEventModel.setId(event.getId());
+        shiftEventModel.setName(event.getName());
+        shiftEventModel.setPlace(event.getPlace());
+        shiftEventModel.setStartDatetime(event.getStartDatetime());
+        shiftEventModel.setEndDatetime(event.getEndDatetime());
+        shiftEventModel.setDescription(event.getDescription());
+//        shiftEventModel.setShift(event.getShift());
 
-        eventModel.setLikes(likeService.getLikes(event.getId()));
-        eventModel.setDislikes(likeService.getDislikes(event.getId()));
-        eventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
+        shiftEventModel.setLikes(likeService.getLikes(event.getId()));
+        shiftEventModel.setDislikes(likeService.getDislikes(event.getId()));
+        shiftEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
 
         List<SpeakerModel> speakers = event.getSpeakers()
                 .stream()
                 .map((s) -> speakerModelConverter.convert(s))
                 .collect(Collectors.toList());
 
-        eventModel.setSpeakers(speakers);
+        shiftEventModel.setSpeakers(speakers);
 
         LocalDateTime startEvent = event.getStartDatetime();
         LocalDateTime startShift = event.getShift().getStartDate().atStartOfDay();
 
-        eventModel.setDay((int) ChronoUnit.DAYS.between(startShift, startEvent));
+        shiftEventModel.setDay((int) ChronoUnit.DAYS.between(startShift, startEvent));
 
-        return eventModel;
+        return shiftEventModel;
 
     }
 

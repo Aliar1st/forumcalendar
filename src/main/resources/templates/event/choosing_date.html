@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/events/choosing_date}" method="POST">
+        <label>Дата
+            <input name="date" type="date" th:value="${now}">
+        </label>
+        <label th:if="${error!=null}"
+               th:text="${error}">error
+        </label>
+        <button type="submit">Далее</button>
+    </form>
+</div>
+</body>
+</html>

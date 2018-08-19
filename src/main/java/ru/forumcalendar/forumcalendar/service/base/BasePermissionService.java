@@ -30,8 +30,7 @@ public class BasePermissionService implements PermissionService {
     public String identifyUser(Authentication auth, int id, String type, String perm) {
         String res = "";
         int userRoleId = userService.getCurrentUser().getRole().getId();
-        if (permissionEvaluator.hasPermission(auth, id, type, perm) &&
-                userRoleId == Role.ROLE_USER_ID) {
+        if (permissionEvaluator.hasPermission(auth, id, type, perm) && userRoleId == Role.ROLE_USER_ID) {
             res = "isModerator";
         } else if (userRoleId == Role.ROLE_USER_ID) {
             res = "isJustUser";

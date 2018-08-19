@@ -46,6 +46,12 @@ public class BaseTeamRoleService implements TeamRoleService {
     }
 
     @Override
+    public boolean isExistCurator(int teamId) {
+        UserTeam userTeam = userTeamRepository.getByRoleIdAndTeamId(TeamRole.ROLE_CURATOR_ID, teamId);
+        return userTeam != null;
+    }
+
+    @Override
     public boolean exist(int id) {
         return teamRoleRepository.findById(id).isPresent();
     }

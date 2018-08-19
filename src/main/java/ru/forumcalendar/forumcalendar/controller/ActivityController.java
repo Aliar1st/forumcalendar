@@ -10,7 +10,7 @@ import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.PermissionService;
 
 @Controller
-@RequestMapping("/activity")
+@RequestMapping("activities")
 public class ActivityController {
 
     private static final String HTML_FOLDER = "activity/";
@@ -27,9 +27,9 @@ public class ActivityController {
         this.permissionService = permissionService;
     }
 
-    @GetMapping("/activities")
+    @GetMapping("")
     @PreAuthorize("hasRole('ROLE_SUPERUSER')")
-    public String activities(Model model) {
+    public String index(Model model) {
 
         model.addAttribute("forums", activityService.getAll());
 

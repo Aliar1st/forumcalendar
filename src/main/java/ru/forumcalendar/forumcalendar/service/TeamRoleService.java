@@ -13,6 +13,8 @@ public interface TeamRoleService {
 
     boolean isUserMemberOfTeam(String userId, int teamId);
 
+    boolean isExistCurator(int teamId);
+
     boolean exist(int id);
 
     List<TeamRole> getAllRoles();

@@ -10,10 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.EventModel;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
+import ru.forumcalendar.forumcalendar.model.TeamEventModel;
+import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
@@ -23,6 +27,9 @@ import ru.forumcalendar.forumcalendar.service.TeamService;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -57,35 +64,53 @@ public class EventController {
         this.permissionEvaluator = permissionEvaluator;
     }
 
-    @GetMapping("day")
-    public String indexDay(
-            Model model,
-            HttpSession httpSession,
-            Authentication authentication
+    @GetMapping("choosing_date")
+    public String choosingDate(
+        Model model
     ) {
+        model.addAttribute("now", LocalDate.now());
+        return HTML_FOLDER + "choosing_date";
+    }
 
-        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-        Shift shift = teamService.get(teamId).getShift();
-
-        if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {
-            return REDIRECT_ROOT_MAPPING;
+    @PostMapping("choosing_date")
+    public String choosingDate(
+            @Valid ChoosingEventsDate choosingEventsDate,
+            BindingResult bindingResult,
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            return HTML_FOLDER + "choosing_date";
         }
 
-    @GetMapping("day")
-    public String indexDay(
-            Model model,
-            HttpSession httpSession,
-            Authentication authentication
-    ) {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-        Shift shift = teamService.get(teamId).getShift();
+        int shiftId = teamService.get(teamId).getShift().getId();
 
-        if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {
-            return REDIRECT_ROOT_MAPPING;
+        List<ShiftEventModel> shiftEventModels = eventService.getEventModelsByShiftIdAndDate(shiftId, choosingEventsDate.getDate());
+        List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
+
+        List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
+        events.addAll(shiftEventModels);
+        events.addAll(teamEventModels);
+        Collections.sort(events);
+
+        if (events.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Events on this date not found");
+            return REDIRECT_ROOT_MAPPING + "/choosing_date";
         }
 
-        model.addAttribute("events", eventService.getEventModelsByShiftIdAndDate(shift.getId(), LocalDate.now()));
-        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, LocalDate.now()));
+        redirectAttributes.addFlashAttribute("events", events);
+
+        return REDIRECT_ROOT_MAPPING;
+    }
+
+    @GetMapping("")
+    public String index(
+            Model model
+    ) {
+        if (!model.containsAttribute("events")) {
+            return REDIRECT_ROOT_MAPPING + "/choosing_date";
+        }
 
         return HTML_FOLDER + "index";
     }
@@ -96,7 +121,7 @@ public class EventController {
             @PathVariable int id,
             Model model
     ) {
-        model.addAttribute("event", conversionService.convert(eventService.get(id), EventModel.class));
+        model.addAttribute("event", conversionService.convert(eventService.get(id), ShiftEventModel.class));
 
         return HTML_FOLDER + "show";
     }

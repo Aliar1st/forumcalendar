@@ -17,8 +17,8 @@
                         th:text="${activity.name}">
                 </option>
             </select>
-            <label th:if="${entranceError != null}"
-                   th:errors="${entranceError}">error
+            <label th:if="${error!=null}"
+                   th:text="${error}">error
             </label>
         </label>
         <button type="submit">Далее</button>
