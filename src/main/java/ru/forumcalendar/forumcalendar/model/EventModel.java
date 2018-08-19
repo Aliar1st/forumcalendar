@@ -1,33 +1,23 @@
 package ru.forumcalendar.forumcalendar.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
-public abstract class EventModel implements Comparable<EventModel> {
-
-    private int id;
-
-    private int day;
-
-    private String name;
-
-    private LocalDateTime startDatetime;
-
-    private LocalDateTime endDatetime;
-
-    private String place;
-
-    private String description;
-
-    private boolean shiftEvent;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public abstract class EventModel extends InnerEventModel implements Comparable<EventModel> {
 
     @Override
     public int compareTo(EventModel o) {
-        if (startDatetime.isAfter(o.startDatetime)) {
+        if (this.getStartDatetime().isAfter(o.getStartDatetime())) {
             return 1;
         } else {
             return -1;

@@ -52,6 +52,19 @@ public class BaseTeamRoleService implements TeamRoleService {
     }
 
     @Override
+    public Role getMemberRole(String userId, int teamId) {
+        UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userId, teamId);
+        if (userTeam != null && userTeam.getTeamRole().getId() == TeamRole.ROLE_CURATOR_ID) {
+            return Role.CURATOR;
+        } else if (userTeam != null && userTeam.getTeamRole().getId() == TeamRole.ROLE_CAPTAIN_ID) {
+            return Role.CAPTAIN;
+        } else if (userTeam != null) {
+            return Role.MEMBER;
+        }
+        return Role.NOT_IN_TEAM;
+    }
+
+    @Override
     public boolean exist(int id) {
         return teamRoleRepository.findById(id).isPresent();
     }

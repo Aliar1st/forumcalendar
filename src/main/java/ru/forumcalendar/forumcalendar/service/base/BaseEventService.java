@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -99,6 +100,7 @@ public class BaseEventService implements EventService {
                 speakers.add(speaker);
             }
             event.setSpeakers(new HashSet<>(speakers));
+
             speakerRepository.saveAll(speakers);
         }
 
@@ -128,6 +130,12 @@ public class BaseEventService implements EventService {
         return eventRepository.getAllByShiftIdOrderByStartDatetime(shiftId)
                 .map((a) -> conversionService.convert(a, ShiftEventModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ShiftEventModel> getEventsBySpeakerId(int id) {
+
+        return null;
     }
 
     @Override

@@ -20,7 +20,8 @@
         <b th:text="|${contact.contactTypeName}: |"></b>
         <span th:text="${contact.link}"></span>
     </p>
-    <a th:href="@{~/user/edit}">Изменить</a>
+    <a th:if="${isMyPage}" th:href="@{~/user/__${user.id}__/edit}">Изменить</a>
+
 </div>
 </body>
 </html>

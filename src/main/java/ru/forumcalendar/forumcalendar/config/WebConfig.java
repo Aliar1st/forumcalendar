@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new ActivityModelConverter());
+        registry.addConverter(activityModelConverter());
         registry.addConverter(new ShiftModelConverter());
         registry.addConverter(new TeamModelConverter());
         registry.addConverter(new TeamEventModelConverter());
@@ -34,6 +34,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(eventModelConverter());
         registry.addConverter(contactModelConverter());
         registry.addConverter(userModelConverter());
+        registry.addConverter(innerEventModelConverter());
+        registry.addConverter(innerSpeakerModelConverter());
     }
 
     @Override
@@ -45,6 +47,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new TrailingSlashRemoveInterceptor());
         registry.addInterceptor(new RedirectToEntranceWithoutChoosingTeamInterceptor());
+    }
+
+    @Bean
+    public ActivityModelConverter activityModelConverter() {
+        return new ActivityModelConverter();
     }
 
     @Bean
@@ -65,6 +72,16 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public EventModelConverter eventModelConverter() {
         return new EventModelConverter();
+    }
+
+    @Bean
+    public InnerEventModelConverter innerEventModelConverter() {
+        return new InnerEventModelConverter();
+    }
+
+    @Bean
+    public InnerSpeakerModelConverter innerSpeakerModelConverter() {
+        return new InnerSpeakerModelConverter();
     }
 
 //    @Bean

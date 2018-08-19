@@ -29,6 +29,7 @@ public class ActivityForm {// implements ResourceForm<Activity> {
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
+    @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
     private String description;
 

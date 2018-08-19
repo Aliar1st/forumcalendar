@@ -115,8 +115,7 @@ public class BaseActivityService implements ActivityService {
         User user = userService.getCurrentUser();
         Activity activity = get(id);
         ActivityModerator activityModerator = activityModeratorRepository.getByUserIdAndActivityId(user.getId(), id);
-        return activity.getUser().getId().equals(userService.getCurrentId()) ||
-                activityModerator != null ||
+        return activity.getUser().getId().equals(userService.getCurrentId()) || activityModerator != null ||
                 user.getRole().getId() == Role.ROLE_SUPERUSER_ID;
     }
 

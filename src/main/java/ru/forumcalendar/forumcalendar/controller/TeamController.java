@@ -1,55 +1,69 @@
 package ru.forumcalendar.forumcalendar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.model.form.TeamForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("team")
 public class TeamController {
 
     private static final String HTML_FOLDER = "team/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/team/";
 
+    private final ShiftService shiftService;
     private final PermissionService permissionService;
     private final TeamRoleService teamRoleService;
     private final TeamService teamService;
     private final UserService userService;
     private final LinkService linkService;
 
+    private final PermissionEvaluator permissionEvaluator;
+
     @Autowired
     public TeamController(
+            ShiftService shiftService,
             PermissionService permissionService,
             TeamRoleService teamRoleService,
             TeamService teamService,
             UserService userService,
-            LinkService linkService
-    ) {
+            LinkService linkService,
+            PermissionEvaluator permissionEvaluator) {
+        this.shiftService = shiftService;
         this.permissionService = permissionService;
         this.teamRoleService = teamRoleService;
         this.teamService = teamService;
         this.userService = userService;
         this.linkService = linkService;
+        this.permissionEvaluator = permissionEvaluator;
     }
 
     @GetMapping("/teams")
     public String teams(
             @RequestParam int shiftId,
-            Authentication authentication,
             Model model
     ) {
-        String perm = permissionService.identifyUser(authentication, shiftId, "Shift", "w");
 
-        model.addAttribute(perm, true);
+        PermissionService.Identifier identifier =
+                permissionService.identifyUser(shiftService.get(shiftId).getActivity().getId());
+
+        model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
         model.addAttribute("curShiftId", shiftId);
 
@@ -60,43 +74,25 @@ public class TeamController {
     public String showTeam(
             @PathVariable int teamId,
             Model model,
-            Principal principal,
-            Authentication authentication
+            Principal principal
     ) {
 
         Team team = teamService.get(teamId);
         User user = userService.getCurrentUser(principal);
 
-        if (teamRoleService.isUserCuratorOfTeam(user.getId(), team.getId())) {
-            model.addAttribute("isCurator", true);
-        } else if (teamRoleService.isUserCaptainOfTeam(user.getId(), team.getId())) {
-            model.addAttribute("isCaptain", true);
-        } else if (teamRoleService.isUserMemberOfTeam(user.getId(), team.getId())) {
-            model.addAttribute("isMember", true);
-        }
+        model.addAttribute(teamRoleService.getMemberRole(user.getId(), team.getId()).getValue(), true);
 
-        String perm = permissionService.identifyUser(authentication, team.getId(), "Team", "w");
+        PermissionService.Identifier identifier =
+                permissionService.identifyUser(team.getShift().getActivity().getId());
 
-        model.addAttribute(perm, true);
+        model.addAttribute(identifier.getValue(), true);
+        model.addAttribute("teamId", teamId);
+        model.addAttribute("curUserId", user.getId());
         model.addAttribute("teamName", team.getName());
         model.addAttribute("teamUsers", teamService.getTeamMembers(team.getId()));
 
         return HTML_FOLDER + "/team";
     }
-
-//    @GetMapping("/my")
-//    public String teamUsers(
-//            Model model,
-//            HttpSession httpSession
-//    ) {
-//
-//        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
-//
-//        model.addAttribute("teamName", team.getName());
-//        model.addAttribute("teamUsers", teamService.getTeamMembers(team.getId()));
-//
-//        return "team/index";
-//    }
 
     @ResponseBody
     @PostMapping("/becomeCaptain")
@@ -116,18 +112,66 @@ public class TeamController {
 
         Team team = teamService.get(teamId);
 
-        if (teamService.becomeCaptainToggle(currentUser.getId(), team.getId())) {
+        if (teamService.becomeCaptainToggle(currentUser.getId(), teamId)) {
             return "Вы стали капитаном";
         } else {
             return "Вы не капитан";
         }
     }
 
+    @GetMapping("add")
+    public String add(
+            @RequestParam int shiftId,
+            HttpSession httpSession,
+            Authentication authentication,
+            Model model
+    ) {
+
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w")) {
+            return REDIRECT_ROOT_MAPPING + teamId;
+        }
+
+        TeamForm teamForm = new TeamForm();
+        teamForm.setShiftId(shiftId);
+
+        model.addAttribute(teamForm);
+
+        return HTML_FOLDER + "add";
+    }
+
+    @PostMapping("add")
+    public String add(
+            @Valid TeamForm teamForm,
+            BindingResult bindingResult,
+            HttpSession httpSession,
+            Authentication authentication
+    ) {
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w")) {
+            return REDIRECT_ROOT_MAPPING + teamId;
+        }
+
+        if (bindingResult.hasErrors()) {
+            return HTML_FOLDER + "add";
+        }
+
+        Team team = teamService.save(teamForm);
+
+        return HTML_FOLDER + team.getId();
+    }
+
     @GetMapping("{teamId}/editName")
     public String editName(
             @PathVariable int teamId,
+            Principal principal,
+            Authentication authentication,
             Model model
     ) {
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w") &&
+                !teamRoleService.isUserCuratorOfTeam(userService.getCurrentUser(principal).getId(), teamId)) {
+            return null;
+        }
 
         Team team = teamService.get(teamId);
         model.addAttribute("teamId", teamId);
@@ -140,8 +184,15 @@ public class TeamController {
     @PostMapping("{teamId}/editName")
     public String editName(
             @PathVariable int teamId,
+            Principal principal,
+            Authentication authentication,
             String teamName
     ) {
+
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w") &&
+                !teamRoleService.isUserCuratorOfTeam(userService.getCurrentUser(principal).getId(), teamId)) {
+            return null;
+        }
 
         Team team = teamService.get(teamId);
 
@@ -170,8 +221,48 @@ public class TeamController {
 
     @GetMapping("/invite/{uniqueParam}")
     private String inviteViaLink(@PathVariable String uniqueParam) {
-        linkService.inviteViaLink(uniqueParam);
-        return "redirect:/user/";
+        Team team = linkService.inviteViaLink(uniqueParam);
+        return REDIRECT_ROOT_MAPPING + team.getId();
+    }
+
+    @ResponseBody
+    @PostMapping("/{teamId}/kickMember")
+    private Map<String, String> kickMember(
+            @PathVariable int teamId,
+            @RequestParam String userId,
+            Principal principal,
+            Authentication authentication
+    ) {
+
+        Map<String, String> resp = new HashMap<>();
+
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w") &&
+                !teamRoleService.isUserCuratorOfTeam(userService.getCurrentUser(principal).getId(), teamId)) {
+            resp.put("kickedMember", "");
+            return null;
+        }
+
+        User kickedUser = userService.get(userId);
+        teamService.kickMember(userId, teamId);
+
+        resp.put("kickedMember", kickedUser.getFirstName() + " " + kickedUser.getLastName());
+
+        return resp;
+    }
+
+    @PostMapping("/{teamId}/leaveTeam")
+    private String leaveTeam(
+            @PathVariable int teamId,
+            HttpSession httpSession,
+            Principal principal
+    ) {
+
+        User currentUser = userService.getCurrentUser(principal);
+
+        teamService.kickMember(currentUser.getId(), teamId);
+        httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, -1);
+
+        return "redirect:/entrance/1";
     }
 
 }

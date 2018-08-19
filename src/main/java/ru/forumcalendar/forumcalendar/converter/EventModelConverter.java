@@ -6,6 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
+import ru.forumcalendar.forumcalendar.model.EventModel;
+import ru.forumcalendar.forumcalendar.model.InnerSpeakerModel;
 import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
 
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class EventModelConverter implements Converter<Event, ShiftEventModel> {
 
-    private SpeakerModelConverter speakerModelConverter;
+    private InnerSpeakerModelConverter innerSpeakerModelConverter;
 
     private LikeService likeService;
 
@@ -38,9 +40,9 @@ public class EventModelConverter implements Converter<Event, ShiftEventModel> {
         shiftEventModel.setDislikes(likeService.getDislikes(event.getId()));
         shiftEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
 
-        List<SpeakerModel> speakers = event.getSpeakers()
+        List<InnerSpeakerModel> speakers = event.getSpeakers()
                 .stream()
-                .map((s) -> speakerModelConverter.convert(s))
+                .map((s) -> innerSpeakerModelConverter.convert(s))
                 .collect(Collectors.toList());
 
         shiftEventModel.setSpeakers(speakers);
@@ -55,8 +57,8 @@ public class EventModelConverter implements Converter<Event, ShiftEventModel> {
     }
 
     @Autowired
-    public void setSpeakerModelConverter(@Lazy SpeakerModelConverter speakerModelConverter) {
-        this.speakerModelConverter = speakerModelConverter;
+    public void setInnerSpeakerModelConverter(@Lazy InnerSpeakerModelConverter innerSpeakerModelConverter) {
+        this.innerSpeakerModelConverter = innerSpeakerModelConverter;
     }
 
     @Autowired

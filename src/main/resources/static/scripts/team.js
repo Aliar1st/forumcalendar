@@ -15,6 +15,18 @@ $(function () {
     var editNameFormFlag = false;
     var genLinkFormFlag = false;
 
+
+    $(document).on('click', '.kickMember', function (event) {
+        var userId = $(event.currentTarget).parent().children('input[name="userId"]').val();
+        $.ajax({
+            type: "POST",
+            url: location.href + "/kickMember?userId=" + userId,
+            success: function (data) {
+                $().toastmessage('showNoticeToast', data.kickedMember + " успешно удалён из команды.");
+            }
+        });
+    });
+
     $(editTeamNameButton).on('click', function (event) {
         if (!editNameFormFlag) {
             $.ajax({
@@ -47,7 +59,6 @@ $(function () {
             url: "/team/becomeCaptain",
             success: function (data) {
                 $().toastmessage('showNoticeToast', data);
-
             }
         });
     });

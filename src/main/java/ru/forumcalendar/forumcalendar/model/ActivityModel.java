@@ -20,4 +20,12 @@ public class ActivityModel {
     private String description;
 
     private int shiftCount;
+
+    private int memberCount;
+
+    private int teamCount;
+
+    private int eventCount;
+
+    private int speakerCount;
 }

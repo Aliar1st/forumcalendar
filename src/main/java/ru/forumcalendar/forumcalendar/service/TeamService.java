@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 
 public interface TeamService extends SecuredService, ResourceService<Team, TeamModel, TeamForm> {
 
+    void kickMember(String userId, int teamId);
+
     List<TeamModel> searchByName(String query) throws InterruptedException;
 
     Team updateTeamName(int teamId, String name);

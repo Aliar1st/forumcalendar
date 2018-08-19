@@ -17,7 +17,7 @@ public class ShiftEventModel extends EventModel {
 
     private int dislikes;
 
-    private List<SpeakerModel> speakers;
+    private List<InnerSpeakerModel> speakers;
 
     {
         super.setShiftEvent(true);

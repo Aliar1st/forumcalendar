@@ -14,20 +14,13 @@
     <p th:text="${userName}"></p>
     <p th:text="${teamName}"></p>
     <ul>
-        <li><a th:href="@{/user}">Мой профиль</a></li>
+        <li><a th:href="@{/user/__${userId}__}">Мой профиль</a></li>
         <li><a th:href="@{/events/choosing_date}">Календарь событий</a></li>
         <li><a th:href="@{/team/__${myTeamId}__}">Моя команда</a></li>
-
         <li th:if="${isJustUser}"><a th:href="@{/team/teams(shiftId=__${curShiftId}__)}">Команды смены</a></li>
         <li th:if="${isJustUser}"><a th:href="@{/speaker/speakers(activityId=__${curActivityId}__)}">Спикеры</a></li>
-
         <li><a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/activities}">Форумы</a></li>
-
-        <li><a th:if="${isModerator}" th:href="@{/favorites}">Мой форум</a></li>
-
-        <li><a th:href="@{/my_team}">Моя команда</a></li>
-        <li><a th:href="@{/kfs}">КФС</a></li>
-        <li><a th:href="@{/team_events}">Мероприприятия</a></li>
+        <li><a th:if="${isModerator}" th:href="@{/activities/__${curActivityId}__}">Мой форум</a></li>
         <li><a th:href="@{/favorites}">Избранное</a></li>
         <li></li>
         <li><a th:href="@{/menu_exit}">Выйти из форума</a></li>

@@ -1,23 +1,20 @@
 package ru.forumcalendar.forumcalendar.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import ru.forumcalendar.forumcalendar.domain.Event;
 
-@Getter
-@Setter
-public class SpeakerModel {
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-    private int id = -1;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SpeakerModel extends InnerSpeakerModel {
 
-    private int activityId;
-
-    private String photo;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String link;
-
-    private String description;
+    private List<InnerEventModel> events;
 }

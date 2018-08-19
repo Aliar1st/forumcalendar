@@ -39,9 +39,9 @@ public class Event extends AuditModel {
     private String description;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_speakers",
-            joinColumns = { @JoinColumn(name = "event_id") },
-            inverseJoinColumns = { @JoinColumn(name = "speaker_id") })
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id"))
     private Set<Speaker> speakers = new HashSet<>();
 }

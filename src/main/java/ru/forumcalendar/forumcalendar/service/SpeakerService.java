@@ -1,6 +1,7 @@
 package ru.forumcalendar.forumcalendar.service;
 
 import ru.forumcalendar.forumcalendar.domain.Speaker;
+import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 

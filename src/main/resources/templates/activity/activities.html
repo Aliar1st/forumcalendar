@@ -15,13 +15,13 @@
             <label>Forums</label>
             <div th:each="forum, stat : ${forums}" class="forum" >
                 <input type="hidden" name="teamId" th:value="${forum.id}">
-                <label th:text="${forum.name}"></label><br/>
+                <a th:href="@{/activities/__${forum.id}__}" th:text="${forum.name}"></a><br/>
                 <label th:text="${forum.description}"></label><br/>
                 <label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>
             </div>
         </div>
 
-        <a th:href="@{/editor/activity/add}">Добавить форум</a>
+        <a th:href="@{/activities/add}">Добавить форум</a>
 
 
         <!--<div th:replace="kfc/_teams :: teams" ></div>-->

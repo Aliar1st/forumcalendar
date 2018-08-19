@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Activity</title>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <a th:if="${isAdmin} or ${isModerator}" th:href="@{~/activities/__${activity.id}__/edit}">Изменить</a><br/>
+        <input type="hidden" name="teamId" th:value="${activity.id}">
+        <label th:text="${activity.name}"></label><br/>
+        <label th:text="|Дата начала: ${activity.startDate}|"></label><br/>
+        <label th:text="|Дата конца: ${activity.endDate}|"></label><br/>
+        <label th:text="|Описание: ${activity.description}|"></label><br/>
+        <hr/>
+        <label th:text="|Смены ${activity.shiftCount}|"></label><br/>
+        <label th:text="|Участники ${activity.memberCount}|"></label><br/>
+        <label th:text="|Команды ${activity.teamCount}|"></label><br/>
+        <label th:text="|События ${activity.eventCount}|"></label><br/>
+        <label th:text="|Спикеры ${activity.speakerCount}|"></label><br/>
+
+    </div>
+
+    <div layout:fragment="scripts">
+
+    </div>
+</body>
+</html>

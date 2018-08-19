@@ -29,6 +29,7 @@ public class HomeController {
 
     private static final String HTML_FOLDER = "home/";
 
+    private final PermissionService permissionService;
     private final ActivityService activityService;
     private final ShiftService shiftService;
     private final TeamService teamService;
@@ -39,11 +40,13 @@ public class HomeController {
 
     @Autowired
     public HomeController(
+            PermissionService permissionService,
             ActivityService activityService,
             ShiftService shiftService,
             TeamService teamService,
             UserService userService,
             PermissionEvaluator permissionEvaluator) {
+        this.permissionService = permissionService;
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.teamService = teamService;
@@ -181,17 +184,14 @@ public class HomeController {
 
         User user = userService.getCurrentUser();
 
-        if (permissionEvaluator.hasPermission(authentication, team.getShift().getActivity().getId(), "Activity", "w") &&
-                user.getRole().getId() == Role.ROLE_USER_ID) {
-            model.addAttribute("isModerator", true);
-        }
-        else if(user.getRole().getId() == Role.ROLE_USER_ID) {
-            model.addAttribute("isJustUser", true);
-        }
+        PermissionService.Identifier identifier = permissionService.identifyUser(team.getShift().getActivity().getId());
+
+        model.addAttribute(identifier.getValue(), true);
 
         model.addAttribute("curActivityId", team.getShift().getActivity().getId());
         model.addAttribute("curShiftId", team.getShift().getId());
         model.addAttribute("myTeamId", team.getId());
+        model.addAttribute("userId", user.getId());
         model.addAttribute("userPhoto", user.getPhoto());
         model.addAttribute("userName", user.getFirstName() + ' ' + user.getLastName());
         model.addAttribute("teamName", team.getName());

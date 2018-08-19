@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/app}"
-      xmlns:th="http://www.thymeleaf.org/">
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Speakers</title>
 </head>
@@ -14,16 +15,16 @@
         <div class="speakers-container">
             <label>Speakers</label>
             <div th:each="speaker, stat : ${speakers}" class="speaker">
-                <input type="hidden" name="teamId" th:value="${speaker.id}">
+                <input type="hidden" name="speakerId" th:value="${speaker.id}">
                 <img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profile photo">
-                <label th:text="|${speaker.firstName} ${speaker.lastName}|"></label><br/>
+                <a th:href="@{/speaker/__${speaker.id}__}" th:text="|${speaker.firstName} ${speaker.lastName}|"></a><br/>
                 <label th:text="${speaker.description}"></label><br/>
                 <a th:href="@{speaker.link}" th:text="${speaker.link}"></a><br/>
             </div>
         </div>
 
-        <a th:if="${isModerator} or ${isAdmin}" th:href="@{'/editor/speaker/add?activityId='+__${curActivityId}__}">Добавить спикера</a>
-
+        <a th:if="${isModerator} or ${isAdmin}"
+           th:href="@{'/speaker/add?activityId='+__${curActivityId}__}">Добавить спикера</a>
 
         <!--<div th:replace="kfc/_teams :: teams" ></div>-->
 

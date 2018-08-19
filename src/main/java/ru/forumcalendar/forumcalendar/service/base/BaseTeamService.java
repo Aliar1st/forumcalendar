@@ -25,6 +25,7 @@ import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
 import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
+import ru.forumcalendar.forumcalendar.service.TeamRoleService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -46,6 +47,7 @@ public class BaseTeamService implements TeamService {
     private final TeamRoleRepository teamRoleRepository;
     private final UserTeamRepository userTeamRepository;
 
+    private final TeamRoleService teamRoleService;
     private final ShiftService shiftService;
     private final UserService userService;
     private final ConversionService conversionService;
@@ -56,6 +58,7 @@ public class BaseTeamService implements TeamService {
             TeamRepository teamRepository,
             TeamRoleRepository teamRoleRepository,
             UserTeamRepository userTeamRepository,
+            TeamRoleService teamRoleService,
             ShiftService shiftService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
@@ -64,6 +67,7 @@ public class BaseTeamService implements TeamService {
         this.teamRepository = teamRepository;
         this.teamRoleRepository = teamRoleRepository;
         this.userTeamRepository = userTeamRepository;
+        this.teamRoleService = teamRoleService;
         this.shiftService = shiftService;
         this.userService = userService;
         this.conversionService = conversionService;
@@ -106,6 +110,12 @@ public class BaseTeamService implements TeamService {
         Team team = get(id);
         teamRepository.deleteById(id);
         return team;
+    }
+
+    @Override
+    public void kickMember(String userId, int teamId) {
+        UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userId, teamId);
+        userTeamRepository.delete(userTeam);
     }
 
     @Override
@@ -168,7 +178,7 @@ public class BaseTeamService implements TeamService {
                 .filter(u -> u.getTeamRole().getName().equals(captainRole.getName()))
                 .count();
 
-        if (captainCount == 0) {
+        if (captainCount == 0 || userTeam.getTeamRole().getId() == TeamRole.ROLE_CAPTAIN_ID) {
             switch (userTeam.getTeamRole().getId()) {
                 case TeamRole.ROLE_MEMBER_ID: {
                     userTeam.setTeamRole(captainRole);

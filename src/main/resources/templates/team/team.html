@@ -9,14 +9,22 @@
 <div layout:fragment="content">
     <label id="teamName" th:text="${teamName}">Team name</label><br/>
 
+
+    <form th:if="${isCurator} or ${isCaptain} or ${isMember}"
+          th:action="@{__${teamId}__/leaveTeam}" method="POST">
+        <button type="submit">Покинуть команду</button>
+    </form>
     <button th:if="${isCurator} or ${isModerator} or ${isAdmin}" id="editTeamName" type="button">Edit team name</button>
-    <button th:if="${isCurator} or ${isMember}" id="getLink" type="button">Get link</button>
+    <button th:if="${isCurator} or ${isCaptain} or ${isMember}" id="getLink" type="button">Get link</button>
     <button th:if="${isCaptain} or ${isMember}" id="becomeCaptain" type="button">Become captain</button><br/>
 
     <div th:each="user, stat : ${teamUsers}" class="team-member">
+        <input type="hidden" name="userId" th:value="${user.id}">
         <img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="profile photo"><br/>
-        <label th:text="|${user.firstName} ${user.lastName}|"></label><br/>
+        <a th:href="@{/user/__${user.id}__}" th:text="|${user.firstName} ${user.lastName}|"></a><br/>
         <label th:text="${user.teamRole}"></label><br/>
+        <button th:if="(${isCurator} or ${isModerator} or ${isAdmin}) and ${user.id} != ${curUserId}"
+                class="kickMember" type="button">Выгнать</button>
     </div>
 
 </div>

@@ -36,7 +36,7 @@ public class Speaker extends AuditModel {
     private String description;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "speakers")
-//    @JoinTable
+    @ManyToMany(mappedBy="speakers")
     private Set<Event> events = new HashSet<>();
+
 }

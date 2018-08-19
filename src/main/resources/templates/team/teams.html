@@ -11,17 +11,16 @@
 
         <!--<label sec:authorize="hasRole('ROLE_SUPERUSER')">fsdfasfaf</label>-->
 
-
         <div class="teams-container">
             <label>Teams</label>
             <div th:each="team, stat : ${teams}" class="team">
                 <input type="hidden" name="teamId" th:value="${team.id}">
-                <label th:text="${team.name}"></label><br/>
+                <a th:href="@{/team/__${team.id}__}" th:text="${team.name}"></a><br/>
                 <label th:text="${team.description}"></label><br/>
             </div>
         </div>
 
-        <a th:if="${isModerator} or ${isAdmin}" th:href="@{'/editor/team/add?shiftId='+__${curShiftId}__}">Добавить команду</a>
+        <a th:if="${isModerator} or ${isAdmin}" th:href="@{'/team/add?shiftId='+__${curShiftId}__}">Добавить команду</a>
 
 
         <!--<div th:replace="kfc/_teams :: teams" ></div>-->

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit forum</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{edit}" th:object="${activityForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
+        <th:block th:each="shift, stat:${activityForm.shiftForms}">
+            <h2 th:text="|Смена ${stat.index+1}|"></h2>
+            <p>
+                <label>Название
+                    <input th:field="*{shiftForms[__${stat.index}__].name}" type="text">
+                    <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].name')}"
+                           th:errors="*{shiftForms[__${stat.index}__].name}">error
+                    </label>
+                </label>
+            </p>
+            <p>
+                <label>Дата начала
+                    <input th:field="*{shiftForms[__${stat.index}__].startDate}" type="date">
+                    <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].startDate')}"
+                           th:errors="*{shiftForms[__${stat.index}__].startDate}">error
+                    </label>
+                </label>
+            </p>
+            <p>
+                <label>Дата конца
+                    <input th:field="*{shiftForms[__${stat.index}__].endDate}" type="date">
+                    <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].endDate')}"
+                           th:errors="*{shiftForms[__${stat.index}__].endDate}">error
+                    </label>
+                </label>
+            </p>
+            <p>
+                <label>Описание
+                    <input th:field="*{shiftForms[__${stat.index}__].description}" type="text">
+                    <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].description')}"
+                           th:errors="*{shiftForms[__${stat.index}__].description}">error
+                    </label>
+                </label>
+            </p>
+            <p>
+                <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+']')}"
+                       th:errors="*{shiftForms[__${stat.index}__]}">error
+                </label>
+            </p>
+            <input type="hidden" th:field="*{shiftForms[__${stat.index}__].id}">
+        </th:block>
+        <button type="button">Добавить смену</button>
+        <label th:if="${#fields.hasErrors('shiftForms[0].activityId')}" th:errors="*{activityId}"
+               class="invalid-feedback">error
+        </label>
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

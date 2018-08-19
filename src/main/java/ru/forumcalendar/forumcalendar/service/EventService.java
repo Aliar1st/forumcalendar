@@ -1,6 +1,7 @@
 package ru.forumcalendar.forumcalendar.service;
 
 import ru.forumcalendar.forumcalendar.domain.Event;
+import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 
@@ -12,4 +13,6 @@ public interface EventService extends SecuredService, ResourceService<Event, Shi
     List<ShiftEventModel> getEventModelsByShiftIdAndDate(int shiftId, LocalDate date);
 
     List<ShiftEventModel> getEventModelsByShiftId(int shiftId);
+
+    List<ShiftEventModel> getEventsBySpeakerId(int id);
 }

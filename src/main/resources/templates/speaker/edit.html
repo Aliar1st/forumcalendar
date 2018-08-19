@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit speaker</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{edit}" th:object="${speakerForm}" method="POST">
+        <p>
+            <label>Имя
+                <input th:field="*{firstName}" type="text">
+                <label th:if="${#fields.hasErrors('firstName')}"
+                       th:errors="*{firstName}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Фамилия
+                <input th:field="*{lastName}" type="text">
+                <label th:if="${#fields.hasErrors('lastName')}"
+                       th:errors="*{lastName}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Ссылка
+                <input th:field="*{link}" type="text">
+                <label th:if="${#fields.hasErrors('link')}"
+                       th:errors="*{link}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
+        <label th:if="${#fields.hasErrors('activityId')}"
+               th:errors="*{activityId}">error
+        </label>
+        <input type="hidden" th:field="*{activityId}">
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/"
+>
+<head>
+    <title>Speaker</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <a th:if="${isAdmin} or ${isModerator}" th:href="@{~/speaker/__${speaker.id}__/edit}">Изменить</a><br/>
+
+    <input type="hidden" name="speakerId" th:value="${speaker.id}">
+    <img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profilePhoto"><br/>
+    <label th:text="|${speaker.firstName} ${speaker.lastName}|"></label><br/>
+    <a th:href="@{/}" th:text="${speaker.link}"></a><br/>
+    <label th:text="${speaker.description}"></label><br/>
+
+    <div class="speaker-events-container">
+        <label>Events</label>
+        <div th:each="event, stat : ${events}" class="event">
+            <label th:text="${event.name}"></label><br/>
+            <label th:text="|${event.startDatetime} - ${event.endDatetime}|"></label><br/>
+            <label th:text="${event.place}"></label><br/>
+        </div>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+
+</div>
+</body>
+</html>
