@@ -19,10 +19,7 @@ import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
-import ru.forumcalendar.forumcalendar.service.EventService;
-import ru.forumcalendar.forumcalendar.service.SpeakerService;
-import ru.forumcalendar.forumcalendar.service.TeamEventService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -84,6 +81,12 @@ public class EventController {
         }
 
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
         int shiftId = teamService.get(teamId).getShift().getId();
 
         List<ShiftEventModel> shiftEventModels = eventService.getEventModelsByShiftIdAndDate(shiftId, choosingEventsDate.getDate());
@@ -130,9 +133,16 @@ public class EventController {
     public String add(
             Model model,
             HttpSession httpSession,
-            Authentication authentication
+            Authentication authentication,
+            RedirectAttributes redirectAttributes
     ) {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
         Shift shift = teamService.get(teamId).getShift();
 
         if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {

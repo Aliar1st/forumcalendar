@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
 import ru.forumcalendar.forumcalendar.model.form.TeamEventForm;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.TeamEventService;
+import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
 import javax.servlet.http.HttpSession;
@@ -49,9 +51,15 @@ public class TeamEventController {
     public String index(
             Model model,
             HttpSession httpSession,
-            Authentication authentication
+            Authentication authentication,
+            RedirectAttributes redirectAttributes
     ) {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
 
         if (!permissionEvaluator.hasPermission(authentication, teamService.get(teamId).getShift().getId(), "Shift", "r")) {
             return REDIRECT_ROOT_MAPPING;
@@ -77,9 +85,15 @@ public class TeamEventController {
     public String add(
             Model model,
             HttpSession httpSession,
-            Authentication authentication
+            Authentication authentication,
+            RedirectAttributes redirectAttributes
     ) {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
 
         if (!permissionEvaluator.hasPermission(authentication, teamService.get(teamId).getShift().getId(), "Shift", "r")) {
             return REDIRECT_ROOT_MAPPING;

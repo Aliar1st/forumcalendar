@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.User;
@@ -101,11 +102,19 @@ public class TeamController {
     @PostMapping("/becomeCaptain")
     public String becomeCaptain(
             Principal principal,
-            HttpSession httpSession
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes
     ) {
 
         User currentUser = userService.getCurrentUser(principal);
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
+        Team team = teamService.get(teamId);
 
         if (teamService.becomeCaptainToggle(currentUser.getId(), team.getId())) {
             return "Вы стали капитаном";

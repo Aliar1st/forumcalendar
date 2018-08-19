@@ -9,14 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.model.form.ToggleSubscribeForm;
-import ru.forumcalendar.forumcalendar.service.EventService;
-import ru.forumcalendar.forumcalendar.service.SubscriptionService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
-import ru.forumcalendar.forumcalendar.service.UserService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +56,8 @@ public class SubscriptionController {
             HttpSession httpSession,
             Principal principal,
             HttpServletResponse response,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes
     ) throws SchedulerException {
 
         Cookie cookie = new Cookie(
@@ -68,7 +67,14 @@ public class SubscriptionController {
         cookie.setMaxAge(3600);
         response.addCookie(cookie);
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
+        Team team = teamService.get(teamId);
 
         model.addAttribute("events", subscriptionService.getEventModelsBySubscription(team.getShift().getId()));
 

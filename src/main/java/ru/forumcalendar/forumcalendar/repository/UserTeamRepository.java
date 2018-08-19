@@ -18,7 +18,7 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, UserTeamIden
     UserTeam getByUserIdAndTeamId(String user_id, int team_id);
 
     @Query("SELECT u FROM UserTeam u " +
-           " WHERE u.teamRole = ?1 " +
+           " WHERE u.teamRole.id = ?1 " +
            "   AND u.userTeamIdentity.team.id = ?2")
     UserTeam getByRoleIdAndTeamId(int role_id, int team_id);
 }

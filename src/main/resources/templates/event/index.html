@@ -9,7 +9,8 @@
 <div layout:fragment="content">
     <p><a th:href="@{/events/choosing_date}">изменить день</a></p>
     <p><a th:href="@{/favorites}">избранное</a></p>
-    <p><a th:href="@{/events/shift/add}">добавить</a></p>
+    <p><a th:href="@{/events/add}">добавить событие</a></p>
+    <p><a th:href="@{/team_events/add}">добавить командное событие</a></p>
     <p><b>Все</b></p>
     <table>
         <thead>
@@ -44,9 +45,9 @@
             <th th:text="${event.shiftEvent?event.dislikes:'-'}"></th>
             <th th:text="${event.shiftEvent?event.favorite:'-'}"></th>
             <th th:text="${event.shiftEvent?event.speakers.size():'-'}"></th>
-            <td><a th:href="@{/events/__${event.id}__}">Show</a></td>
-            <td><a th:href="@{/events/__${event.id}__/edit}">Edit</a></td>
-            <td><a th:href="@{/events/__${event.id}__/delete}">Delete</a></td>
+            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__}">Show</a></td>
+            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a></td>
+            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a></td>
         </tr>
         </tbody>
     </table>

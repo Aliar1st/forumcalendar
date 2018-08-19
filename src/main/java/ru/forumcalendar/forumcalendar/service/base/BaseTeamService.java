@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
+import ru.forumcalendar.forumcalendar.controller.HomeController;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
@@ -21,10 +24,12 @@ import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
 import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
+import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +39,6 @@ import java.util.stream.Stream;
 @Service
 @Transactional
 public class BaseTeamService implements TeamService {
-
 
     private EntityManager entityManager;
 
@@ -213,6 +217,27 @@ public class BaseTeamService implements TeamService {
     public Map<Integer, String> getTeamIdNameMapByShiftId(int id) {
         return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
                 .collect(Collectors.toMap(Team::getId, Team::getName));
+    }
+
+    @Override
+    public TeamMemberStatus getStatus(Integer teamId) {
+        if (teamId == null) {
+            return TeamMemberStatus.TEAMLESS;
+        }
+
+        UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userService.getCurrentId(), teamId);
+        return userTeam != null ? TeamMemberStatus.OK : TeamMemberStatus.KICKED;
+    }
+
+    @Override
+    public String resolveTeamError(TeamMemberStatus teamMemberStatus, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
+        switch (teamMemberStatus) {
+            default:
+                redirectAttributes.addFlashAttribute("error", "You have been kicked from team");
+                httpSession.removeAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+                return HomeController.REDIRECT_TO_ENTRANCE;
+        }
     }
 
     @Override
