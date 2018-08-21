@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit shift</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/shift/__${shiftForm.id}__/edit}" th:object="${shiftForm}" method="POST">
+        <p>
+            <label>Название
+                <input th:field="*{name}" type="text">
+                <label th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Дата начала
+                <input th:field="*{startDate}" type="date">
+                <label th:if="${#fields.hasErrors('startDate')}"
+                       th:errors="*{startDate}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Дата конца
+                <input th:field="*{endDate}" type="date">
+                <label th:if="${#fields.hasErrors('endDate')}"
+                       th:errors="*{endDate}">error
+                </label>
+            </label>
+        </p>
+        <p>
+            <label>Описание
+                <input th:field="*{description}" type="text">
+                <label th:if="${#fields.hasErrors('description')}"
+                       th:errors="*{description}">error
+                </label>
+            </label>
+        </p>
+        <label th:if="${#fields.hasErrors('activityId')}"
+               th:errors="*{activityId}">error
+        </label>
+        <input type="hidden" th:field="*{activityId}">
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+</body>
+</html>

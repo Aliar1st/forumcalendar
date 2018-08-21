@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show shift</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th><a th:href="@{/shifts(activityId=__${shift.activityId}__)}">Back to activity</a></th>
+        </tr>
+        <tr>
+            <td><a th:href="@{/shifts/__${shift.id}__/edit}">Edit</a></td>
+        </tr>
+        <tr>
+            <th>name</th>
+            <th>show</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>members</td>
+            <td><a th:href="@{/members(shiftId=__${id}__)}">Show</a></td>
+        </tr>
+        <tr>
+            <td>team</td>
+            <td><a th:href="@{/teams(shiftId=__${id}__)}">Show</a></td>
+        </tr>
+        <tr>
+            <td>event</td>
+            <td><a th:href="@{/events(shiftId=__${id}__)}">Show</a></td>
+        </tr>
+        <tr>
+            <td>speakers</td>
+            <td><a th:href="@{/speakers(shiftId=__${id}__)}">Show</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
