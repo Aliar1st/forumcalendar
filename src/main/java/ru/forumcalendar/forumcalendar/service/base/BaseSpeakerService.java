@@ -15,6 +15,7 @@ import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,12 +90,12 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
-    public List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId) {
+    public List<SpeakerForm> getSpeakerFormsBySpeakersId(List<Integer> speakersId) {
         if (speakersId == null) {
             return null;
         }
 
-        List<SpeakerForm> speakerForms = new ArrayList<>();
+        List<SpeakerForm> speakerForms = new ArrayList<>(speakersId.size());
         for (int speakerId : speakersId) {
             speakerForms.add(new SpeakerForm(get(speakerId)));
         }

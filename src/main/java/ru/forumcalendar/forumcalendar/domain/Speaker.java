@@ -35,6 +35,8 @@ public class Speaker extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    private String photo;
+
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy="speakers")
     private Set<Event> events = new HashSet<>();

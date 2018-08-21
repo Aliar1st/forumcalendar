@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SpeakerService extends SecuredService, ResourceService<Speaker, SpeakerModel, SpeakerForm> {
 
-    List<SpeakerForm> getSpeakerFormsBySpeakersId(Integer... speakersId);
+    List<SpeakerForm> getSpeakerFormsBySpeakersId(List<Integer> speakersId);
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
 }

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class ChoosingEventsDate {
 
     @NotNull
+//    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 }

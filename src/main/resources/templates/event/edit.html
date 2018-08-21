@@ -50,11 +50,11 @@
         </p>
         <p>
             <label>Спикеры
-                <select th:name="speakersId" multiple>
+                <select th:field="*{speakersId}" multiple>
                     <th:block th:each="speaker, stat : ${speakers}">
-                        <option selected
-                                th:value="${speaker.getId()}"
-                                th:text="|${speaker.getFirstName()} ${speaker.getLastName()}|">Speaker
+                        <option th:attrappend="selected=${eventForm.speakersId.contains(__${speaker.id}__)}?''"
+                                th:value="${speaker.id}"
+                                th:text="|${speaker.firstName} ${speaker.lastName}|">Speaker
                         </option>
                     </th:block>
                 </select>

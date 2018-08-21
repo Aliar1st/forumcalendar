@@ -6,18 +6,19 @@ import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
-public class SpeakersValidator implements ConstraintValidator<SpeakersExist, Integer[]> {
+public class SpeakersExistValidator implements ConstraintValidator<SpeakersExist, List<Integer>> {
 
     private final SpeakerService speakerService;
 
     @Autowired
-    public SpeakersValidator(SpeakerService speakerService) {
+    public SpeakersExistValidator(SpeakerService speakerService) {
         this.speakerService = speakerService;
     }
 
     @Override
-    public boolean isValid(Integer[] speakersId, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(List<Integer> speakersId, ConstraintValidatorContext constraintValidatorContext) {
         if (speakersId != null) {
             for (int id : speakersId) {
                 if (!speakerService.exist(id)) {

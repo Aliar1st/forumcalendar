@@ -52,9 +52,8 @@
             <label>Спикеры
                 <select th:name="speakersId" multiple>
                     <th:block th:each="speaker, stat : ${speakers}">
-                        <option selected
-                                th:value="${speaker.getId()}"
-                                th:text="|${speaker.getFirstName()} ${speaker.getLastName()}|">Speaker
+                        <option th:value="${speaker.id}"
+                                th:text="|${speaker.firstName} ${speaker.lastName}|">Speaker
                         </option>
                     </th:block>
                 </select>

@@ -12,6 +12,8 @@ import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -45,7 +47,7 @@ public class EventForm {
     private int shiftId;
 
     @SpeakersExist
-    private Integer[] speakersId;
+    private List<Integer> speakersId;
 
     public EventForm(Event event) {
         this.id = event.getId();
@@ -57,12 +59,10 @@ public class EventForm {
         this.shiftId = event.getShift().getId();
 
         Set<Speaker> speakers = event.getSpeakers();
-        this.speakersId = new Integer[speakers.size()];
+        this.speakersId = new ArrayList<>(speakers.size());
 
-        int i = 0;
         for (Speaker speaker : speakers) {
-            this.speakersId[i] = speaker.getId();
-            i++;
+            this.speakersId.add(speaker.getId());
         }
     }
 }

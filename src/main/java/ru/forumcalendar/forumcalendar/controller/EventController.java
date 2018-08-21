@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
+import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
@@ -69,8 +70,47 @@ public class EventController {
         return HTML_FOLDER + "choosing_date";
     }
 
-    @PostMapping("choosing_date")
-    public String choosingDate(
+//    @PostMapping("choosing_date")
+//    public String choosingDate(
+//            @Valid ChoosingEventsDate choosingEventsDate,
+//            BindingResult bindingResult,
+//            HttpSession httpSession,
+//            RedirectAttributes redirectAttributes
+//    ) {
+//        if (bindingResult.hasErrors()) {
+//            return HTML_FOLDER + "choosing_date";
+//        }
+//
+//        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+//
+//        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+//        if (TeamMemberStatus.OK != teamMemberStatus) {
+//            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+//        }
+//
+//        int shiftId = teamService.get(teamId).getShift().getId();
+//
+//        List<ShiftEventModel> shiftEventModels = eventService.getEventModelsByShiftIdAndDate(shiftId, choosingEventsDate.getDate());
+//        List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
+//
+//        List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
+//        events.addAll(shiftEventModels);
+//        events.addAll(teamEventModels);
+//        Collections.sort(events);
+//
+//        if (events.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("error", "Events on this date not found");
+//            return REDIRECT_ROOT_MAPPING + "/choosing_date";
+//        }
+//
+//        redirectAttributes.addFlashAttribute("events", events);
+//
+//        return REDIRECT_ROOT_MAPPING;
+//    }
+
+    @GetMapping("")
+    public String index(
+            Model model,
             @Valid ChoosingEventsDate choosingEventsDate,
             BindingResult bindingResult,
             HttpSession httpSession,
@@ -102,18 +142,7 @@ public class EventController {
             return REDIRECT_ROOT_MAPPING + "/choosing_date";
         }
 
-        redirectAttributes.addFlashAttribute("events", events);
-
-        return REDIRECT_ROOT_MAPPING;
-    }
-
-    @GetMapping("")
-    public String index(
-            Model model
-    ) {
-        if (!model.containsAttribute("events")) {
-            return REDIRECT_ROOT_MAPPING + "/choosing_date";
-        }
+        model.addAttribute("events", events);
 
         return HTML_FOLDER + "index";
     }
@@ -185,8 +214,10 @@ public class EventController {
             @PathVariable int id,
             Model model
     ) {
-        EventForm eventForm = new EventForm(eventService.get(id));
+        Event event = eventService.get(id);
+        EventForm eventForm = new EventForm(event);
         model.addAttribute(eventForm);
+        model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(event.getShift().getActivity().getId()));
 
         return HTML_FOLDER + "edit";
     }
