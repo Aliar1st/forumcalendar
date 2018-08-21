@@ -7,14 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
+import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.PermissionService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
+import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/speaker")
@@ -23,6 +28,7 @@ public class SpeakerController {
     private static final String HTML_FOLDER = "speaker/";
     private static final String REDIRECT_ROOT_MAPPING = "redirect:/speaker/speakers?activityId=";
 
+    private final TeamService teamService;
     private final UserService userService;
     private final SpeakerService speakerService;
     private final PermissionService permissionService;
@@ -33,11 +39,13 @@ public class SpeakerController {
 
     @Autowired
     public SpeakerController(
+            TeamService teamService,
             UserService userService,
             SpeakerService speakerService,
             PermissionService permissionService,
             SpeakerModelConverter speakerModelConverter,
             PermissionEvaluator permissionEvaluator) {
+        this.teamService = teamService;
         this.userService = userService;
         this.speakerService = speakerService;
         this.permissionService = permissionService;
@@ -153,6 +161,28 @@ public class SpeakerController {
         speakerService.save(speakerForm);
 
         return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
+    }
+
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String q,
+            HttpSession httpSession,
+            Principal principal,
+            Model model
+    ) throws InterruptedException {
+
+        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        int activityId = team.getShift().getActivity().getId();
+
+        PermissionService.Identifier identifier = permissionService.identifyUser(activityId);
+
+        model.addAttribute(identifier.getValue(), true);
+        model.addAttribute("curActivityId", activityId);
+        model.addAttribute("speakers", speakerService.searchByName(q));
+
+
+        return HTML_FOLDER + "speakers";
     }
 
 }

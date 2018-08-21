@@ -17,7 +17,7 @@ public interface TeamService extends SecuredService, ResourceService<Team, TeamM
 
     void kickMember(String userId, int teamId);
 
-    List<TeamModel> searchByName(String query) throws InterruptedException;
+    List<TeamModel> searchByName(String q) throws InterruptedException;
 
     Team updateTeamName(int teamId, String name);
 

@@ -265,4 +265,26 @@ public class TeamController {
         return "redirect:/entrance/1";
     }
 
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String q,
+            HttpSession httpSession,
+            Principal principal,
+            Model model
+    ) throws InterruptedException {
+
+        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        int shiftId = team.getShift().getId();
+
+        PermissionService.Identifier identifier =
+                permissionService.identifyUser(shiftService.get(shiftId).getActivity().getId());
+
+        model.addAttribute(identifier.getValue(), true);
+        model.addAttribute("teams", teamService.searchByName(q));
+        model.addAttribute("curShiftId", shiftId);
+
+        return HTML_FOLDER + "/teams";
+    }
+
 }

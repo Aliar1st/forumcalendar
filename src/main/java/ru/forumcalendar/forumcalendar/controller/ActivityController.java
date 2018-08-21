@@ -8,17 +8,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.model.ActivityModel;
 import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.PermissionService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("activities")
@@ -132,20 +131,20 @@ public class ActivityController {
     }
 
 
-//    @GetMapping("/activity/activities/search")
-//    public String search(
-//            @RequestParam String query,
-//            HttpSession httpSession,
-//            Principal principal,
-//            Model model
-//    ) throws SchedulerException, InterruptedException {
-//
-//        //Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
-//
-//        teamService.searchByName(query);
-//
-//        return HTML_FOLDER + "index";
-//    }
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String q,
+            HttpSession httpSession,
+            Principal principal,
+            Model model
+    ) throws InterruptedException {
+
+        //Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+
+        model.addAttribute("forums", activityService.searchByName(q));
+
+        return HTML_FOLDER + "activities";
+    }
 
 }
 

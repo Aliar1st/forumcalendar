@@ -1,5 +1,9 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
@@ -7,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
-import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
@@ -15,28 +18,33 @@ import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class BaseSpeakerService implements SpeakerService {
 
+    private EntityManager entityManager;
+
     private final SpeakerRepository speakerRepository;
 
-    private final ActivityService activityService;
     private final UserService userService;
+    private final ActivityService activityService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseSpeakerService(
-            SpeakerRepository speakerRepository,
+            EntityManager entityManager, SpeakerRepository speakerRepository,
             ActivityService activityService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
+        this.entityManager = entityManager;
         this.speakerRepository = speakerRepository;
         this.activityService = activityService;
         this.userService = userService;
@@ -90,6 +98,30 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
+    public List<SpeakerModel> searchByName(String q) throws InterruptedException {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        fullTextEntityManager.createIndexer().startAndWait();
+
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(Speaker.class)
+                .get();
+
+        Query query = queryBuilder
+                .keyword()
+                .wildcard()
+                .onField("firstName")
+                .andField("lastName")
+                .matching(q.toLowerCase())
+                .createQuery();
+
+        org.hibernate.search.jpa.FullTextQuery jpaQuery
+                = fullTextEntityManager.createFullTextQuery(query, Speaker.class);
+
+        return convertSpeakers(jpaQuery.getResultList().stream());
+    }
+
+    @Override
     public List<SpeakerForm> getSpeakerFormsBySpeakersId(List<Integer> speakersId) {
         if (speakersId == null) {
             return null;
@@ -111,5 +143,11 @@ public class BaseSpeakerService implements SpeakerService {
     @Override
     public boolean hasPermissionToRead(int id) {
         return true;
+    }
+
+    private List<SpeakerModel> convertSpeakers(Stream<Speaker> speakers) {
+        return speakers
+                .map((t) -> conversionService.convert(t, SpeakerModel.class))
+                .collect(Collectors.toList());
     }
 }

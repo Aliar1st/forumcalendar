@@ -12,45 +12,84 @@
     <p><a th:href="@{/events/add}">добавить событие</a></p>
     <p><a th:href="@{/team_events/add}">добавить командное событие</a></p>
     <p><b>Все</b></p>
-    <table>
-        <thead>
-        <tr>
-            <th>day</th>
-            <th>name</th>
-            <th>start</th>
-            <th>end</th>
-            <th>place</th>
-            <th>description</th>
-            <th>is shift event</th>
-            <th>likes</th>
-            <th>dislikes</th>
-            <th>favourite</th>
-            <th>speakers count</th>
-            <th>show</th>
-            <th>edit</th>
-            <th>delete</th>
-            <th><a th:href="@{/events/add}">add</a></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="event:${events}">
-            <td th:text="${event.day}"></td>
-            <td th:text="${event.name}"></td>
-            <td th:text="${event.startDatetime}"></td>
-            <td th:text="${event.endDatetime}"></td>
-            <td th:text="${event.place}"></td>
-            <td th:text="${event.description}"></td>
-            <td th:text="${event.shiftEvent}"></td>
-            <th th:text="${event.shiftEvent?event.likes:'-'}"></th>
-            <th th:text="${event.shiftEvent?event.dislikes:'-'}"></th>
-            <th th:text="${event.shiftEvent?event.favorite:'-'}"></th>
-            <th th:text="${event.shiftEvent?event.speakers.size():'-'}"></th>
-            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__}">Show</a></td>
-            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a></td>
-            <td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <!--<table>-->
+    <!--<thead>-->
+    <!--<tr>-->
+    <!--<th>day</th>-->
+    <!--<th>name</th>-->
+    <!--<th>start</th>-->
+    <!--<th>end</th>-->
+    <!--<th>place</th>-->
+    <!--<th>description</th>-->
+    <!--<th>is shift event</th>-->
+    <!--<th>likes</th>-->
+    <!--<th>dislikes</th>-->
+    <!--<th>favourite</th>-->
+    <!--<th>speakers count</th>-->
+    <!--<th>show</th>-->
+    <!--<th>edit</th>-->
+    <!--<th>delete</th>-->
+    <!--<th><a th:href="@{/events/add}">add</a></th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr th:each="event:${events}">-->
+    <!--<td th:text="${event.day}"></td>-->
+    <!--<td th:text="${event.name}"></td>-->
+    <!--<td th:text="${event.startDatetime}"></td>-->
+    <!--<td th:text="${event.endDatetime}"></td>-->
+    <!--<td th:text="${event.place}"></td>-->
+    <!--<td th:text="${event.description}"></td>-->
+    <!--<td th:text="${event.shiftEvent}"></td>-->
+    <!--<th th:text="${event.shiftEvent?event.likes:'-'}"></th>-->
+    <!--<th th:text="${event.shiftEvent?event.dislikes:'-'}"></th>-->
+    <!--<th th:text="${event.shiftEvent?event.favorite:'-'}"></th>-->
+    <!--<th th:text="${event.shiftEvent?event.speakers.size():'-'}"></th>-->
+    <!--<td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__}">Show</a></td>-->
+    <!--<td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a></td>-->
+    <!--<td><a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a></td>-->
+    <!--<td><a th:href="@{}">Like</a></td>-->
+    <!--<td><a th:href="@{}">Dislike</a></td>-->
+    <!--<td><a th:href="@{}">Favorites</a></td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+    <!--</table>-->
+
+    <div th:each="event, stat : ${events}" class="event">
+        <input type="hidden" name="eventId" th:value="${event.id}">
+        <label th:text="${event.day}"></label><br/>
+        <label th:text="${event.name}"></label><br/>
+        <label th:text="|${event.startDatetime} - ${event.endDatetime}|"></label><br/>
+        <label th:text="${event.place}"></label><br/>
+        <label th:text="${event.description}"></label><br/>
+        <label th:text="${event.shiftEvent}"></label><br/>
+        <label class="likes" th:text="${event.shiftEvent?event.likes:'-'}"></label><br/>
+        <label class="dislikes" th:text="${event.shiftEvent?event.dislikes:'-'}"></label><br/>
+        <label th:text="${event.shiftEvent?event.favorite:'-'}"></label><br/>
+        <label th:text="${event.shiftEvent?event.speakers.size():'-'}"></label><br/>
+        <a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__}">Show</a><br/>
+        <a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a><br/>
+        <a th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a><br/>
+        <form name="toggleSubscription" th:action="@{sub}" method="POST">
+            <input type="hidden" name="eventId" th:value="${event.id}">
+            <button type="button">Избранное</button>
+        </form>
+        <div th:if="${event.shiftEvent}">
+            <form name="like" th:action="@{like}" method="POST">
+                <input type="hidden" name="eventId" th:value="${event.id}">
+                <button type="button">Лукас</button>
+            </form>
+            <form name="dislike" th:action="@{dislike}" method="POST">
+                <input type="hidden" name="eventId" th:value="${event.id}">
+                <button type="button">Дислукас</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/events.js"></script>
+    <script type="text/javascript" src="/static/scripts/favorites.js"></script>
 </div>
 </body>
 </html>
