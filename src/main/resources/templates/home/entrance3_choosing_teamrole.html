@@ -3,24 +3,48 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Entrance</title>
+    <title>Выберите роль</title>
 </head>
 <body>
 <div layout:fragment="content">
-
-    <form th:action="@{4}" th:object="${choosingTeamRoleForm}" method="POST">
-        <input name="shiftId" th:value="${shiftId}" type="hidden">
-        <label>Я коратор
-            <input name="teamRoleId" value="1" type="radio">
-        </label>
-        <br>
-        <label>Я просто чел
-            <input name="teamRoleId" value="3" type="radio">
-        </label>
-        <br>
-        <br>
-        <button type="submit">Далее</button>
-    </form>
+    <div class="container-fluid wrapper choosing-div">
+        <div class="header-app header-roles">
+            <a th:href="@{/entrance/1}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <div class="wrapper-h2">
+                <h2 th:text="|Выберите роль|" class="choose-h2"></h2>
+            </div>
+        </div>
+        <form th:action="@{/entrance/4}" th:object="${choosingTeamRoleForm}" method="POST">
+            <div class="wrapper-cards role-cards">
+                <div class="btn-group group-roles" data-toggle="buttons">
+                    <label class="role-label">
+                        <input value="1" type="radio" name="teamRoleId">
+                        <span class="card-text info-date-shift">Я куратор</span>
+                    </label>
+                    <label class="role-label">
+                        <input value="3" type="radio" name="options">
+                        <span class="card-text info-date-shift">Я участник</span>
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info btn-next">Далее</button>
+        </form>
+    </div>
+    <!--<form th:action="@{4}" th:object="${choosingTeamRoleForm}" method="POST">-->
+    <!--<input name="shiftId" th:value="${shiftId}" type="hidden">-->
+    <!--<label>Я коратор-->
+    <!--<input name="teamRoleId" value="1" type="radio">-->
+    <!--</label>-->
+    <!--<br>-->
+    <!--<label>Я просто чел-->
+    <!--<input name="teamRoleId" value="3" type="radio">-->
+    <!--</label>-->
+    <!--<br>-->
+    <!--<br>-->
+    <!--<button type="submit">Далее</button>-->
+    <!--</form>-->
 </div>
 </body>
 </html>

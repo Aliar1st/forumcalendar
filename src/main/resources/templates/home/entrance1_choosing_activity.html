@@ -3,26 +3,41 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Entrance</title>
+    <title>Выберите мероприятие</title>
 </head>
 <body>
 <div layout:fragment="content">
+    <div class="container-fluid wrapper choosing-div">
+        <div class="header-app">
+            <a th:href="@{/logout}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <div class="wrapper-h2">
+                <h2 th:text="|Выберите мероприятие|" class="choose-h2"></h2>
+            </div>
+        </div>
+        <form th:action="@{/entrance/2}" th:object="${choosingActivityForm}" method="POST">
+            <div class="wrapper-cards">
 
-    <form th:action="@{2}" th:object="${choosingActivityForm}" method="POST">
-        <label>Мероприятие
-            <select name="activityId">
-                <option value="0" selected>Выберите мероприятие</option>
-                <option th:each="activity: ${activities}"
-                        th:value="${activity.id}"
-                        th:text="${activity.name}">
-                </option>
-            </select>
+                <div class="btn-group" data-toggle="buttons">
+                    <th:block th:each="activity:${activities}">
+                        <label class="btn col-lg-12 choose-card">
+                            <input th:value="${activity.id}" th:field="*{activityId}" type="radio">
+                            <div class="card-body">
+                                <h5 th:text="|Форум ${activity.name}|" class="card-title"></h5>
+                                <p th:text="|Место проведения:|" class="card-text info-date-shift"></p>
+                                <p th:text="${activity.place}" class="card-text info-date-shift"></p>
+                            </div>
+                        </label>
+                    </th:block>
+                </div>
+            </div>
             <label th:if="${error!=null}"
                    th:text="${error}">error
             </label>
-        </label>
-        <button type="submit">Далее</button>
-    </form>
+            <button type="submit" class="btn btn-info btn-next">Далее</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

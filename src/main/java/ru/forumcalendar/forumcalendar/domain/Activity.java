@@ -50,6 +50,9 @@ public class Activity extends AuditModel {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String place;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

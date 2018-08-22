@@ -24,6 +24,7 @@ import ru.forumcalendar.forumcalendar.service.UserService;
 import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,22 @@ public class BaseUserService implements UserService {
 
         user.setPhoto(photo);
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        Contact c1 = new Contact();
+        c1.setUser(user);
+        c1.setContactType(contactTypeRepository.findById(1)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 1)));
+        c1.setLink("");
+        Contact c2 = new Contact();
+        c2.setUser(user);
+        c2.setContactType(contactTypeRepository.findById(1)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 2)));
+        c1.setLink("");
+
+        contactRepository.saveAll(Arrays.asList(c1, c2));
+
+        return user;
     }
 
     @Override
@@ -138,7 +154,7 @@ public class BaseUserService implements UserService {
             List<Contact> contacts = new ArrayList<>(userForm.getContactForms().size());
 
             for (ContactForm cf : userForm.getContactForms()) {
-                Contact contact = contactRepository.findById(cf.getId()).orElse(new Contact());
+                Contact contact = contactRepository.getByUserIdAndContactTypeId(user.getId(), cf.getContactTypeId()).orElse(new Contact());
                 contact.setUser(user);
                 contact.setLink(cf.getLink());
 

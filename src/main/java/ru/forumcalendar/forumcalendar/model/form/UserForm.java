@@ -14,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class UserForm {
+
+    private String id;
 
     private String photoUrl;
 
@@ -38,6 +41,7 @@ public class UserForm {
     private List<ContactForm> contactForms;
 
     public UserForm(User user) {
+        this.id = user.getId();
         this.photoUrl = user.getPhoto();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -48,5 +52,7 @@ public class UserForm {
         for (Contact c : contacts) {
             this.contactForms.add(new ContactForm(c));
         }
+
+        this.contactForms.sort(Comparator.comparing(ContactForm::getContactTypeId));
     }
 }

@@ -11,5 +11,7 @@ public class ContactModel {
 
     private String contactTypeName;
 
+    private int contactTypeId;
+
     private String link;
 }

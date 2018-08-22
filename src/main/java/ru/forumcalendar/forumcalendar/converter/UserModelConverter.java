@@ -9,8 +9,10 @@ import ru.forumcalendar.forumcalendar.domain.Contact;
 import ru.forumcalendar.forumcalendar.domain.User;
 import ru.forumcalendar.forumcalendar.model.ContactModel;
 import ru.forumcalendar.forumcalendar.model.UserModel;
+import ru.forumcalendar.forumcalendar.model.form.ContactForm;
 import ru.forumcalendar.forumcalendar.repository.ContactRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class UserModelConverter implements Converter<User, UserModel> {
         List<ContactModel> contacts = user.getContacts()
                 .stream()
                 .map((c) -> contactModelConverter.convert(c))
+                .sorted(Comparator.comparing(ContactModel::getContactTypeId))
                 .collect(Collectors.toList());
 
         userModel.setContacts(contacts);

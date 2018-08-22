@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/").permitAll()
+                .mvcMatchers("/", "/static/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()

@@ -13,6 +13,7 @@ public class ContactModelConverter implements Converter<Contact, ContactModel> {
         contactModel.setId(contact.getId());
         contactModel.setLink(contact.getLink());
         contactModel.setContactTypeName(contact.getContactType().getName());
+        contactModel.setContactTypeId(contact.getContactType().getId());
 
         return contactModel;
     }

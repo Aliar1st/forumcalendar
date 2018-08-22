@@ -44,6 +44,67 @@ $(function() {
     function showEvent(event) {
         $().toastmessage('showNoticeToast', 'Скоро событие ' + event.name);
     }
+
+    //Олино
+
+    $('#calendar').datepicker({
+        inline: true,
+        firstDay: 1,
+        showOtherMonths: true,
+        prevText: 'пред.',
+        nextText: 'след.',
+        dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        onSelect: function (selectedDate) {
+            location.href = "shedule_day.html?date=" + selectedDate; // /news?date=2014-02-22
+        }
+    });
+
+    // $('.calendar-content td').on('click', function(evt) {
+
+    //     window.open("shedule_day.html", '_self');
+    // });
+
+    $("#ellipsisEditPersonal").on( 'click', function() {
+        // Открыть модальное окно с id="exampleModal"
+        $("#modalDopMenu").modal('show');
+    });
+
+    $("#editTeam").on( 'click', function() {
+        // Открыть модальное окно с id="exampleModal"
+        $("#editModalTeam").modal('show');
+    });
+
+    $("#addTeam").on( 'click', function() {
+        // Открыть модальное окно с id="exampleModal"
+        $("#editModalTeam").modal('show');
+    });
+
+    $(".show-info").on( 'click', function() {
+        // Открыть модальное окно с id="exampleModal"
+        $("#infoEvent").modal('show');
+    });
+
+    $(".show-dop-info").on( 'click', function() {
+        $(this).parent().children(".dop-info-div").slideToggle();
+        $(this).parent().find(".div-speakers").toggle();
+        $(this).parent().find(".fa-angle-up").toggle();
+        $(this).parent().find(".fa-angle-down").toggle();
+    });
+
+
+    $(".fa-search").on( 'click', function() {
+        $(".search-div").slideToggle();
+    });
+
+    $(".cursor-edit").on( 'click', function() {
+        $("#infoEvent").modal('show');
+    });
+
+    $(".add-forum-shift").on( 'click', function() {
+        $("#editModalTeam").modal('show');
+    });
 });
 
 

@@ -7,7 +7,15 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <a th:href="@{entrance/1}">GOOGLE</a>
+    <div class="container-fluid wrapper login-div">
+        <div class="hidden-div"></div>
+        <a th:href="@{/entrance/1}">
+            <button class="btn btn-primary btn-login center-block">
+                <img src="/static/images/google.jpg"/>
+                Вход через Google
+            </button>
+        </a>
+    </div>
 </div>
 </body>
 </html>
