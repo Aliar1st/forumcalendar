@@ -130,21 +130,27 @@ public class ActivityController {
         return REDIRECT_ROOT_MAPPING + id;
     }
 
-
-    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_SUPERUSER')")
+    @PostMapping("/search")
     public String search(
             @RequestParam String q,
-            HttpSession httpSession,
-            Principal principal,
             Model model
     ) throws InterruptedException {
 
-        //Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
-
         model.addAttribute("forums", activityService.searchByName(q));
 
-        return HTML_FOLDER + "activities";
+        return HTML_FOLDER + "_activities_list";
     }
 
+    @PreAuthorize("hasRole('ROLE_SUPERUSER')")
+    @PostMapping("/partialActivities")
+    public String partialTeams(
+            Model model
+    ) {
+
+        model.addAttribute("forums", activityService.getAll());
+
+        return HTML_FOLDER + "/_activities_list";
+    }
 }
 

@@ -7,6 +7,7 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
@@ -41,6 +42,8 @@ public class Team extends AuditModel {
 //    @JoinColumn(nullable = false)
 //    private User user;
 
+    @Field(name = "shift_id")
+    @FieldBridge(impl = TeamShiftFieldBridge.class)
     @ManyToOne
     @JoinColumn(nullable = false)
     private Shift shift;

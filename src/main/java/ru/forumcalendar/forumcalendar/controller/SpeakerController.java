@@ -7,9 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
-import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.PermissionService;
@@ -164,25 +162,33 @@ public class SpeakerController {
     }
 
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public String search(
             @RequestParam String q,
+            @RequestParam int activityId,
             HttpSession httpSession,
             Principal principal,
             Model model
     ) throws InterruptedException {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
-        int activityId = team.getShift().getActivity().getId();
-
         PermissionService.Identifier identifier = permissionService.identifyUser(activityId);
 
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("curActivityId", activityId);
-        model.addAttribute("speakers", speakerService.searchByName(q));
+        model.addAttribute("speakers", speakerService.searchByName(q, activityId));
 
 
-        return HTML_FOLDER + "speakers";
+        return HTML_FOLDER + "_speakers_list";
     }
 
+    @PostMapping("/partialSpeakers")
+    public String partialTeams(
+            @RequestParam int activityId,
+            Model model
+    ) {
+
+        model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(activityId));
+
+        return HTML_FOLDER + "/_speakers_list";
+    }
 }

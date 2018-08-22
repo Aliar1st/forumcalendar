@@ -9,31 +9,24 @@
 <body>
     <div layout:fragment="content">
 
-        <!--<label sec:authorize="hasRole('ROLE_SUPERUSER')">fsdfasfaf</label>-->
-
+        <label>Forums</label>
+        <input type="text"
+               id="activity-search-input"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false"
+               placeholder="поиск"><br/>
         <div class="forums-container">
-            <label>Forums</label>
-            <div th:each="forum, stat : ${forums}" class="forum" >
-                <input type="hidden" name="teamId" th:value="${forum.id}">
-                <a th:href="@{/activities/__${forum.id}__}" th:text="${forum.name}"></a><br/>
-                <label th:text="${forum.description}"></label><br/>
-                <label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>
-            </div>
+            <div th:replace="activity/_activities_list :: activities" ></div>
         </div>
 
         <a th:href="@{/activities/add}">Добавить форум</a>
 
-
-        <!--<div th:replace="kfc/_teams :: teams" ></div>-->
-
-        <!--<div th:replace="kfc/_speakers :: speakers" ></div>-->
-
-        <!--<div th:replace="kfc/_forums :: forums" ></div>-->
-
     </div>
 
     <div layout:fragment="scripts">
-
+        <script type="text/javascript" src="/static/scripts/search.js"></script>
     </div>
 </body>
 </html>

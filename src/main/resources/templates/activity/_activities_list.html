@@ -1,0 +1,13 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<div th:fragment="activities" xmlns:th="http://www.thymeleaf.org/">
+    <div th:each="forum, stat : ${forums}" class="forum">
+        <input type="hidden" name="teamId" th:value="${forum.id}">
+        <a th:href="@{/activities/__${forum.id}__}" th:text="${forum.name}"></a><br/>
+        <label th:text="${forum.description}"></label><br/>
+        <label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>
+    </div>
+    <div th:if="${#lists.isEmpty(forums)}">
+        <label>По вашему запросу ничего не было найдено</label>
+    </div>
+</div>

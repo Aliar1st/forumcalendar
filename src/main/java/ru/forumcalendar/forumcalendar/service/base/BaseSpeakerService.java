@@ -98,7 +98,7 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
-    public List<SpeakerModel> searchByName(String q) throws InterruptedException {
+    public List<SpeakerModel> searchByName(String q, int activityId) throws InterruptedException {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         fullTextEntityManager.createIndexer().startAndWait();
 
@@ -107,13 +107,31 @@ public class BaseSpeakerService implements SpeakerService {
                 .forEntity(Speaker.class)
                 .get();
 
+
         Query query = queryBuilder
-                .keyword()
-                .wildcard()
-                .onField("firstName")
-                .andField("lastName")
-                .matching(q.toLowerCase())
+                .bool()
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onFields("firstName","lastName")
+                        .matching(q.toLowerCase())
+                        .createQuery())
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onField("activity_id")
+                        .matching(activityId)
+                        .createQuery())
                 .createQuery();
+//
+//
+//
+//        Query query = queryBuilder
+//                .keyword()
+//                .wildcard()
+//                .onFields("firstName","lastName")
+//                .matching(q.toLowerCase())
+//                .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(query, Speaker.class);

@@ -38,6 +38,7 @@ public class Activity extends AuditModel {
 
     @Id
     @GeneratedValue
+    @Field(name = "activity_id")
     private int id;
 
     @OneToOne

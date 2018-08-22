@@ -6,8 +6,7 @@
     margin: 10px;
 }
 
-.team, .speaker, .forum, .event,
-.teams-container, .speakers-container, .forums-container, .speaker-events-container{
+.team, .speaker, .forum, .event, .speaker-events-container{
     text-align: center;
     display: inline-grid;
     border: 1px solid;

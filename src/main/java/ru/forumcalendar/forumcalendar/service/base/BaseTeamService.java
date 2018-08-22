@@ -119,7 +119,7 @@ public class BaseTeamService implements TeamService {
     }
 
     @Override
-    public List<TeamModel> searchByName(String q) throws InterruptedException {
+    public List<TeamModel> searchByName(String q, int shiftId) throws InterruptedException {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         fullTextEntityManager.createIndexer().startAndWait();
@@ -130,10 +130,19 @@ public class BaseTeamService implements TeamService {
                 .get();
 
         Query query = queryBuilder
-                .keyword()
-                .wildcard()
-                .onField("name")
-                .matching(q.toLowerCase())
+                .bool()
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onField("name")
+                        .matching(q.toLowerCase())
+                        .createQuery())
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onField("shift_id")
+                        .matching(shiftId)
+                        .createQuery())
                 .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery jpaQuery

@@ -266,25 +266,34 @@ public class TeamController {
     }
 
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public String search(
             @RequestParam String q,
+            @RequestParam int shiftId,
             HttpSession httpSession,
             Principal principal,
             Model model
     ) throws InterruptedException {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
-        int shiftId = team.getShift().getId();
-
         PermissionService.Identifier identifier =
                 permissionService.identifyUser(shiftService.get(shiftId).getActivity().getId());
 
         model.addAttribute(identifier.getValue(), true);
-        model.addAttribute("teams", teamService.searchByName(q));
+        model.addAttribute("teams", teamService.searchByName(q,shiftId));
         model.addAttribute("curShiftId", shiftId);
 
-        return HTML_FOLDER + "/teams";
+        return HTML_FOLDER + "/_teams_list";
+    }
+
+    @PostMapping("/partialTeams")
+    public String partialTeams(
+            @RequestParam int shiftId,
+            Model model
+    ) {
+
+        model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
+
+        return HTML_FOLDER + "/_teams_list";
     }
 
 }

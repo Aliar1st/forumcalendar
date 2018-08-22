@@ -39,6 +39,8 @@ public class Speaker extends AuditModel {
     @GeneratedValue
     private int id;
 
+    @Field(name = "activity_id")
+    @FieldBridge(impl = SpeakerActivityFieldBridge.class)
     @ManyToOne
     @JoinColumn(nullable = false)
     private Activity activity;

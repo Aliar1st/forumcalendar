@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SpeakerService extends SecuredService, ResourceService<Speaker, SpeakerModel, SpeakerForm> {
 
-    List<SpeakerModel> searchByName(String q) throws InterruptedException;
+    List<SpeakerModel> searchByName(String q, int activityId) throws InterruptedException;
 
     List<SpeakerForm> getSpeakerFormsBySpeakersId(List<Integer> speakersId);
 

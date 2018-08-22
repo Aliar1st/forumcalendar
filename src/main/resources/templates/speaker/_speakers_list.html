@@ -1,0 +1,14 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+<div th:fragment="speakers" xmlns:th="http://www.thymeleaf.org/">
+    <div th:each="speaker, stat : ${speakers}" class="speaker" >
+        <input type="hidden" name="speakerId" th:value="${speaker.id}">
+        <img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profile photo">
+        <a th:href="@{/speaker/__${speaker.id}__}" th:text="|${speaker.firstName} ${speaker.lastName}|"></a><br/>
+        <label th:text="${speaker.description}"></label><br/>
+        <a th:href="@{speaker.link}" th:text="${speaker.link}"></a><br/>
+    </div>
+    <div th:if="${#lists.isEmpty(speakers)}">
+        <label>По вашему запросу ничего не было найдено</label>
+    </div>
+</div>

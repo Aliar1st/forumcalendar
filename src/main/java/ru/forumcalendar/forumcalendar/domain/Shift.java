@@ -3,6 +3,9 @@ package ru.forumcalendar.forumcalendar.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,10 +17,12 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
+@Indexed
 public class Shift extends AuditModel {
 
     @Id
     @GeneratedValue
+    @Field(name = "shift_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
