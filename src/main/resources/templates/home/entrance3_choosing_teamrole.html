@@ -18,13 +18,13 @@
         </div>
         <form th:action="@{/entrance/4}" th:object="${choosingTeamRoleForm}" method="POST">
             <div class="wrapper-cards role-cards">
-                <div class="btn-group group-roles" data-toggle="buttons">
+                <div class="btn-group group-roles">
                     <label class="role-label">
-                        <input value="1" type="radio" name="teamRoleId">
+                        <input value="1" type="radio" id="curator" name="teamRoleId">
                         <span class="card-text info-date-shift">Я куратор</span>
                     </label>
                     <label class="role-label">
-                        <input value="3" type="radio" name="options">
+                        <input value="3" type="radio" id="member" name="teamRoleId">
                         <span class="card-text info-date-shift">Я участник</span>
                     </label>
                 </div>
