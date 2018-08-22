@@ -17,6 +17,7 @@
             </div>
         </div>
         <form th:action="@{/entrance/4}" th:object="${choosingTeamRoleForm}" method="POST">
+            <input name="shiftId" th:value="${shiftId}" type="hidden">
             <div class="wrapper-cards role-cards">
                 <div class="btn-group group-roles">
                     <label class="role-label">

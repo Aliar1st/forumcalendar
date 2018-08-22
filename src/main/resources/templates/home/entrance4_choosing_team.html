@@ -17,8 +17,8 @@
             </div>
         </div>
         <form th:action="@{/entrance/5}" th:object="${choosingTeamForm}" method="POST">
+            <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
             <div class="wrapper-cards">
-
                 <div class="btn-group team-group" data-toggle="buttons">
                     <th:block th:each="team:${teams}">
                     <label class="btn col-lg-12">
