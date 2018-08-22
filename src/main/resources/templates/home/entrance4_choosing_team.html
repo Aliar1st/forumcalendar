@@ -22,7 +22,7 @@
                 <div class="btn-group team-group" data-toggle="buttons">
                     <th:block th:each="team:${teams}">
                     <label class="btn col-lg-12">
-                        <input th:value="${team.id}" th:field="*{teamRoleId}" type="radio">
+                        <input th:value="${team.id}" th:field="*{teamId}" type="radio">
                         <span th:text="|Команда ${team.name}|" class="title-team-choose"></span>
                     </label>
                     </th:block>

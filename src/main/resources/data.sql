@@ -12,14 +12,14 @@ INSERT INTO contact_types (id, name, created_at, updated_at) VALUES
   (2, 'Telegram',      NOW(), NOW());
 
 INSERT INTO `users` (`id`, `created_at`, `updated_at`, `email`, `first_name`, `gender`, `last_name`, `locale`, `photo`, `role_id`) VALUES
-('106725778006320436881', '2018-08-13 22:27:11', '2018-08-13 22:27:11', 'aliar@yandex.ru', 'Илья', NULL, 'Агеев', 'ru', '5b765ec5b596e916fe119f38afebdb2d.jpg', 2);
+('106725778006320436882', '2018-08-13 22:27:11', '2018-08-13 22:27:11', 'aliar@yandex.ru', 'Илья', NULL, 'Агеев', 'ru', '5b765ec5b596e916fe119f38afebdb2d.jpg', 2);
 
 INSERT INTO `activities` (`id`, `created_at`, `updated_at`, `description`, `place`, `name`, `user_id`) VALUES
-(1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,               'Санкт-Питербург', 'ActivityMy',    '106725778006320436881'),
-(15, '2018-08-17 11:46:22', '2018-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', '106725778006320436881');
+(1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,               'Санкт-Питербург', 'ActivityMy',    '106725778006320436882'),
+(15, '2018-08-17 11:46:22', '2018-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', '106725778006320436882');
 
 INSERT INTO `contacts` (`id`, `created_at`, `updated_at`, `link`, `contact_type_id`, `user_id`) VALUES
-(1, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://vk.com/aliarfirst', 1, '106725778006320436881');
+(10, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://vk.com/aliarfirst', 1, '106725778006320436882');
 
 
 INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date`, `name`, `start_date`, `activity_id`) VALUES
@@ -53,10 +53,10 @@ INSERT INTO `events_speakers` (`event_id`, `speaker_id`) VALUES
 (13, 21);
 
 INSERT INTO `subscriptions` (`created_at`, `updated_at`, `user_id`, `event_id`) VALUES
-('2018-08-15 19:29:53', '2018-08-15 19:29:53', '106725778006320436881', 7),
-('2018-08-15 19:29:59', '2018-08-15 19:29:59', '106725778006320436881', 8),
-('2018-08-15 19:30:06', '2018-08-15 19:30:06', '106725778006320436881', 9),
-('2018-08-15 19:30:11', '2018-08-15 19:30:11', '106725778006320436881', 10);
+('2018-08-15 19:29:53', '2018-08-15 19:29:53', '106725778006320436882', 7),
+('2018-08-15 19:29:59', '2018-08-15 19:29:59', '106725778006320436882', 8),
+('2018-08-15 19:30:06', '2018-08-15 19:30:06', '106725778006320436882', 9),
+('2018-08-15 19:30:11', '2018-08-15 19:30:11', '106725778006320436882', 10);
 
 INSERT INTO `teams` (`id`, `created_at`, `updated_at`, `description`, `direction`, `name`, `number`, `shift_id`) VALUES
 (5, '2018-08-14 15:57:14', '2018-08-14 15:57:14', 'TeamDescFirst', 'TeamDirFirst', 'TeamFirst', 0, 2),
@@ -78,4 +78,4 @@ INSERT INTO `team_events` (`id`, `created_at`, `updated_at`, `start_datetime`, `
 (27, '2018-08-17 14:43:27', '2018-08-17 14:44:59', '2018-08-24 09:00:00', '2018-08-25 09:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTestD', 5);
 
 INSERT INTO `user_teams` (`created_at`, `updated_at`, `user_id`, `team_id`, `team_role_id`) VALUES
-('2018-08-19 18:04:51', '2018-08-19 18:04:51', '106725778006320436881', 5, 1);
+('2018-08-19 18:04:51', '2018-08-19 18:04:51', '106725778006320436882', 5, 1);
