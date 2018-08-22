@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
 public class BaseUserService implements UserService {
 
     private final UserRepository userRepository;
@@ -88,12 +87,10 @@ public class BaseUserService implements UserService {
         c1.setUser(user);
         c1.setContactType(contactTypeRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 1)));
-        c1.setLink("");
         Contact c2 = new Contact();
         c2.setUser(user);
         c2.setContactType(contactTypeRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 2)));
-        c1.setLink("");
 
         contactRepository.saveAll(Arrays.asList(c1, c2));
 
@@ -131,6 +128,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(UserForm userForm) {
 
         User user = getCurrentUser();
