@@ -57,7 +57,7 @@ $(function() {
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
             'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         onSelect: function (selectedDate) {
-            location.href = "shedule_day.html?date=" + selectedDate; // /news?date=2014-02-22
+            location.href = "/events?date=" + selectedDate; // /news?date=2014-02-22
         }
     });
 

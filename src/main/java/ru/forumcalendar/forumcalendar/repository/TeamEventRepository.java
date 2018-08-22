@@ -12,8 +12,7 @@ public interface TeamEventRepository extends JpaRepository<TeamEvent, Integer> {
 
     @Query("SELECT te FROM TeamEvent te " +
             " WHERE te.team.id = ?1 " +
-            "   AND (te.startDatetime BETWEEN ?2 AND ?3 " +
-            "    OR  te.endDatetime   BETWEEN ?2 AND ?3) " +
+            "   AND te.startDatetime BETWEEN ?2 AND ?3 " +
             " ORDER BY te.startDatetime")
     Stream<TeamEvent> getAllByTeamIdAndStartDatetimeBetween(int team_id, LocalDateTime startDatetime, LocalDateTime endDatetime);
 

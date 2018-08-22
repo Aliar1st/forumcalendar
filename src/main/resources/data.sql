@@ -29,8 +29,8 @@ INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date
 (20, '2018-08-17 12:10:46', '2018-08-17 12:10:46', NULL,                 '2018-08-25', 'ShiftTest',       '2018-08-24', 15);
 
 INSERT INTO `speakers` (`id`, `created_at`, `updated_at`, `description`, `first_name`, `last_name`, `link`, `activity_id`) VALUES
-(4, '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'http://petehuston.com', 1),
-(5, '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'http://petehustonii.com', 1),
+(4,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'http://petehuston.com', 1),
+(5,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'http://petehustonii.com', 1),
 (21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest', 'SpeakerFTest.com', 15);
 
 INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `name`, `place`, `shift_id`) VALUES
@@ -64,15 +64,15 @@ INSERT INTO `teams` (`id`, `created_at`, `updated_at`, `description`, `name`, `n
 (22, '2018-08-17 12:37:00', '2018-08-17 12:37:04', 'TeamTestDescD', 'TeamTestD', 0, 16);
 
 INSERT INTO `team_events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `place`, `name`, `team_id`) VALUES
-(1, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 10:00:00', '2018-08-17 11:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest', 5),
-(2, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 11:00:00', '2018-08-17 12:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest3', 5),
-(3, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 13:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest4', 5),
-(4, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 13:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest5', 5),
-(5, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest7', 5),
-(6, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 13:00:00', '2018-08-17 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest8', 5),
-(7, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-18 13:00:00', '2018-08-18 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest9', 5),
-(8, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-16 13:00:00', '2018-08-16 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest10', 5),
-(9, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-16 22:00:00', '2018-08-17 01:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest11', 5),
+(1,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 10:00:00', '2018-08-17 11:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest', 5),
+(2,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 11:00:00', '2018-08-17 12:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest3', 5),
+(3,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 13:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest4', 5),
+(4,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 13:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest5', 5),
+(5,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 12:00:00', '2018-08-17 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest7', 5),
+(6,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 13:00:00', '2018-08-17 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest8', 5),
+(7,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-18 13:00:00', '2018-08-18 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest9', 5),
+(8,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-16 13:00:00', '2018-08-16 14:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest10', 5),
+(9,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-16 22:00:00', '2018-08-17 01:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest11', 5),
 (10, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 23:00:00', '2018-08-18 00:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest12', 5),
 (23, '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 09:00:00', '2018-08-17 10:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest', 5),
 (27, '2018-08-17 14:43:27', '2018-08-17 14:44:59', '2018-08-24 09:00:00', '2018-08-25 09:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTestD', 5);

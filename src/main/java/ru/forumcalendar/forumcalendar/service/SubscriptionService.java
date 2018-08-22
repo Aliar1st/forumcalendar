@@ -1,8 +1,8 @@
 package ru.forumcalendar.forumcalendar.service;
 
 import org.quartz.SchedulerException;
-import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
+import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 
 import java.util.List;
 

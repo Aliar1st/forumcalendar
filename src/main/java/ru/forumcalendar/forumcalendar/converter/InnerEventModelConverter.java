@@ -4,40 +4,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Event;
-import ru.forumcalendar.forumcalendar.model.InnerEventModel;
+import ru.forumcalendar.forumcalendar.model.InnerShiftEventModel;
 import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class InnerEventModelConverter implements Converter<Event, InnerEventModel> {
+public class InnerEventModelConverter implements Converter<Event, InnerShiftEventModel> {
 
     private LikeService likeService;
 
     private SubscriptionService subscriptionService;
 
     @Override
-    public InnerEventModel convert(Event event) {
-        InnerEventModel innerEventModel = new InnerEventModel();
-        innerEventModel.setId(event.getId());
-        innerEventModel.setName(event.getName());
-        innerEventModel.setPlace(event.getPlace());
-        innerEventModel.setStartDatetime(event.getStartDatetime());
-        innerEventModel.setEndDatetime(event.getEndDatetime());
-        innerEventModel.setDescription(event.getDescription());
-//        innerEventModel.setShift(event.getShift());
+    public InnerShiftEventModel convert(Event event) {
+        InnerShiftEventModel innerShiftEventModel = new InnerShiftEventModel();
+        innerShiftEventModel.setId(event.getId());
+        innerShiftEventModel.setName(event.getName());
+        innerShiftEventModel.setPlace(event.getPlace());
+        innerShiftEventModel.setStartDatetime(event.getStartDatetime());
+        innerShiftEventModel.setEndDatetime(event.getEndDatetime());
+        innerShiftEventModel.setDescription(event.getDescription());
+//        innerShiftEventModel.setShift(event.getShift());
 
-        innerEventModel.setLikes(likeService.getLikes(event.getId()));
-        innerEventModel.setDislikes(likeService.getDislikes(event.getId()));
-        innerEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
+        innerShiftEventModel.setLikes(likeService.getLikes(event.getId()));
+        innerShiftEventModel.setDislikes(likeService.getDislikes(event.getId()));
+        innerShiftEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
 
         LocalDateTime startEvent = event.getStartDatetime();
         LocalDateTime startShift = event.getShift().getStartDate().atStartOfDay();
 
-        innerEventModel.setDay((int) ChronoUnit.DAYS.between(startShift, startEvent));
+        innerShiftEventModel.setDay((int) ChronoUnit.DAYS.between(startShift, startEvent));
 
-        return innerEventModel;
+        return innerShiftEventModel;
     }
 
     @Autowired

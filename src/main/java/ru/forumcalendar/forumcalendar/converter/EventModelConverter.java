@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
-import ru.forumcalendar.forumcalendar.model.SpeakerModel;
-import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.InnerSpeakerModel;
 import ru.forumcalendar.forumcalendar.service.LikeService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;

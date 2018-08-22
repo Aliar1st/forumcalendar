@@ -171,6 +171,8 @@ public class SpeakerController {
             Model model
     ) throws InterruptedException {
 
+        System.out.println("search "+q);
+
         PermissionService.Identifier identifier = permissionService.identifyUser(activityId);
 
         model.addAttribute(identifier.getValue(), true);
@@ -186,6 +188,8 @@ public class SpeakerController {
             @RequestParam int activityId,
             Model model
     ) {
+
+        System.out.println("partialSpeakers "+activityId);
 
         model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(activityId));
 

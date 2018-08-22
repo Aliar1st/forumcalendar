@@ -7,15 +7,34 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/events}" method="GET">
-        <label>Дата
-            <input name="date" type="date" th:value="${now}">
-        </label>
+    <div class="container-fluid wrapper">
+        <div class=" header-personal header-edit">
+            <a th:href="@{/menu}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <h2 class="choose-h2">Календарь</h2>
+            <a th:href="@{/favorites}">
+                <i class="fa fa-star favorite-ref" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="content-personal calendar-content ">
+            <div id="calendar"></div>
+        </div>
         <label th:if="${error!=null}"
                th:text="${error}">error
         </label>
-        <button type="submit">Далее</button>
-    </form>
+    </div>
+
+
+    <!--<form th:action="@{/events}" method="GET">-->
+    <!--<label>Дата-->
+    <!--<input name="date" type="date" th:value="${now}">-->
+    <!--</label>-->
+    <!--<label th:if="${error!=null}"-->
+    <!--th:text="${error}">error-->
+    <!--</label>-->
+    <!--<button type="submit">Далее</button>-->
+    <!--</form>-->
 </div>
 </body>
 </html>

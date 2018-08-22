@@ -15,9 +15,7 @@ import ru.forumcalendar.forumcalendar.model.form.ActivityForm;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.PermissionService;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Controller
 @RequestMapping("activities")

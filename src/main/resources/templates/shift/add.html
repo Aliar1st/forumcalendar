@@ -7,45 +7,97 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/shift/add}" th:object="${shiftForm}" method="POST">
-        <p>
-            <label>Название
-                <input th:field="*{name}" type="text">
-                <label th:if="${#fields.hasErrors('name')}"
-                       th:errors="*{name}">error
+    <div class="container-fluid wrapper">
+        <form th:action="@{/shifts/add}" th:object="${shiftForm}" method="POST">
+            <div class="header-personal  header-settings header-add">
+                <a th:href="@{/shifts/__${shiftForm.activityId}__}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <h2 class="choose-h2">Создать смену</h2>
+                <button type="submit">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="content-personal content-add">
+                <div class="forum-info add-forum-div col-11">
+                    <input th:field="*{name}" type="text" class="form-control"
+                           placeholder="Название смены" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('name')}"
+                           th:errors="*{name}">error
+                    </label>
+
+                    <input th:field="*{startDate}" type="text" class="form-control"
+                           placeholder="Дата начала" aria-label="Username" aria-describedby="basic-addon1"
+                           onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
+                    <label th:if="${#fields.hasErrors('startDate')}"
+                           th:errors="*{startDate}">error
+                    </label>
+
+                    <input th:field="*{endDate}" type="text" class="form-control"
+                           placeholder="Дата конца" aria-label="Username" aria-describedby="basic-addon1"
+                           onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
+                    <label th:if="${#fields.hasErrors('endDate')}"
+                           th:errors="*{endDate}">error
+                    </label>
+
+                    <textarea th:field="*{description}" type="text" class="form-control col-10"
+                              placeholder="Описание события"></textarea>
+                    <label th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}">error
+                    </label>
+                </div>
+
+                <div th:if="${#fields.hasGlobalErrors()}"
+                     th:errors="${shiftForm}">error
+                </div>
+                <label th:if="${#fields.hasErrors('activityId')}"
+                       th:errors="*{activityId}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата начала
-                <input th:field="*{startDate}" type="date">
-                <label th:if="${#fields.hasErrors('startDate')}"
-                       th:errors="*{startDate}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата конца
-                <input th:field="*{endDate}" type="date">
-                <label th:if="${#fields.hasErrors('endDate')}"
-                       th:errors="*{endDate}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Описание
-                <input th:field="*{description}" type="text">
-                <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
-                </label>
-            </label>
-        </p>
-        <label th:if="${#fields.hasErrors('activityId')}"
-               th:errors="*{activityId}">error
-        </label>
-        <input type="hidden" th:field="*{activityId}">
-        <input type="submit" value="Создать">
-    </form>
+                <input type="hidden" th:field="*{activityId}">
+            </div>
+        </form>
+    </div>
+
+    <!--<form th:action="@{/shift/add}" th:object="${shiftForm}" method="POST">-->
+    <!--<p>-->
+    <!--<label>Название-->
+    <!--<input th:field="*{name}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('name')}"-->
+    <!--th:errors="*{name}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Дата начала-->
+    <!--<input th:field="*{startDate}" type="date">-->
+    <!--<label th:if="${#fields.hasErrors('startDate')}"-->
+    <!--th:errors="*{startDate}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Дата конца-->
+    <!--<input th:field="*{endDate}" type="date">-->
+    <!--<label th:if="${#fields.hasErrors('endDate')}"-->
+    <!--th:errors="*{endDate}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Описание-->
+    <!--<input th:field="*{description}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('description')}"-->
+    <!--th:errors="*{description}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<label th:if="${#fields.hasErrors('activityId')}"-->
+    <!--th:errors="*{activityId}">error-->
+    <!--</label>-->
+    <!--<input type="hidden" th:field="*{activityId}">-->
+    <!--<input type="submit" value="Создать">-->
+    <!--</form>-->
 </div>
 </body>
 </html>

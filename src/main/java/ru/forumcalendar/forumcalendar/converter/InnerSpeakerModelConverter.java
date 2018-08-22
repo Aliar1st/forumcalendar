@@ -14,7 +14,7 @@ public class InnerSpeakerModelConverter implements Converter<Speaker, InnerSpeak
         innerSpeakerModel.setActivityId(speaker.getActivity().getId());
         innerSpeakerModel.setFirstName(speaker.getFirstName());
         innerSpeakerModel.setLastName(speaker.getLastName());
-        innerSpeakerModel.setPhoto(""); //FIXME добавить фото спикеру
+        innerSpeakerModel.setPhoto(speaker.getPhoto());
         innerSpeakerModel.setLink(speaker.getLink());
         innerSpeakerModel.setDescription(speaker.getDescription());
 
