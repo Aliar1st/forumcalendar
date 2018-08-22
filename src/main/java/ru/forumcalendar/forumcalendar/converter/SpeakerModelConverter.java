@@ -1,13 +1,10 @@
 package ru.forumcalendar.forumcalendar.converter;
 
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
-import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
-import ru.forumcalendar.forumcalendar.model.EventModel;
-import ru.forumcalendar.forumcalendar.model.InnerEventModel;
+import ru.forumcalendar.forumcalendar.model.InnerShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 
 import java.util.List;
@@ -22,7 +19,7 @@ public class SpeakerModelConverter implements Converter<Speaker, SpeakerModel> {
 
         SpeakerModel speakerModel = new SpeakerModel();
 
-        speakerModel.setPhoto(""); //FIXME добавить фото спикеру
+        speakerModel.setPhoto(speaker.getPhoto());
         speakerModel.setId(speaker.getId());
         speakerModel.setActivityId(speaker.getActivity().getId());
         speakerModel.setFirstName(speaker.getFirstName());
@@ -30,7 +27,7 @@ public class SpeakerModelConverter implements Converter<Speaker, SpeakerModel> {
         speakerModel.setLink(speaker.getLink());
         speakerModel.setDescription(speaker.getDescription());
 
-        List<InnerEventModel> eventModels = speaker.getEvents()
+        List<InnerShiftEventModel> eventModels = speaker.getEvents()
                 .stream()
                 .map((s) -> innerEventModelConverter.convert(s))
                 .collect(Collectors.toList());

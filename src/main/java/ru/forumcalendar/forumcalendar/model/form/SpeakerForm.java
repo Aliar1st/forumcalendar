@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 
 import javax.validation.constraints.Max;
@@ -17,6 +18,10 @@ import javax.validation.constraints.Size;
 public class SpeakerForm {
 
     private int id;
+
+    private String photoUrl;
+
+    private MultipartFile photo;
 
     //@ActivityExist
     private int activityId;

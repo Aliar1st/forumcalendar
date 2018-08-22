@@ -16,10 +16,10 @@ import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.repository.SpeakerRepository;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.SpeakerService;
+import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,18 +34,22 @@ public class BaseSpeakerService implements SpeakerService {
     private final SpeakerRepository speakerRepository;
 
     private final UserService userService;
+    private final UploadsService uploadsService;
     private final ActivityService activityService;
     private final ConversionService conversionService;
 
     @Autowired
     public BaseSpeakerService(
-            EntityManager entityManager, SpeakerRepository speakerRepository,
+            EntityManager entityManager,
+            SpeakerRepository speakerRepository,
+            UploadsService uploadsService,
             ActivityService activityService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.entityManager = entityManager;
         this.speakerRepository = speakerRepository;
+        this.uploadsService = uploadsService;
         this.activityService = activityService;
         this.userService = userService;
         this.conversionService = conversionService;
@@ -79,6 +83,18 @@ public class BaseSpeakerService implements SpeakerService {
         speaker.setLink(speakerForm.getLink());
         speaker.setDescription(speakerForm.getDescription());
         speaker.setActivity(activityService.get(speakerForm.getActivityId()));
+
+        //noinspection Duplicates
+        if (!speakerForm.getPhoto().isEmpty()) {
+            String photo = uploadsService.upload(speakerForm.getPhoto(), userService.getCurrentId())
+                    .map((f) -> {
+                        if (!speaker.getPhoto().equals(f.getName()))
+                            uploadsService.delete(speaker.getPhoto());
+                        return f.getName();
+                    })
+                    .orElse(speaker.getPhoto());
+            speaker.setPhoto(photo);
+        }
 
         return speakerRepository.save(speaker);
     }

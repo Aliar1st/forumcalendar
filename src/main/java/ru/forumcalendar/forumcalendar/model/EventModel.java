@@ -9,18 +9,38 @@ import lombok.Setter;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public abstract class EventModel extends InnerEventModel implements Comparable<EventModel> {
+public abstract class EventModel implements Comparable<EventModel> {
+
+    private int id;
+
+    private int day;
+
+    private String name;
+
+    private LocalDateTime startDatetime;
+
+    private LocalDateTime endDatetime;
+
+    private String place;
+
+    private String description;
+
+    private boolean shiftEvent;
+
+    public String getFormatStartTime() {
+        return startDatetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    public String getFormatEndTime() {
+        return endDatetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
     @Override
     public int compareTo(EventModel o) {
-        if (this.getStartDatetime().isAfter(o.getStartDatetime())) {
-            return 1;
-        } else {
-            return -1;
-        }
+        return startDatetime.compareTo(o.startDatetime);
     }
 }

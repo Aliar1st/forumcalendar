@@ -44,4 +44,8 @@ public class Shift extends AuditModel {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)
     private Set<Team> teams = new HashSet<>();
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)
+    private Set<Event> events = new HashSet<>();
 }

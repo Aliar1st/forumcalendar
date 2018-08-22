@@ -77,7 +77,7 @@ public class BaseUserService implements UserService {
 
         String photo = uploadsService.upload((String) userMap.get("picture"), user.getId())
                 .map(File::getName)
-                .orElse("DEFAULT");
+                .orElse("photo-ava.jpg");
 
         user.setPhoto(photo);
 
@@ -133,12 +133,12 @@ public class BaseUserService implements UserService {
 
         User user = getCurrentUser();
 
+        //noinspection Duplicates
         if (!userForm.getPhoto().isEmpty()) {
             String photo = uploadsService.upload(userForm.getPhoto(), getCurrentId())
                     .map((f) -> {
                         if (!user.getPhoto().equals(f.getName()))
                             uploadsService.delete(user.getPhoto());
-
                         return f.getName();
                     })
                     .orElse(user.getPhoto());

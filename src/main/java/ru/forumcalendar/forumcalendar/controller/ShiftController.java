@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,25 +11,30 @@ import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
+import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("shifts")
+@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 public class ShiftController {
     private static final String HTML_FOLDER = "shift/";
-    private static final String REDIRECT_ROOT_MAPPING = "redirect:/shift?activityId=";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/shifts?activityId=";
 
     private final ShiftService shiftService;
+    private final ActivityService activityService;
     private final ConversionService conversionService;
 
     @Autowired
     public ShiftController(
             ShiftService shiftService,
+            ActivityService activityService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
         this.shiftService = shiftService;
+        this.activityService = activityService;
         this.conversionService = conversionService;
     }
 
@@ -39,6 +45,7 @@ public class ShiftController {
     ) {
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(activityId));
         model.addAttribute("activityId", activityId);
+        model.addAttribute("activityName", activityService.get(activityId).getName());
 
         return HTML_FOLDER + "index";
     }

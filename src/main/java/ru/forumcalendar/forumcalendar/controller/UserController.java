@@ -76,7 +76,7 @@ public class UserController {
         model.addAttribute("isMyPage", id.equals(userService.getCurrentId()));
         model.addAttribute("user", conversionService.convert(userService.get(id), UserModel.class));
 
-        return HTML_FOLDER + "/index";
+        return HTML_FOLDER + "index";
     }
 
     @GetMapping("{id}/edit")
@@ -91,7 +91,7 @@ public class UserController {
         model.addAttribute(new UserForm(userService.getCurrentUser()));
         model.addAttribute("contactTypes", contactTypeService.getAll());
 
-        return "user/edit";
+        return HTML_FOLDER + "edit";
     }
 
     @PostMapping("{id}/edit")
@@ -106,7 +106,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             userForm.setPhotoUrl(userService.getCurrentUser().getPhoto());
-            return "user/edit";
+            return HTML_FOLDER + "edit";
         }
 
         userForm.setId(id);

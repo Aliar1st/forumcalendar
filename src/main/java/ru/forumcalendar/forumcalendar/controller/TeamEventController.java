@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
 import ru.forumcalendar.forumcalendar.model.form.TeamEventForm;
-import ru.forumcalendar.forumcalendar.service.ShiftService;
 import ru.forumcalendar.forumcalendar.service.TeamEventService;
 import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
 import ru.forumcalendar.forumcalendar.service.TeamService;

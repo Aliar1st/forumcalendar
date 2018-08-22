@@ -26,10 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(activityModelConverter());
-        registry.addConverter(new ShiftModelConverter());
+        registry.addConverter(new ShiftListModelConverter());
         registry.addConverter(new TeamModelConverter());
         registry.addConverter(new TeamEventModelConverter());
+        registry.addConverter(new ShiftModelConverter());
+        registry.addConverter(activityModelConverter());
         registry.addConverter(speakerModelConverter());
         registry.addConverter(eventModelConverter());
         registry.addConverter(contactModelConverter());
