@@ -1,35 +1,93 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"-->
+      <!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+    <!--<title></title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+    <!--<label id="teamName" th:text="${teamName}">Team name</label><br/>-->
+
+
+    <!--<form th:if="${isCurator} or ${isCaptain} or ${isMember}"-->
+          <!--th:action="@{__${teamId}__/leaveTeam}" method="POST">-->
+        <!--<button type="submit">Покинуть команду</button>-->
+    <!--</form>-->
+    <!--<button th:if="${isCurator} or ${isModerator} or ${isAdmin}" id="editTeamName" type="button">Edit team name</button>-->
+    <!--<button th:if="${isCurator} or ${isCaptain} or ${isMember}" id="getLink" type="button">Get link</button>-->
+    <!--<button th:if="${isCaptain} or ${isMember}" id="becomeCaptain" type="button">Become captain</button><br/>-->
+
+    <!--<div th:each="user, stat : ${teamUsers}" class="team-member">-->
+        <!--<input type="hidden" name="userId" th:value="${user.id}">-->
+        <!--<img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="profile photo"><br/>-->
+        <!--<a th:href="@{/user/__${user.id}__}" th:text="|${user.firstName} ${user.lastName}|"></a><br/>-->
+        <!--<label th:text="${user.teamRole}"></label><br/>-->
+        <!--<button th:if="(${isCurator} or ${isModerator} or ${isAdmin}) and ${user.id} != ${curUserId}"-->
+                <!--class="kickMember" type="button">Выгнать</button>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+<!--<div layout:fragment="scripts">-->
+    <!--<script type="text/javascript" src="/static/scripts/team.js"></script>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title></title>
+    <title>Команда</title>
+    <meta charset='UTF-8'>
 </head>
 <body>
-<div layout:fragment="content">
-    <label id="teamName" th:text="${teamName}">Team name</label><br/>
 
+<div class="container-fluid wrapper" layout:fragment="content">
+    <div class="header-personal header-edit header-team">
+        <a onclick="history.back();" class="link">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
 
-    <form th:if="${isCurator} or ${isCaptain} or ${isMember}"
-          th:action="@{__${teamId}__/leaveTeam}" method="POST">
-        <button type="submit">Покинуть команду</button>
-    </form>
-    <button th:if="${isCurator} or ${isModerator} or ${isAdmin}" id="editTeamName" type="button">Edit team name</button>
-    <button th:if="${isCurator} or ${isCaptain} or ${isMember}" id="getLink" type="button">Get link</button>
-    <button th:if="${isCaptain} or ${isMember}" id="becomeCaptain" type="button">Become captain</button><br/>
+        <h2 id="teamName" th:text="${teamName}" class="choose-h2" >Команда 28</h2>
 
-    <div th:each="user, stat : ${teamUsers}" class="team-member">
-        <input type="hidden" name="userId" th:value="${user.id}">
-        <img width="60" height="60" th:src="@{/public/__${user.photo}__}" alt="profile photo"><br/>
-        <a th:href="@{/user/__${user.id}__}" th:text="|${user.firstName} ${user.lastName}|"></a><br/>
-        <label th:text="${user.teamRole}"></label><br/>
-        <button th:if="(${isCurator} or ${isModerator} or ${isAdmin}) and ${user.id} != ${curUserId}"
-                class="kickMember" type="button">Выгнать</button>
+        <input type="hidden" name="teamId" th:value="${teamId}">
+
+        <input type="hidden" id="hiddenLink">
+
+        <!--FIXME нужно модальное окно для ссылки-->
+        <i id="getLink" data-clipboard-target="#hiddenLink" th:if="${isCurator} or ${isCaptain} or ${isMember}" class="fa fa-share-alt link" aria-hidden="true" ></i>
+
+        <a id="editTeamName" class="link" th:if="${isCurator} or ${isModerator} or ${isAdmin}">
+            <i id="editTeam" class="fa fa-pencil"></i>
+        </a>
+
+        <i id="becomeCaptain" th:if="${isCaptain} or ${isMember}" class="fa fa-graduation-cap link" aria-hidden="true"></i>
+
     </div>
+
+    <div class="content-personal team-div">
+        <a th:href="@{/user/__${user.id}__}" th:each="user, stat : ${teamUsers}" class="team-member">
+            <div class="member-line col-11">
+                <input type="hidden" name="userId" th:value="${user.id}">
+                <img class="img-profile img-in-team" th:src="@{/public/__${user.photo}__}" alt="profile photo"/>
+                <h4 th:text="|${user.firstName} ${user.lastName}|">Иван Иванов</h4>
+                <i th:if="${user.teamRole.equals('Curator')}" class="fa fa-smile-o" aria-hidden="true"></i>
+                <i th:if="${user.teamRole.equals('Captain')}" class="fa fa-star" aria-hidden="true"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="modal" id="editModalTeam"></div>
 
 </div>
 
 <div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/clipboard.min.js"></script>
     <script type="text/javascript" src="/static/scripts/team.js"></script>
 </div>
 </body>

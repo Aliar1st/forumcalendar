@@ -65,7 +65,8 @@ public class UserController {
         }
 
         Team team = teamService.get(teamId);
-        model.addAttribute("direction", team.getDirection());
+        
+        //model.addAttribute("direction", team.getDirection());
 
         Shift shift = team.getShift();
         model.addAttribute("shift", shift.getName());

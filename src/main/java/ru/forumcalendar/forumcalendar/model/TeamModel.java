@@ -17,7 +17,7 @@ public class TeamModel {
 
     private int number;
 
-    private String direction;
+//    private String direction;
 
     private String description;
 

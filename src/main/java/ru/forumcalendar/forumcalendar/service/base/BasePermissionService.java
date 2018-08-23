@@ -40,10 +40,10 @@ public class BasePermissionService implements PermissionService {
         ActivityModerator activityModerator =
                 activityModeratorRepository.getByUserIdAndActivityId(currentUser.getId(), activityId);
 
-        if (activity.getUser().getId().equals(userService.getCurrentId())
-                || currentUser.getRole().getId() == Role.ROLE_SUPERUSER_ID) {
+        if (currentUser.getRole().getId() == Role.ROLE_SUPERUSER_ID) {
             return Identifier.ADMIN;
-        } else if (activityModerator != null) {
+        } else if (activity.getUser().getId().equals(userService.getCurrentId())
+                || activityModerator != null) {
             return Identifier.MODERATOR;
         } else {
             return Identifier.USER;

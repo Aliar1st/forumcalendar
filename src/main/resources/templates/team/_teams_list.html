@@ -1,13 +1,30 @@
 <!--suppress ThymeleafVariablesResolveInspection -->
 
+<!--<div th:fragment="teams" xmlns:th="http://www.thymeleaf.org/">-->
+
+    <!--<div th:each="team, stat : ${teams}" class="team" >-->
+        <!--<input type="hidden" name="teamId" th:value="${team.id}">-->
+        <!--<a th:href="@{/team/__${team.id}__}" th:text="${team.name}"></a><br/>-->
+        <!--<label th:text="${team.description}"></label><br/>-->
+    <!--</div>-->
+    <!--<div th:if="${#lists.isEmpty(teams)}">-->
+        <!--<label>По вашему запросу ничего не было найдено</label>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+
 <div th:fragment="teams" xmlns:th="http://www.thymeleaf.org/">
-    <div th:each="team, stat : ${teams}" class="team" >
+
+    <div th:each="team, stat : ${teams}" class="team member-line col-11">
+        <a th:href="@{/team/__${team.id}__}">
+            <h4 th:text="${team.name}"></h4>
+        </a>
         <input type="hidden" name="teamId" th:value="${team.id}">
-        <a th:href="@{/team/__${team.id}__}" th:text="${team.name}"></a><br/>
-        <label th:text="${team.description}"></label><br/>
+        <!--<label th:text="${team.description}"></label><br/>-->
     </div>
     <div th:if="${#lists.isEmpty(teams)}">
         <label>По вашему запросу ничего не было найдено</label>
     </div>
-</div>
 
+</div>

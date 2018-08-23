@@ -1,6 +1,7 @@
 package ru.forumcalendar.forumcalendar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class TeamController {
     private static final String HTML_FOLDER = "team/";
     private static final String REDIRECT_ROOT_MAPPING = "redirect:/team/";
 
+    private final ConversionService conversionService;
     private final ShiftService shiftService;
     private final PermissionService permissionService;
     private final TeamRoleService teamRoleService;
@@ -38,6 +41,7 @@ public class TeamController {
 
     @Autowired
     public TeamController(
+            ConversionService conversionService,
             ShiftService shiftService,
             PermissionService permissionService,
             TeamRoleService teamRoleService,
@@ -45,6 +49,7 @@ public class TeamController {
             UserService userService,
             LinkService linkService,
             PermissionEvaluator permissionEvaluator) {
+        this.conversionService = conversionService;
         this.shiftService = shiftService;
         this.permissionService = permissionService;
         this.teamRoleService = teamRoleService;
@@ -137,7 +142,7 @@ public class TeamController {
 
         model.addAttribute(teamForm);
 
-        return HTML_FOLDER + "add";
+        return HTML_FOLDER + "_add";
     }
 
     @PostMapping("add")
@@ -146,19 +151,19 @@ public class TeamController {
             BindingResult bindingResult,
             HttpSession httpSession,
             Authentication authentication
-    ) {
+    ) throws IOException {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
         if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w")) {
             return REDIRECT_ROOT_MAPPING + teamId;
         }
 
         if (bindingResult.hasErrors()) {
-            return HTML_FOLDER + "add";
+            return HTML_FOLDER + "_add";
         }
 
-        Team team = teamService.save(teamForm);
+        teamService.save(teamForm);
 
-        return HTML_FOLDER + team.getId();
+        return "layouts/_empty";
     }
 
     @GetMapping("{teamId}/editName")
@@ -200,15 +205,15 @@ public class TeamController {
             return teamService.updateTeamName(teamId, teamName).getName();
         }
 
-        return team.getName();
+        return "layouts/_empty";
     }
 
-    @GetMapping("/getLink")
-    private String generateLink(Model model) {
-        model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
-        model.addAttribute("teamRoles", teamRoleService.getAllRoles());
-        return HTML_FOLDER + "/_genLink";
-    }
+//    @GetMapping("/getLink")
+//    private String generateLink(Model model) {
+//        model.addAttribute("teamsList", userService.getCurrentUser().getUserTeams());
+//        model.addAttribute("teamRoles", teamRoleService.getAllRoles());
+//        return HTML_FOLDER + "/_genLink";
+//    }
 
     @ResponseBody
     @PostMapping("/getLink")
@@ -265,7 +270,6 @@ public class TeamController {
         return "redirect:/entrance/1";
     }
 
-
     @PostMapping("/search")
     public String search(
             @RequestParam String q,
@@ -279,7 +283,7 @@ public class TeamController {
                 permissionService.identifyUser(shiftService.get(shiftId).getActivity().getId());
 
         model.addAttribute(identifier.getValue(), true);
-        model.addAttribute("teams", teamService.searchByName(q,shiftId));
+        model.addAttribute("teams", teamService.searchByName(q, shiftId));
         model.addAttribute("curShiftId", shiftId);
 
         return HTML_FOLDER + "/_teams_list";

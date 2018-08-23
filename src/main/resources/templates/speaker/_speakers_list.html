@@ -1,6 +1,7 @@
 <!--suppress ThymeleafVariablesResolveInspection -->
 
 <div th:fragment="speakers" xmlns:th="http://www.thymeleaf.org/">
+
     <div th:each="speaker, stat : ${speakers}" class="speaker" >
         <input type="hidden" name="speakerId" th:value="${speaker.id}">
         <img width="60" height="60" th:src="@{/public/__${speaker.photo}__}" alt="profile photo">
@@ -11,4 +12,5 @@
     <div th:if="${#lists.isEmpty(speakers)}">
         <label>По вашему запросу ничего не было найдено</label>
     </div>
+
 </div>
