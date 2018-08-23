@@ -133,7 +133,7 @@ public class EventController {
         List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
 
         List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
-        events.addAll(shiftEventModels);
+        events.addAll(eventService.setUserSubscribes(shiftEventModels));
         events.addAll(teamEventModels);
         Collections.sort(events);
 
@@ -141,8 +141,7 @@ public class EventController {
             redirectAttributes.addFlashAttribute("error", "Events on this date not found");
             return REDIRECT_ROOT_MAPPING + "/choosing_date";
         }
-
-        model.addAttribute("events", events);
+        model.addAttribute("events",events);
         model.addAttribute("day", choosingEventsDate.getDate().format(DateTimeFormatter.ofPattern("dd MMMM", Locale.forLanguageTag("ru"))));
 
         return HTML_FOLDER + "index";

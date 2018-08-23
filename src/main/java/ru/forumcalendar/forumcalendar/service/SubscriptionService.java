@@ -10,7 +10,7 @@ public interface SubscriptionService {
 
     void subscribe(int eventId, String userId);
 
-    void unsubscribe(int eventId);
+//    void unsubscribe(int eventId);
 
     boolean isSubscribed(int eventId);
 

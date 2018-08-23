@@ -1,6 +1,8 @@
 $(function () {
 
     $(document).on('click', 'form[name="like"] button[type="button"]', function (event) {
+        var likeForm = $(event.currentTarget).parent();
+
         sendRequest(event);
     });
 
@@ -9,14 +11,20 @@ $(function () {
     });
 
     function sendRequest(event) {
-        var form = $(event.currentTarget).parent();
-        var eventId = form.children('input[type="hidden"]').val();
-        var likesField = form.parent().parent().children('label[class="likes"]');
-        var dislikesField = form.parent().parent().children('label[class="dislikes"]');
+        var currentForm = $(event.currentTarget).parent();
+
+        var mainBlock = currentForm.parent().parent();
+
+        var likeForm = mainBlock.children('.like-div').children('form[name="like"]');
+        var dislikeForm = mainBlock.children('.dislike-div').children('form[name="dislike"]');
+
+        var eventId = likeForm.children('input[type="hidden"]').val();
+        var likesField = likeForm.children('.info-date-shift');
+        var dislikesField = dislikeForm.children('.info-date-shift');
 
         $.ajax({
-            type: form.attr('method'),
-            url: form.attr('action'),
+            type: currentForm.attr('method'),
+            url: currentForm.attr('action'),
             data: "eventId=" + eventId,
             success: function (data) {
                 likesField.text(data.likecount);

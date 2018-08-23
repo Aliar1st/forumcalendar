@@ -50,6 +50,8 @@
                         <button type="button">
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                         </button>
+                        <label th:if="${event.isSubscribed()}">Подписан</label>
+                        <label th:unless="${event.isSubscribed()}">Не подписан</label>
                     </form>
                 </div>
 
