@@ -132,6 +132,13 @@ public class BaseEventService implements EventService {
     }
 
     @Override
+    public List<ShiftEventModel> getEventModelsByActivityId(int activityId) {
+        return eventRepository.getAllByShiftActivityIdOrderByStartDatetime(activityId)
+                .map((a) -> conversionService.convert(a, ShiftEventModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ShiftEventModel> getEventsBySpeakerId(int id) {
 
         return null;

@@ -148,6 +148,15 @@ public class EventController {
         return HTML_FOLDER + "index";
     }
 
+    @GetMapping("/index")
+    public String indexActivity(
+            Model model,
+            @RequestParam int activityId
+    ) {
+        model.addAttribute("events", eventService.getEventModelsByActivityId(activityId));
+        return HTML_FOLDER + "???";
+    }
+
     @PreAuthorize("hasPermission(#id, 'Event', 'r')")
     @GetMapping("{id}")
     public String show(

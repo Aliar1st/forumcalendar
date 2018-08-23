@@ -17,4 +17,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     Stream<Event> getAllByShiftIdAndStartDatetimeBetween(int shift_id, LocalDateTime startDatetime, LocalDateTime endDatetime);
 
     Stream<Event> getAllByShiftIdOrderByStartDatetime(int shift_id);
+
+    Stream<Event> getAllByShiftActivityIdOrderByStartDatetime(int activity_id);
 }

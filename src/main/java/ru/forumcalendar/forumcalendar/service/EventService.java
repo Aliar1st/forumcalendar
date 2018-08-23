@@ -13,5 +13,7 @@ public interface EventService extends SecuredService, ResourceService<Event, Shi
 
     List<ShiftEventModel> getEventModelsByShiftId(int shiftId);
 
+    List<ShiftEventModel> getEventModelsByActivityId(int activityId);
+
     List<ShiftEventModel> getEventsBySpeakerId(int id);
 }
