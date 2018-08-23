@@ -5,10 +5,9 @@ $(function () {
     var editTeamNameButton = $("#editTeamName");
     var getLinkButton = $("#getLink");
     var becomeCaptainButton = $("#becomeCaptain");
-    var hiddenLink = $("#hiddenLink");
+    var inviteLink = $("#inviteLink");
 
     var editTeamNameForm = '#editTeamNameForm';
-
 
 
     $(document).on('click', '.kickMember', function (event) {
@@ -38,18 +37,21 @@ $(function () {
             url: '/team/getLink',
             data: 'teamRoleId=3&teamId=' + teamId,
             success: function (data) {
-                hiddenLink.val(data);
-
-                var dummy = document.createElement("textarea");
-                document.body.appendChild(dummy);
-                dummy.value = data;
-                dummy.select();
-                document.execCommand("copy");
-                document.body.removeChild(dummy);
-
-                // $().toastmessage('showNoticeToast', "Ссылка скопирована в буфер обмена");
+                $("#inviteLink").val(data);
+                new ClipboardJS('.copy-link');
             }
         });
+    });
+
+    $(document).on('click', '.copy-link', function (event) {
+        $('button[class="close"]').trigger('click');
+        $().toastmessage('showNoticeToast', "Ссылка скопирована в буфер обмена");
+    });
+
+
+    $(getLinkButton).on('click', function (event) {
+
+        $("#copyLinkModal").modal('show');
     });
 
     $(becomeCaptainButton).on('click', function (event) {

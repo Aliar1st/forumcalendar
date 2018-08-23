@@ -57,8 +57,6 @@
 
         <input type="hidden" name="teamId" th:value="${teamId}">
 
-        <input type="hidden" id="hiddenLink">
-
         <!--FIXME нужно модальное окно для ссылки-->
         <i id="getLink" data-clipboard-target="#hiddenLink" th:if="${isCurator} or ${isCaptain} or ${isMember}" class="fa fa-share-alt link" aria-hidden="true" ></i>
 
@@ -84,6 +82,24 @@
 
     <div class="modal" id="editModalTeam"></div>
 
+    <div class="modal " id="copyLinkModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content  modal-edit-team">
+                <div class="modal-header">
+                    <h4>Копировать ссылку</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="inviteLink" class="form-control" readonly>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="copy-link btn btn-primary" data-clipboard-target="#inviteLink">Скопировать</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div layout:fragment="scripts">

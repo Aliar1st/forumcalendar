@@ -60,11 +60,11 @@
 
             <div class="forum-info">
                 <h4>Соц. сети</h4>
-                <div th:unless="${user.contacts[0].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
+                <div th:unless="${user.contacts[0].link==null||user.contacts[0].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
                     <i class="fa fa-vk" aria-hidden="true"></i>
                     <h5 th:text="${user.contacts[0].link}"></h5>
                 </div>
-                <div th:unless="${user.contacts[1].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
+                <div th:unless="${user.contacts[1].link==null||user.contacts[1].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
                     <i class="fa fa-telegram" aria-hidden="true"></i>
                     <h5 th:text="${user.contacts[1].link}"></h5>
                 </div>
