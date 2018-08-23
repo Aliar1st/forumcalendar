@@ -113,6 +113,11 @@ public class BaseTeamService implements TeamService {
     }
 
     @Override
+    public List<TeamModel> getTeamModelsByActivityId(int activityId) {
+        return convertTeams(teamRepository.getAllByShiftActivityId(activityId));
+    }
+
+    @Override
     public void kickMember(String userId, int teamId) {
         UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userId, teamId);
         userTeamRepository.delete(userTeam);

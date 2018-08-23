@@ -3,6 +3,7 @@ package ru.forumcalendar.forumcalendar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,6 +58,28 @@ public class TeamController {
         this.userService = userService;
         this.linkService = linkService;
         this.permissionEvaluator = permissionEvaluator;
+    }
+
+    //@PreAuthorize("hasRole('ROLE_SUPERUSER')")
+    @GetMapping("/allTeams")
+    public String allTeams(
+            @RequestParam int activityId,
+            HttpSession httpSession,
+            Authentication authentication,
+            Model model
+    ) {
+
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+        if (!permissionEvaluator.hasPermission(authentication, teamId, "Team", "w")) {
+            return REDIRECT_ROOT_MAPPING + teamId;
+        }
+
+        PermissionService.Identifier identifier = PermissionService.Identifier.USER;
+
+        model.addAttribute(identifier.getValue(), true);
+        model.addAttribute("teams", teamService.getTeamModelsByActivityId(activityId));
+
+        return HTML_FOLDER + "/teams";
     }
 
     @GetMapping("/teams")

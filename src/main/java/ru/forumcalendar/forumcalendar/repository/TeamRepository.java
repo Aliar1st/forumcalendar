@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
+    Stream<Team> getAllByShiftActivityId(int activityId);
+
     Stream<Team> getAllByShiftIdOrderByCreatedAt(int shift_id);
 
     @Query("SELECT t FROM Team t " +

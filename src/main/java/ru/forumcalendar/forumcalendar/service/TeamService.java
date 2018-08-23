@@ -13,6 +13,8 @@ import java.util.Map;
 
 public interface TeamService extends SecuredService, ResourceService<Team, TeamModel, TeamForm> {
 
+    List<TeamModel>  getTeamModelsByActivityId(int activityId);
+
     void kickMember(String userId, int teamId);
 
     List<TeamModel> searchByName(String q, int shiftId) throws InterruptedException;

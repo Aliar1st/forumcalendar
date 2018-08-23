@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
+import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -24,10 +25,13 @@ public class ActivityForm {// implements ResourceForm<Activity> {
 
     private int id;
 
-    @Size(min = 2, message = "Name is too short")
     @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters or too short")
     private String name;
+
+    @Size(max = 50, message = "Name is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Place contains invalid characters or too short")
+    private String place;
 
     @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
@@ -40,6 +44,7 @@ public class ActivityForm {// implements ResourceForm<Activity> {
         this.id = activity.getId();
         this.name = activity.getName();
         this.description = activity.getDescription();
+        this.place = activity.getPlace();
 
         Set<Shift> shifts = activity.getShifts();
         this.shiftForms = new ArrayList<>(shifts.size());

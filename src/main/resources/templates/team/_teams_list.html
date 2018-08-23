@@ -6,7 +6,7 @@
     </div>
     <div th:unless="${#lists.isEmpty(teams)}">
         <div th:each="team,stat:${teams}" class="teammember-line col-11">
-            <a th:href="@{/team/${team.id}}">
+            <a th:href="@{/team/__${team.id}__}">
             <h4 th:text="${team.name}"></h4>
         </a>
         <input type="hidden" name="teamId" th:value="${team.id}">

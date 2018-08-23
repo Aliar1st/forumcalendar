@@ -1262,3 +1262,10 @@ a:hover {
 .add-shift-modal input {
     margin: 10px;
 }
+
+.added-shift {
+    border: 1px solid;
+    border-color: #333333;
+    padding: 5px;
+    margin: 10px;
+}

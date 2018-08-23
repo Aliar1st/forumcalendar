@@ -8,5 +8,7 @@ import java.util.stream.Stream;
 
 public interface ShiftRepository extends JpaRepository<Shift, Integer> {
 
+    void deleteByActivity_Id(int activityId);
+
     Stream<Shift> getAllByActivityIdOrderByCreatedAt(int activity_id);
 }
