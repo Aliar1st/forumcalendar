@@ -1,33 +1,88 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--layout:decorate="~{layouts/app}"-->
+<!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+<!--<title>Teams</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+
+<!--<label>Teams</label><br/>-->
+<!--<input type="text"-->
+<!--id="team-search-input"-->
+<!--autocomplete="off"-->
+<!--autocorrect="off"-->
+<!--autocapitalize="off"-->
+<!--spellcheck="false"-->
+<!--placeholder="поиск"><br/>-->
+<!--<input type="hidden" name="shiftId" th:value="${curShiftId}">-->
+<!--<div class="teams-container">-->
+<!--<div th:replace="team/_teams_list :: teams"></div>-->
+<!--</div>-->
+
+<!--<a th:if="${isModerator} or ${isAdmin}" th:href="@{'/team/add?shiftId='+__${curShiftId}__}">Добавить команду</a>-->
+
+<!--</div>-->
+
+<!--<div layout:fragment="scripts">-->
+<!--<script type="text/javascript" src="/static/scripts/search.js"></script>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Teams</title>
+    <title>Команды</title>
+    <meta charset='UTF-8'>
 </head>
 <body>
-<div layout:fragment="content">
 
-    <label>Teams</label><br/>
-    <input type="text"
-           id="team-search-input"
-           autocomplete="off"
-           autocorrect="off"
-           autocapitalize="off"
-           spellcheck="false"
-           placeholder="поиск"><br/>
-    <input type="hidden" name="shiftId" th:value="${curShiftId}">
-    <div class="teams-container">
+<div class="container-fluid wrapper shedule-wrapper" layout:fragment="content">
+    <div class="header-personal header-edit header-forums">
+
+        <i onclick="history.back();" class="fa fa-arrow-left link" aria-hidden="true"></i>
+
+        <h2 class="choose-h2">Команды</h2>
+        <i class="fa fa-search link" aria-hidden="true"></i>
+        <form class="search-div row">
+            <div class="col-lg-12 col-12">
+                <input type="search" class="form-control"
+                       id="team-search-input"
+                       autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       placeholder="Поиск..."/>
+                <input type="hidden" name="shiftId" th:value="${curShiftId}">
+            </div>
+        </form>
+    </div>
+
+    <div class="content-personal add-event forums-div">
         <div th:replace="team/_teams_list :: teams"></div>
     </div>
 
-    <a th:if="${isModerator} or ${isAdmin}" th:href="@{'/team/add?shiftId='+__${curShiftId}__}">Добавить команду</a>
+    <div th:if="${isModerator} or ${isAdmin}"
+       id="addTeam"
+       class="plus-add-event add-team-btn link">
+        <i class="fa fa-plus-circle " aria-hidden="true"></i>
+    </div>
+
+    <div class="modal " id="editModalTeam"></div>
 
 </div>
 
 <div layout:fragment="scripts">
     <script type="text/javascript" src="/static/scripts/search.js"></script>
+    <script type="text/javascript" src="/static/scripts/teams.js"></script>
 </div>
+
 </body>
 </html>

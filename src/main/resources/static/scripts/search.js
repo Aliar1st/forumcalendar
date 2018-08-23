@@ -3,7 +3,7 @@ $(function () {
     $(document).ready(function () {
         var shiftId = $('input[name="shiftId"]').val();
         var searchTeamInput = $("#team-search-input");
-        var teamContainer = $('.teams-container');
+        var teamContainer = $('.content-personal');
         var ajaxSearchTeamUrl = '/team/search';
         var ajaxGetAllTeamsUrl = '/team/partialTeams';
         var ajaxGetAllTeamsData = 'shiftId=' + shiftId;
@@ -42,22 +42,31 @@ $(function () {
 
         var start = true, tmp = "";
         $(document).on('keyup input', searchInput, function (event) {
-
             var query = searchInput.val();
-            if (tmp != query) {
-                if (start) {
-                    GetQueryResult(query);
-                    start = false;
-                }
-                else if (query != "") {
+            if (tmp !== query) {
+                if (query !== "") {
                     fnDelay(GetQueryResult, query);
                 }
-                else if (query == "") {
+                else if (query === "") {
                     fnDelay(GetAll);
-                    start = true;
                 }
                 tmp = query;
             }
+            // var query = searchInput.val();
+            // if (tmp !== query) {
+            //     if (start) {
+            //         GetQueryResult(query);
+            //         start = false;
+            //     }
+            //     else if (query !== "") {
+            //         fnDelay(GetQueryResult, query);
+            //     }
+            //     else if (query === "") {
+            //         fnDelay(GetAll);
+            //         start = true;
+            //     }
+            //     tmp = query;
+            // }
         });
 
         function GetAll() {
@@ -88,6 +97,7 @@ $(function () {
         function fnDelay(func, query) {
             clearTimeout(timer);
             timer = setTimeout(function () {
+                console.log(timer);
                 func(query);
             }, _SEC);
         }

@@ -98,7 +98,7 @@ public class BaseTeamService implements TeamService {
         Team team = teamRepository.findById(teamForm.getId()).orElse(new Team());
 //        team.setUser(userService.getCurrentUser());
         team.setName(teamForm.getName());
-        team.setDirection(teamForm.getDirection());
+        //team.setDirection(teamForm.getDirection());
         team.setDescription(teamForm.getDescription());
         team.setShift(shiftService.get(teamForm.getShiftId()));
 

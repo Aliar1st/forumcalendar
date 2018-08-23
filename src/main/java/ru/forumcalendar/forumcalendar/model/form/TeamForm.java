@@ -22,15 +22,15 @@ public class TeamForm {
 
     private int shiftId;
 
-    @Size(min = 2, message = "Name is too short")
     @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters or too short")
     private String name;
 
-    @Size(max = 500, message = "Description is too long")
-    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Direction contains invalid characters")
-    private String direction;
+//    @Size(max = 500, message = "Description is too long")
+//    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Direction contains invalid characters")
+//    private String direction;
 
+    @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
     private String description;
 
@@ -39,7 +39,7 @@ public class TeamForm {
 //        this.userId = team.getUser().getId();
         this.shiftId = team.getShift().getId();
         this.name = team.getName();
-        this.direction = team.getDirection();
+        //this.direction = team.getDirection();
         this.description = team.getDescription();
     }
 }

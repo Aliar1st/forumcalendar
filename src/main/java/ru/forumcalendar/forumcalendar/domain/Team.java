@@ -57,10 +57,10 @@ public class Team extends AuditModel {
     @Column(nullable = false)
     private String name;
 
-    @Analyzer(definition = "customAnalyzer")
-    @Field(termVector = TermVector.YES)
-    @Column(nullable = false)
-    private String direction;
+//    @Analyzer(definition = "customAnalyzer")
+//    @Field(termVector = TermVector.YES)
+//    @Column(nullable = false)
+//    private String direction;
 
     @Analyzer(definition = "customAnalyzer")
     @Field(termVector = TermVector.YES)

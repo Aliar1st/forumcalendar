@@ -58,10 +58,10 @@ INSERT INTO `subscriptions` (`created_at`, `updated_at`, `user_id`, `event_id`) 
 ('2018-08-15 19:30:06', '2018-08-15 19:30:06', '106725778006320436882', 9),
 ('2018-08-15 19:30:11', '2018-08-15 19:30:11', '106725778006320436882', 10);
 
-INSERT INTO `teams` (`id`, `created_at`, `updated_at`, `description`, `direction`, `name`, `number`, `shift_id`) VALUES
-(5, '2018-08-14 15:57:14', '2018-08-14 15:57:14', 'TeamDescFirst', 'TeamDirFirst', 'TeamFirst', 0, 2),
-(6, '2018-08-14 15:57:22', '2018-08-14 15:57:22', 'TeamDescFirstSecond', 'TeamDirFirstSecond', 'TeamSecond', 0, 2),
-(22, '2018-08-17 12:37:00', '2018-08-17 12:37:04', 'TeamTestDescD', 'TeamTestDir', 'TeamTestD', 0, 16);
+INSERT INTO `teams` (`id`, `created_at`, `updated_at`, `description`, `name`, `number`, `shift_id`) VALUES
+(5, '2018-08-14 15:57:14', '2018-08-14 15:57:14', 'TeamDescFirst', 'TeamFirst', 0, 2),
+(6, '2018-08-14 15:57:22', '2018-08-14 15:57:22', 'TeamDescFirstSecond', 'TeamSecond', 0, 2),
+(22, '2018-08-17 12:37:00', '2018-08-17 12:37:04', 'TeamTestDescD', 'TeamTestD', 0, 16);
 
 INSERT INTO `team_events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `place`, `name`, `team_id`) VALUES
 (1,  '2018-08-17 12:41:13', '2018-08-17 12:41:13', '2018-08-17 10:00:00', '2018-08-17 11:00:00', 'TeamEvTestD', 'TeamEvTestP', 'TeamEvTest', 5),
