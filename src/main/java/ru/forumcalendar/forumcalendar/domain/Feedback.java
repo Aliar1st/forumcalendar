@@ -15,6 +15,13 @@ public class Feedback extends AuditModel {
     @GeneratedValue
     private int id;
 
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+    @Column(nullable = false)
+    private String title;
+
     @Column(nullable = false)
     private String theme;
 
