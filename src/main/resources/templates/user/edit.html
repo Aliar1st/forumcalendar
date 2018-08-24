@@ -11,15 +11,15 @@
         <form th:action="@{edit}" th:object="${userForm}" method="POST" enctype="multipart/form-data">
             <div class="header-personal  header-settings">
                 <a th:href="@{/user/__${userForm.id}__}">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
                 <label>
                     <img class="img-profile img-edit" th:src="@{/public/__${userForm.photoUrl}__}"/>
-                    <img class="img-profile mask-img" src="/static/images/mask-img.png"/>
+                    <!--<img class="img-profile mask-img" src="/static/images/mask-img.png"/>-->
                     <input th:field="*{photo}" type="file" hidden>
                 </label>
-                <button type="submit">
-                    <i class="fa fa-check" aria-hidden="true"></i>
+                <button type="submit" class="check-btn">
+                    <img  class="back-icon" src="/static/images/check.svg"/>
                 </button>
             </div>
 
@@ -40,22 +40,22 @@
                     </label>
                 </div>
 
-                <div class="forum-info">
+                <div class="forum-info contacts-info-edit">
                     <h4>Соц. сети</h4>
                     <div class="content-line col-lg-12 col-xs-12">
-                        <i class="fa fa-vk" aria-hidden="true"></i>
+                        <img  class="back-icon" src="/static/images/vk.svg"/>
                         <input name="contactForms[0].contactTypeId" value="1" type="hidden">
                         <input th:field="*{contactForms[0].link}" type="text" class="form-control"
-                               placeholder="Почта" aria-label="Username" aria-describedby="basic-addon1">
+                               placeholder="Вк" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('contactForms[0].link')}"
                                th:errors="*{contactForms[0].link}">error
                         </label>
                     </div>
                     <div class="content-line col-lg-12 col-xs-12">
-                        <i class="fa fa-telegram" aria-hidden="true"></i>
+                        <img  class="back-icon" src="/static/images/telegram.svg"/>
                         <input name="contactForms[1].contactTypeId" value="2" type="hidden">
                         <input th:field="*{contactForms[1].link}" type="text" class="form-control"
-                               placeholder="Почта" aria-label="Username" aria-describedby="basic-addon1">
+                               placeholder="Телеграм" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('contactForms[1].link')}"
                                th:errors="*{contactForms[1].link}">error
                         </label>

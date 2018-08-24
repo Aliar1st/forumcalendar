@@ -10,11 +10,11 @@
     <div class="container-fluid wrapper choosing-div">
         <div class="header-app">
             <a th:href="@{/logout}">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
-            <div class="wrapper-h2">
-                <h2 th:text="|Выберите мероприятие|" class="choose-h2"></h2>
-            </div>
+
+                <h2 th:text="|Выберите форум|" class="choose-h2"></h2>
+
         </div>
         <form th:action="@{/entrance/2}" th:object="${choosingActivityForm}" method="POST">
             <div class="wrapper-cards">
@@ -22,11 +22,16 @@
                 <div class="btn-group" data-toggle="buttons">
                     <th:block th:each="activity:${activities}">
                         <label class="btn col-lg-12 choose-card">
-                            <input th:value="${activity.id}" th:field="*{activityId}" type="radio">
+                            <input th:value="${activity.id}" th:field="*{activityId}" type="radio" hidden>
                             <div class="card-body">
-                                <h5 th:text="|Форум ${activity.name}|" class="card-title"></h5>
-                                <p th:text="|Место проведения:|" class="card-text info-date-shift"></p>
-                                <p th:text="${activity.place}" class="card-text info-date-shift"></p>
+                                <div class="col-3 col-lg-3">
+                                    <img  class="img-activity" src="/static/images/photo-ava.jpg"/>
+                                </div>
+                                <div class="col-9 col-lg-9">
+                                    <h5 th:text="|Форум ${activity.name}|" class="card-title"></h5>
+                                    <img  class="map-icon place-line" src="/static/images/map-icon.svg"/>
+                                    <p th:text="${activity.place}" class="card-text info-date-shift place-line"></p>
+                                </div>
                             </div>
                         </label>
                     </th:block>
@@ -35,7 +40,7 @@
             <label th:if="${error!=null}"
                    th:text="${error}">error
             </label>
-            <button type="submit" class="btn btn-info btn-next">Далее</button>
+            <button type="submit" class="btn btn-next">Дальше</button>
         </form>
     </div>
 </div>

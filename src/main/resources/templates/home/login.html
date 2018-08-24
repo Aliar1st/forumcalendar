@@ -8,9 +8,12 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid wrapper login-div">
-        <div class="hidden-div"></div>
+        <div class="info-logo-div">
+            <img class="home-img"  src="/static/images/agenda.svg"/>
+            <h2>Календарь форумчанина</h2>
+        </div>
         <a th:href="@{/entrance/1}">
-            <button class="btn btn-primary btn-login center-block">
+            <button class="btn  btn-login center-block">
                 <img src="/static/images/google.jpg"/>
                 Вход через Google
             </button>
