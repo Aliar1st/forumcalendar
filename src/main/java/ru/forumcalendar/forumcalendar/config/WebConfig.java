@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new ShiftModelConverter());
         registry.addConverter(activityModelConverter());
         registry.addConverter(speakerModelConverter());
-        registry.addConverter(eventModelConverter());
+        registry.addConverter(shiftEventModelConverter());
         registry.addConverter(contactModelConverter());
         registry.addConverter(userModelConverter());
         registry.addConverter(innerEventModelConverter());
@@ -71,8 +71,8 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public EventModelConverter eventModelConverter() {
-        return new EventModelConverter();
+    public ShiftEventModelConverter shiftEventModelConverter() {
+        return new ShiftEventModelConverter();
     }
 
     @Bean

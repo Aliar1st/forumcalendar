@@ -9,5 +9,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class SpeakerModel extends InnerSpeakerModel {
 
-    private List<InnerShiftEventModel> events;
+    private List<ShiftEventModel> events;
 }
