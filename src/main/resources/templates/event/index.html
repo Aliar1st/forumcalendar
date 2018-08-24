@@ -12,7 +12,7 @@
     <div class="container-fluid wrapper shedule-wrapper ">
         <div class=" header-personal header-edit header-shedule">
             <a th:href="@{/events/choosing_date}">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
             <h2 class="choose-h2">Расписание</h2>
         </div>
@@ -22,15 +22,22 @@
         <div class="wrapper-cards shedule-div">
 
             <div th:each="event,stat:${events}" class="card choose-card">
-                <a sec:authorize="hasRole('ROLE_SUPERUSER')"
-                   th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a><br/>
-                <a sec:authorize="hasRole('ROLE_SUPERUSER')"
-                   th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a><br/>
+                <div class="admin-panel-event">
+                    <a sec:authorize="hasRole('ROLE_SUPERUSER')"
+                       th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}" >
+                        <img  class="back-icon" src="/static/images/edit-icon.svg"/>
+                    </a><br/>
+                    <a sec:authorize="hasRole('ROLE_SUPERUSER')"
+                       th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">
+                        <img  class="back-icon" src="/static/images/remove-icon.svg"/>
+                    </a>
+                </div>
+                <br/>
                 <div th:if="${event.shiftEvent}" class="card-header card-header-event">
                     <div class="like-div">
                         <form name="like" th:action="@{like}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button">
+                            <button type="button" class="check-btn">
                                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                             </button>
                             <p th:text="${event.likes}" class="info-date-shift">20</p>
@@ -39,7 +46,7 @@
                     <div class="dislike-div">
                         <form name="dislike" th:action="@{dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button">
+                            <button type="button" class="check-btn">
                                 <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
                             </button>
                             <p th:text="${event.dislikes}" class="info-date-shift">5</p>
@@ -47,8 +54,8 @@
                     </div>
                     <form name="toggleSubscription" th:action="@{sub}" method="POST">
                         <input type="hidden" name="eventId" th:value="${event.id}">
-                        <button type="button">
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <button type="button" class="check-btn">
+                            <img  class="back-icon" src="/static/images/star-empty.svg"/>
                         </button>
                     </form>
                 </div>
@@ -105,10 +112,10 @@
         </div>
 
         <a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add}" class="plus-add-event">
-            <i class="fa fa-plus-circle " aria-hidden="true"></i>
+            <img  class="plus-icon" src="/static/images/add-icon.svg"/>
         </a>
         <a sec:authorize="!hasRole('ROLE_SUPERUSER')" th:href="@{/team_events/add}" class="plus-add-event">
-            <i class="fa fa-plus-circle " aria-hidden="true"></i>
+            <img  class="plus-icon" src="/static/images/add-icon.svg"/>
         </a>
     </div>
 

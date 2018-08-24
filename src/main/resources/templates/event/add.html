@@ -11,11 +11,11 @@
         <form th:action="@{/events/add}" th:object="${eventForm}" method="POST">
             <div class="header-personal header-edit">
                 <a th:href="@{/events/choosing_date}">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
-                <h4>Добавить событие</h4>
-                <button type="submit">
-                    <i class="fa fa-check" aria-hidden="true"></i>
+                <h2 class="choose-h2">Добавить событие</h2>
+                <button type="submit" class="check-btn">
+                    <img  class="back-icon" src="/static/images/check.svg"/>
                 </button>
             </div>
 

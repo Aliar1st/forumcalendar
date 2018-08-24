@@ -37,7 +37,7 @@
             </div>
             <div class="col-lg-1 col-1">
                 <a th:href="@{/logout}">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <img  class="sign-out-icon" src="/static/images/sign-out.svg"/>
                 </a>
             </div>
         </div>
@@ -45,55 +45,55 @@
         <div class="content-main">
             <div class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/user/__${userId}__}">
-                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/man-user.svg"/>
                     <h4 th:text="|Мой профиль|"></h4>
                 </a>
             </div>
             <div class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/events/choosing_date}">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/cal-icon.svg"/>
                     <h4 th:text="|Календарь событий|"></h4>
                 </a>
             </div>
             <div class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/team/__${myTeamId}__}">
-                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/team-users.svg"/>
                     <h4 th:text="|Моя команда|"></h4>
                 </a>
             </div>
             <div sec:authorize="hasRole('ROLE_SUPERUSER')" class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/activities}">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/forum.svg"/>
                     <h4 th:text="|Форумы|"></h4>
                 </a>
             </div>
             <div th:if="${isModerator}" class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/activities/__${curActivityId}__}">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/forum.svg"/>
                     <h4 th:text="|Мой форум|"></h4>
                 </a>
             </div>
             <div th:if="${isJustUser}" class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/speaker/speakers(activityId=__${curActivityId}__)}">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/speakers.svg"/>
                     <h4>Спикеры</h4>
                 </a>
             </div>
             <div th:if="${isJustUser}" class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/team/teams(shiftId=__${curShiftId}__)}">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/group.svg"/>
                     <h4 th:text="|Команды|"></h4>
                 </a>
             </div>
             <div class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/favorites}">
-                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/star.svg"/>
                     <h4 th:text="|Избранное|"></h4>
                 </a>
             </div>
             <div class="content-line col-lg-12 col-xs-12">
                 <a th:href="@{/feedback}">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/feedback.svg"/>
                     <h4>Обратная связь</h4>
                 </a>
             </div>

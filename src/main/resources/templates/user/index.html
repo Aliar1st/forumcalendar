@@ -22,11 +22,13 @@
     <!--</p>-->
     <!--<a th:if="${isMyPage}" th:href="@{~/user/__${user.id}__/edit}">Изменить</a>-->
 
-    <div class="container-fluid wrapper">
+    <div class="container-fluid wrapper wrapper-personal">
         <div class="header-personal">
-            <a th:href="@{/menu}"><i class="fa fa-home" aria-hidden="true"></i></a>
-            <a id="ellipsisEditPersonal"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
-            <i class="fa fa-refresh" aria-hidden="true"></i>
+            <a th:href="@{/menu}"><img  class="back-icon" src="/static/images/home.svg"/></a>
+
+            <img  class="back-icon refresh" src="/static/images/refresh.svg"/>
+            <a id="ellipsisEditPersonal"><img  class="back-icon" src="/static/images/dots.svg"/></a>
+
         </div>
 
         <div class="row header-main personal-head">
@@ -34,12 +36,8 @@
                 <img class="img-profile" th:src="@{/public/__${user.photo}__}"/>
             </div>
             <div class="col-lg-8 col-8">
-                <h4 th:text="|${user.firstName} ${user.lastName}|">Иван Иванов</h4>
+                <h4 th:text="|${user.firstName} ${user.lastName}|"></h4>
                     <h6>Команда 28</h6>
-                    <div class="map-info">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                        <h6 class="info-date-shift">Саратов</h6>
-                    </div>
             </div>
         </div>
 
@@ -49,23 +47,22 @@
                 <div class="name-div col-5">
                     <h5>Форум</h5>
                     <h5>Смена</h5>
-                    <h5>Направление</h5>
                 </div>
                 <div class="info-div col-6">
                     <h5 th:text="${activity}"></h5>
                     <h5 th:text="${shift}"></h5>
-                    <h5 th:text="${direction}"></h5>
+                    <!--<h5 th:text="${direction}"></h5>-->
                 </div>
             </div>
 
             <div class="forum-info">
                 <h4>Соц. сети</h4>
                 <div th:unless="${user.contacts[0].link==null||user.contacts[0].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
-                    <i class="fa fa-vk" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/vk.svg"/>
                     <h5 th:text="${user.contacts[0].link}"></h5>
                 </div>
                 <div th:unless="${user.contacts[1].link==null||user.contacts[1].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
-                    <i class="fa fa-telegram" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/telegram.svg"/>
                     <h5 th:text="${user.contacts[1].link}"></h5>
                 </div>
             </div>
