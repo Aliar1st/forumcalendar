@@ -10,6 +10,8 @@ import java.util.Map;
 
 public interface UserService {
 
+    List<UserModel> searchByName(String q, int activityId) throws InterruptedException;
+
     boolean exist(String id);
 
     User signUp(Map<String, Object> userMap);

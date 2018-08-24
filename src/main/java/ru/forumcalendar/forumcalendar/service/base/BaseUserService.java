@@ -1,17 +1,22 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.forumcalendar.forumcalendar.domain.Contact;
-import ru.forumcalendar.forumcalendar.domain.ContactType;
-import ru.forumcalendar.forumcalendar.domain.Role;
-import ru.forumcalendar.forumcalendar.domain.User;
+import ru.forumcalendar.forumcalendar.domain.*;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.UserModel;
+import ru.forumcalendar.forumcalendar.model.ActivityModel;
+import ru.forumcalendar.forumcalendar.model.UserModel;
 import ru.forumcalendar.forumcalendar.model.UserModel;
 import ru.forumcalendar.forumcalendar.model.form.ContactForm;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
@@ -19,6 +24,7 @@ import ru.forumcalendar.forumcalendar.repository.*;
 import ru.forumcalendar.forumcalendar.service.UploadsService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -26,11 +32,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class BaseUserService implements UserService {
 
+    private EntityManager entityManager;
+
+    private final ConversionService conversionService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ContactRepository contactRepository;
@@ -42,6 +55,7 @@ public class BaseUserService implements UserService {
 
     @Autowired
     public BaseUserService(
+            EntityManager entityManager,
             UserRepository userRepository,
             RoleRepository roleRepository,
             ContactRepository contactRepository,
@@ -50,13 +64,49 @@ public class BaseUserService implements UserService {
             UploadsService uploadsService,
             @Qualifier("mvcConversionService") ConversionService conversionService
     ) {
+        this.entityManager = entityManager;
+        this.conversionService = conversionService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.contactRepository = contactRepository;
         this.contactTypeRepository = contactTypeRepository;
         this.userTeamRepository = userTeamRepository;
         this.uploadsService = uploadsService;
-        this.conversionService = conversionService;
+    }
+
+    @Override
+    public List<UserModel> searchByName(String q, int activityId) throws InterruptedException {
+//        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+//        fullTextEntityManager.createIndexer().startAndWait();
+//
+//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+//                .buildQueryBuilder()
+//                .forEntity(User.class)
+//                .get();
+//
+//        Query query = queryBuilder
+//                .bool()
+//                .must(queryBuilder
+//                        .keyword()
+//                        .wildcard()
+//                        .onFields("firstName","lastName")
+//                        .matching(q.toLowerCase())
+//                        .createQuery())
+//                .must(queryBuilder
+//                        .keyword()
+//                        .wildcard()
+//                        .onField("activity_id")
+//                        .matching(activityId)
+//                        .createQuery())
+//                .createQuery();
+////
+//
+//        org.hibernate.search.jpa.FullTextQuery jpaQuery
+//                = fullTextEntityManager.createFullTextQuery(query, User.class);
+
+//        return convertUsers(jpaQuery.getResultList().stream());
+
+        return null;
     }
 
     @Override
@@ -203,6 +253,14 @@ public class BaseUserService implements UserService {
                 .map((ut) -> conversionService.convert(ut.getUserTeamIdentity().getUser(), UserModel.class))
                 .collect(Collectors.toList());
     }
+
+
+    private List<UserModel> convertUsers(Stream<User> speakers) {
+        return speakers
+                .map((t) -> conversionService.convert(t, UserModel.class))
+                .collect(Collectors.toList());
+    }
+
 
 //
 //    @Override
