@@ -50,7 +50,7 @@ public class BaseUserService implements UserService {
     private final UserTeamRepository userTeamRepository;
 
     private final UploadsService uploadsService;
-    private final ConversionService conversionService;
+
 
     @Autowired
     public BaseUserService(
