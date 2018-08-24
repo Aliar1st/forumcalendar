@@ -2,6 +2,7 @@ package ru.forumcalendar.forumcalendar.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
+import ru.forumcalendar.forumcalendar.model.EventModel;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
@@ -30,6 +32,7 @@ public class BaseEventService implements EventService {
     private final SpeakerRepository speakerRepository;
     private final EventRepository eventRepository;
 
+    private final SubscriptionService subscriptionService;
     private final ActivityService activityService;
     private final SpeakerService speakerService;
     private final ShiftService shiftService;
@@ -42,6 +45,7 @@ public class BaseEventService implements EventService {
             @Qualifier("mvcConversionService") ConversionService conversionService,
             SpeakerRepository speakerRepository,
             EventRepository eventRepository,
+            @Lazy SubscriptionService subscriptionService,
             ActivityService activityService,
             ShiftService shiftService,
             UserService userService) {
@@ -49,6 +53,7 @@ public class BaseEventService implements EventService {
         this.conversionService = conversionService;
         this.speakerRepository = speakerRepository;
         this.eventRepository = eventRepository;
+        this.subscriptionService = subscriptionService;
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.userService = userService;
@@ -111,6 +116,13 @@ public class BaseEventService implements EventService {
         Event event = get(id);
         eventRepository.deleteById(id);
         return event;
+    }
+
+    @Override
+    public List<ShiftEventModel> setUserSubscribes(List<ShiftEventModel> eventModels) {
+        return eventModels.stream()
+                .peek(e -> e.setSubscribed(subscriptionService.isSubscribed(e.getId()))
+                ).collect(Collectors.toList());
     }
 
     @Override

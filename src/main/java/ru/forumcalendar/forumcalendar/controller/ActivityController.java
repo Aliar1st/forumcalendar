@@ -22,7 +22,7 @@ import javax.validation.Valid;
 public class ActivityController {
 
     private static final String HTML_FOLDER = "activity/";
-    private static final String REDIRECT_ROOT_MAPPING = "redirect:/activity/";
+    private static final String REDIRECT_ROOT_MAPPING = "redirect:/activities/";
 
     private final ConversionService conversionService;
     private final PermissionService permissionService;
@@ -71,6 +71,7 @@ public class ActivityController {
     public String add(
             Model model
     ) {
+
         model.addAttribute(new ActivityForm());
 
         return HTML_FOLDER + "add";
@@ -149,6 +150,18 @@ public class ActivityController {
         model.addAttribute("forums", activityService.getAll());
 
         return HTML_FOLDER + "/_activities_list";
+    }
+
+    @PreAuthorize("hasRole('ROLE_SUPERUSER')")
+    @PostMapping("getShiftForm")
+    public String getShiftForm(
+            @RequestParam int num,
+            Model model
+    ) {
+
+        model.addAttribute("num", num);
+
+        return HTML_FOLDER + "_add_shift";
     }
 }
 

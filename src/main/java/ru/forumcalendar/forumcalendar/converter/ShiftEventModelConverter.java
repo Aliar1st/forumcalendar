@@ -14,7 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventModelConverter implements Converter<Event, ShiftEventModel> {
+public class ShiftEventModelConverter implements Converter<Event, ShiftEventModel> {
 
     private InnerSpeakerModelConverter innerSpeakerModelConverter;
 

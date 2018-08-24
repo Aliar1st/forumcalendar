@@ -11,13 +11,10 @@
 
     <div class="container-fluid wrapper shedule-wrapper ">
         <div class=" header-personal header-edit header-shedule">
-            <a th:href="@{/events/choosing_date}">
+            <a th:href="@{/activities/__${activityId}__}">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
-            <h2 class="choose-h2">Расписание</h2>
-        </div>
-        <div class="day-shedule">
-            <h3 th:text="${day}">03 августа</h3>
+            <h2 class="choose-h2">События форума</h2>
         </div>
         <div class="wrapper-cards shedule-div">
 
@@ -104,12 +101,12 @@
             </div>
         </div>
 
-        <a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add}" class="plus-add-event">
-            <i class="fa fa-plus-circle " aria-hidden="true"></i>
-        </a>
-        <a sec:authorize="!hasRole('ROLE_SUPERUSER')" th:href="@{/team_events/add}" class="plus-add-event">
-            <i class="fa fa-plus-circle " aria-hidden="true"></i>
-        </a>
+        <!--<a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add}" class="plus-add-event">-->
+            <!--<i class="fa fa-plus-circle " aria-hidden="true"></i>-->
+        <!--</a>-->
+        <!--<a sec:authorize="!hasRole('ROLE_SUPERUSER')" th:href="@{/team_events/add}" class="plus-add-event">-->
+            <!--<i class="fa fa-plus-circle " aria-hidden="true"></i>-->
+        <!--</a>-->
     </div>
 
     <!--<div th:each="event,stat:${events}" class="event">-->

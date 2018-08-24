@@ -1,13 +1,15 @@
 package ru.forumcalendar.forumcalendar.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ShiftEventModel extends InnerShiftEventModel {
+
+    private boolean subscribed; //для отображения подписен или нет в events
 
     private List<InnerSpeakerModel> speakers;
 

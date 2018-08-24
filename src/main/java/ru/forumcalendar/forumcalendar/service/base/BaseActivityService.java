@@ -81,21 +81,27 @@ public class BaseActivityService implements ActivityService {
         activity.setName(activityForm.getName());
         activity.setUser(userService.getCurrentUser());
         activity.setDescription(activityForm.getDescription());
+        activity.setPlace(activityForm.getPlace());
         activity = activityRepository.save(activity);
 
-        List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
+        if (activityForm.getShiftForms() != null) {
+            List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
 
-        for (ShiftForm sf : activityForm.getShiftForms()) {
-            Shift shift = shiftRepository.findById(sf.getId()).orElse(new Shift());
-            shift.setName(sf.getName());
-            shift.setStartDate(sf.getStartDate());
-            shift.setEndDate(sf.getEndDate());
-            shift.setActivity(activity);
-            shift.setDescription(sf.getDescription());
-            shifts.add(shift);
+            for (ShiftForm sf : activityForm.getShiftForms()) {
+                Shift shift = shiftRepository.findById(sf.getId()).orElse(new Shift());
+                shift.setName(sf.getName());
+                shift.setStartDate(sf.getStartDate());
+                shift.setEndDate(sf.getEndDate());
+                shift.setActivity(activity);
+                shift.setDescription(sf.getDescription());
+                shifts.add(shift);
+            }
+
+            shiftRepository.saveAll(shifts);
         }
-
-        shiftRepository.saveAll(shifts);
+        else {
+            shiftRepository.deleteByActivity_Id(activity.getId());
+        }
 
         return activity;
     }

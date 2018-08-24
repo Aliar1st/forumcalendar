@@ -1,31 +1,109 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"-->
+      <!--layout:decorate="~{layouts/app}"-->
+      <!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+    <!--<title>Activity</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<div layout:fragment="content">-->
+
+        <!--<a th:if="${isAdmin} or ${isModerator}" th:href="@{~/activities/__${activity.id}__/edit}">Изменить</a><br/>-->
+        <!--<input type="hidden" name="teamId" th:value="${activity.id}">-->
+        <!--<label th:text="${activity.name}"></label><br/>-->
+        <!--<label th:text="|Дата начала: ${activity.startDate}|"></label><br/>-->
+        <!--<label th:text="|Дата конца: ${activity.endDate}|"></label><br/>-->
+        <!--<label th:text="|Описание: ${activity.description}|"></label><br/>-->
+        <!--<hr/>-->
+        <!--<label th:text="|Смены ${activity.shiftCount}|"></label><br/>-->
+        <!--<label th:text="|Участники ${activity.memberCount}|"></label><br/>-->
+        <!--<label th:text="|Команды ${activity.teamCount}|"></label><br/>-->
+        <!--<label th:text="|События ${activity.eventCount}|"></label><br/>-->
+        <!--<label th:text="|Спикеры ${activity.speakerCount}|"></label><br/>-->
+
+    <!--</div>-->
+
+    <!--<div layout:fragment="scripts">-->
+
+    <!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Activity</title>
+    <title>Страница форума</title>
+    <meta charset='UTF-8'>
 </head>
 <body>
-    <div layout:fragment="content">
 
-        <a th:if="${isAdmin} or ${isModerator}" th:href="@{~/activities/__${activity.id}__/edit}">Изменить</a><br/>
-        <input type="hidden" name="teamId" th:value="${activity.id}">
-        <label th:text="${activity.name}"></label><br/>
-        <label th:text="|Дата начала: ${activity.startDate}|"></label><br/>
-        <label th:text="|Дата конца: ${activity.endDate}|"></label><br/>
-        <label th:text="|Описание: ${activity.description}|"></label><br/>
-        <hr/>
-        <label th:text="|Смены ${activity.shiftCount}|"></label><br/>
-        <label th:text="|Участники ${activity.memberCount}|"></label><br/>
-        <label th:text="|Команды ${activity.teamCount}|"></label><br/>
-        <label th:text="|События ${activity.eventCount}|"></label><br/>
-        <label th:text="|Спикеры ${activity.speakerCount}|"></label><br/>
+<div class="container-fluid wrapper" layout:fragment="content">
+
+    <div class="header-personal header-edit header-team">
+        <a onclick="history.back();" class="link">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <h2 th:text="${activity.name}" class="choose-h2">Территория смыслов</h2>
+        <a th:if="${isAdmin} or ${isModerator}" th:href="@{~/activities/__${activity.id}__/edit}">
+            <i class="fa fa-pencil"></i>
+        </a>
+
+        <input type="hidden" name="activityId" th:value="${activity.id}">
+
+    </div>
+
+    <div class="content-personal content-forum">
+        <div class="forum-info forum-line col-11">
+            <div class="name-div">
+                <h5>Дата начала</h5>
+                <h5 >Дата конца</h5>
+
+            </div>
+            <div class="info-div">
+                <h5 th:text="${activity.startDate}">09.08.2018</h5>
+                <h5 th:text="${activity.endDate}">15.09.2018</h5>
+            </div>
+        </div>
+
+        <div class="forum-info  col-11 ">
+            <div class="name-div">
+
+                <a th:href="@{/shifts(activityId=__${activity.id}__)}">
+                    <h5>Смены</h5>
+                </a>
+
+                <a th:href="@{/member/activity(activityId=__${activity.id}__)}">
+                    <h5>Участники</h5>
+                </a>
+                <a th:href="@{/team/allTeams(activityId=__${activity.id}__)}">
+                    <h5>Команды</h5>
+                </a>
+
+                <a th:href="@{/events/activityIndex(activityId=__${activity.id}__)}">
+                    <h5>События</h5>
+                </a>
+
+                <a th:href="@{/speaker/speakers(activityId=__${activity.id}__)}">
+                    <h5>Спикеры</h5>
+                </a>
+            </div>
+            <div class="info-div forum-digits">
+                <h5 th:text="${activity.shiftCount}">4</h5>
+                <h5 th:text="${activity.memberCount}">10</h5>
+                <h5 th:text="${activity.teamCount}">15</h5>
+                <h5 th:text="${activity.eventCount}">25</h5>
+                <h5 th:text="${activity.speakerCount}">4</h5>
+            </div>
+        </div>
 
     </div>
 
-    <div layout:fragment="scripts">
+</div>
 
-    </div>
+
 </body>
 </html>

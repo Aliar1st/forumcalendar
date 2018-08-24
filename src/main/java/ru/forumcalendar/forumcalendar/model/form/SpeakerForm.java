@@ -47,6 +47,7 @@ public class SpeakerForm {
     public SpeakerForm(Speaker speaker) {
         this.id = speaker.getId();
         this.activityId = speaker.getActivity().getId();
+        this.photoUrl = speaker.getPhoto();
         this.firstName = speaker.getFirstName();
         this.lastName = speaker.getLastName();
         this.link = speaker.getLink();

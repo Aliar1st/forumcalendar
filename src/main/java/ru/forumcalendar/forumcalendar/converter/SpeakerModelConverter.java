@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.model.InnerShiftEventModel;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class SpeakerModelConverter implements Converter<Speaker, SpeakerModel> {
 
-    private InnerEventModelConverter innerEventModelConverter;
+    private ShiftEventModelConverter shiftEventModelConverter;
 
     @Override
     public SpeakerModel convert(Speaker speaker) {
@@ -27,9 +28,9 @@ public class SpeakerModelConverter implements Converter<Speaker, SpeakerModel> {
         speakerModel.setLink(speaker.getLink());
         speakerModel.setDescription(speaker.getDescription());
 
-        List<InnerShiftEventModel> eventModels = speaker.getEvents()
+        List<ShiftEventModel> eventModels = speaker.getEvents()
                 .stream()
-                .map((s) -> innerEventModelConverter.convert(s))
+                .map((s) -> shiftEventModelConverter.convert(s))
                 .collect(Collectors.toList());
 
         speakerModel.setEvents(eventModels);
@@ -38,7 +39,7 @@ public class SpeakerModelConverter implements Converter<Speaker, SpeakerModel> {
     }
 
     @Autowired
-    public void setInnerEventModelConverter(@Lazy InnerEventModelConverter innerEventModelConverter) {
-        this.innerEventModelConverter = innerEventModelConverter;
+    public void setInnerEventModelConverter(@Lazy ShiftEventModelConverter shiftEventModelConverter) {
+        this.shiftEventModelConverter = shiftEventModelConverter;
     }
 }
