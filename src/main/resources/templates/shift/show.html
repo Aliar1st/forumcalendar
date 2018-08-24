@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show shift</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid wrapper">
+        <div class="header-personal header-edit header-team">
+            <a onclick="history.back();" class="link">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <h2 class="choose-h2">Цифровой мир</h2>
+            <a th:href="@{/shifts/__${shift.id}__/edit}">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </div>
+
+        <div class="content-personal content-forum">
+            <div class="forum-info forum-line col-11">
+                <div class="name-div">
+                    <h5>Дата начала</h5>
+                    <h5>Дата конца</h5>
+                </div>
+                <div class="info-div">
+                    <h5 th:text="${shift.getFormatStartDate()}">09.08.2018</h5>
+                    <h5 th:text="${shift.getFormatEndDate()}">15.09.2018</h5>
+                </div>
+            </div>
+
+            <div class="forum-info  col-11">
+                <div class="name-div">
+                    <a th:href="@{/member/shift(shiftId=__${shift.id}__)}"><h5>Участники</h5></a>
+                    <a th:href="@{/team/teams(shiftId=__${shift.id}__)}"><h5>Команды</h5></a>
+                    <a th:href="@{/events/shiftIndex(shiftId=__${shift.id}__)}"><h5>События</h5></a>
+                    <!--<a th:href="@{/speakers(shiftId=__${id}__)}"><h5>Спикеры</h5></a>-->
+                </div>
+                <div class="info-div forum-digits">
+                    <h5 th:text="${shift.userCount}">10</h5>
+                    <h5 th:text="${shift.teamCount}">15</h5>
+                    <h5 th:text="${shift.eventCount}">25</h5>
+                    <!--<h5 th:text="${shift.Count}">4</h5>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<table>-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th><a th:href="@{/shifts(activityId=__${shift.activityId}__)}">Back to activity</a></th>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td><a th:href="@{/shifts/__${shift.id}__/edit}">Edit</a></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th>name</th>-->
+            <!--<th>show</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<td>members</td>-->
+            <!--<td><a th:href="@{/members(shiftId=__${id}__)}">Show</a></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>team</td>-->
+            <!--<td><a th:href="@{/teams(shiftId=__${id}__)}">Show</a></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>event</td>-->
+            <!--<td><a th:href="@{/events(shiftId=__${id}__)}">Show</a></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>speakers</td>-->
+            <!--<td><a th:href="@{/speakers(shiftId=__${id}__)}">Show</a></td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+</div>
+</body>
+</html>

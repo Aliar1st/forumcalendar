@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 
 import javax.validation.constraints.Max;
@@ -17,6 +18,10 @@ import javax.validation.constraints.Size;
 public class SpeakerForm {
 
     private int id;
+
+    private String photoUrl;
+
+    private MultipartFile photo;
 
     //@ActivityExist
     private int activityId;
@@ -35,12 +40,14 @@ public class SpeakerForm {
     @Pattern(regexp = "(https?://)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 
+    @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
     private String description;
 
     public SpeakerForm(Speaker speaker) {
         this.id = speaker.getId();
         this.activityId = speaker.getActivity().getId();
+        this.photoUrl = speaker.getPhoto();
         this.firstName = speaker.getFirstName();
         this.lastName = speaker.getLastName();
         this.link = speaker.getLink();

@@ -7,84 +7,182 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/events/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">
-        <p>
-            <label>Название
-                <input th:field="*{name}" type="text">
+    <div class="container-fluid wrapper">
+        <form th:action="@{/events/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">
+            <div class="header-personal header-edit">
+                <a th:href="@{/events/choosing_date}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <h4>Добавить событие</h4>
+                <button type="submit">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="content-personal add-event">
+
+                <input th:field="*{name}" type="text" class="form-control col-10" placeholder="Название события"
+                       aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('name')}"
                        th:errors="*{name}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата и время начала
-                <input th:field="*{startDatetime}" type="datetime-local">
-                <label th:if="${#fields.hasErrors('startDatetime')}"
-                       th:errors="*{startDatetime}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата и время конца
-                <input th:field="*{endDatetime}" type="datetime-local">
-                <label th:if="${#fields.hasErrors('endDatetime')}"
-                       th:errors="*{endDatetime}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Место
-                <input th:field="*{place}" type="text">
+
+                <input th:field="*{place}" type="text" class="form-control col-10" placeholder="Место проведения"
+                       aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('place')}"
                        th:errors="*{place}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Описание
-                <input th:field="*{description}" type="text">
+
+                <input th:field="*{startDatetime}" type="text" class="form-control col-10"
+                       placeholder="Дата и время начала"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('startDatetime')}"
+                       th:errors="*{startDatetime}">error
+                </label>
+
+                <input th:field="*{endDatetime}" type="text" class="form-control col-10"
+                       placeholder="Дата и время конца"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('endDatetime')}"
+                       th:errors="*{endDatetime}">error
+                </label>
+
+                <textarea th:field="*{description}" type="text" class="form-control col-10"
+                          placeholder="Описание события"></textarea>
                 <label th:if="${#fields.hasErrors('description')}"
                        th:errors="*{description}">error
                 </label>
+
+                <div class="forum-info add-speaker-line">
+                    <h4>Спикеры</h4>
+                    <div class="cursor-edit">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <h5>Изменить спикеров</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="infoEvent">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content  modal-edit-team">
+                        <div class="modal-header">
+                            <h4>Изменить спикеров</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-check">
+                                <label th:each="speaker:${speakers}" class="btn  col-lg-12 choose-card">
+                                    <input type="checkbox" th:value="${speaker.id}" name="speakersId"
+                                           th:attrappend="checked=${eventForm.speakersId.contains(__${speaker.id}__)?'checked':null}">
+                                    <div class="card-body event-card-body card-body-add-speaker">
+                                        <div class="col-lg-4 col-4 img-div">
+                                            <img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>
+                                        </div>
+                                        <div class=" col-6 infoname-div">
+                                            <h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>
+                                            <div class="ref-info">
+                                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                                <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-1 col-1 div-caret show-dop-info">
+                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="dop-info-div about-speaker">
+                                            <div class="forum-info">
+                                                <h5>Описание</h5>
+                                                <p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label th:if="${#fields.hasErrors('speakersId')}"
+                   th:errors="*{speakersId}">error
             </label>
-        </p>
-        <label th:if="${#fields.hasErrors('shiftId')}"
-               th:errors="*{shiftId}">error
-        </label>
-        <input type="hidden" th:field="*{shiftId}">
-        <!--<label th:text="${shiftId}">Error</label><br/>-->
-        <!--<th:block th:each="speaker, stat:${eventForm.speakerForms}">-->
-            <!--<h2 th:text="|Спикер ${stat.index+1}|"></h2>-->
-            <!--<p>-->
-                <!--<input th:field="*{speakerForms[__${stat.index}__].id}" type="hidden">-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<input th:field="*{speakerForms[__${stat.index}__].activityId}" type="hidden">-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Имя-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].firstName}" type="text">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Фамилия-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].lastName}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Ссылка-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].link}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-            <!--<p>-->
-                <!--<label>Описание-->
-                    <!--<input th:field="*{speakerForms[__${stat.index}__].description}" type="date">-->
-                <!--</label>-->
-            <!--</p>-->
-        <!--</th:block>-->
-        <!--todo список спикеров редактировать-->
-        <input type="submit" value="Обновить">
-    </form>
+            <label th:if="${#fields.hasErrors('shiftId')}"
+                   th:errors="*{shiftId}">error
+            </label>
+            <input type="hidden" th:field="*{shiftId}">
+        </form>
+    </div>
+
+    <!--<form th:action="@{/events/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">-->
+    <!--<p>-->
+    <!--<label>Название-->
+    <!--<input th:field="*{name}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('name')}"-->
+    <!--th:errors="*{name}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Дата и время начала-->
+    <!--<input th:field="*{startDatetime}" type="datetime-local">-->
+    <!--<label th:if="${#fields.hasErrors('startDatetime')}"-->
+    <!--th:errors="*{startDatetime}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Дата и время конца-->
+    <!--<input th:field="*{endDatetime}" type="datetime-local">-->
+    <!--<label th:if="${#fields.hasErrors('endDatetime')}"-->
+    <!--th:errors="*{endDatetime}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Место-->
+    <!--<input th:field="*{place}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('place')}"-->
+    <!--th:errors="*{place}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Описание-->
+    <!--<input th:field="*{description}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('description')}"-->
+    <!--th:errors="*{description}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Спикеры-->
+    <!--<select th:field="*{speakersId}" multiple>-->
+    <!--<th:block th:each="speaker, stat : ${speakers}">-->
+    <!--<option th:attrappend="selected=${eventForm.speakersId.contains(__${speaker.id}__)}?''"-->
+    <!--th:value="${speaker.id}"-->
+    <!--th:text="|${speaker.firstName} ${speaker.lastName}|">Speaker-->
+    <!--</option>-->
+    <!--</th:block>-->
+    <!--</select>-->
+    <!--<label th:if="${#fields.hasErrors('speakersId')}"-->
+    <!--th:errors="*{speakersId}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<label th:if="${#fields.hasErrors('shiftId')}"-->
+    <!--th:errors="*{shiftId}">error-->
+    <!--</label>-->
+    <!--<input type="hidden" th:field="*{shiftId}">-->
+    <!--<input type="submit" value="Обновить">-->
+    <!--</form>-->
 </div>
 </body>
 </html>

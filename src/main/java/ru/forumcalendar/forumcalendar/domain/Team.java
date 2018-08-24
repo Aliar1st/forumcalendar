@@ -8,6 +8,7 @@ import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Parameter;
+import ru.forumcalendar.forumcalendar.domain.bridges.TeamShiftFieldBridge;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -41,6 +42,8 @@ public class Team extends AuditModel {
 //    @JoinColumn(nullable = false)
 //    private User user;
 
+    @Field(name = "shift_id")
+    @FieldBridge(impl = TeamShiftFieldBridge.class)
     @ManyToOne
     @JoinColumn(nullable = false)
     private Shift shift;
@@ -54,10 +57,10 @@ public class Team extends AuditModel {
     @Column(nullable = false)
     private String name;
 
-    @Analyzer(definition = "customAnalyzer")
-    @Field(termVector = TermVector.YES)
-    @Column(nullable = false)
-    private String direction;
+//    @Analyzer(definition = "customAnalyzer")
+//    @Field(termVector = TermVector.YES)
+//    @Column(nullable = false)
+//    private String direction;
 
     @Analyzer(definition = "customAnalyzer")
     @Field(termVector = TermVector.YES)

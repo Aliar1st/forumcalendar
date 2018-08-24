@@ -14,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -22,16 +23,16 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserForm {
 
+    private String id;
+
     private String photoUrl;
 
     private MultipartFile photo;
 
-    @Size(min = 2, message = "Name is too short")
     @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
     private String firstName;
 
-    @Size(min = 2, message = "Name is too short")
     @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name contains invalid characters")
     private String lastName;
@@ -40,6 +41,7 @@ public class UserForm {
     private List<ContactForm> contactForms;
 
     public UserForm(User user) {
+        this.id = user.getId();
         this.photoUrl = user.getPhoto();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -50,5 +52,7 @@ public class UserForm {
         for (Contact c : contacts) {
             this.contactForms.add(new ContactForm(c));
         }
+
+        this.contactForms.sort(Comparator.comparing(ContactForm::getContactTypeId));
     }
 }

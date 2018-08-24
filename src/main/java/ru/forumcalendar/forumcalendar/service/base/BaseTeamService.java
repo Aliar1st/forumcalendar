@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
+import ru.forumcalendar.forumcalendar.controller.HomeController;
 import ru.forumcalendar.forumcalendar.domain.Team;
 import ru.forumcalendar.forumcalendar.domain.TeamRole;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
@@ -21,10 +24,13 @@ import ru.forumcalendar.forumcalendar.repository.TeamRepository;
 import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
 import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
 import ru.forumcalendar.forumcalendar.service.ShiftService;
+import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
+import ru.forumcalendar.forumcalendar.service.TeamRoleService;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +41,13 @@ import java.util.stream.Stream;
 @Transactional
 public class BaseTeamService implements TeamService {
 
-
     private EntityManager entityManager;
 
     private final TeamRepository teamRepository;
     private final TeamRoleRepository teamRoleRepository;
     private final UserTeamRepository userTeamRepository;
 
+    private final TeamRoleService teamRoleService;
     private final ShiftService shiftService;
     private final UserService userService;
     private final ConversionService conversionService;
@@ -52,6 +58,7 @@ public class BaseTeamService implements TeamService {
             TeamRepository teamRepository,
             TeamRoleRepository teamRoleRepository,
             UserTeamRepository userTeamRepository,
+            TeamRoleService teamRoleService,
             ShiftService shiftService,
             UserService userService,
             @Qualifier("mvcConversionService") ConversionService conversionService
@@ -60,6 +67,7 @@ public class BaseTeamService implements TeamService {
         this.teamRepository = teamRepository;
         this.teamRoleRepository = teamRoleRepository;
         this.userTeamRepository = userTeamRepository;
+        this.teamRoleService = teamRoleService;
         this.shiftService = shiftService;
         this.userService = userService;
         this.conversionService = conversionService;
@@ -90,7 +98,7 @@ public class BaseTeamService implements TeamService {
         Team team = teamRepository.findById(teamForm.getId()).orElse(new Team());
 //        team.setUser(userService.getCurrentUser());
         team.setName(teamForm.getName());
-        team.setDirection(teamForm.getDirection());
+        //team.setDirection(teamForm.getDirection());
         team.setDescription(teamForm.getDescription());
         team.setShift(shiftService.get(teamForm.getShiftId()));
 
@@ -105,7 +113,18 @@ public class BaseTeamService implements TeamService {
     }
 
     @Override
-    public List<TeamModel> searchByName(String q) throws InterruptedException {
+    public List<TeamModel> getTeamModelsByActivityId(int activityId) {
+        return convertTeams(teamRepository.getAllByShiftActivityId(activityId));
+    }
+
+    @Override
+    public void kickMember(String userId, int teamId) {
+        UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userId, teamId);
+        userTeamRepository.delete(userTeam);
+    }
+
+    @Override
+    public List<TeamModel> searchByName(String q, int shiftId) throws InterruptedException {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         fullTextEntityManager.createIndexer().startAndWait();
@@ -116,10 +135,19 @@ public class BaseTeamService implements TeamService {
                 .get();
 
         Query query = queryBuilder
-                .keyword()
-                .wildcard()
-                .onField("name")
-                .matching(q.toLowerCase())
+                .bool()
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onField("name")
+                        .matching(q.toLowerCase())
+                        .createQuery())
+                .must(queryBuilder
+                        .keyword()
+                        .wildcard()
+                        .onField("shift_id")
+                        .matching(shiftId)
+                        .createQuery())
                 .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery jpaQuery
@@ -164,7 +192,7 @@ public class BaseTeamService implements TeamService {
                 .filter(u -> u.getTeamRole().getName().equals(captainRole.getName()))
                 .count();
 
-        if (captainCount == 0) {
+        if (captainCount == 0 || userTeam.getTeamRole().getId() == TeamRole.ROLE_CAPTAIN_ID) {
             switch (userTeam.getTeamRole().getId()) {
                 case TeamRole.ROLE_MEMBER_ID: {
                     userTeam.setTeamRole(captainRole);
@@ -213,6 +241,27 @@ public class BaseTeamService implements TeamService {
     public Map<Integer, String> getTeamIdNameMapByShiftId(int id) {
         return teamRepository.getAllByShiftIdOrderByCreatedAt(id)
                 .collect(Collectors.toMap(Team::getId, Team::getName));
+    }
+
+    @Override
+    public TeamMemberStatus getStatus(Integer teamId) {
+        if (teamId == null) {
+            return TeamMemberStatus.TEAMLESS;
+        }
+
+        UserTeam userTeam = userTeamRepository.getByUserIdAndTeamId(userService.getCurrentId(), teamId);
+        return userTeam != null ? TeamMemberStatus.OK : TeamMemberStatus.KICKED;
+    }
+
+    @Override
+    public String resolveTeamError(TeamMemberStatus teamMemberStatus, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
+        switch (teamMemberStatus) {
+            default:
+                redirectAttributes.addFlashAttribute("error", "You have been kicked from team");
+                httpSession.removeAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+                return HomeController.REDIRECT_TO_ENTRANCE;
+        }
     }
 
     @Override

@@ -17,7 +17,7 @@ public class UserTeam extends AuditModel {
     @EmbeddedId
     private UserTeamIdentity userTeamIdentity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(nullable = false)
     private TeamRole teamRole;
 }

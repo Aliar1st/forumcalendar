@@ -80,7 +80,7 @@ public class BaseLinkService implements LinkService {
     }
 
     @Override
-    public void inviteViaLink(String uniqueParam) {
+    public Team inviteViaLink(String uniqueParam) {
         Link link = linkRepository.findById(uniqueParam)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Can't find link with id '" + uniqueParam)
@@ -96,6 +96,6 @@ public class BaseLinkService implements LinkService {
         userTeam.setTeamRole(link.getTeamRole());
         userTeam.setUserTeamIdentity(userTeamIdentity);
 
-        userTeamRepository.save(userTeam);
+        return userTeamRepository.save(userTeam).getUserTeamIdentity().getTeam();
     }
 }

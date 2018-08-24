@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show shifts</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid wrapper shedule-wrapper">
+        <div class="header-personal header-edit header-forums header-shifts">
+            <a onclick="history.back();" class="link">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <h2 th:text="${activityName}" class="choose-h2">Территория смыслов</h2>
+        </div>
+
+        <div class="content-personal add-event forums-div ">
+            <h3 class="text-center">Смены</h3>
+            <div th:each="shift:${shifts}" class="member-line col-11 content-shifts">
+                <a th:href="@{/shifts/__${shift.id}__}">
+                    <h4 th:text="${shift.name}">Смена 1</h4>
+                    <a th:href="@{/shifts/__${shift.id}__/delete}">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </a>
+            </div>
+        </div>
+
+        <a th:href="@{/shifts/add(activityId=__${activityId}__)}" class="plus-add-event plus-add-forum">
+            <i class="fa fa-plus-circle " aria-hidden="true"></i>
+        </a>
+    </div>
+
+    <!--<table>-->
+    <!--<thead>-->
+    <!--<tr>-->
+    <!--<th><a th:href="@{/activities/__${activityId}__}">Back to activity</a></th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<th>id</th>-->
+    <!--<th>name</th>-->
+    <!--<th>team count</th>-->
+    <!--<th>start date</th>-->
+    <!--<th>end date</th>-->
+    <!--<th>show</th>-->
+    <!--<th>edit</th>-->
+    <!--<th>delete</th>-->
+    <!--<th><a th:href="@{/shifts/add(activityId=__${activityId}__)}">add</a></th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr th:each="shift:${shifts}">-->
+    <!--<td th:text="${shift.id}"></td>-->
+    <!--<td th:text="${shift.name}"></td>-->
+    <!--<td th:text="${shift.teamCount}"></td>-->
+    <!--<td th:text="${shift.startDate}"></td>-->
+    <!--<td th:text="${shift.endDate}"></td>-->
+    <!--<td><a th:href="@{/shifts/__${shift.id}__}">Show</a></td>-->
+    <!--<td><a th:href="@{/shifts/__${shift.id}__/edit}">Edit</a></td>-->
+    <!--<td><a th:href="@{/shifts/__${shift.id}__/delete}">Delete</a></td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+    <!--</table>-->
+</div>
+</body>
+</html>

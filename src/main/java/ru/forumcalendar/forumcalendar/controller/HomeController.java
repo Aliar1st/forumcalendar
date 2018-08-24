@@ -16,10 +16,7 @@ import ru.forumcalendar.forumcalendar.model.form.ChoosingActivityForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingShiftForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingTeamForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingTeamRoleForm;
-import ru.forumcalendar.forumcalendar.service.ActivityService;
-import ru.forumcalendar.forumcalendar.service.ShiftService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
-import ru.forumcalendar.forumcalendar.service.UserService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -28,8 +25,11 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    public static final String REDIRECT_TO_ENTRANCE = "redirect:/entrance/1";
+
     private static final String HTML_FOLDER = "home/";
 
+    private final PermissionService permissionService;
     private final ActivityService activityService;
     private final ShiftService shiftService;
     private final TeamService teamService;
@@ -40,11 +40,13 @@ public class HomeController {
 
     @Autowired
     public HomeController(
+            PermissionService permissionService,
             ActivityService activityService,
             ShiftService shiftService,
             TeamService teamService,
             UserService userService,
             PermissionEvaluator permissionEvaluator) {
+        this.permissionService = permissionService;
         this.activityService = activityService;
         this.shiftService = shiftService;
         this.teamService = teamService;
@@ -77,8 +79,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "redirect:/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return REDIRECT_TO_ENTRANCE;
         }
 
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
@@ -97,8 +99,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return REDIRECT_TO_ENTRANCE;
         }
 
         Integer teamId = shiftService.getCurrentUserTeamByShift(choosingShiftForm.getShiftId());
@@ -122,8 +124,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return REDIRECT_TO_ENTRANCE;
         }
 
         List<TeamModel> teams;
@@ -153,8 +155,8 @@ public class HomeController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("entranceError", bindingResult.getFieldError());
-            return "/entrance/1";
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return REDIRECT_TO_ENTRANCE;
         }
 
         UserTeam userTeam = teamService.joinCurrentUserToTeam(choosingTeamForm.getTeamId(), choosingTeamForm.getTeamRoleId());
@@ -167,24 +169,29 @@ public class HomeController {
     public String menu(
             Model model,
             Authentication authentication,
-            HttpSession httpSession
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes
     ) {
 
-        Team team = teamService.get((int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE));
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
+        Team team = teamService.get(teamId);
 
         User user = userService.getCurrentUser();
 
-        if (permissionEvaluator.hasPermission(authentication, team.getShift().getActivity().getId(), "Activity", "w") &&
-                user.getRole().getId() == Role.ROLE_USER_ID) {
-            model.addAttribute("isModerator", true);
-        }
-        else if(user.getRole().getId() == Role.ROLE_USER_ID) {
-            model.addAttribute("isJustUser", true);
-        }
+        PermissionService.Identifier identifier = permissionService.identifyUser(team.getShift().getActivity().getId());
+
+        model.addAttribute(identifier.getValue(), true);
 
         model.addAttribute("curActivityId", team.getShift().getActivity().getId());
         model.addAttribute("curShiftId", team.getShift().getId());
         model.addAttribute("myTeamId", team.getId());
+        model.addAttribute("userId", user.getId());
         model.addAttribute("userPhoto", user.getPhoto());
         model.addAttribute("userName", user.getFirstName() + ' ' + user.getLastName());
         model.addAttribute("teamName", team.getName());
@@ -196,10 +203,8 @@ public class HomeController {
     public String menuExit(
             HttpSession httpSession
     ) {
-
         httpSession.removeAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-
-        return "redirect:/entrance/1";
+        return REDIRECT_TO_ENTRANCE;
     }
 
 //    @PostMapping("/getShifts")

@@ -1,15 +1,19 @@
 package ru.forumcalendar.forumcalendar.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Getter
-@Setter
-public class EventModel {
+@Data
+public abstract class EventModel implements Comparable<EventModel> {
 
     private int id;
 
@@ -25,13 +29,18 @@ public class EventModel {
 
     private String description;
 
-//    private Shift shift;
+    private boolean shiftEvent;
 
-    private boolean favorite;
+    public String getFormatStartTime() {
+        return startDatetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
-    private int likes;
+    public String getFormatEndTime() {
+        return endDatetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
-    private int dislikes;
-
-    private List<SpeakerModel> speakers;
+    @Override
+    public int compareTo(EventModel o) {
+        return startDatetime.compareTo(o.startDatetime);
+    }
 }

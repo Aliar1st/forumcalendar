@@ -45,6 +45,7 @@ public class EventResourceController {
             @RequestParam int shiftId,
             Model model
     ) {
+
         model.addAttribute("events", eventService.getEventModelsByShiftId(shiftId));
         model.addAttribute("shiftId", shiftId);
 

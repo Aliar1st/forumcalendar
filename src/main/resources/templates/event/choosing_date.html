@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Show event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid wrapper">
+        <div class=" header-personal header-edit">
+            <a th:href="@{/menu}">
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
+            </a>
+            <h2 class="choose-h2">Календарь</h2>
+            <a th:href="@{/favorites}">
+                <img  class="back-icon" src="/static/images/star-fav-icon.svg"/>
+            </a>
+        </div>
+        <div class="content-personal calendar-content ">
+            <div id="calendar"></div>
+        </div>
+        <label th:if="${error!=null}"
+               th:text="${error}">error
+        </label>
+    </div>
+
+
+    <!--<form th:action="@{/events}" method="GET">-->
+    <!--<label>Дата-->
+    <!--<input name="date" type="date" th:value="${now}">-->
+    <!--</label>-->
+    <!--<label th:if="${error!=null}"-->
+    <!--th:text="${error}">error-->
+    <!--</label>-->
+    <!--<button type="submit">Далее</button>-->
+    <!--</form>-->
+</div>
+</body>
+</html>

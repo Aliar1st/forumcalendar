@@ -1,0 +1,85 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"-->
+<!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+<!--<title>Add team</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+<!--<form th:action="@{/editor/team/add}" th:object="${teamForm}" method="POST">-->
+<!--<p>-->
+<!--<label>Название-->
+<!--<input th:field="*{name}" type="text">-->
+<!--<label th:if="${#fields.hasErrors('name')}"-->
+<!--th:errors="*{name}">error-->
+<!--</label>-->
+<!--</label>-->
+<!--</p>-->
+<!--<p>-->
+<!--<label>Направление-->
+<!--<input th:field="*{direction}" type="text">-->
+<!--<label th:if="${#fields.hasErrors('direction')}"-->
+<!--th:errors="*{direction}">error-->
+<!--</label>-->
+<!--</label>-->
+<!--</p>-->
+<!--<p>-->
+<!--<label>Описание-->
+<!--<input th:field="*{description}" type="text">-->
+<!--<label th:if="${#fields.hasErrors('description')}"-->
+<!--th:errors="*{description}">error-->
+<!--</label>-->
+<!--</label>-->
+<!--</p>-->
+<!--<label th:if="${#fields.hasErrors('shiftId')}"-->
+<!--th:errors="*{shiftId}">error-->
+<!--</label>-->
+<!--<input type="hidden" th:field="*{shiftId}">-->
+<!--<input type="submit" value="Создать">-->
+<!--</form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!--suppress ThymeleafVariablesResolveInspection -->
+
+
+<form name="addTeamForm" th:action="@{/team/add(curShiftId)}" th:object="${teamForm}" method="POST" class="modal-dialog modal-dialog-centered"
+      xmlns:th="http://www.thymeleaf.org/">
+    <div class="modal-content  modal-edit-team">
+        <div class="modal-header">
+            <h4>Создать команду</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <input th:field="*{name}" type="text" class="form-control" placeholder="Название команды"
+                   aria-label="Username"
+                   aria-describedby="basic-addon1">
+            <label th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}">error
+            </label>
+        </div>
+
+        <div class="modal-body">
+            <input th:field="*{description}" type="text" class="form-control" placeholder="О команде"
+                   aria-label="Username"
+                   aria-describedby="basic-addon1">
+            <label th:if="${#fields.hasErrors('description')}"
+                   th:errors="*{description}">error
+            </label>
+        </div>
+
+        <input type="hidden" th:field="*{shiftId}">
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" >Сохранить</button>
+            <!--data-dismiss="modal"-->
+        </div>
+
+    </div>
+</form>

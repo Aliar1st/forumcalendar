@@ -1,10 +1,10 @@
 $(function () {
 
-    $('form[name="toggleSubscription"] button[type="button"]').click(function () {
+    $(document).on('click', 'form[name="toggleSubscription"] button[type="button"]', function (event) {
 
-        var eventId = $('form[name="toggleSubscription"]>input[type="hidden"]').val();
         var uniqueId = $.cookie("uniqueId");
-        var form = $('form[name="toggleSubscription"]');
+        var form = $(event.currentTarget).parent();
+        var eventId = form.children('input[name="eventId"]').val();
 
         $.ajax({
             type: form.attr('method'),
@@ -28,7 +28,7 @@ $(function () {
                     }
                 }
             }
-        })
+        });
     });
 });
 

@@ -1,10 +1,12 @@
 package ru.forumcalendar.forumcalendar.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,7 +38,10 @@ public class Event extends AuditModel {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable
-    private Set<Speaker> speakers;
+    @JoinTable(name = "events_speakers",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id"))
+    private Set<Speaker> speakers = new HashSet<>();
 }

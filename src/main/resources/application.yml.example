@@ -13,8 +13,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        hibernate.search.default.directory_provider: filesystem
-        hibernate.search.default.indexBase: /data/lucene/indexes
+        search:
+          default:
+            directory_provider: filesystem
+            indexBase: ./data/lucene/indexes
 
   servlet:
     multipart:

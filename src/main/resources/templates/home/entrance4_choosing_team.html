@@ -3,24 +3,45 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Entrance</title>
+    <title>Выберите команду</title>
 </head>
 <body>
 <div layout:fragment="content">
-
-    <form th:action="@{5}" th:object="${choosingTeamForm}" method="POST">
-        <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
-        <label>Смена
-            <select name="teamId">
-                <option value="0" selected>Выберите команду</option>
-                <option th:each="team: ${teams}"
-                        th:value="${team.id}"
-                        th:text="${team.name}">
-                </option>
-            </select>
-        </label>
-        <button type="submit">Далее</button>
-    </form>
+    <div class="container-fluid wrapper choosing-div">
+        <div class="header-app">
+            <a th:href="@{/entrance/1}">
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
+            </a>
+             <h2 th:text="|Выберите команду|" class="choose-h2"></h2>
+        </div>
+        <form th:action="@{/entrance/5}" th:object="${choosingTeamForm}" method="POST">
+            <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
+            <div class="wrapper-cards">
+                <div class="btn-group team-group" data-toggle="buttons">
+                    <th:block th:each="team:${teams}">
+                    <label class="btn choose-card col-lg-12">
+                        <input th:value="${team.id}" th:field="*{teamId}" type="radio" hidden>
+                        <h4 th:text="|Команда ${team.name}|" class="title-team-choose"></h4>
+                    </label>
+                    </th:block>
+                </div>
+            </div>
+                <button type="submit" class="btn btn-next">Дальше</button>
+        </form>
+    </div>
+    <!--<form th:action="@{5}" th:object="${choosingTeamForm}" method="POST">-->
+    <!--<input name="teamRoleId" th:value="${teamRoleId}" type="hidden">-->
+    <!--<label>Смена-->
+    <!--<select name="teamId">-->
+    <!--<option value="0" selected>Выберите команду</option>-->
+    <!--<option th:each="team: ${teams}"-->
+    <!--th:value="${team.id}"-->
+    <!--th:text="${team.name}">-->
+    <!--</option>-->
+    <!--</select>-->
+    <!--</label>-->
+    <!--<button type="submit">Далее</button>-->
+    <!--</form>-->
 </div>
 </body>
 </html>

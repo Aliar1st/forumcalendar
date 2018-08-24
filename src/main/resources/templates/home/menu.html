@@ -8,24 +8,99 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <p>
-        <img width="60" height="60" th:src="@{/public/__${userPhoto}__}" alt="">
-    </p>
-    <p th:text="${userName}"></p>
-    <p th:text="${teamName}"></p>
-    <ul>
-        <li><a th:href="@{/user}">Мой профиль</a></li>
-        <li><a th:href="@{/events/day}">Календарь событий</a></li>
-        <li><a th:href="@{/team/__${myTeamId}__}">Моя команда</a></li>
-        <li th:if="${isJustUser}"><a th:href="@{'/team/teams?shiftId='+__${curShiftId}__}">Команды смены</a></li>
-        <li th:if="${isJustUser}"><a th:href="@{'/speaker/speakers?activityId='+__${curActivityId}__}">Спикеры</a></li>
-        <li><a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/activity/activities}">Форумы</a></li>
-        <li><a th:if="${isModerator}" th:href="@{/favorites}">Мой форум</a></li>
-        <li><a th:href="@{/favorites}">Избранное</a></li>
-        <li></li>
-        <li><a th:href="@{/menu_exit}">Выйти из форума</a></li>
-        <li><a th:href="@{/logout}">Выйти из аккаунта</a></li>
-    </ul>
+    <!--<p>-->
+    <!--<img width="60" height="60" th:src="@{/public/__${userPhoto}__}" alt="">-->
+    <!--</p>-->
+    <!--<p th:text="${userName}"></p>-->
+    <!--<p th:text="${teamName}"></p>-->
+    <!--<ul>-->
+    <!--<li><a th:href="@{/user/__${userId}__}">Мой профиль</a></li>-->
+    <!--<li><a th:href="@{/events/choosing_date}">Календарь событий</a></li>-->
+    <!--<li><a th:href="@{/team/__${myTeamId}__}">Моя команда</a></li>-->
+    <!--<li th:if="${isJustUser}"><a th:href="@{/team/teams(shiftId=__${curShiftId}__)}">Команды смены</a></li>-->
+    <!--<li th:if="${isJustUser}"><a th:href="@{/speaker/speakers(activityId=__${curActivityId}__)}">Спикеры</a></li>-->
+    <!--<li><a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/activities}">Форумы</a></li>-->
+    <!--<li><a th:if="${isModerator}" th:href="@{/activities/__${curActivityId}__}">Мой форум</a></li>-->
+    <!--<li><a th:href="@{/favorites}">Избранное</a></li>-->
+    <!--<li></li>-->
+    <!--<li><a th:href="@{/menu_exit}">Выйти из форума</a></li>-->
+    <!--<li><a th:href="@{/logout}">Выйти из аккаунта</a></li>-->
+    <!--</ul>-->
+    <div class="container-fluid wrapper">
+        <div class="row header-main">
+            <div class="col-lg-4 col-4 img-div">
+                <img class="img-profile" th:src="@{/public/__${userPhoto}__}"/>
+            </div>
+            <div class="col-lg-7 col-7">
+                <h4 th:text="${userName}"></h4>
+                <h6 th:text="${teamName}"></h6>
+            </div>
+            <div class="col-lg-1 col-1">
+                <a th:href="@{/logout}">
+                    <img  class="sign-out-icon" src="/static/images/sign-out.svg"/>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-main">
+            <div class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/user/__${userId}__}">
+                    <img  class="back-icon" src="/static/images/man-user.svg"/>
+                    <h4 th:text="|Мой профиль|"></h4>
+                </a>
+            </div>
+            <div class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/events/choosing_date}">
+                    <img  class="back-icon" src="/static/images/cal-icon.svg"/>
+                    <h4 th:text="|Календарь событий|"></h4>
+                </a>
+            </div>
+            <div class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/team/__${myTeamId}__}">
+                    <img  class="back-icon" src="/static/images/team-users.svg"/>
+                    <h4 th:text="|Моя команда|"></h4>
+                </a>
+            </div>
+            <div sec:authorize="hasRole('ROLE_SUPERUSER')" class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/activities}">
+                    <img  class="back-icon" src="/static/images/forum.svg"/>
+                    <h4 th:text="|Форумы|"></h4>
+                </a>
+            </div>
+            <div th:if="${isModerator}" class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/activities/__${curActivityId}__}">
+                    <img  class="back-icon" src="/static/images/forum.svg"/>
+                    <h4 th:text="|Мой форум|"></h4>
+                </a>
+            </div>
+            <div th:if="${isJustUser}" class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/speaker/speakers(activityId=__${curActivityId}__)}">
+                    <img  class="back-icon" src="/static/images/speakers.svg"/>
+                    <h4>Спикеры</h4>
+                </a>
+            </div>
+            <div th:if="${isJustUser}" class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/team/teams(shiftId=__${curShiftId}__)}">
+                    <img  class="back-icon" src="/static/images/group.svg"/>
+                    <h4 th:text="|Команды|"></h4>
+                </a>
+            </div>
+            <div class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/favorites}">
+                    <img  class="back-icon" src="/static/images/star.svg"/>
+                    <h4 th:text="|Избранное|"></h4>
+                </a>
+            </div>
+            <div class="content-line col-lg-12 col-xs-12">
+                <a th:href="@{/feedback}">
+                    <img  class="back-icon" src="/static/images/feedback.svg"/>
+                    <h4>Обратная связь</h4>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 </body>
 </html>

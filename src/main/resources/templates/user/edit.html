@@ -3,58 +3,115 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Profile edit</title>
+    <title>Редактирование профиля</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{edit}" th:object="${userForm}" method="POST" enctype="multipart/form-data">
-        <p>
-            <img width="60" height="60" th:src="@{/uploads/__${userForm.photoUrl}__}" alt="">
-            <label>Фотография
-                <input th:field="*{photo}" type="file">
+    <div class="container-fluid wrapper">
+        <form th:action="@{edit}" th:object="${userForm}" method="POST" enctype="multipart/form-data">
+            <div class="header-personal  header-settings">
+                <a th:href="@{/user/__${userForm.id}__}">
+                    <img  class="back-icon" src="/static/images/left-arrow.svg"/>
+                </a>
+                <label>
+                    <img class="img-profile img-edit" th:src="@{/public/__${userForm.photoUrl}__}"/>
+                    <!--<img class="img-profile mask-img" src="/static/images/mask-img.png"/>-->
+                    <input th:field="*{photo}" type="file" hidden>
+                </label>
+                <button type="submit" class="check-btn">
+                    <img  class="back-icon" src="/static/images/check.svg"/>
+                </button>
+            </div>
+
+            <div class="content-personal edit-personal">
                 <label th:if="${#fields.hasErrors('photo')}"
                        th:errors="*{photo}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Имя
-                <input th:field="*{firstName}" type="text">
-                <label th:if="${#fields.hasErrors('firstName')}"
-                       th:errors="*{firstName}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Фамилия
-                <input th:field="*{lastName}" type="text">
-                <label th:if="${#fields.hasErrors('lastName')}"
-                       th:errors="*{lastName}">error
-                </label>
-            </label>
-        </p>
-        <hr>
-        <p th:each="contact, stat:${userForm.contactForms}">
-            <label>Тип
-                <select th:field="*{contactForms[__${stat.index}__].contactTypeId}">
-                    <option th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==0}?''"
-                            value="0">Выберите тип
-                    </option>
-                    <option th:each="contactType: ${contactTypes}"
-                            th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==contactType.id}?''"
-                            th:value="${contactType.id}"
-                            th:text="${contactType.name}">
-                    </option>
-                </select>
-            </label>
-            <label>Ссылка
-                <input th:field="*{contactForms[__${stat.index}__].link}" type="text">
-            </label>
-            <input type="hidden" th:field="*{contactForms[__${stat.index}__].id}">
-        </p>
-        <button type="button">Добавить ссылку</button>
-        <input type="submit" value="Обновить">
-    </form>
+                <div class="forum-info">
+                    <input th:field="*{firstName}" type="text" class="form-control"
+                           placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}">error
+                    </label>
+                    <input th:field="*{lastName}" type="text" class="form-control"
+                           placeholder="Фамилия" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}">error
+                    </label>
+                </div>
+
+                <div class="forum-info contacts-info-edit">
+                    <h4>Соц. сети</h4>
+                    <div class="content-line col-lg-12 col-xs-12">
+                        <img  class="back-icon" src="/static/images/vk.svg"/>
+                        <input name="contactForms[0].contactTypeId" value="1" type="hidden">
+                        <input th:field="*{contactForms[0].link}" type="text" class="form-control"
+                               placeholder="Вк" aria-label="Username" aria-describedby="basic-addon1">
+                        <label th:if="${#fields.hasErrors('contactForms[0].link')}"
+                               th:errors="*{contactForms[0].link}">error
+                        </label>
+                    </div>
+                    <div class="content-line col-lg-12 col-xs-12">
+                        <img  class="back-icon" src="/static/images/telegram.svg"/>
+                        <input name="contactForms[1].contactTypeId" value="2" type="hidden">
+                        <input th:field="*{contactForms[1].link}" type="text" class="form-control"
+                               placeholder="Телеграм" aria-label="Username" aria-describedby="basic-addon1">
+                        <label th:if="${#fields.hasErrors('contactForms[1].link')}"
+                               th:errors="*{contactForms[1].link}">error
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--<form th:action="@{edit}" th:object="${userForm}" method="POST" enctype="multipart/form-data">-->
+    <!--<p>-->
+    <!--<img width="60" height="60" th:src="@{/uploads/__${userForm.photoUrl}__}" alt="">-->
+    <!--<label>Фотография-->
+    <!--<input th:field="*{photo}" type="file">-->
+    <!--<label th:if="${#fields.hasErrors('photo')}"-->
+    <!--th:errors="*{photo}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Имя-->
+    <!--<input th:field="*{firstName}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('firstName')}"-->
+    <!--th:errors="*{firstName}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Фамилия-->
+    <!--<input th:field="*{lastName}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('lastName')}"-->
+    <!--th:errors="*{lastName}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<hr>-->
+    <!--<p th:each="contact, stat:${userForm.contactForms}">-->
+    <!--<label>Тип-->
+    <!--<select th:field="*{contactForms[__${stat.index}__].contactTypeId}">-->
+    <!--<option th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==0}?''"-->
+    <!--value="0">Выберите тип-->
+    <!--</option>-->
+    <!--<option th:each="contactType: ${contactTypes}"-->
+    <!--th:attrappend="selected=${userForm.contactForms[__${stat.index}__].contactTypeId==contactType.id}?''"-->
+    <!--th:value="${contactType.id}"-->
+    <!--th:text="${contactType.name}">-->
+    <!--</option>-->
+    <!--</select>-->
+    <!--</label>-->
+    <!--<label>Ссылка-->
+    <!--<input th:field="*{contactForms[__${stat.index}__].link}" type="text">-->
+    <!--</label>-->
+    <!--<input type="hidden" th:field="*{contactForms[__${stat.index}__].id}">-->
+    <!--</p>-->
+    <!--<button type="button">Добавить ссылку</button>-->
+    <!--<input type="submit" value="Обновить">-->
+    <!--</form>-->
 </div>
 </body>
 </html>

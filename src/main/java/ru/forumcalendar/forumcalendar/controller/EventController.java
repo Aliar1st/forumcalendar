@@ -10,20 +10,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
+import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Shift;
-import ru.forumcalendar.forumcalendar.model.EventModel;
-import ru.forumcalendar.forumcalendar.model.SpeakerModel;
+import ru.forumcalendar.forumcalendar.model.*;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
+import ru.forumcalendar.forumcalendar.model.TeamEventModel;
+import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
-import ru.forumcalendar.forumcalendar.service.EventService;
-import ru.forumcalendar.forumcalendar.service.SpeakerService;
-import ru.forumcalendar.forumcalendar.service.TeamEventService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
+import ru.forumcalendar.forumcalendar.service.*;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/events")
@@ -57,43 +63,109 @@ public class EventController {
         this.permissionEvaluator = permissionEvaluator;
     }
 
-    @GetMapping("day")
-    public String indexDay(
-            Model model,
-            HttpSession httpSession,
-            Authentication authentication
+    @GetMapping("choosing_date")
+    public String choosingDate(
+        Model model
     ) {
+        model.addAttribute("now", LocalDate.now());
+        return HTML_FOLDER + "choosing_date";
+    }
 
-        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-        Shift shift = teamService.get(teamId).getShift();
+//    @PostMapping("choosing_date")
+//    public String choosingDate(
+//            @Valid ChoosingEventsDate choosingEventsDate,
+//            BindingResult bindingResult,
+//            HttpSession httpSession,
+//            RedirectAttributes redirectAttributes
+//    ) {
+//        if (bindingResult.hasErrors()) {
+//            return HTML_FOLDER + "choosing_date";
+//        }
+//
+//        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+//
+//        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+//        if (TeamMemberStatus.OK != teamMemberStatus) {
+//            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+//        }
+//
+//        int shiftId = teamService.get(teamId).getShift().getId();
+//
+//        List<ShiftEventModel> shiftEventModels = eventService.getEventModelsByShiftIdAndDate(shiftId, choosingEventsDate.getDate());
+//        List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
+//
+//        List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
+//        events.addAll(shiftEventModels);
+//        events.addAll(teamEventModels);
+//        Collections.sort(events);
+//
+//        if (events.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("error", "Events on this date not found");
+//            return REDIRECT_ROOT_MAPPING + "/choosing_date";
+//        }
+//
+//        redirectAttributes.addFlashAttribute("events", events);
+//
+//        return REDIRECT_ROOT_MAPPING;
+//    }
 
-        if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {
-            return REDIRECT_ROOT_MAPPING;
+    @GetMapping("")
+    public String index(
+            Model model,
+            @Valid ChoosingEventsDate choosingEventsDate,
+            BindingResult bindingResult,
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            return HTML_FOLDER + "choosing_date";
         }
 
-        model.addAttribute("events", eventService.getEventModelsByShiftIdAndDate(shift.getId(), LocalDate.now()));
-        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, LocalDate.now()));
+        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
+        int shiftId = teamService.get(teamId).getShift().getId();
+
+        List<ShiftEventModel> shiftEventModels = eventService.getEventModelsByShiftIdAndDate(shiftId, choosingEventsDate.getDate());
+        List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
+
+        List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
+        events.addAll(eventService.setUserSubscribes(shiftEventModels));
+        events.addAll(teamEventModels);
+        Collections.sort(events);
+
+        if (events.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Events on this date not found");
+            return REDIRECT_ROOT_MAPPING + "/choosing_date";
+        }
+        model.addAttribute("events",events);
+        model.addAttribute("day", choosingEventsDate.getDate().format(DateTimeFormatter.ofPattern("dd MMMM", Locale.forLanguageTag("ru"))));
 
         return HTML_FOLDER + "index";
     }
 
-    @GetMapping("shift")
-    public String indexShift(
+    @GetMapping("/shiftIndex")
+    public String shiftIndex(
             Model model,
-            HttpSession httpSession,
-            Authentication authentication
+            @RequestParam int shiftId
     ) {
-        int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
-        Shift shift = teamService.get(teamId).getShift();
+        model.addAttribute("events", eventService.getEventModelsByShiftId(shiftId));
+        model.addAttribute("shiftId", shiftId);
+        return HTML_FOLDER + "shiftIndex";
+    }
 
-        if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {
-            return REDIRECT_ROOT_MAPPING;
-        }
-
-        model.addAttribute("events", eventService.getEventModelsByShiftId(shift.getId()));
-        model.addAttribute("teamEvents", teamEventService.getTeamEventModelsByTeamId(teamId));
-
-        return HTML_FOLDER + "index";
+    @GetMapping("/activityIndex")
+    public String activityIndex(
+            Model model,
+            @RequestParam int activityId
+    ) {
+        model.addAttribute("events", eventService.setUserSubscribes(eventService.getEventModelsByActivityId(activityId)));
+        model.addAttribute("activityId", activityId);
+        return HTML_FOLDER + "activityIndex";
     }
 
     @PreAuthorize("hasPermission(#id, 'Event', 'r')")
@@ -102,7 +174,7 @@ public class EventController {
             @PathVariable int id,
             Model model
     ) {
-        model.addAttribute("event", conversionService.convert(eventService.get(id), EventModel.class));
+        model.addAttribute("event", conversionService.convert(eventService.get(id), ShiftEventModel.class));
 
         return HTML_FOLDER + "show";
     }
@@ -111,9 +183,16 @@ public class EventController {
     public String add(
             Model model,
             HttpSession httpSession,
-            Authentication authentication
+            Authentication authentication,
+            RedirectAttributes redirectAttributes
     ) {
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
+
+        TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
+        if (TeamMemberStatus.OK != teamMemberStatus) {
+            return teamService.resolveTeamError(teamMemberStatus, httpSession, redirectAttributes);
+        }
+
         Shift shift = teamService.get(teamId).getShift();
 
         if (!permissionEvaluator.hasPermission(authentication, shift.getId(), "Shift", "w")) {
@@ -127,6 +206,30 @@ public class EventController {
 
         model.addAttribute(eventForm);
         model.addAttribute("speakers", speakers);
+        model.addAttribute("isShift", false);
+
+        return HTML_FOLDER + "add";
+    }
+
+    @GetMapping("add/shift")
+    public String add(
+            Model model,
+            Authentication authentication,
+            @RequestParam int shiftId
+    ) {
+        if (!permissionEvaluator.hasPermission(authentication, shiftId, "Shift", "w")) {
+            return REDIRECT_ROOT_MAPPING;
+        }
+
+        EventForm eventForm = new EventForm();
+        eventForm.setShiftId(shiftId);
+
+        List<SpeakerModel> speakers = speakerService.getSpeakerModelsByShiftId(shiftId);
+
+        model.addAttribute(eventForm);
+        model.addAttribute("speakers", speakers);
+        model.addAttribute("shiftId", shiftId);
+        model.addAttribute("isShift", true);
 
         return HTML_FOLDER + "add";
     }
@@ -156,8 +259,10 @@ public class EventController {
             @PathVariable int id,
             Model model
     ) {
-        EventForm eventForm = new EventForm(eventService.get(id));
+        Event event = eventService.get(id);
+        EventForm eventForm = new EventForm(event);
         model.addAttribute(eventForm);
+        model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(event.getShift().getActivity().getId()));
 
         return HTML_FOLDER + "edit";
     }

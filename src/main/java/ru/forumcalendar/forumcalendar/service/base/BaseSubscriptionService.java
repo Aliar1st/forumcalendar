@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.forumcalendar.forumcalendar.quartz.NotificationExecutor;
-import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Subscription;
 import ru.forumcalendar.forumcalendar.domain.SubscriptionIdentity;
-import ru.forumcalendar.forumcalendar.model.EventModel;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
+import ru.forumcalendar.forumcalendar.quartz.NotificationExecutor;
+import ru.forumcalendar.forumcalendar.quartz.NotificationJob;
 import ru.forumcalendar.forumcalendar.repository.SubscriptionRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.SubscriptionService;
@@ -60,21 +60,25 @@ public class BaseSubscriptionService implements SubscriptionService {
         }
     }
 
-    @Override
-    public void unsubscribe(int eventId) {
-
-        String userId = userService.getCurrentId();
-        Subscription subscription = subscriptionRepository
-                .getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
-
-        if (subscription != null) {
-            unsubscribe(subscription);
-        }
-    }
+//    @Override
+//    public void unsubscribe(int eventId) {
+//
+//        String userId = userService.getCurrentId();
+//        Subscription subscription = subscriptionRepository
+//                .getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(eventId, userId);
+//
+//        if (subscription != null) {
+//            unsubscribe(subscription);
+//        }
+//    }
 
     @Override
     public boolean isSubscribed(int eventId) {
-        return false;
+        Subscription s =
+                subscriptionRepository.getBySubscriptionIdentityEventIdAndSubscriptionIdentityUserId(
+                        eventId, userService.getCurrentId()
+                );
+        return s != null;
     }
 
     @Override
@@ -111,9 +115,9 @@ public class BaseSubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public List<EventModel> getEventModelsBySubscription(int shiftId) {
+    public List<ShiftEventModel> getEventModelsBySubscription(int shiftId) {
         return subscriptionRepository.getAllByUserIdAndShiftId(userService.getCurrentId(), shiftId)
-                .map((s) -> conversionService.convert(s.getSubscriptionIdentity().getEvent(), EventModel.class))
+                .map((s) -> conversionService.convert(s.getSubscriptionIdentity().getEvent(), ShiftEventModel.class))
                 .collect(Collectors.toList());
     }
 

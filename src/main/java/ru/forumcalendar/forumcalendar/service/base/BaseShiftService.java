@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.UserTeam;
 import ru.forumcalendar.forumcalendar.exception.EntityNotFoundException;
-import ru.forumcalendar.forumcalendar.model.ShiftModel;
+import ru.forumcalendar.forumcalendar.model.ShiftListModel;
 import ru.forumcalendar.forumcalendar.model.form.ShiftForm;
 import ru.forumcalendar.forumcalendar.repository.ActivityRepository;
 import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
@@ -62,10 +62,10 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
-    public List<ShiftModel> getAll() {
+    public List<ShiftListModel> getAll() {
         return shiftRepository.findAll()
                 .stream()
-                .map((s) -> conversionService.convert(s, ShiftModel.class))
+                .map((s) -> conversionService.convert(s, ShiftListModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -100,9 +100,9 @@ public class BaseShiftService implements ShiftService {
     }
 
     @Override
-    public List<ShiftModel> getShiftModelsByActivityId(int id) {
+    public List<ShiftListModel> getShiftModelsByActivityId(int id) {
         return shiftRepository.getAllByActivityIdOrderByCreatedAt(id)
-                .map((s) -> conversionService.convert(s, ShiftModel.class))
+                .map((s) -> conversionService.convert(s, ShiftListModel.class))
                 .collect(Collectors.toList());
     }
 

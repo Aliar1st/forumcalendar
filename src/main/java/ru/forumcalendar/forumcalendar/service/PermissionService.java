@@ -1,8 +1,25 @@
 package ru.forumcalendar.forumcalendar.service;
 
-import org.springframework.security.core.Authentication;
-
 public interface PermissionService {
 
-    String identifyUser(Authentication auth, int id, String type, String perm);
+    Identifier identifyUser(int activityId);
+
+    enum Identifier {
+        ADMIN,
+        MODERATOR,
+        USER;
+
+        public String getValue() {
+            switch (this) {
+                case ADMIN: {
+                    return "isAdmin";
+                }
+                case MODERATOR: {
+                    return "isModerator";
+                }
+                default:
+                    return "isJustUser";
+            }
+        }
+    }
 }

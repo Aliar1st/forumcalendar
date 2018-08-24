@@ -1,8 +1,29 @@
 <!--suppress ThymeleafVariablesResolveInspection -->
 
-<form id="editTeamNameForm" th:action="@{~/team/__${teamId}__/editName}" method="POST" xmlns:th="http://www.thymeleaf.org/">
-    <input th:name="teamName" th:value="${teamName}" placeholder="Новое имя команды">
-    <button type="button">Change name</button>
-    <button type="reset">Close edit name form</button>
-</form>
+<!--<form id="editTeamNameForm" th:action="@{~/team/__${teamId}__/editName}" method="POST" xmlns:th="http://www.thymeleaf.org/">-->
+    <!--<input th:name="teamName" th:value="${teamName}" placeholder="Новое имя команды">-->
+    <!--<button type="button">Change name</button>-->
+    <!--<button type="reset">Close edit name form</button>-->
+<!--</form>-->
 
+<form id="editTeamNameForm" class="modal-dialog modal-dialog-centered"
+      th:action="@{~/team/__${teamId}__/editName}" method="POST" xmlns:th="http://www.thymeleaf.org/">
+    <div class="modal-content  modal-edit-team">
+        <div class="modal-header">
+            <h4>Редактировать название</h4>
+            <button type="reset" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input th:name="teamName" th:value="${teamName}"
+                   type="text" class="form-control"
+                   placeholder="Название команды"
+                   aria-label="Username"
+                   aria-describedby="basic-addon1">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Сохранить</button>
+        </div>
+    </div>
+</form>

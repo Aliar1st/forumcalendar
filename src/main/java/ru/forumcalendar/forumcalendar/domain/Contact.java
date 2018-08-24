@@ -26,6 +26,6 @@ public class Contact extends AuditModel {
     @JoinColumn(nullable = false)
     private User user;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String link;
 }

@@ -3,26 +3,46 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
       xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Entrance</title>
+    <title>Выберите мероприятие</title>
 </head>
 <body>
 <div layout:fragment="content">
+    <div class="container-fluid wrapper choosing-div">
+        <div class="header-app">
+            <a th:href="@{/logout}">
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
+            </a>
 
-    <form th:action="@{2}" th:object="${choosingActivityForm}" method="POST">
-        <label>Мероприятие
-            <select name="activityId">
-                <option value="0" selected>Выберите мероприятие</option>
-                <option th:each="activity: ${activities}"
-                        th:value="${activity.id}"
-                        th:text="${activity.name}">
-                </option>
-            </select>
-            <label th:if="${entranceError != null}"
-                   th:errors="${entranceError}">error
+                <h2 th:text="|Выберите форум|" class="choose-h2"></h2>
+
+        </div>
+        <form th:action="@{/entrance/2}" th:object="${choosingActivityForm}" method="POST">
+            <div class="wrapper-cards">
+
+                <div class="btn-group" data-toggle="buttons">
+                    <th:block th:each="activity:${activities}">
+                        <label class="btn col-lg-12 choose-card">
+                            <input th:value="${activity.id}" th:field="*{activityId}" type="radio" hidden>
+                            <div class="card-body">
+                                <div class="col-3 col-lg-3">
+                                    <img  class="img-activity" th:src="@{/public/__${activity.photoUrl}__}" />
+                                </div>
+                                <div class="col-9 col-lg-9">
+                                    <h5 th:text="|Форум ${activity.name}|" class="card-title"></h5>
+                                    <img  class="map-icon place-line" src="/static/images/map-icon.svg"/>
+                                    <p th:text="${activity.place}" class="card-text info-date-shift place-line"></p>
+                                </div>
+                            </div>
+                        </label>
+                    </th:block>
+                </div>
+            </div>
+            <label th:if="${error!=null}"
+                   th:text="${error}">error
             </label>
-        </label>
-        <button type="submit">Далее</button>
-    </form>
+            <button type="submit" class="btn btn-next">Дальше</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

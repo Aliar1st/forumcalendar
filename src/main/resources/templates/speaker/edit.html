@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Edit speaker</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid wrapper">
+        <form th:action="@{edit}" th:object="${speakerForm}" method="POST">
+            <div class="header-personal  header-settings">
+                <a onclick="history.back();" class="link">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <img class="img-profile img-edit" th:src="@{/public/__${speakerForm.photoUrl}__}"/>
+                <img class="img-profile mask-img" src="/static/images/mask-img.png"/>
+                <input th:field="*{photo}" type="file" hidden>
+                <button type="submit">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="content-personal edit-personal">
+                <label th:if="${#fields.hasErrors('photo')}"
+                       th:errors="*{photo}">error
+                </label>
+                <div class="forum-info">
+                    <input th:field="*{firstName}" type="text" class="form-control"
+                           placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}">error
+                    </label>
+
+                    <input th:field="*{lastName}" type="text" class="form-control"
+                           placeholder="Фамилия" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}">error
+                    </label>
+
+                    <input th:field="*{link}" type="text" class="form-control"
+                           placeholder="Ссылка" aria-label="Username" aria-describedby="basic-addon1">
+                    <label th:if="${#fields.hasErrors('link')}"
+                           th:errors="*{link}">error
+                    </label>
+
+                    <textarea th:field="*{description}" type="text" class="form-control col-10"
+                              placeholder="Описание"></textarea>
+                    <label th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}">error
+                    </label>
+
+                    <label th:if="${#fields.hasErrors('activityId')}"
+                           th:errors="*{activityId}">error
+                    </label>
+                    <input type="hidden" th:field="*{activityId}">
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!--<form th:action="@{edit}" th:object="${speakerForm}" method="POST">-->
+        <!--<p>-->
+            <!--<label>Имя-->
+                <!--<input th:field="*{firstName}" type="text">-->
+                <!--<label th:if="${#fields.hasErrors('firstName')}"-->
+                       <!--th:errors="*{firstName}">error-->
+                <!--</label>-->
+            <!--</label>-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--<label>Фамилия-->
+                <!--<input th:field="*{lastName}" type="text">-->
+                <!--<label th:if="${#fields.hasErrors('lastName')}"-->
+                       <!--th:errors="*{lastName}">error-->
+                <!--</label>-->
+            <!--</label>-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--<label>Ссылка-->
+                <!--<input th:field="*{link}" type="text">-->
+                <!--<label th:if="${#fields.hasErrors('link')}"-->
+                       <!--th:errors="*{link}">error-->
+                <!--</label>-->
+            <!--</label>-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--<label>Описание-->
+                <!--<input th:field="*{description}" type="text">-->
+                <!--<label th:if="${#fields.hasErrors('description')}"-->
+                       <!--th:errors="*{description}">error-->
+                <!--</label>-->
+            <!--</label>-->
+        <!--</p>-->
+        <!--<label th:if="${#fields.hasErrors('activityId')}"-->
+               <!--th:errors="*{activityId}">error-->
+        <!--</label>-->
+        <!--<input type="hidden" th:field="*{activityId}">-->
+        <!--<input type="submit" value="Обновить">-->
+    <!--</form>-->
+</div>
+</body>
+</html>

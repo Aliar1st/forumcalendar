@@ -7,53 +7,61 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form th:action="@{/team_events/__${teamEventForm.id}__/edit}" th:object="${teamEventForm}" method="POST">
-        <p>
-            <label>Название
-                <input th:field="*{name}" type="text">
+    <div class="container-fluid wrapper">
+        <form th:action="@{/team_events/add}" th:object="${teamEventForm}" method="POST">
+            <div class="header-personal header-edit">
+                <a th:href="@{/events/choosing_date}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <h4>Добавить событие</h4>
+                <button type="submit">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="content-personal add-event">
+
+                <input th:field="*{name}" type="text" class="form-control col-10" placeholder="Название события"
+                       aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('name')}"
                        th:errors="*{name}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата и время начала
-                <input th:field="*{startDatetime}" type="datetime-local">
-                <label th:if="${#fields.hasErrors('startDatetime')}"
-                       th:errors="*{startDatetime}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Дата и время конца
-                <input th:field="*{endDatetime}" type="datetime-local">
-                <label th:if="${#fields.hasErrors('endDatetime')}"
-                       th:errors="*{endDatetime}">error
-                </label>
-            </label>
-        </p>
-        <p>
-            <label>Место
-                <input th:field="*{place}" type="text">
+
+                <input th:field="*{place}" type="text" class="form-control col-10" placeholder="Место проведения"
+                       aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('place')}"
                        th:errors="*{place}">error
                 </label>
-            </label>
-        </p>
-        <p>
-            <label>Описание
-                <input th:field="*{description}" type="text">
+
+                <input th:field="*{startDatetime}" type="text" class="form-control col-10"
+                       placeholder="Дата и время начала"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('startDatetime')}"
+                       th:errors="*{startDatetime}">error
+                </label>
+
+                <input th:field="*{endDatetime}" type="text" class="form-control col-10"
+                       placeholder="Дата и время конца"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('endDatetime')}"
+                       th:errors="*{endDatetime}">error
+                </label>
+
+                <textarea th:field="*{description}" type="text" class="form-control col-10"
+                          placeholder="Описание события"></textarea>
                 <label th:if="${#fields.hasErrors('description')}"
                        th:errors="*{description}">error
                 </label>
+            </div>
+
+            <label th:if="${#fields.hasErrors('teamId')}"
+                   th:errors="*{teamId}">error
             </label>
-        </p>
-        <input type="hidden" th:field="*{teamId}">
-        <label th:if="${#fields.hasErrors('teamId')}"
-               th:errors="*{teamId}">error
-        </label>
-        <input type="submit" value="Обновить">
-    </form>
+            <input type="hidden" th:field="*{teamId}">
+        </form>
+    </div>
 </div>
 </body>
 </html>

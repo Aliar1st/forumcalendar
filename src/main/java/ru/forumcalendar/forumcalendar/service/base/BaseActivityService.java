@@ -1,5 +1,9 @@
 package ru.forumcalendar.forumcalendar.service.base;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
@@ -16,13 +20,17 @@ import ru.forumcalendar.forumcalendar.repository.ShiftRepository;
 import ru.forumcalendar.forumcalendar.service.ActivityService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class BaseActivityService implements ActivityService {
+
+    private EntityManager entityManager;
 
     private final ActivityRepository activityRepository;
     private final ShiftRepository shiftRepository;
@@ -33,12 +41,13 @@ public class BaseActivityService implements ActivityService {
 
     @Autowired
     public BaseActivityService(
-            ActivityRepository activityRepository,
+            EntityManager entityManager, ActivityRepository activityRepository,
             ShiftRepository shiftRepository,
             ActivityModeratorRepository activityModeratorRepository,
             @Qualifier("mvcConversionService") ConversionService conversionService,
             UserService userService
     ) {
+        this.entityManager = entityManager;
         this.activityRepository = activityRepository;
         this.shiftRepository = shiftRepository;
         this.activityModeratorRepository = activityModeratorRepository;
@@ -72,21 +81,27 @@ public class BaseActivityService implements ActivityService {
         activity.setName(activityForm.getName());
         activity.setUser(userService.getCurrentUser());
         activity.setDescription(activityForm.getDescription());
+        activity.setPlace(activityForm.getPlace());
         activity = activityRepository.save(activity);
 
-        List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
+        if (activityForm.getShiftForms() != null) {
+            List<Shift> shifts = new ArrayList<>(activityForm.getShiftForms().size());
 
-        for (ShiftForm sf : activityForm.getShiftForms()) {
-            Shift shift = shiftRepository.findById(sf.getId()).orElse(new Shift());
-            shift.setName(sf.getName());
-            shift.setStartDate(sf.getStartDate());
-            shift.setEndDate(sf.getEndDate());
-            shift.setActivity(activity);
-            shift.setDescription(sf.getDescription());
-            shifts.add(shift);
+            for (ShiftForm sf : activityForm.getShiftForms()) {
+                Shift shift = shiftRepository.findById(sf.getId()).orElse(new Shift());
+                shift.setName(sf.getName());
+                shift.setStartDate(sf.getStartDate());
+                shift.setEndDate(sf.getEndDate());
+                shift.setActivity(activity);
+                shift.setDescription(sf.getDescription());
+                shifts.add(shift);
+            }
+
+            shiftRepository.saveAll(shifts);
         }
-
-        shiftRepository.saveAll(shifts);
+        else {
+            shiftRepository.deleteByActivity_Id(activity.getId());
+        }
 
         return activity;
     }
@@ -98,6 +113,30 @@ public class BaseActivityService implements ActivityService {
         return activity;
     }
 
+
+    @Override
+    public List<ActivityModel> searchByName(String q) throws InterruptedException {
+
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        fullTextEntityManager.createIndexer().startAndWait();
+
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(Activity.class)
+                .get();
+
+        Query query = queryBuilder
+                .keyword()
+                .wildcard()
+                .onField("name")
+                .matching(q.toLowerCase())
+                .createQuery();
+
+        org.hibernate.search.jpa.FullTextQuery jpaQuery
+                = fullTextEntityManager.createFullTextQuery(query, Activity.class);
+
+        return convertActivities(jpaQuery.getResultList().stream());
+    }
 
     @Override
     public List<ActivityModel> getCurrentUserActivityModels() {
@@ -112,13 +151,18 @@ public class BaseActivityService implements ActivityService {
         User user = userService.getCurrentUser();
         Activity activity = get(id);
         ActivityModerator activityModerator = activityModeratorRepository.getByUserIdAndActivityId(user.getId(), id);
-        return activity.getUser().getId().equals(userService.getCurrentId()) ||
-                activityModerator != null ||
+        return activity.getUser().getId().equals(userService.getCurrentId()) || activityModerator != null ||
                 user.getRole().getId() == Role.ROLE_SUPERUSER_ID;
     }
 
     @Override
     public boolean hasPermissionToRead(int id) {
         return true;
+    }
+
+    private List<ActivityModel> convertActivities(Stream<Activity> speakers) {
+        return speakers
+                .map((t) -> conversionService.convert(t, ActivityModel.class))
+                .collect(Collectors.toList());
     }
 }

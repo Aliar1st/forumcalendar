@@ -1,42 +1,35 @@
-<!DOCTYPE html>
-<!--suppress ThymeleafVariablesResolveInspection -->
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layouts/app}"
-      xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <title>Activities</title>
-</head>
-<body>
-    <div layout:fragment="content">
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+      <!--layout:decorate="~{layouts/app}"-->
+      <!--xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+    <!--<title>Activities</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
 
-        <!--<label sec:authorize="hasRole('ROLE_SUPERUSER')">fsdfasfaf</label>-->
+    <!--<label>Forums</label>-->
+    <!--<input type="text"-->
+           <!--id="activity-search-input"-->
+           <!--autocomplete="off"-->
+           <!--autocorrect="off"-->
+           <!--autocapitalize="off"-->
+           <!--spellcheck="false"-->
+           <!--placeholder="поиск"><br/>-->
+    <!--<div class="forums-container">-->
+        <!--<div th:replace="activity/_activities_list :: activities"></div>-->
+    <!--</div>-->
 
-        <div class="forums-container">
-            <label>Forums</label>
-            <div th:each="forum, stat : ${forums}" class="forum" >
-                <input type="hidden" name="teamId" th:value="${forum.id}">
-                <label th:text="${forum.name}"></label><br/>
-                <label th:text="${forum.description}"></label><br/>
-                <label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>
-            </div>
-        </div>
+    <!--<a th:href="@{/activities/add}">Добавить форум</a>-->
 
-        <a th:href="@{/editor/activity/add}">Добавить форум</a>
+<!--</div>-->
 
-
-        <!--<div th:replace="kfc/_teams :: teams" ></div>-->
-
-        <!--<div th:replace="kfc/_speakers :: speakers" ></div>-->
-
-        <!--<div th:replace="kfc/_forums :: forums" ></div>-->
-
-    </div>
-
-    <div layout:fragment="scripts">
-
-    </div>
-</body>
-</html>
+<!--<div layout:fragment="scripts">-->
+    <!--<script type="text/javascript" src="/static/scripts/search.js"></script>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
 
 
 <!--<div th:if="${!superuser}" class="teams-container">-->
@@ -53,3 +46,53 @@
 <!--<label>Forums</label>-->
 <!--<div th:replace="kfc/_forums :: forums" ></div>-->
 <!--</div>-->
+
+
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Форумы</title>
+    <meta charset='UTF-8'>
+</head>
+<body>
+
+<div class="container-fluid wrapper shedule-wrapper" layout:fragment="content">
+    <div class="header-personal header-edit header-forums">
+        <a onclick="history.back();" class="link">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <h2 class="choose-h2">Форумы</h2>
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <form class="search-div row">
+            <div class="col-lg-12 col-12">
+                <input type="search"
+                       id="activity-search-input"
+                       class="form-control"
+                       autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       placeholder="Поиск..."><br/>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="content-personal add-event forums-div forums-container">
+        <div th:replace="activity/_activities_list :: activities"></div>
+    </div>
+
+    <a th:href="@{/activities/add}" class="plus-add-event plus-add-forum">
+        <i class="fa fa-plus-circle " aria-hidden="true"></i>
+    </a>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/search.js"></script>
+</div>
+</body>
+</html>

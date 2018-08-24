@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TeamExist {
 
-    String message() default "Team does not exist";
+    String message() default "Team does not exist... You aren't exist, your reality is illusion and your life is just a joke.";
 
     Class<?>[] groups() default {};
 

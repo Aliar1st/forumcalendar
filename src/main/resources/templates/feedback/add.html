@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/app}"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Оставить отзыв</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid wrapper">
+        <form th:action="@{/feedback}" th:object="${feedbackForm}" method="POST">
+            <div class="header-personal header-edit">
+                <a th:href="@{/menu}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <h4>Оставить отзыв</h4>
+                <button type="submit">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="content-personal add-event">
+
+                <input th:field="*{title}" type="text" class="form-control col-10" placeholder="Жалоба или предложение"
+                       aria-label="Username" aria-describedby="basic-addon1">
+                <label th:if="${#fields.hasErrors('title')}"
+                       th:errors="*{title}">error
+                </label>
+
+                <input th:field="*{theme}" type="text" class="form-control col-10" placeholder="Тема"
+                       aria-label="Username" aria-describedby="basic-addon1">
+                <label th:if="${#fields.hasErrors('theme')}"
+                       th:errors="*{theme}">error
+                </label>
+
+                <textarea th:field="*{feedback}" type="text" class="form-control col-10"
+                          placeholder="Отзыв"></textarea>
+                <label th:if="${#fields.hasErrors('feedback')}"
+                       th:errors="*{feedback}">error
+                </label>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
