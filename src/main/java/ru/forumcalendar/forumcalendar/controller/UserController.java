@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Activity;
+import ru.forumcalendar.forumcalendar.domain.Contact;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.domain.Team;
+import ru.forumcalendar.forumcalendar.model.ContactModel;
 import ru.forumcalendar.forumcalendar.model.UserModel;
 import ru.forumcalendar.forumcalendar.model.form.UserForm;
 import ru.forumcalendar.forumcalendar.service.ContactTypeService;
@@ -75,7 +77,18 @@ public class UserController {
         model.addAttribute("activity", activity.getName());
 
         model.addAttribute("isMyPage", id.equals(userService.getCurrentId()));
-        model.addAttribute("user", conversionService.convert(userService.get(id), UserModel.class));
+
+        UserModel user = conversionService.convert(userService.get(id), UserModel.class);
+        model.addAttribute("user", user);
+
+        boolean hasSocial = false;
+        for (ContactModel cm : user.getContacts()) {
+            if (cm.getLink() != null && !cm.getLink().isEmpty()) {
+                hasSocial = true;
+                break;
+            }
+        }
+        model.addAttribute("hasSocial", hasSocial);
 
         return HTML_FOLDER + "index";
     }

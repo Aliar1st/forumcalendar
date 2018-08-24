@@ -136,7 +136,7 @@ public class BaseUserService implements UserService {
 
         user.setPhoto(photo);
 
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         Contact c1 = new Contact();
         c1.setUser(user);
@@ -144,7 +144,7 @@ public class BaseUserService implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 1)));
         Contact c2 = new Contact();
         c2.setUser(user);
-        c2.setContactType(contactTypeRepository.findById(1)
+        c2.setContactType(contactTypeRepository.findById(2)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find contact type with id " + 2)));
 
         contactRepository.saveAll(Arrays.asList(c1, c2));
