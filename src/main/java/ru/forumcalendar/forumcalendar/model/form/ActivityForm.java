@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 import ru.forumcalendar.forumcalendar.domain.Activity;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 
 import javax.persistence.Column;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,9 +25,21 @@ public class ActivityForm {// implements ResourceForm<Activity> {
 
     private int id;
 
+    private String photoUrl;
+
+    private MultipartFile photo;
+
     @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters or too short")
     private String name;
+
+    @NotNull(message = "Enter start date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+
+    @NotNull(message = "Enter end date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
     @Size(max = 50, message = "Name is too long")
     @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Place contains invalid characters or too short")

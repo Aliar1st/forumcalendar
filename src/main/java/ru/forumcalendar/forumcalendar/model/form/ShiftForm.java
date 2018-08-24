@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.validation.annotation.DateTimeOrder;
 
@@ -21,6 +22,10 @@ import java.time.LocalDate;
 public class ShiftForm {
 
     private int id;
+
+    private String photoUrl;
+
+    private MultipartFile photo;
 
     //@ActivityExist
     private int activityId;
