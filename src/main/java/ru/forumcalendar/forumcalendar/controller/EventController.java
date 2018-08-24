@@ -163,7 +163,7 @@ public class EventController {
             Model model,
             @RequestParam int activityId
     ) {
-        model.addAttribute("events", eventService.getEventModelsByActivityId(activityId));
+        model.addAttribute("events", eventService.setUserSubscribes(eventService.getEventModelsByActivityId(activityId)));
         model.addAttribute("activityId", activityId);
         return HTML_FOLDER + "activityIndex";
     }

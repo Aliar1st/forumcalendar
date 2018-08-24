@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
-import ru.forumcalendar.forumcalendar.service.PermissionService;
-import ru.forumcalendar.forumcalendar.service.SpeakerService;
-import ru.forumcalendar.forumcalendar.service.TeamService;
-import ru.forumcalendar.forumcalendar.service.UserService;
+import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,6 +23,7 @@ public class SpeakerController {
     private static final String HTML_FOLDER = "speaker/";
     private static final String REDIRECT_ROOT_MAPPING = "redirect:/speaker/speakers?activityId=";
 
+    private final EventService eventService;
     private final TeamService teamService;
     private final UserService userService;
     private final SpeakerService speakerService;
@@ -37,12 +35,14 @@ public class SpeakerController {
 
     @Autowired
     public SpeakerController(
+            EventService eventService,
             TeamService teamService,
             UserService userService,
             SpeakerService speakerService,
             PermissionService permissionService,
             SpeakerModelConverter speakerModelConverter,
             PermissionEvaluator permissionEvaluator) {
+        this.eventService = eventService;
         this.teamService = teamService;
         this.userService = userService;
         this.speakerService = speakerService;
@@ -63,7 +63,7 @@ public class SpeakerController {
 
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("speaker", speaker);
-        model.addAttribute("events", speaker.getEvents());
+        model.addAttribute("events", eventService.setUserSubscribes(speaker.getEvents()));
 
         return HTML_FOLDER + "speaker";
     }

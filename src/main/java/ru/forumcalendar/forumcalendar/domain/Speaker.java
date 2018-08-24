@@ -9,6 +9,7 @@ import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Parameter;
+import ru.forumcalendar.forumcalendar.domain.bridges.SpeakerActivityFieldBridge;
 
 import javax.persistence.*;
 import java.util.HashSet;

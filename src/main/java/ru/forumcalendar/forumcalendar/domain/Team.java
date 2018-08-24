@@ -7,8 +7,8 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
+import ru.forumcalendar.forumcalendar.domain.bridges.TeamShiftFieldBridge;
 
 import javax.persistence.*;
 import java.util.HashSet;

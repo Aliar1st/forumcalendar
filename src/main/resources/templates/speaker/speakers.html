@@ -1,51 +1,88 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;suppress ThymeleafVariablesResolveInspection &ndash;&gt;-->
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--layout:decorate="~{layouts/app}"-->
+<!--xmlns:th="http://www.thymeleaf.org/"-->
+<!--&gt;-->
+<!--<head>-->
+<!--<title>Speakers</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+
+<!--<label>Speakers</label>-->
+<!--<input type="text"-->
+<!--id="speaker-search-input"-->
+<!--autocomplete="off"-->
+<!--autocorrect="off"-->
+<!--autocapitalize="off"-->
+<!--spellcheck="false"-->
+<!--placeholder="поиск"><br/>-->
+<!--<input type="hidden" name="activityId" th:value="${curActivityId}">-->
+<!--<div class="speakers-container">-->
+<!--<div th:replace="speaker/_speakers_list :: speakers"></div>-->
+<!--</div>-->
+
+<!--<a th:if="${isModerator} or ${isAdmin}"-->
+<!--th:href="@{'/speaker/add?activityId='+__${curActivityId}__}">Добавить спикера</a>-->
+
+<!--</div>-->
+
+<!--<div layout:fragment="scripts">-->
+<!--<script type="text/javascript" src="/static/scripts/search.js"></script>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/app}"
-      xmlns:th="http://www.thymeleaf.org/"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <title>Speakers</title>
+    <title>Спикеры</title>
+    <meta charset='UTF-8'>
 </head>
 <body>
-    <div layout:fragment="content">
 
-        <label>Speakers</label>
-        <input type="text"
-               id="speaker-search-input"
-               autocomplete="off"
-               autocorrect="off"
-               autocapitalize="off"
-               spellcheck="false"
-               placeholder="поиск"><br/>
-        <input type="hidden" name="activityId" th:value="${curActivityId}">
-        <div class="speakers-container">
-            <div th:replace="speaker/_speakers_list :: speakers" ></div>
-        </div>
+<div class="container-fluid wrapper shedule-wrapper" layout:fragment="content">
 
-        <a th:if="${isModerator} or ${isAdmin}"
-           th:href="@{'/speaker/add?activityId='+__${curActivityId}__}">Добавить спикера</a>
+    <div class="header-personal header-edit ">
+        <a onclick="history.back();" class="link">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <h2 class="choose-h2">Спикеры</h2>
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <form class="search-div row">
+            <div class="col-lg-12 col-12">
+                <input type="search"
+                       id="speaker-search-input"
+                       class="form-control"
+                       autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       placeholder="Поиск..."><br/>
+                <input type="hidden" name="activityId" th:value="${curActivityId}">
+            </div>
 
+        </form>
     </div>
 
-    <div layout:fragment="scripts">
-        <script type="text/javascript" src="/static/scripts/search.js"></script>
+    <div class="speakers-container content-personal add-event forums-div speakers-wrapper">
+        <div th:replace="speaker/_speakers_list :: speakers"></div>
     </div>
+
+    <a th:if="${isModerator} or ${isAdmin}"
+       th:href="@{'/speaker/add?activityId='+__${curActivityId}__}"
+       class="plus-add-event plus-add-forum">
+        <i class="fa fa-plus-circle " aria-hidden="true"></i>
+    </a>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script type="text/javascript" src="/static/scripts/search.js"></script>
+</div>
 </body>
 </html>
-
-
-<!--<div th:if="${!superuser}" class="teams-container">-->
-<!--<label>Teams</label>-->
-<!--<div th:replace="kfc/_teams :: teams" ></div>-->
-<!--</div>-->
-
-<!--<div th:if="${!superuser}" class="speakers-container">-->
-<!--<label>Speakers</label>-->
-<!--<div th:replace="kfc/_speakers :: speakers" ></div>-->
-<!--</div>-->
-
-<!--<div th:if="${superuser}" class="forums-container">-->
-<!--<label>Forums</label>-->
-<!--<div th:replace="kfc/_forums :: forums" ></div>-->
-<!--</div>-->

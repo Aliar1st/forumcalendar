@@ -243,7 +243,8 @@ public class TeamController {
     private String generateLink(
             @RequestParam int teamRoleId,
             @RequestParam int teamId
-    ) {
+    ) throws InterruptedException {
+        Thread.sleep(5000);
         return linkService.generateLink(teamId, teamRoleId);
     }
 

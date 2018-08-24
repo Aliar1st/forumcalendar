@@ -1,16 +1,17 @@
-package ru.forumcalendar.forumcalendar.domain;
+package ru.forumcalendar.forumcalendar.domain.bridges;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexableField;
 import org.hibernate.search.bridge.LuceneOptions;
 import org.hibernate.search.bridge.TwoWayFieldBridge;
+import ru.forumcalendar.forumcalendar.domain.Shift;
 
-public class SpeakerActivityFieldBridge implements TwoWayFieldBridge {
-
+public class TeamShiftFieldBridge implements TwoWayFieldBridge {
     @Override
     public void set(String name, Object value, Document document, LuceneOptions luceneoptions) {
-        Activity activity = (Activity) value;
+        Shift shift = (Shift) value;
         luceneoptions.addFieldToDocument(
-                name, Integer.toString(activity.getId()), document
+                name, Integer.toString(shift.getId()), document
         );
     }
 
@@ -20,7 +21,7 @@ public class SpeakerActivityFieldBridge implements TwoWayFieldBridge {
     }
 
     @Override
-    public String objectToString(Object activityId) {
-        return Integer.toString((int) activityId);
+    public String objectToString(Object shiftId) {
+        return Integer.toString((int)shiftId);
     }
 }

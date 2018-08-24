@@ -11,7 +11,7 @@
 
     <div class="container-fluid wrapper shedule-wrapper ">
         <div class=" header-personal header-edit header-shedule">
-            <a th:href="@{/events/choosing_date}">
+            <a onclick="history.back();" class="link">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             <h2 class="choose-h2">Расписание</h2>
@@ -145,7 +145,7 @@
 
 </div>
 <div layout:fragment="scripts">
-    <script type="text/javascript" src="/static/scripts/events.js"></script>
+    <script type="text/javascript" src="/static/scripts/like_dislike.js"></script>
     <script type="text/javascript" src="/static/scripts/favorites.js"></script>
 </div>
 </body>

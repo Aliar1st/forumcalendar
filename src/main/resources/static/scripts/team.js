@@ -32,13 +32,19 @@ $(function () {
     });
 
     $(getLinkButton).on('click', function (event) {
+        var timeId = setTimeout(function () {
+                $('.modal-body').html('<img id="link-preload" src="/static/images/line-load.svg"/>');
+            }, 200);
+
         $.ajax({
             type: 'POST',
             url: '/team/getLink',
             data: 'teamRoleId=3&teamId=' + teamId,
             success: function (data) {
+                $('.modal-body').html('<input id="inviteLink" class="form-control" readonly>');
                 $("#inviteLink").val(data);
                 new ClipboardJS('.copy-link');
+                clearTimeout(timeId);
             }
         });
     });
@@ -89,7 +95,6 @@ $(function () {
             $().toastmessage('showWarningToast', "Пустое имя команды!");
         }
     });
-
 
     // var teamNameField = $("#teamName");
     // var editTeamNameButton = $("#editTeamName");
@@ -197,7 +202,6 @@ $(function () {
     //     $(editTeamNameForm).remove();
     //     editNameFormFlag = false;
     // });
-
 });
 
 
