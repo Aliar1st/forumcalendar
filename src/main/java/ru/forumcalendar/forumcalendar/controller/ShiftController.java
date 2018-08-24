@@ -43,6 +43,8 @@ public class ShiftController {
             @RequestParam int activityId,
             Model model
     ) {
+
+
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(activityId));
         model.addAttribute("activityId", activityId);
         model.addAttribute("activityName", activityService.get(activityId).getName());

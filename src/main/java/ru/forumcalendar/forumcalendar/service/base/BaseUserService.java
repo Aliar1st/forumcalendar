@@ -27,10 +27,7 @@ import ru.forumcalendar.forumcalendar.service.UserService;
 import javax.persistence.EntityManager;
 import java.io.File;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -43,6 +40,7 @@ public class BaseUserService implements UserService {
 
     private EntityManager entityManager;
 
+    private final ConversionService conversionService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ContactRepository contactRepository;

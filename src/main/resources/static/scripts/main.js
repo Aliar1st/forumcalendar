@@ -71,7 +71,7 @@ $(function() {
         $("#modalDopMenu").modal('show');
     });
 
-    $("#editTeam").on( 'click', function() {
+    $("#editTeamName").on( 'click', function() {
         // Открыть модальное окно с id="exampleModal"
         $("#editModalTeam").modal('show');
     });

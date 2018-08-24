@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper">
         <form th:action="@{edit}" th:object="${speakerForm}" method="POST">
             <div class="header-personal  header-settings">
-                <a th:href="@{/hz}">
+                <a onclick="history.back();" class="link">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <img class="img-profile img-edit" th:src="@{/public/__${speakerForm.photoUrl}__}"/>

@@ -244,7 +244,6 @@ public class TeamController {
             @RequestParam int teamRoleId,
             @RequestParam int teamId
     ) throws InterruptedException {
-        Thread.sleep(5000);
         return linkService.generateLink(teamId, teamRoleId);
     }
 

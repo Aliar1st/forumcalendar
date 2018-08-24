@@ -19,7 +19,8 @@ INSERT INTO `activities` (`id`, `created_at`, `updated_at`, `description`, `plac
 (15, '2018-08-17 11:46:22', '2018-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', '106725778006320436882');
 
 INSERT INTO `contacts` (`id`, `created_at`, `updated_at`, `link`, `contact_type_id`, `user_id`) VALUES
-(10, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://vk.com/aliarfirst', 1, '106725778006320436882');
+(10, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://vk.com/aliarfirst', 1, '106725778006320436882'),
+(11, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://asdfasdf/aliarfirst', 2, '106725778006320436882');
 
 
 INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date`, `name`, `start_date`, `activity_id`) VALUES

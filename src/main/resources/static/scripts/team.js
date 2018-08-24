@@ -56,7 +56,6 @@ $(function () {
 
 
     $(getLinkButton).on('click', function (event) {
-
         $("#copyLinkModal").modal('show');
     });
 

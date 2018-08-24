@@ -9,7 +9,7 @@
 <div layout:fragment="content">
     <div class="container-fluid wrapper shedule-wrapper">
         <div class="header-personal header-edit header-forums header-shifts">
-            <a th:href="@{/activities/__${activityId}__}">
+            <a onclick="history.back();" class="link">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             <h2 th:text="${activityName}" class="choose-h2">Территория смыслов</h2>
