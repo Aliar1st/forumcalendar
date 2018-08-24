@@ -7,8 +7,8 @@
     <meta charset='UTF-8'>
 </head>
 <body>
-<div class="container-fluid wrapper" layout:fragment="content">
-<div class="container-fluid wrapper">
+
+<div class="container-fluid wrapper"  layout:fragment="content">
 
     <div class="header-personal">
         <a onclick="history.back();" class="link">
@@ -24,16 +24,19 @@
 
     <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="true">Участники</a>
+            <a class="nav-link active" id="members-tab" data-toggle="tab" href="#members" role="tab"
+               aria-controls="members" aria-selected="true">Участники</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="volunteers-tab" data-toggle="tab" href="#volunteers" role="tab" aria-controls="volunteers" aria-selected="false">Волонтеры</a>
+            <a class="nav-link" id="volunteers-tab" data-toggle="tab" href="#volunteers" role="tab"
+               aria-controls="volunteers" aria-selected="false">Волонтеры</a>
         </li>
 
     </ul>
 
     <div class="tab-content" id="myTabContent">
-        <div class="content-personal add-event forums-div tab-pane show active"  id="members" role="tabpanel" aria-labelledby="members-tab">
+        <div class="content-personal add-event forums-div tab-pane show active" id="members" role="tabpanel"
+             aria-labelledby="members-tab">
             <div th:each="user:${users}" class="member-line col-11">
                 <a th:href="@{/user/__${user.id}__}">
                     <img class="img-profile img-in-team" th:src="@{/public/__${user.photo}__}"/>
@@ -42,7 +45,8 @@
             </div>
         </div>
 
-        <div class="content-personal add-event forums-div tab-pane"  id="volunteers" role="tabpanel" aria-labelledby="volunteers-tab">
+        <div class="content-personal add-event forums-div tab-pane" id="volunteers" role="tabpanel"
+             aria-labelledby="volunteers-tab">
             <div th:each="curator:${curators}" class="member-line col-11">
                 <a th:href="@{/user/__${curator.id}__}">
                     <img class="img-profile img-in-team" th:src="@{/public/__${curator.photo}__}"/>
@@ -53,60 +57,60 @@
     </div>
 
 </div>
+<!--<div class="container-fluid wrapper" >-->
 
-    <!--<div class="header-personal header-edit header-team">-->
-        <!--<a onclick="history.back();" class="link">-->
-            <!--<i class="fa fa-arrow-left" aria-hidden="true"></i>-->
-        <!--</a>-->
+    <!--&lt;!&ndash;<div class="header-personal header-edit header-team">&ndash;&gt;-->
+    <!--&lt;!&ndash;<a onclick="history.back();" class="link">&ndash;&gt;-->
+    <!--&lt;!&ndash;<i class="fa fa-arrow-left" aria-hidden="true"></i>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
 
-        <!--<h2 id="teamName" th:text="${teamName}" class="choose-h2" >Команда 28</h2>-->
+    <!--&lt;!&ndash;<h2 id="teamName" th:text="${teamName}" class="choose-h2" >Команда 28</h2>&ndash;&gt;-->
 
-        <!--<input type="hidden" name="teamId" th:value="${teamId}">-->
+    <!--&lt;!&ndash;<input type="hidden" name="teamId" th:value="${teamId}">&ndash;&gt;-->
 
-        <!--&lt;!&ndash;FIXME нужно модальное окно для ссылки&ndash;&gt;-->
-        <!--<i id="getLink" data-clipboard-target="#hiddenLink" th:if="${isCurator} or ${isCaptain} or ${isMember}" class="fa fa-share-alt link" aria-hidden="true" ></i>-->
+    <!--&lt;!&ndash;<i id="getLink" data-clipboard-target="#hiddenLink" th:if="${isCurator} or ${isCaptain} or ${isMember}" class="fa fa-share-alt link" aria-hidden="true" ></i>&ndash;&gt;-->
 
-        <!--<a id="editTeamName" class="link" th:if="${isCurator} or ${isModerator} or ${isAdmin}">-->
-            <!--<i id="editTeam" class="fa fa-pencil"></i>-->
-        <!--</a>-->
+    <!--&lt;!&ndash;<a id="editTeamName" class="link" th:if="${isCurator} or ${isModerator} or ${isAdmin}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<i id="editTeam" class="fa fa-pencil"></i>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
 
-        <!--<i id="becomeCaptain" th:if="${isCaptain} or ${isMember}" class="fa fa-graduation-cap link" aria-hidden="true"></i>-->
+    <!--&lt;!&ndash;<i id="becomeCaptain" th:if="${isCaptain} or ${isMember}" class="fa fa-graduation-cap link" aria-hidden="true"></i>&ndash;&gt;-->
 
-    <!--</div>-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-    <!--<div class="content-personal team-div">-->
-        <!--<a th:href="@{/user/__${user.id}__}" th:each="user, stat : ${teamUsers}" class="team-member">-->
-            <!--<div class="member-line col-11">-->
-                <!--<input type="hidden" name="userId" th:value="${user.id}">-->
-                <!--<img class="img-profile img-in-team" th:src="@{/public/__${user.photo}__}" alt="profile photo"/>-->
-                <!--<h4 th:text="|${user.firstName} ${user.lastName}|">Иван Иванов</h4>-->
-                <!--<i th:if="${user.teamRole.equals('Curator')}" class="fa fa-smile-o" aria-hidden="true"></i>-->
-                <!--<i th:if="${user.teamRole.equals('Captain')}" class="fa fa-star" aria-hidden="true"></i>-->
-            <!--</div>-->
-        <!--</a>-->
-    <!--</div>-->
+    <!--&lt;!&ndash;<div class="content-personal team-div">&ndash;&gt;-->
+    <!--&lt;!&ndash;<a th:href="@{/user/__${user.id}__}" th:each="user, stat : ${teamUsers}" class="team-member">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="member-line col-11">&ndash;&gt;-->
+    <!--&lt;!&ndash;<input type="hidden" name="userId" th:value="${user.id}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<img class="img-profile img-in-team" th:src="@{/public/__${user.photo}__}" alt="profile photo"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<h4 th:text="|${user.firstName} ${user.lastName}|">Иван Иванов</h4>&ndash;&gt;-->
+    <!--&lt;!&ndash;<i th:if="${user.teamRole.equals('Curator')}" class="fa fa-smile-o" aria-hidden="true"></i>&ndash;&gt;-->
+    <!--&lt;!&ndash;<i th:if="${user.teamRole.equals('Captain')}" class="fa fa-star" aria-hidden="true"></i>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-    <!--<div class="modal" id="editModalTeam"></div>-->
+    <!--&lt;!&ndash;<div class="modal" id="editModalTeam"></div>&ndash;&gt;-->
 
-    <!--<div class="modal " id="copyLinkModal">-->
-        <!--<div class="modal-dialog modal-dialog-centered">-->
-            <!--<div class="modal-content  modal-edit-team">-->
-                <!--<div class="modal-header">-->
-                    <!--<h4>Копировать ссылку</h4>-->
-                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                        <!--<span aria-hidden="true">&times;</span>-->
-                    <!--</button>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<input id="inviteLink" class="form-control" readonly>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="reset" class="copy-link btn btn-primary" data-clipboard-target="#inviteLink">Скопировать</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-</div>
+    <!--&lt;!&ndash;<div class="modal " id="copyLinkModal">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal-dialog modal-dialog-centered">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal-content  modal-edit-team">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal-header">&ndash;&gt;-->
+    <!--&lt;!&ndash;<h4>Копировать ссылку</h4>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-label="Close">&ndash;&gt;-->
+    <!--&lt;!&ndash;<span aria-hidden="true">&times;</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal-body">&ndash;&gt;-->
+    <!--&lt;!&ndash;<input id="inviteLink" class="form-control" readonly>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button type="reset" class="copy-link btn btn-primary" data-clipboard-target="#inviteLink">Скопировать</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
 
 <div layout:fragment="scripts">
     <script type="text/javascript" src="/static/scripts/clipboard.min.js"></script>

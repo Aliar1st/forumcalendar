@@ -43,7 +43,6 @@ public class BaseUserService implements UserService {
 
     private EntityManager entityManager;
 
-    private final ConversionService conversionService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ContactRepository contactRepository;
