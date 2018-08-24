@@ -114,6 +114,13 @@ public class BaseSpeakerService implements SpeakerService {
     }
 
     @Override
+    public List<SpeakerModel> getSpeakerModelsByShiftId(int id) {
+        return speakerRepository.getAllByShiftId(id)
+                .map((s) -> conversionService.convert(s, SpeakerModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<SpeakerModel> searchByName(String q, int activityId) throws InterruptedException {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         fullTextEntityManager.createIndexer().startAndWait();

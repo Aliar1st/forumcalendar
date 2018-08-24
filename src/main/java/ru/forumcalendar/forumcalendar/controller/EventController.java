@@ -21,6 +21,7 @@ import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -147,13 +148,24 @@ public class EventController {
         return HTML_FOLDER + "index";
     }
 
-    @GetMapping("/index")
-    public String indexActivity(
+    @GetMapping("/shiftIndex")
+    public String shiftIndex(
+            Model model,
+            @RequestParam int shiftId
+    ) {
+        model.addAttribute("events", eventService.getEventModelsByShiftId(shiftId));
+        model.addAttribute("shiftId", shiftId);
+        return HTML_FOLDER + "shiftIndex";
+    }
+
+    @GetMapping("/activityIndex")
+    public String activityIndex(
             Model model,
             @RequestParam int activityId
     ) {
         model.addAttribute("events", eventService.getEventModelsByActivityId(activityId));
-        return HTML_FOLDER + "???";
+        model.addAttribute("activityId", activityId);
+        return HTML_FOLDER + "activityIndex";
     }
 
     @PreAuthorize("hasPermission(#id, 'Event', 'r')")
@@ -194,6 +206,30 @@ public class EventController {
 
         model.addAttribute(eventForm);
         model.addAttribute("speakers", speakers);
+        model.addAttribute("isShift", false);
+
+        return HTML_FOLDER + "add";
+    }
+
+    @GetMapping("add/shift")
+    public String add(
+            Model model,
+            Authentication authentication,
+            @RequestParam int shiftId
+    ) {
+        if (!permissionEvaluator.hasPermission(authentication, shiftId, "Shift", "w")) {
+            return REDIRECT_ROOT_MAPPING;
+        }
+
+        EventForm eventForm = new EventForm();
+        eventForm.setShiftId(shiftId);
+
+        List<SpeakerModel> speakers = speakerService.getSpeakerModelsByShiftId(shiftId);
+
+        model.addAttribute(eventForm);
+        model.addAttribute("speakers", speakers);
+        model.addAttribute("shiftId", shiftId);
+        model.addAttribute("isShift", true);
 
         return HTML_FOLDER + "add";
     }

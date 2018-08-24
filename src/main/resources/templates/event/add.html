@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper">
         <form th:action="@{/events/add}" th:object="${eventForm}" method="POST">
             <div class="header-personal header-edit">
-                <a th:href="@{/events/choosing_date}">
+                <a th:href="@{__${isShift?'/shifts/'+shiftId:'/events/choosing_date'}__}">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <h4>Добавить событие</h4>

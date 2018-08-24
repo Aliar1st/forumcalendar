@@ -13,4 +13,6 @@ public interface SpeakerService extends SecuredService, ResourceService<Speaker,
     List<SpeakerForm> getSpeakerFormsBySpeakersId(List<Integer> speakersId);
 
     List<SpeakerModel> getSpeakerModelsByActivityId(int id);
+
+    List<SpeakerModel> getSpeakerModelsByShiftId(int id);
 }
