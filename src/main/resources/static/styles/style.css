@@ -31,8 +31,19 @@ html, body{
     margin: 0 10px;
 }
 
+.status-icon{
+    width:30px;
+    margin-left: auto;
+}
+
 .wrapper::-webkit-scrollbar{
     width: 8px;
+}
+
+.btn-save{
+    background-color: #46CFED;
+    border-color: #46CFED;
+    color:white;
 }
 
 .wrapper::-webkit-scrollbar-thumb{
@@ -70,7 +81,6 @@ html, body{
 .btn-login{
     display: block;
     margin: 0 auto;
-    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 18px;
     background-color: #46CFED;
     border-color: #46CFED;
@@ -165,11 +175,11 @@ html, body{
     display: flex;
 }
 
-.choose-card .card-body div{
-    margin:0 !important;
-    padding-left: 0px !important;
-    padding-right: 20px !important;
-}
+/*.choose-card .card-body div{*/
+    /*margin:0 !important;*/
+    /*padding-left: 0px !important;*/
+    /*padding-right: 20px !important;*/
+/*}*/
 
 .img-activity{
     width:100%;
@@ -232,7 +242,10 @@ html, body{
 
 .choose-h2{
     margin: 0 auto;
+    color: white;
 }
+
+
 
 .btn-next{
     width: 200px;
@@ -317,6 +330,7 @@ html, body{
     color: white;
 }
 
+
 .header-main div{
     margin-left:-15px;
 }
@@ -351,9 +365,15 @@ html, body{
 }
 
 .img-profile{
-    width:90%;
-    height:auto;
+    width:100px;
+    height:100px;
     border-radius: 50%;
+}
+
+
+.plus-icon-edit{
+    width:25px;
+    vertical-align: sub;
 }
 
 
@@ -527,8 +547,10 @@ html, body{
 }
 
 .check-btn:active,
-.check-btn:focus{
-
+.check-btn:focus,
+.check-btn:active:focus{
+    border:none;
+    outline: none;
 }
 
 .info-div{
@@ -655,6 +677,10 @@ html, body{
     padding:20px 0;
 }
 
+.add-feedback{
+    height:auto;
+}
+
 .add-event input, textarea{
     margin: 15px auto;
     resize: none;
@@ -723,7 +749,8 @@ html, body{
 
 .member-line{
     margin: 30px auto;
-
+    display: flex;
+    align-items: center;
 }
 
 .member-line h4{
@@ -1195,6 +1222,12 @@ a:hover{
 .shedule-div .choose-card{
     background-color: rgb(252, 252, 252);
     color:black !important;
+    margin: 20px auto;
+}
+
+.shedule-div .choose-card .card-body{
+    padding-left: 20px;
+    padding-top:20px;
 }
 
 .choose-card{
@@ -1311,6 +1344,11 @@ a:hover{
 
 .card-header-event{
     padding-bottom: 0;
+    display: flex;
+}
+
+.event-fav-toggle{
+    margin-left: auto;
 }
 
 .event-card-body .fa-angle-down,
@@ -1333,10 +1371,26 @@ a:hover{
 
 }
 
+.event-card-body{
+    flex-direction: column;
+    display: flex;
+    padding-left:0 !important;
+}
+
+
+.event-card-body .main-info-event{
+    flex-direction: row;
+    display: flex;
+    padding-right:0 !important;
+
+}
+
 .event-card-body .div-caret{
-    margin-left:20px;
-    margin-bottom:-5px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-bottom: -5px;
+    justify-content: flex-end;
 }
 
 @media (max-width: 450px){

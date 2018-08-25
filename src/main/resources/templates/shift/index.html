@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper shedule-wrapper">
         <div class="header-personal header-edit header-forums header-shifts">
             <a onclick="history.back();" class="link">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
             <h2 th:text="${activityName}" class="choose-h2">Территория смыслов</h2>
         </div>
@@ -21,14 +21,14 @@
                 <a th:href="@{/shifts/__${shift.id}__}">
                     <h4 th:text="${shift.name}">Смена 1</h4>
                     <a th:href="@{/shifts/__${shift.id}__/delete}">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <img  class="back-icon" src="/static/images/remove-icon.svg"/>
                     </a>
                 </a>
             </div>
         </div>
 
         <a th:href="@{/shifts/add(activityId=__${activityId}__)}" class="plus-add-event plus-add-forum">
-            <i class="fa fa-plus-circle " aria-hidden="true"></i>
+            <img  class="plus-icon" src="/static/images/add-icon.svg"/>
         </a>
     </div>
 

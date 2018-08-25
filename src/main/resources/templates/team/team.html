@@ -73,8 +73,9 @@
                 <input type="hidden" name="userId" th:value="${user.id}">
                 <img class="img-profile img-in-team" th:src="@{/public/__${user.photo}__}" alt="profile photo"/>
                 <h4 th:text="|${user.firstName} ${user.lastName}|">Иван Иванов</h4>
-                <i th:if="${user.teamRole.equals('Curator')}" class="fa fa-smile-o" aria-hidden="true"></i>
-                <i th:if="${user.teamRole.equals('Captain')}" class="fa fa-star" aria-hidden="true"></i>
+                <img th:if="${user.teamRole.equals('Curator')}" class="status-icon" src="/static/images/crown.svg"/>
+                <!--<i th:if="${user.teamRole.equals('Captain')}" class="fa fa-star" aria-hidden="true"></i>-->
+                <img th:if="${user.teamRole.equals('Captain')}"  class="status-icon" src="/static/images/captain-black.svg"/>
             </div>
         </a>
     </div>
@@ -94,7 +95,7 @@
                     <input id="inviteLink" class="form-control" readonly>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="copy-link btn btn-primary" data-clipboard-target="#inviteLink">Скопировать</button>
+                    <button type="reset" class="copy-link btn btn-save" data-clipboard-target="#inviteLink">Скопировать</button>
                 </div>
             </div>
         </div>

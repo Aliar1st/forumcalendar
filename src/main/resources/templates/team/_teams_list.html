@@ -5,7 +5,7 @@
         <label>По вашему запросу ничего не было найдено</label>
     </div>
     <div th:unless="${#lists.isEmpty(teams)}">
-        <div th:each="team,stat:${teams}" class="teammember-line col-11">
+        <div th:each="team,stat:${teams}" class="member-line col-11">
             <a th:href="@{/team/__${team.id}__}">
             <h4 th:text="${team.name}"></h4>
         </a>

@@ -87,14 +87,20 @@ $(function() {
     });
 
     $(".show-dop-info").on( 'click', function() {
-        $(this).parent().children(".dop-info-div").slideToggle();
-        $(this).parent().find(".div-speakers").toggle();
-        $(this).parent().find(".fa-angle-up").toggle();
-        $(this).parent().find(".fa-angle-down").toggle();
+        $(this).find(".dop-info-div").slideToggle();
+        $(this).find(".div-speakers").toggle();
+        $(this).find(".fa-angle-up").toggle();
+        $(this).find(".fa-angle-down").toggle();
+    });
+
+    $(".show-dop-info-speaker").on( 'click', function() {
+        $(this).parent().find(".dop-info-div").slideToggle();
+        $(this).find(".fa-angle-up").toggle();
+        $(this).find(".fa-angle-down").toggle();
     });
 
 
-    $(".fa-search").on( 'click', function() {
+    $(".search-icon").on( 'click', function() {
         $(".search-div").slideToggle();
     });
 
