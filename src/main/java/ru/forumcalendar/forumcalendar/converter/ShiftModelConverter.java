@@ -21,6 +21,7 @@ public class ShiftModelConverter implements Converter<Shift, ShiftModel> {
         shiftModel.setStartDate(shift.getStartDate());
         shiftModel.setEndDate(shift.getEndDate());
         shiftModel.setDescription(shift.getDescription());
+        shiftModel.setAdmin(shift.isAdmin());
 
         Set<Team> teams = shift.getTeams();
 

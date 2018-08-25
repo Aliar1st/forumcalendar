@@ -41,6 +41,9 @@ public class Activity extends AuditModel {
     @Field(name = "activity_id")
     private int id;
 
+    @Column(name = "is_admin", nullable = false)
+    private boolean isAdmin;
+
     @OneToOne
     @JoinColumn(nullable = false)
     private User user;

@@ -12,6 +12,8 @@ public class ActivityModel {
 
     private int id;
 
+    private boolean isAdmin;
+
     private String name;
 
     private String photo;

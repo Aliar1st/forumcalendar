@@ -17,6 +17,7 @@ public class ShiftListModelConverter implements Converter<Shift, ShiftListModel>
         shiftListModel.setEndDate(shift.getEndDate());
         shiftListModel.setDescription(shift.getDescription());
         shiftListModel.setPhoto(shift.getPhoto());
+        shiftListModel.setAdmin(shift.isAdmin());
 
         return shiftListModel;
     }
