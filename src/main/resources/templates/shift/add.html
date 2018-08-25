@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper">
         <form th:action="@{/shifts/add}" th:object="${shiftForm}" method="POST">
             <div class="header-personal  header-settings header-add">
-                <a th:href="@{/shifts/__${shiftForm.activityId}__}">
+                <a th:href="@{/shifts(activityId=${shiftForm.activityId})}">
                     <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
                 <h2 class="choose-h2">Создать смену</h2>

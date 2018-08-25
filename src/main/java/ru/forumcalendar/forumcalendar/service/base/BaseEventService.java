@@ -106,6 +106,8 @@ public class BaseEventService implements EventService {
             event.setSpeakers(new HashSet<>(speakers));
 
             speakerRepository.saveAll(speakers);
+        } else {
+            event.getSpeakers().clear();
         }
 
         return eventRepository.save(event);

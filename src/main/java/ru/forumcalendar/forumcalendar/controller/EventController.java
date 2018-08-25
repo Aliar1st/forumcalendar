@@ -283,4 +283,14 @@ public class EventController {
 
         return REDIRECT_ROOT_MAPPING;
     }
+
+    @PreAuthorize("hasPermission(#id, 'Event', 'w')")
+    @GetMapping("{id}/delete")
+    public String delete(
+            @PathVariable int id
+    ) {
+        Event event = eventService.delete(id);
+
+        return REDIRECT_ROOT_MAPPING + event.getShift().getId();
+    }
 }
