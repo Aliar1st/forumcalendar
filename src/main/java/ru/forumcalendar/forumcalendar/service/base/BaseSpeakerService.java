@@ -6,6 +6,7 @@ import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,9 @@ import java.util.stream.Stream;
 @Service
 @Transactional
 public class BaseSpeakerService implements SpeakerService {
+
+    @Value("${my.defaultPhoto}")
+    private String defaultPhoto;
 
     private EntityManager entityManager;
 
@@ -85,15 +89,21 @@ public class BaseSpeakerService implements SpeakerService {
         speaker.setActivity(activityService.get(speakerForm.getActivityId()));
 
         //noinspection Duplicates
-        if (!speakerForm.getPhoto().isEmpty()) {
-            String photo = uploadsService.upload(speakerForm.getPhoto(), userService.getCurrentId())
+        if (!speakerForm.getPhoto().isEmpty() ) {
+            String photo = uploadsService.upload(speakerForm.getPhoto())
                     .map((f) -> {
-                        if (speaker.getPhoto() != null && !speaker.getPhoto().equals(f.getName()))
+                        if (speaker.getPhoto() != null &&
+                                !speaker.getPhoto().equals(f.getName()) &&
+                                !speaker.getPhoto().equals(defaultPhoto))
                             uploadsService.delete(speaker.getPhoto());
                         return f.getName();
                     })
                     .orElse(speaker.getPhoto());
             speaker.setPhoto(photo);
+        }
+
+        if (speaker.getPhoto() == null) {
+            speaker.setPhoto(defaultPhoto);
         }
 
         return speakerRepository.save(speaker);
@@ -136,7 +146,7 @@ public class BaseSpeakerService implements SpeakerService {
                 .must(queryBuilder
                         .keyword()
                         .wildcard()
-                        .onFields("firstName","lastName")
+                        .onFields("firstName", "lastName")
                         .matching(q.toLowerCase())
                         .createQuery())
                 .must(queryBuilder

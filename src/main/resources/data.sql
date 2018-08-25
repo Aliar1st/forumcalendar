@@ -14,9 +14,9 @@ INSERT INTO contact_types (id, name, created_at, updated_at) VALUES
 INSERT INTO `users` (`id`, `created_at`, `updated_at`, `email`, `first_name`, `gender`, `last_name`, `locale`, `photo`, `role_id`) VALUES
 ('106725778006320436882', '2018-08-13 22:27:11', '2018-08-13 22:27:11', 'aliar@yandex.ru', 'Илья', NULL, 'Агеев', 'ru', '5b765ec5b596e916fe119f38afebdb2d.jpg', 2);
 
-INSERT INTO `activities` (`id`, `created_at`, `updated_at`,`start_date`, `end_date`, `description`, `place`, `name`, `user_id`) VALUES
-(1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19','2018-08-17 11:46:22', '2019-08-17 11:50:59', NULL,               'Санкт-Питербург', 'ActivityMy',    '106725778006320436882'),
-(15, '2018-08-17 11:46:22', '2018-08-17 11:50:59','2018-08-17 11:46:22', '2019-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', '106725778006320436882');
+INSERT INTO `activities` (`id`, `created_at`, `updated_at`,`start_date`, `end_date`, `description`, `place`, `name`, `photo`, `user_id`) VALUES
+(1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19','2018-08-17 11:46:22', '2019-08-17 11:50:59', NULL, 'Санкт-Питербург', 'ActivityMy','photo-ava.jpg', '106725778006320436882'),
+(15, '2018-08-17 11:46:22', '2018-08-17 11:50:59','2018-08-17 11:46:22', '2019-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', 'photo-ava.jpg', '106725778006320436882');
 
 
 INSERT INTO `contacts` (`id`, `created_at`, `updated_at`, `link`, `contact_type_id`, `user_id`) VALUES
@@ -24,16 +24,16 @@ INSERT INTO `contacts` (`id`, `created_at`, `updated_at`, `link`, `contact_type_
 (11, '2018-08-14 22:04:45', '2018-08-15 01:00:11', 'https://asdfasdf/aliarfirst', 2, '106725778006320436882');
 
 
-INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date`, `name`, `start_date`, `activity_id`) VALUES
-(2,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,                 '2018-08-18', 'ShiftFirst',      '2018-08-15', 1),
-(3,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,                 '2018-08-24', 'ShiftSecond',     '2018-08-19', 1),
-(16, '2018-08-17 11:46:22', '2018-08-17 12:28:52', 'ShiftFirstTestDesc', '2018-08-21', 'ShiftFirstTestD', '2018-08-20', 15),
-(20, '2018-08-17 12:10:46', '2018-08-17 12:10:46', NULL,                 '2018-08-25', 'ShiftTest',       '2018-08-24', 15);
+INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date`, `name`, `photo`, `start_date`, `activity_id`) VALUES
+(2,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,                 '2018-08-18', 'ShiftFirst','photo-ava.jpg',       '2018-08-15', 1),
+(3,  '2018-08-14 15:55:19', '2018-08-14 15:55:19', NULL,                 '2018-08-24', 'ShiftSecond','photo-ava.jpg',     '2018-08-19', 1),
+(16, '2018-08-17 11:46:22', '2018-08-17 12:28:52', 'ShiftFirstTestDesc', '2018-08-21', 'ShiftFirstTestD','photo-ava.jpg', '2018-08-20', 15),
+(20, '2018-08-17 12:10:46', '2018-08-17 12:10:46', NULL,                 '2018-08-25', 'ShiftTest','photo-ava.jpg',       '2018-08-24', 15);
 
-INSERT INTO `speakers` (`id`, `created_at`, `updated_at`, `description`, `first_name`, `last_name`, `link`, `activity_id`) VALUES
-(4,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'http://petehuston.com', 1),
-(5,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'http://petehustonii.com', 1),
-(21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest', 'SpeakerFTest.com', 15);
+INSERT INTO `speakers` (`id`, `created_at`, `updated_at`, `description`, `first_name`, `last_name`, `photo`, `link`, `activity_id`) VALUES
+(10,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'photo-ava.jpg', 'http://petehuston.com', 1),
+(5,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'photo-ava.jpg', 'http://petehustonii.com', 1),
+(21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest','photo-ava.jpg', 'SpeakerFTest.com', 15);
 
 INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `name`, `place`, `shift_id`) VALUES
 (7,  '2018-08-14 15:59:16', '2018-08-14 15:59:16', '2018-08-15 09:00:00', '2018-08-15 10:00:00', 'EventDesc1', 'EventOneTwoOne', 'PlaceOne', 2),
@@ -47,8 +47,8 @@ INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_d
 (28, '2018-08-17 22:29:57', '2018-08-17 22:29:57', '2018-08-18 14:00:00', '2018-08-18 15:00:00', 'Event1D',    'Event1', 'Event1P', 2);
 
 INSERT INTO `events_speakers` (`event_id`, `speaker_id`) VALUES
-(13, 4),
-(28, 4),
+(13, 10),
+(28, 10),
 (8, 5),
 (13, 5),
 (28, 5);
