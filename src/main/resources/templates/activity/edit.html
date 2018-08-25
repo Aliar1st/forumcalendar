@@ -89,7 +89,7 @@
 <div class="container-fluid wrapper" layout:fragment="content">
     <form th:action="@{edit}" th:object="${activityForm}" method="POST">
         <div class="header-personal  header-settings header-add">
-            <a onclick="history.back();" class="link">
+            <a onclick="$.goBack();" class="link">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             <h4>Редактировать форум</h4>

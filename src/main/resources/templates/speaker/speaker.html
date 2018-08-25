@@ -13,7 +13,7 @@
     <div class="container-fluid wrapper">
 
         <div class="header-personal header-speaker">
-            <a onclick="history.back();" class="link">
+            <a onclick="$.goBack();" class="link">
                 <img class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
             <a th:if="${isAdmin} or ${isModerator}" th:href="@{~/speaker/__${speaker.id}__/edit}">
@@ -146,12 +146,12 @@
     <!--<label th:text="${speaker.description}"></label><br/>-->
 
     <!--<div class="speaker-events-container">-->
-        <!--<label>Events</label>-->
-        <!--<div th:each="event, stat : ${events}" class="event">-->
-            <!--<label th:text="${event.name}"></label><br/>-->
-            <!--<label th:text="|${event.startDatetime} - ${event.endDatetime}|"></label><br/>-->
-            <!--<label th:text="${event.place}"></label><br/>-->
-        <!--</div>-->
+    <!--<label>Events</label>-->
+    <!--<div th:each="event, stat : ${events}" class="event">-->
+    <!--<label th:text="${event.name}"></label><br/>-->
+    <!--<label th:text="|${event.startDatetime} - ${event.endDatetime}|"></label><br/>-->
+    <!--<label th:text="${event.place}"></label><br/>-->
+    <!--</div>-->
     <!--</div>-->
 
 </div>
