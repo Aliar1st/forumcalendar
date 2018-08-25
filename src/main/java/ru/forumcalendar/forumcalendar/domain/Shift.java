@@ -41,8 +41,8 @@ public class Shift extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column
-    private String photo;
+    @Column(nullable = false)
+    private String photo = "photo-ava.jpg";
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shift", cascade = CascadeType.REMOVE)

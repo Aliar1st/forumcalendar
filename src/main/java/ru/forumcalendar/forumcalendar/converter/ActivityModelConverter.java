@@ -31,7 +31,7 @@ public class ActivityModelConverter implements Converter<Activity, ActivityModel
         activityModel.setName(activity.getName());
         activityModel.setPlace(activity.getPlace());
         activityModel.setDescription(activity.getDescription());
-        activityModel.setPhotoUrl(activity.getPhoto());
+        activityModel.setPhoto(activity.getPhoto());
 
         Set<Shift> shifts = activity.getShifts();
         Map<String, Integer> countsMap = getCounts(shifts);

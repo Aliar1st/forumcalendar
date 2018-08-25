@@ -125,7 +125,7 @@
 <div class="container-fluid wrapper" layout:fragment="content">
     <form th:action="@{add}" th:object="${activityForm}" method="POST">
         <div class="header-personal  header-settings header-add">
-            <a onclick="history.back();" class="link">
+            <a onclick="$.goBack();" class="link">
                 <img  class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
             <h2 class="choose-h2">Создать форум</h2>
@@ -148,16 +148,23 @@
                        aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}">error</label>
 
+                <input th:field="*{startDate}" type="text" class="form-control col-10"
+                       placeholder="Дата начала"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">error</label>
+
+                <input th:field="*{endDate}" type="text" class="form-control col-10"
+                       placeholder="Дата конца"
+                       aria-label="Username" aria-describedby="basic-addon1"
+                       onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
+                <label th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">error</label>
+
                 <input th:field="*{description}" type="text" class="form-control" placeholder="О форуме..."
                        aria-label="Username"
                        aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}">error</label>
 
-                <input type="text" class="form-control" placeholder="Дата начала" aria-label="Username"
-                       aria-describedby="basic-addon1">
-
-                <input type="text" class="form-control" placeholder="Дата конца" aria-label="Username"
-                       aria-describedby="basic-addon1">
 
             </div>
 

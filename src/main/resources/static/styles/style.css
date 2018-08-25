@@ -637,9 +637,14 @@ html, body{
     /* height: 88vh; */
 }
 
-.edit-personal input{
+.edit-personal input,
+.edit-personal textarea{
     margin: 10px auto;
     width:90%;
+}
+
+.header-speaker{
+    justify-content: space-between;
 }
 
 /*.edit-personal .content-line .form-control{*/
@@ -738,6 +743,8 @@ html, body{
         font-size: 30px !important;
     }
 }
+
+
 
 
 .img-in-team{

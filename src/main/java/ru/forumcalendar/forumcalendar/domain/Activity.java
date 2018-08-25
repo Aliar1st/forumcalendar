@@ -10,7 +10,6 @@ import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Parameter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +62,8 @@ public class Activity extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String photo;
+    @Column(nullable = false)
+    private String photo = "photo-ava.jpg";
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)

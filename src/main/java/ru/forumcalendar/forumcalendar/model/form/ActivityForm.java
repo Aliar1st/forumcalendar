@@ -57,6 +57,8 @@ public class ActivityForm {// implements ResourceForm<Activity> {
         this.name = activity.getName();
         this.description = activity.getDescription();
         this.place = activity.getPlace();
+        this.startDate = activity.getStartDate();
+        this.endDate = activity.getEndDate();
 
         Set<Shift> shifts = activity.getShifts();
         this.shiftForms = new ArrayList<>(shifts.size());

@@ -61,7 +61,7 @@ public class ActivityController {
     @PreAuthorize("hasRole('ROLE_SUPERUSER')")
     public String index(Model model) {
 
-        model.addAttribute("forums", activityService.getAll());
+        model.addAttribute("activities", activityService.getAll());
 
         return HTML_FOLDER + "activities";
     }

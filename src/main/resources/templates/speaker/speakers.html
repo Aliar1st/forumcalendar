@@ -50,11 +50,11 @@
 <div class="container-fluid wrapper shedule-wrapper" layout:fragment="content">
 
     <div class="header-personal header-edit ">
-        <a onclick="history.back();" class="link">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        <a onclick="$.goBack();" class="link">
+            <img class="back-icon" src="/static/images/left-arrow.svg"/>
         </a>
         <h2 class="choose-h2">Спикеры</h2>
-        <i class="fa fa-search" aria-hidden="true"></i>
+        <img  class="back-icon search-icon" src="/static/images/search.svg"/>
         <form class="search-div row">
             <div class="col-lg-12 col-12">
                 <input type="search"
@@ -78,7 +78,7 @@
     <a th:if="${isModerator} or ${isAdmin}"
        th:href="@{'/speaker/add?activityId='+__${curActivityId}__}"
        class="plus-add-event plus-add-forum">
-        <i class="fa fa-plus-circle " aria-hidden="true"></i>
+        <img  class="plus-icon" src="/static/images/add-icon.svg"/>
     </a>
 
 </div>

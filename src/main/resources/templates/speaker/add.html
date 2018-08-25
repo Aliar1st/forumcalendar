@@ -10,16 +10,16 @@
     <div class="container-fluid wrapper">
         <form th:action="@{add}" th:object="${speakerForm}" method="POST" enctype="multipart/form-data">
             <div class="header-personal  header-settings">
-                <a onclick="history.back();" class="link">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <a onclick="$.goBack();" class="link">
+                    <img class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
                 <label>
                     <img class="img-profile img-edit" th:src="@{/public/__${speakerForm.photoUrl}__}"/>
                     <!--<img class="img-profile mask-img" src="/static/images/mask-img.png"/>-->
                     <input th:field="*{photo}" type="file" hidden>
                 </label>
-                <button type="submit">
-                    <i class="fa fa-check" aria-hidden="true"></i>
+                <button type="submit" class="check-btn">
+                    <img  class="back-icon" src="/static/images/check.svg"/>
                 </button>
             </div>
 
@@ -46,7 +46,7 @@
                            th:errors="*{link}">error
                     </label>
 
-                    <textarea th:field="*{description}" type="text" class="form-control col-10"
+                    <textarea th:field="*{description}" type="text" class="form-control"
                               placeholder="Описание"></textarea>
                     <label th:if="${#fields.hasErrors('description')}"
                            th:errors="*{description}">error
@@ -62,43 +62,43 @@
         </form>
     </div>
     <!--<form th:action="@{add}" th:object="${speakerForm}" method="POST">-->
-        <!--<p>-->
-            <!--<label>Имя-->
-                <!--<input th:field="*{firstName}" type="text">-->
-                <!--<label th:if="${#fields.hasErrors('firstName')}"-->
-                       <!--th:errors="*{firstName}">error-->
-                <!--</label>-->
-            <!--</label>-->
-        <!--</p>-->
-        <!--<p>-->
-            <!--<label>Фамилия-->
-                <!--<input th:field="*{lastName}" type="text">-->
-                <!--<label th:if="${#fields.hasErrors('lastName')}"-->
-                       <!--th:errors="*{lastName}">error-->
-                <!--</label>-->
-            <!--</label>-->
-        <!--</p>-->
-        <!--<p>-->
-            <!--<label>Ссылка-->
-                <!--<input th:field="*{link}" type="text">-->
-                <!--<label th:if="${#fields.hasErrors('link')}"-->
-                       <!--th:errors="*{link}">error-->
-                <!--</label>-->
-            <!--</label>-->
-        <!--</p>-->
-        <!--<p>-->
-            <!--<label>Описание-->
-                <!--<input th:field="*{description}" type="text">-->
-                <!--<label th:if="${#fields.hasErrors('description')}"-->
-                       <!--th:errors="*{description}">error-->
-                <!--</label>-->
-            <!--</label>-->
-        <!--</p>-->
-        <!--<label th:if="${#fields.hasErrors('activityId')}"-->
-               <!--th:errors="*{activityId}">error-->
-        <!--</label>-->
-        <!--<input type="hidden" th:field="*{activityId}">-->
-        <!--<input type="submit" value="Создать">-->
+    <!--<p>-->
+    <!--<label>Имя-->
+    <!--<input th:field="*{firstName}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('firstName')}"-->
+    <!--th:errors="*{firstName}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Фамилия-->
+    <!--<input th:field="*{lastName}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('lastName')}"-->
+    <!--th:errors="*{lastName}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Ссылка-->
+    <!--<input th:field="*{link}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('link')}"-->
+    <!--th:errors="*{link}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--<label>Описание-->
+    <!--<input th:field="*{description}" type="text">-->
+    <!--<label th:if="${#fields.hasErrors('description')}"-->
+    <!--th:errors="*{description}">error-->
+    <!--</label>-->
+    <!--</label>-->
+    <!--</p>-->
+    <!--<label th:if="${#fields.hasErrors('activityId')}"-->
+    <!--th:errors="*{activityId}">error-->
+    <!--</label>-->
+    <!--<input type="hidden" th:field="*{activityId}">-->
+    <!--<input type="submit" value="Создать">-->
     <!--</form>-->
 </div>
 </body>
