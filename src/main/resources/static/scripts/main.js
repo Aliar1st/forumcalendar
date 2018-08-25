@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     var uniqueId = $.cookie("uniqueId");
     var stompClient = null;
 
@@ -18,7 +18,7 @@ $(function() {
             // stompClient.subscribe('/successSub/'+uniqueId, function (message) {
             //     showMessage(message.body);
             // });
-            stompClient.subscribe('/notify/'+uniqueId, function (eventJSON) {
+            stompClient.subscribe('/notify/' + uniqueId, function (eventJSON) {
                 showEvent(JSON.parse(eventJSON.body));
             });
         });
@@ -33,7 +33,7 @@ $(function() {
 
     function subscribe() {
         var eventId = $('#eventId').val();
-        stompClient.send("/sub/"+uniqueId, {}, eventId);
+        stompClient.send("/sub/" + uniqueId, {}, eventId);
         //stompClient.send("/send", {}, JSON.stringify({'name': $("#name").val()}));
     }
 
@@ -66,49 +66,93 @@ $(function() {
     //     window.open("shedule_day.html", '_self');
     // });
 
-    $("#ellipsisEditPersonal").on( 'click', function() {
+    $("#ellipsisEditPersonal").on('click', function () {
         // Открыть модальное окно с id="exampleModal"
         $("#modalDopMenu").modal('show');
     });
 
-    $("#editTeamName").on( 'click', function() {
+    $("#editTeamName").on('click', function () {
         // Открыть модальное окно с id="exampleModal"
         $("#editModalTeam").modal('show');
     });
 
-    $("#addTeam").on( 'click', function() {
+    $("#addTeam").on('click', function () {
         // Открыть модальное окно с id="exampleModal"
         $("#editModalTeam").modal('show');
     });
 
-    $(".show-info").on( 'click', function() {
+    $(".show-info").on('click', function () {
         // Открыть модальное окно с id="exampleModal"
         $("#infoEvent").modal('show');
     });
 
-    $(".show-dop-info").on( 'click', function() {
+    $(".show-dop-info").on('click', function () {
         $(this).find(".dop-info-div").slideToggle();
         $(this).find(".div-speakers").toggle();
         $(this).find(".fa-angle-up").toggle();
         $(this).find(".fa-angle-down").toggle();
     });
 
-    $(".show-dop-info-speaker").on( 'click', function() {
+    $(".show-dop-info-speaker").on('click', function () {
         $(this).parent().find(".dop-info-div").slideToggle();
         $(this).find(".fa-angle-up").toggle();
         $(this).find(".fa-angle-down").toggle();
     });
 
 
-    $(".search-icon").on( 'click', function() {
+    $(".dislike-click-btn").on('click', function () {
+
+        var mainParent = $(this).parent().parent().parent();
+
+        var dislikeDiv = $(this).children('div');
+        var likeDiv = mainParent.find('.like-click-btn').children('div');
+
+        var dislikeDivClazz = dislikeDiv.attr('class');
+
+        if (dislikeDivClazz === 'dislike') {
+            dislikeDiv.attr('class', 'dislike-empty');
+        }
+        else {
+            dislikeDiv.attr('class', 'dislike');
+            likeDiv.attr('class', 'like-empty');
+        }
+
+        // $(this).find(".dislike-empty").toggle();
+        // $(this).find(".dislike").toggle();
+    });
+
+
+    $(".like-click-btn").on('click', function () {
+
+        var mainParent = $(this).parent().parent().parent();
+
+        var likeDiv = $(this).children('div');
+        var dislikeDiv = mainParent.find('.dislike-click-btn').children('div');
+
+        var likeDivClazz = likeDiv.attr('class');
+
+        if (likeDivClazz === 'like') {
+            likeDiv.attr('class', 'like-empty');
+        }
+        else {
+            likeDiv.attr('class', 'like');
+            dislikeDiv.attr('class', 'dislike-empty');
+        }
+        //
+        // $(this).find(".like-empty").toggle();
+        // $(this).find(".like").toggle();
+    });
+
+
+    $(".search-icon").on('click', function () {
         $(".search-div").slideToggle();
     });
 
-    $(".cursor-edit").on( 'click', function() {
+    $(".cursor-edit").on('click', function () {
         $("#infoEvent").modal('show');
     });
 
-    $(".add-forum-shift").on( 'click', function() {
+    $(".add-forum-shift").on('click', function () {
         $("#editModalTeam").modal('show');
     });
 });

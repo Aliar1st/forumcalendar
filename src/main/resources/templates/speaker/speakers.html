@@ -55,22 +55,23 @@
         </a>
         <h2 class="choose-h2">Спикеры</h2>
         <img  class="back-icon search-icon" src="/static/images/search.svg"/>
-        <form class="search-div row">
-            <div class="col-lg-12 col-12">
-                <input type="search"
-                       id="speaker-search-input"
-                       class="form-control"
-                       autocomplete="off"
-                       autocorrect="off"
-                       autocapitalize="off"
-                       spellcheck="false"
-                       placeholder="Поиск..."><br/>
-                <input type="hidden" name="activityId" th:value="${curActivityId}">
-            </div>
 
-        </form>
     </div>
 
+    <form class="search-div row">
+        <div class="col-lg-10 col-10">
+            <input type="search"
+                   id="speaker-search-input"
+                   class="form-control"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false"
+                   placeholder="Поиск..."><br/>
+            <input type="hidden" name="activityId" th:value="${curActivityId}">
+        </div>
+
+    </form>
     <div class="speakers-container content-personal add-event forums-div speakers-wrapper">
         <div th:replace="speaker/_speakers_list :: speakers"></div>
     </div>

@@ -36,28 +36,36 @@
                     <div class="like-div">
                         <form name="like" th:action="@{like}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button" class="check-btn">
-                                <img  class="back-icon" src="/static/images/like-empty.svg"/>
+                            <button type="button" class="check-btn like-click-btn">
+                                <div th:classappend="${event.isLike()}?like:like-empty"></div>
+                                <!--<img th:unless="${event.isLike()}" class="back-icon like-empty" src="/static/images/like-empty.svg"/>-->
+                                <!--<img th:if="${event.isLike()}" class="back-icon like" src="/static/images/like.svg"/>-->
                             </button>
                             <p th:text="${event.likes}" class="info-date-shift">20</p>
                         </form>
                     </div>
+                    <!--event.isLike-->
+                    <!--event.isDislike-->
                     <div class="dislike-div">
                         <form name="dislike" th:action="@{dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button" class="check-btn">
-                                <img  class="back-icon" src="/static/images/dislike-empty.svg"/>
+                            <button type="button" class="check-btn dislike-click-btn">
+                                <div th:classappend="${event.isDislike()}?dislike:dislike-empty"></div>
+                                <!--<img th:unless="${event.isDislike()}" class="back-icon dislike-empty" src="/static/images/dislike-empty.svg"/>-->
+                                <!--<img th:if="${event.isDislike()}"   class="back-icon dislike" src="/static/images/dislike.svg"/>-->
                             </button>
                             <p th:text="${event.dislikes}" class="info-date-shift">5</p>
                         </form>
                     </div>
                     <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{sub}" method="POST">
                         <input type="hidden" name="eventId" th:value="${event.id}">
-                        <button type="button" class="check-btn">
-                            <img  class="back-icon" src="/static/images/star-empty.svg"/>
+                        <button  type="button" class="check-btn">
+
+                            <img th:unless="${event.isFavorite()}"  class="back-icon" src="/static/images/star-empty.svg"/>
+                            <img th:if="${event.isFavorite()}"  class="back-icon" src="/static/images/star.svg"/>
                         </button>
-                        <label th:if="${event.isFavorite()}">Подписан</label>
-                        <label th:unless="${event.isFavorite()}">Не подписан</label>
+                        <!--<label th:if="${event.isFavorite()}">Подписан</label>-->
+                        <!--<label th:unless="${event.isFavorite()}">Не подписан</label>-->
                     </form>
                 </div>
 
@@ -94,12 +102,15 @@
 
                                             <div class="ref-info">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
+
                                                 <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
                                             </div>
                                         </div>
+
                                         <div class="forum-info">
+
                                             <h5>Описание</h5>
-                                            <div class="info-div">
+                                            <div class="info-div info-div-speaker">
                                                 <p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>
                                             </div>
                                         </div>

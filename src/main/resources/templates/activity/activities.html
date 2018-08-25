@@ -66,22 +66,24 @@
         </a>
         <h2 class="choose-h2">Форумы</h2>
         <img  class="back-icon search-icon" src="/static/images/search.svg"/>
-        <form class="search-div row">
-            <div class="col-lg-12 col-12">
-                <input type="search"
-                       id="activity-search-input"
-                       class="form-control"
-                       autocomplete="off"
-                       autocorrect="off"
-                       autocapitalize="off"
-                       spellcheck="false"
-                       placeholder="Поиск..."><br/>
-            </div>
 
-        </form>
     </div>
 
-    <div class="content-personal add-event forums-div forums-container wrapper-cards">
+    <form class="search-div row">
+        <div class="col-lg-10 col-10">
+            <input type="search"
+                   id="activity-search-input"
+                   class="form-control"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false"
+                   placeholder="Поиск..."><br/>
+        </div>
+
+    </form>
+
+    <div class=" wrapper-cards">
         <div th:replace="activity/_activities_list :: activities"></div>
     </div>
 

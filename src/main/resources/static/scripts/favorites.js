@@ -19,12 +19,12 @@ $(function () {
                 }
                 else {
                     if (data.isSubscribe) {
-                        button.html('1');
-                        $().toastmessage('showNoticeToast', "Вы подписались на событие " + data.eventName);
+                         button.html('<img class="back-icon" src="/static/images/star.svg"/>');
+                        // $().toastmessage('showNoticeToast', "Вы подписались на событие " + data.eventName);
                     }
                     else {
-                        button.html('0');
-                        $().toastmessage('showNoticeToast', "Вы отписались от события " + data.eventName);
+                         button.html('<img class="back-icon" src="/static/images/star-empty.svg"/>');
+                        // $().toastmessage('showNoticeToast', "Вы отписались от события " + data.eventName);
                     }
                 }
             }

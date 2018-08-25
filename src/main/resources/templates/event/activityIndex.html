@@ -19,21 +19,20 @@
         <div class="wrapper-cards shedule-div">
 
 
-            <div th:each="event,stat:${events}" class="card choose-card">
+            <div th:each="event,stat:${events}" th:classappend="${event.shiftEvent}?event-color:team-color" class="card choose-card">
                 <div class="admin-panel-event">
                     <a sec:authorize="hasRole('ROLE_SUPERUSER')"
-                       th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}" >
-                        <img  class="back-icon" src="/static/images/edit-icon.svg"/>
+                       th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">
+                        <img class="back-icon" src="/static/images/edit-icon.svg"/>
                     </a><br/>
                     <a sec:authorize="hasRole('ROLE_SUPERUSER')"
                        th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">
-                        <img  class="back-icon" src="/static/images/remove-icon.svg"/>
-                    </a>
+                        <img class="back-icon" src="/static/images/remove-icon.svg"/>
+                    </a><br/>
                 </div>
-                <br/>
                 <div th:if="${event.shiftEvent}" class="card-header card-header-event">
                     <div class="like-div">
-                        <form name="like" th:action="@{/like}" method="POST">
+                        <form name="like" th:action="@{like}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
                             <button type="button" class="check-btn">
                                 <img  class="back-icon" src="/static/images/like-empty.svg"/>
@@ -42,7 +41,7 @@
                         </form>
                     </div>
                     <div class="dislike-div">
-                        <form name="dislike" th:action="@{/dislike}" method="POST">
+                        <form name="dislike" th:action="@{dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
                             <button type="button" class="check-btn">
                                 <img  class="back-icon" src="/static/images/dislike-empty.svg"/>
@@ -50,13 +49,13 @@
                             <p th:text="${event.dislikes}" class="info-date-shift">5</p>
                         </form>
                     </div>
-                    <form name="toggleSubscription" class="event-fav-toggle" th:action="@{/sub}" method="POST">
+                    <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{sub}" method="POST">
                         <input type="hidden" name="eventId" th:value="${event.id}">
                         <button type="button" class="check-btn">
                             <img  class="back-icon" src="/static/images/star-empty.svg"/>
                         </button>
-                        <label th:if="${event.isSubscribed()}">Подписан</label>
-                        <label th:unless="${event.isSubscribed()}">Не подписан</label>
+                        <!--<label th:if="${event.isSubscribed()}">Подписан</label>-->
+                        <!--<label th:unless="${event.isSubscribed()}">Не подписан</label>-->
                     </form>
                 </div>
 
@@ -81,24 +80,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <th:block th:if="${event.shiftEvent}">
-                                <div class="dop-info-div col-lg-10 col-10">
+                            <th:block th:if="${event.shiftEvent && !event.speakers.isEmpty()}">
+                                <div class="dop-info-div">
                                     <h4>Спикеры</h4>
                                     <th:block th:each="speaker:${event.speakers}">
-                                        <div class="col-lg-3 col-4">
+                                        <div class="col-lg-4 col-4">
                                             <img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>
                                         </div>
-                                        <div class="col-lg-7 col-6">
+                                        <div class="col-lg-7 col-7">
                                             <h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>
 
                                             <div class="ref-info">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
+
                                                 <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
                                             </div>
                                         </div>
+
                                         <div class="forum-info">
+
                                             <h5>Описание</h5>
-                                            <div class="info-div">
+                                            <div class="info-div info-div-speaker">
                                                 <p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>
                                             </div>
                                         </div>
@@ -108,8 +110,10 @@
                         </div>
                         <th:block th:if="${event.shiftEvent}">
                             <div class="col-lg-1 col-1 div-caret">
-                                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                <th:block th:if="${event.shiftEvent && !event.speakers.isEmpty()}">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                </th:block>
                             </div>
                         </th:block>
                     </div>
