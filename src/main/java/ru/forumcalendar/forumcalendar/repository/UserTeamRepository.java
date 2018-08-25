@@ -35,7 +35,7 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, UserTeamIden
     Stream<UserTeam> getAllNotCuratorsByShiftId(int shift_id);
 
     @Query("SELECT ut FROM UserTeam ut " +
-            " WHERE ut.userTeamIdentity.team.shift.id = ?1 " +
+            " WHERE ut.userTeamIdentity.team.shift.activity.id = ?1 " +
             "   AND NOT EXISTS ( " +
             "           SELECT 'found' FROM UserTeam curators " +
             "            WHERE curators.teamRole.id = 1 " +

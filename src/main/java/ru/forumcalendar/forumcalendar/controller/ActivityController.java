@@ -136,7 +136,7 @@ public class ActivityController {
             Model model
     ) throws InterruptedException {
 
-        model.addAttribute("forums", activityService.searchByName(q));
+        model.addAttribute("activities", activityService.searchByName(q));
 
         return HTML_FOLDER + "_activities_list";
     }
@@ -147,7 +147,7 @@ public class ActivityController {
             Model model
     ) {
 
-        model.addAttribute("forums", activityService.getAll());
+        model.addAttribute("activities", activityService.getAll());
 
         return HTML_FOLDER + "/_activities_list";
     }
