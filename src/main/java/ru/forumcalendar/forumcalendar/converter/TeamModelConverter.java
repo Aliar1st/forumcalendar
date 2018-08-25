@@ -21,6 +21,7 @@ public class TeamModelConverter implements Converter<Team, TeamModel> {
         //teamModel.setDirection(team.getDirection());
         teamModel.setDescription(team.getDescription());
         teamModel.setUserCount(team.getUserTeams().size());
+        teamModel.setAdmin(team.isAdmin());
 
         return teamModel;
     }

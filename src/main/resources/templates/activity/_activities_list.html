@@ -20,7 +20,6 @@
             <!--<h4 th:text="${forum.name}">Территория смыслов</h4>-->
         <!--</a>-->
 
-
         <label th:each="activity, stat : ${activities}" class="btn col-lg-12 choose-card">
             <a th:href="@{/activities/__${activity.id}__}">
             <input type="hidden" name="teamId" th:value="${activity.id}">

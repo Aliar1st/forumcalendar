@@ -38,6 +38,9 @@ public class Team extends AuditModel {
     @GeneratedValue
     private int id;
 
+    @Column(name = "is_admin",nullable = false)
+    private boolean isAdmin;
+
 //    @ManyToOne
 //    @JoinColumn(nullable = false)
 //    private User user;

@@ -4,8 +4,15 @@ $(function () {
 
         var hrefStack = getStack();
 
-        if (location.href.search(/http:\/\/localhost:8080\/menu/i) !== -1) {
-            setStack(['http://localhost:8080/menu']);
+        // if (location.href.search(/http:\/\/localhost:8080\/menu/i) !== -1) {
+        //     setStack(['http://localhost:8080/menu']);
+        // } else if (hrefStack[hrefStack.length - 1] !== location.href) {
+        //     hrefStack.push(location.href);
+        //     setStack(hrefStack);
+        // }
+
+        if (location.href.search(/http:\/\/forum-calendar.ddns.net:8080\/menu/i) !== -1) {
+            setStack(['http://forum-calendar.ddns.net:8080/menu']);
         } else if (hrefStack[hrefStack.length - 1] !== location.href) {
             hrefStack.push(location.href);
             setStack(hrefStack);

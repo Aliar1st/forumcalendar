@@ -20,7 +20,7 @@
             <div class="wrapper-cards">
 
                 <div class="btn-group" data-toggle="buttons">
-                    <th:block th:each="activity:${activities}">
+                    <th:block th:each="activity:${activities}" th:if="${isJustUser} and !${activity.isAdmin()} or ${isAdmin}">
                         <label class="btn col-lg-12 choose-card">
                             <input th:value="${activity.id}" th:field="*{activityId}" type="radio" hidden>
                             <div class="card-body">
