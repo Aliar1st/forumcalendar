@@ -88,7 +88,7 @@ public class BaseSpeakerService implements SpeakerService {
         if (!speakerForm.getPhoto().isEmpty()) {
             String photo = uploadsService.upload(speakerForm.getPhoto(), userService.getCurrentId())
                     .map((f) -> {
-                        if (!speaker.getPhoto().equals(f.getName()))
+                        if (speaker.getPhoto() != null && !speaker.getPhoto().equals(f.getName()))
                             uploadsService.delete(speaker.getPhoto());
                         return f.getName();
                     })

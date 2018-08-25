@@ -131,7 +131,7 @@ public class SpeakerController {
         int activityId = speakerService.get(id).getActivity().getId();
 
         if (!permissionEvaluator.hasPermission(authentication, activityId, "Activity", "w")) {
-            return REDIRECT_ROOT_MAPPING + activityId;
+            return "redirect:/speaker/" + id;
         }
 
         SpeakerForm speakerForm = new SpeakerForm(speakerService.get(id));
@@ -148,7 +148,7 @@ public class SpeakerController {
             Authentication authentication
     ) {
         if (!permissionEvaluator.hasPermission(authentication, speakerForm.getActivityId(), "Activity", "w")) {
-            return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
+            return "redirect:/speaker/" + id;
         }
 
         if (bindingResult.hasErrors()) {
@@ -158,7 +158,7 @@ public class SpeakerController {
         speakerForm.setId(id);
         speakerService.save(speakerForm);
 
-        return REDIRECT_ROOT_MAPPING + speakerForm.getActivityId();
+        return "redirect:/speaker/" + id;
     }
 
 
@@ -171,7 +171,7 @@ public class SpeakerController {
             Model model
     ) throws InterruptedException {
 
-        System.out.println("search "+q);
+        System.out.println("search " + q);
 
         PermissionService.Identifier identifier = permissionService.identifyUser(activityId);
 
@@ -189,7 +189,7 @@ public class SpeakerController {
             Model model
     ) {
 
-        System.out.println("partialSpeakers "+activityId);
+        System.out.println("partialSpeakers " + activityId);
 
         model.addAttribute("speakers", speakerService.getSpeakerModelsByActivityId(activityId));
 

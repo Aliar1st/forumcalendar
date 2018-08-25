@@ -8,14 +8,16 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid wrapper">
-        <form th:action="@{add}" th:object="${speakerForm}" method="POST">
+        <form th:action="@{add}" th:object="${speakerForm}" method="POST" enctype="multipart/form-data">
             <div class="header-personal  header-settings">
                 <a onclick="history.back();" class="link">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
-                <img class="img-profile img-edit" src="/static/images/photo-ava.jpg"/>
-                <img class="img-profile mask-img" src="/static/images/mask-img.png"/>
-                <input th:field="*{photo}" type="file" hidden>
+                <label>
+                    <img class="img-profile img-edit" th:src="@{/public/__${speakerForm.photoUrl}__}"/>
+                    <!--<img class="img-profile mask-img" src="/static/images/mask-img.png"/>-->
+                    <input th:field="*{photo}" type="file" hidden>
+                </label>
                 <button type="submit">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </button>

@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper">
         <form th:action="@{/shifts/__${shiftForm.id}__/edit}" th:object="${shiftForm}" method="POST">
             <div class="header-personal  header-settings header-add">
-                <a th:href="@{/shifts/__${shiftForm.id}__}">
+                <a onclick="history.back();" class="link">
                     <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
                 <h2 class="choose-h2">Изменить смену</h2>
