@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.*;
+import ru.forumcalendar.forumcalendar.model.ActivityModel;
+import ru.forumcalendar.forumcalendar.model.ShiftListModel;
+import ru.forumcalendar.forumcalendar.model.ShiftModel;
 import ru.forumcalendar.forumcalendar.model.TeamModel;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingActivityForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingShiftForm;
@@ -82,6 +85,8 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
             return REDIRECT_TO_ENTRANCE;
         }
+
+        List<ShiftListModel> a = shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId());
 
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
         model.addAttribute(new ChoosingShiftForm());

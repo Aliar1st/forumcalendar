@@ -10,7 +10,7 @@
     <div class="container-fluid wrapper">
         <form th:action="@{/events/__${eventForm.id}__/edit}" th:object="${eventForm}" method="POST">
             <div class="header-personal header-edit">
-                <a th:href="@{/events/choosing_date}">
+                <a onclick="history.back();" class="link">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <h4>Добавить событие</h4>

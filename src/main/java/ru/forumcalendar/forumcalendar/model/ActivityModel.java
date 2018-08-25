@@ -14,6 +14,8 @@ public class ActivityModel {
 
     private String name;
 
+    private String photoUrl;
+
     private LocalDate startDate;
 
     private LocalDate endDate;

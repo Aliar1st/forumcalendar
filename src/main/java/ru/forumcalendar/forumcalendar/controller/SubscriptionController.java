@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.forumcalendar.forumcalendar.config.constt.SessionAttributeName;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Team;
+import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.form.ToggleSubscribeForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -75,6 +77,8 @@ public class SubscriptionController {
         }
 
         Team team = teamService.get(teamId);
+
+        List<ShiftEventModel> f = subscriptionService.getEventModelsBySubscription(team.getShift().getId());
 
         model.addAttribute("events", subscriptionService.getEventModelsBySubscription(team.getShift().getId()));
 
