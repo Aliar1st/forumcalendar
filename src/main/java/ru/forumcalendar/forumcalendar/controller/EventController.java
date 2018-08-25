@@ -22,6 +22,7 @@ import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -287,10 +288,11 @@ public class EventController {
     @PreAuthorize("hasPermission(#id, 'Event', 'w')")
     @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int id
+            @PathVariable int id,
+            HttpServletRequest request
     ) {
         Event event = eventService.delete(id);
 
-        return REDIRECT_ROOT_MAPPING + event.getShift().getId();
+        return "redirect:" + request.getHeader("referer");
     }
 }
