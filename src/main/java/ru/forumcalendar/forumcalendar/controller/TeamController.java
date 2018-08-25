@@ -78,6 +78,7 @@ public class TeamController {
 
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teamService.getTeamModelsByActivityId(activityId));
+        model.addAttribute("search",false);
 
         return HTML_FOLDER + "/teams";
     }
@@ -94,6 +95,7 @@ public class TeamController {
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
         model.addAttribute("curShiftId", shiftId);
+        model.addAttribute("search",true);
 
         return HTML_FOLDER + "/teams";
     }

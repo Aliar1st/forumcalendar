@@ -50,19 +50,21 @@
         <img onclick="$.goBack();" class="back-icon" src="/static/images/left-arrow.svg"/>
 
         <h2 class="choose-h2">Команды</h2>
-        <img  class="back-icon search-icon" src="/static/images/search.svg"/>
-        <form class="search-div row">
-            <div class="col-lg-12 col-12">
-                <input type="search" class="form-control"
-                       id="team-search-input"
-                       autocomplete="off"
-                       autocorrect="off"
-                       autocapitalize="off"
-                       spellcheck="false"
-                       placeholder="Поиск..."/>
-                <input type="hidden" name="shiftId" th:value="${curShiftId}">
-            </div>
-        </form>
+        <div th:if="${search}">
+            <img  class="back-icon search-icon" src="/static/images/search.svg"/>
+            <form  class="search-div row">
+                <div class="col-lg-12 col-12">
+                    <input type="search" class="form-control"
+                           id="team-search-input"
+                           autocomplete="off"
+                           autocorrect="off"
+                           autocapitalize="off"
+                           spellcheck="false"
+                           placeholder="Поиск..."/>
+                    <input type="hidden" name="shiftId" th:value="${curShiftId}">
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="content-personal add-event forums-div">
