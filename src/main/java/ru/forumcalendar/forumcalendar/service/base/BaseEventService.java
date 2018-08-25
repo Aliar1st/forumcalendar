@@ -121,13 +121,6 @@ public class BaseEventService implements EventService {
     }
 
     @Override
-    public List<ShiftEventModel> setUserSubscribes(List<ShiftEventModel> eventModels) {
-        return eventModels.stream()
-                .peek(e -> e.setSubscribed(subscriptionService.isSubscribed(e.getId()))
-                ).collect(Collectors.toList());
-    }
-
-    @Override
     public List<ShiftEventModel> getEventModelsByShiftIdAndDate(int shiftId, LocalDate date) {
 
         LocalDateTime startDate = date.atStartOfDay();

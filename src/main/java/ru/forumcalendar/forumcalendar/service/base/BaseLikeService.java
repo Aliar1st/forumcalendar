@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.Like;
 import ru.forumcalendar.forumcalendar.domain.LikeIdentity;
+import ru.forumcalendar.forumcalendar.model.InnerShiftEventModel;
 import ru.forumcalendar.forumcalendar.repository.LikeRepository;
 import ru.forumcalendar.forumcalendar.service.EventService;
 import ru.forumcalendar.forumcalendar.service.LikeService;
@@ -26,6 +27,34 @@ public class BaseLikeService implements LikeService {
         this.likeRepository = likeRepository;
         this.eventService = eventService;
         this.userService = userService;
+    }
+
+    @Override
+    public RatingType isLike(int eventId) {
+        Like like = likeRepository.getByLikeIdentityEventIdAndLikeIdentityUserId(eventId, userService.getCurrentId());
+        if (like == null) {
+            return RatingType.NONE;
+        } else if (like.isLike()) {
+            return RatingType.LIKE;
+        }
+        return RatingType.DISLIKE;
+    }
+
+    @Override
+    public InnerShiftEventModel setLikeDislike(InnerShiftEventModel model, int eventId) {
+        Like like = likeRepository.getByLikeIdentityEventIdAndLikeIdentityUserId(eventId, userService.getCurrentId());
+        if (like == null) {
+            model.setDislike(false);
+            model.setLike(false);
+        } else if (like.isLike()) {
+            model.setDislike(false);
+            model.setLike(true);
+        } else {
+            model.setDislike(true);
+            model.setLike(false);
+        }
+
+        return model;
     }
 
     @Override

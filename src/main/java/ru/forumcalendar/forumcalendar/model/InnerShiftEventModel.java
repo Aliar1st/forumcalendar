@@ -13,6 +13,10 @@ public class InnerShiftEventModel extends EventModel {
 
     private boolean favorite;
 
+    private boolean like;
+
+    private boolean dislike;
+
     private int likes;
 
     private int dislikes;

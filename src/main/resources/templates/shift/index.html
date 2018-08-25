@@ -15,35 +15,36 @@
             <h2 th:text="${activityName}" class="choose-h2">Территория смыслов</h2>
         </div>
 
-        <div class="content-personal add-event forums-div ">
+        <div class=" ">
             <h3 class="text-center">Смены</h3>
             <!--<div th:each="shift:${shifts}" class="member-line col-11 content-shifts">-->
                 <!--<a th:href="@{/shifts/__${shift.id}__}">-->
                     <!--<h4 th:text="${shift.name}">Смена 1</h4>-->
 
 
-
-                    <label th:each="shift:${shifts}" class="btn  col-lg-12 choose-card">
+                <div class="wrapper-cards">
+                    <label th:each="shift:${shifts}" class="btn  col-lg-12 choose-card card-shift">
                         <a th:href="@{/shifts/__${shift.id}__}">
-                        <div class="card-body">
-                            <div class="col-3 col-lg-3">
-                                <img  class="img-activity" th:src="@{/public/__${shift.photo}__}"/>
+                            <div class="card-body">
+                                <div class="col-3 col-lg-3">
+                                    <img  class="img-activity" th:src="@{/public/__${shift.photo}__}"/>
+                                </div>
+                                <div class="col-7 col-lg-7">
+                                    <h5 th:text="|Смена ${shift.name}|" class="card-title"></h5>
+                                    <img  class="calendar-icon place-line" src="/static/images/calendar-icon.svg"/>
+                                    <p th:text="${shift.getFormatStartDate()}" class="card-text info-date-shift place-line"></p>
+                                    <p th:text="| - |" class="card-text info-date-shift place-line"></p>
+                                    <p th:text="${shift.getFormatEndDate()}" class="card-text info-date-shift place-line"></p>
+                                </div>
+                                <div class="col-1 col-lg-1">
+                                    <a th:href="@{/shifts/__${shift.id}__/delete}">
+                                        <img  class="back-icon" src="/static/images/remove-icon.svg"/>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="col-8 col-lg-8">
-                                <h5 th:text="|Смена ${shift.name}|" class="card-title"></h5>
-                                <img  class="calendar-icon place-line" src="/static/images/calendar-icon.svg"/>
-                                <p th:text="${shift.getFormatStartDate()}" class="card-text info-date-shift place-line"></p>
-                                <p th:text="| - |" class="card-text info-date-shift place-line"></p>
-                                <p th:text="${shift.getFormatEndDate()}" class="card-text info-date-shift place-line"></p>
-                            </div>
-                            <div class="col-1 col-lg-1">
-                                <a th:href="@{/shifts/__${shift.id}__/delete}">
-                                    <img  class="back-icon" src="/static/images/remove-icon.svg"/>
-                                </a>
-                            </div>
-                        </div>
                         </a>
                     </label>
+                </div>
                 <!--</a>-->
             <!--</div>-->
         </div>

@@ -63,7 +63,7 @@ public class SpeakerController {
 
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("speaker", speaker);
-        model.addAttribute("events", eventService.setUserSubscribes(speaker.getEvents()));
+        model.addAttribute("events", speaker.getEvents());
 
         return HTML_FOLDER + "speaker";
     }

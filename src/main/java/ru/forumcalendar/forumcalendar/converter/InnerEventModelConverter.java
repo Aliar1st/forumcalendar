@@ -31,6 +31,7 @@ public class InnerEventModelConverter implements Converter<Event, InnerShiftEven
         innerShiftEventModel.setLikes(likeService.getLikes(event.getId()));
         innerShiftEventModel.setDislikes(likeService.getDislikes(event.getId()));
         innerShiftEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
+        likeService.setLikeDislike(innerShiftEventModel, event.getId());
 
         LocalDateTime startEvent = event.getStartDatetime();
         LocalDateTime startShift = event.getShift().getStartDate().atStartOfDay();

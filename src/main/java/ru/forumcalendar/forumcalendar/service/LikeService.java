@@ -1,6 +1,12 @@
 package ru.forumcalendar.forumcalendar.service;
 
+import ru.forumcalendar.forumcalendar.model.InnerShiftEventModel;
+
 public interface LikeService {
+
+    InnerShiftEventModel setLikeDislike(InnerShiftEventModel model, int eventId);
+
+    RatingType isLike(int eventId);
 
     void setLike(int eventId, boolean like);
 
@@ -15,4 +21,10 @@ public interface LikeService {
     int getDislikes(int eventId);
 
     int getLikeRaiting(int eventId);
+
+    enum RatingType {
+        LIKE,
+        DISLIKE,
+        NONE;
+    }
 }

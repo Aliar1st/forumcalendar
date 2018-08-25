@@ -1,9 +1,11 @@
 <!--suppress ThymeleafVariablesResolveInspection -->
 
-<div class="modal-body add-shift-modal added-shift" xmlns:th="http://www.thymeleaf.org/">
+<div class="modal-body add-shift-modal added-shift choose-card card" xmlns:th="http://www.thymeleaf.org/">
 
-    <h2 class="shift-name" th:text="|Смена ${num+1}|">Смена 1</h2>
-    <button class="remove-added-shift" type="button">Удалить смену</button>
+    <!--<h2 class="shift-name" th:text="|Смена ${num+1}|">Смена 1</h2>-->
+    <button class="remove-added-shift check-btn" type="button">
+        <img  class="back-icon" src="/static/images/remove-icon.svg"/>
+    </button>
 
     <input th:id="|shiftForms${num}.name|"
            th:name="|shiftForms[${num}].name|"
@@ -32,5 +34,7 @@
            type="text" class="form-control col-10"
            placeholder="О смене" aria-label="Username"
            aria-describedby="basic-addon1">
+
+
 
 </div>

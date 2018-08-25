@@ -2,13 +2,26 @@ $(function () {
 
     $(document).on('click', 'form[name="like"] button[type="button"]', function (event) {
         var likeForm = $(event.currentTarget).parent();
-
+        // likeClick(event);
+        // dislikeClick(event);
         sendRequest(event);
     });
 
     $(document).on('click', 'form[name="dislike"] button[type="button"]', function (event) {
+        // likeClick(event);
+        // dislikeClick(event);
         sendRequest(event);
     });
+
+    // function likeClick(event){
+    //     $(event).find(".like-empty").toggle();
+    //     $(event).find(".like").toggle();
+    // }
+    //
+    // function dislikeClick(event){
+    //     $(event).find(".dislike-empty").toggle();
+    //     $(event).find(".dislike").toggle();
+    // }
 
     function sendRequest(event) {
         var currentForm = $(event.currentTarget).parent();

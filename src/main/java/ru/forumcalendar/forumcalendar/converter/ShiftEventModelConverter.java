@@ -37,6 +37,7 @@ public class ShiftEventModelConverter implements Converter<Event, ShiftEventMode
         shiftEventModel.setLikes(likeService.getLikes(event.getId()));
         shiftEventModel.setDislikes(likeService.getDislikes(event.getId()));
         shiftEventModel.setFavorite(subscriptionService.isSubscribed(event.getId()));
+        likeService.setLikeDislike(shiftEventModel,event.getId());
 
         List<InnerSpeakerModel> speakers = event.getSpeakers()
                 .stream()
