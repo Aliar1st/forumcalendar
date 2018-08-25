@@ -12,7 +12,7 @@
             <label>Название
                 <input th:field="*{name}" type="text">
                 <label th:if="${#fields.hasErrors('name')}"
-                       th:errors="*{name}">error
+                       th:errors="*{name}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -20,7 +20,7 @@
             <label>Дата начала
                 <input th:field="*{startDate}" type="date">
                 <label th:if="${#fields.hasErrors('startDate')}"
-                       th:errors="*{startDate}">error
+                       th:errors="*{startDate}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -28,7 +28,7 @@
             <label>Дата конца
                 <input th:field="*{endDate}" type="date">
                 <label th:if="${#fields.hasErrors('endDate')}"
-                       th:errors="*{endDate}">error
+                       th:errors="*{endDate}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -36,12 +36,12 @@
             <label>Описание
                 <input th:field="*{description}" type="text">
                 <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
+                       th:errors="*{description}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
         <label th:if="${#fields.hasErrors('activityId')}"
-               th:errors="*{activityId}">error
+               th:errors="*{activityId}" class="invalid-feedback">error
         </label>
         <input type="hidden" th:field="*{activityId}">
         <input type="submit" value="Создать">

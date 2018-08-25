@@ -12,7 +12,7 @@
             <label>Название
                 <input th:field="*{name}" type="text">
                 <label th:if="${#fields.hasErrors('name')}"
-                       th:errors="*{name}">error
+                       th:errors="*{name}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -20,7 +20,7 @@
             <label>Направление
                 <input th:field="*{direction}" type="text">
                 <label th:if="${#fields.hasErrors('direction')}"
-                       th:errors="*{direction}">error
+                       th:errors="*{direction}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -28,12 +28,12 @@
             <label>Описание
                 <input th:field="*{description}" type="text">
                 <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
+                       th:errors="*{description}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
         <label th:if="${#fields.hasErrors('shiftId')}"
-               th:errors="*{shiftId}">error
+               th:errors="*{shiftId}" class="invalid-feedback">error
         </label>
         <input type="hidden" th:field="*{shiftId}">
         <input type="submit" value="Обновить">

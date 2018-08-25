@@ -1538,3 +1538,11 @@ a:hover{
     padding: 5px;
     margin: 10px;
 }
+
+.invalid-feedback {
+    display: block;
+}
+
+.form-control {
+    margin-bottom: 0 !important;
+}

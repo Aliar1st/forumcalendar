@@ -37,7 +37,7 @@
                     </th:block>
                 </div>
             </div>
-            <label th:if="${error!=null}"
+            <label class="invalid-feedback" th:if="${error!=null}"
                    th:text="${error}">error
             </label>
             <button type="submit" class="btn btn-next">Дальше</button>

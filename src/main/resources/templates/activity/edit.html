@@ -104,29 +104,29 @@
                 <input th:field="*{name}" type="text" class="form-control" placeholder="Название форума"
                        aria-label="Username"
                        aria-describedby="basic-addon1">
-                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</label>
+                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback">error</label>
 
                 <input th:field="*{place}" type="text" class="form-control" placeholder="Место"
                        aria-label="Username"
                        aria-describedby="basic-addon1">
-                <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}">error</label>
+                <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}" class="invalid-feedback">error</label>
 
                 <input th:field="*{startDate}" type="text" class="form-control col-10"
                        placeholder="Дата начала"
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
-                <label th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">error</label>
+                <label th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="invalid-feedback">error</label>
 
                 <input th:field="*{endDate}" type="text" class="form-control col-10"
                        placeholder="Дата конца"
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
-                <label th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">error</label>
+                <label th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="invalid-feedback">error</label>
 
                 <input th:field="*{description}" type="text" class="form-control" placeholder="О форуме..."
                        aria-label="Username"
                        aria-describedby="basic-addon1">
-                <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}">error</label>
+                <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">error</label>
 
             </div>
 
@@ -146,7 +146,7 @@
                         <input th:field="*{shiftForms[__${stat.index}__].name}" type="text" class="form-control col-10"
                                placeholder="Название смены" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].name')}"
-                               th:errors="*{shiftForms[__${stat.index}__].name}">error</label>
+                               th:errors="*{shiftForms[__${stat.index}__].name}" class="invalid-feedback">error</label>
 
                         <input th:field="*{shiftForms[__${stat.index}__].startDate}" type="date"
                                class="form-control col-10"
@@ -154,7 +154,7 @@
                                aria-describedby="basic-addon1" onfocus="this.type='date';
                                    this.setAttribute('onfocus','');this.blur();this.focus();">
                         <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].startDate')}"
-                               th:errors="*{shiftForms[__${stat.index}__].startDate}">error</label>
+                               th:errors="*{shiftForms[__${stat.index}__].startDate}" class="invalid-feedback">error</label>
 
                         <input th:field="*{shiftForms[__${stat.index}__].endDate}" type="date"
                                class="form-control col-10"
@@ -162,16 +162,16 @@
                                aria-describedby="basic-addon1" onfocus="this.type='date';
                                    this.setAttribute('onfocus','');this.blur();this.focus();">
                         <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].endDate')}"
-                               th:errors="*{shiftForms[__${stat.index}__].endDate}">error</label>
+                               th:errors="*{shiftForms[__${stat.index}__].endDate}" class="invalid-feedback">error</label>
 
                         <input th:field="*{shiftForms[__${stat.index}__].description}" type="text"
                                class="form-control col-10"
                                placeholder="О смене" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+'].description')}"
-                               th:errors="*{shiftForms[__${stat.index}__].description}">error</label>
+                               th:errors="*{shiftForms[__${stat.index}__].description}" class="invalid-feedback">error</label>
 
                         <label th:if="${#fields.hasErrors('shiftForms['+__${stat.index}__+']')}"
-                               th:errors="*{shiftForms[__${stat.index}__]}">error
+                               th:errors="*{shiftForms[__${stat.index}__]}" class="invalid-feedback">error
                         </label>
 
                     </div>

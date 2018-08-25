@@ -12,7 +12,7 @@
             <label>Название
                 <input th:field="*{name}" type="text">
                 <label th:if="${#fields.hasErrors('name')}"
-                       th:errors="*{name}">error
+                       th:errors="*{name}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -20,7 +20,7 @@
             <label>Дата и время начала
                 <input th:field="*{startDatetime}" type="datetime-local">
                 <label th:if="${#fields.hasErrors('startDatetime')}"
-                       th:errors="*{startDatetime}">error
+                       th:errors="*{startDatetime}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -28,7 +28,7 @@
             <label>Дата и время конца
                 <input th:field="*{endDatetime}" type="datetime-local">
                 <label th:if="${#fields.hasErrors('endDatetime')}"
-                       th:errors="*{endDatetime}">error
+                       th:errors="*{endDatetime}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -36,7 +36,7 @@
             <label>Место
                 <input th:field="*{place}" type="text">
                 <label th:if="${#fields.hasErrors('place')}"
-                       th:errors="*{place}">error
+                       th:errors="*{place}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -44,7 +44,7 @@
             <label>Описание
                 <input th:field="*{description}" type="text">
                 <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
+                       th:errors="*{description}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -59,12 +59,12 @@
                     </th:block>
                 </select>
                 <label th:if="${#fields.hasErrors('speakersId')}"
-                       th:errors="*{speakersId}">error
+                       th:errors="*{speakersId}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
         <label th:if="${#fields.hasErrors('shiftId')}"
-               th:errors="*{shiftId}">error
+               th:errors="*{shiftId}" class="invalid-feedback">error
         </label>
         <input type="hidden" th:field="*{shiftId}">
         <input type="submit" value="Создать">

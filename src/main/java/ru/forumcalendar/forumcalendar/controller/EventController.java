@@ -22,6 +22,7 @@ import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -134,7 +135,7 @@ public class EventController {
         List<TeamEventModel> teamEventModels = teamEventService.getTeamEventModelsByTeamIdAndDate(teamId, choosingEventsDate.getDate());
 
         List<EventModel> events = new ArrayList<>(shiftEventModels.size() + teamEventModels.size());
-        events.addAll(eventService.setUserSubscribes(shiftEventModels));
+        events.addAll(shiftEventModels);
         events.addAll(teamEventModels);
         Collections.sort(events);
 
@@ -163,7 +164,7 @@ public class EventController {
             Model model,
             @RequestParam int activityId
     ) {
-        model.addAttribute("events", eventService.setUserSubscribes(eventService.getEventModelsByActivityId(activityId)));
+        model.addAttribute("events", eventService.getEventModelsByActivityId(activityId));
         model.addAttribute("activityId", activityId);
         return HTML_FOLDER + "activityIndex";
     }
@@ -287,10 +288,11 @@ public class EventController {
     @PreAuthorize("hasPermission(#id, 'Event', 'w')")
     @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int id
+            @PathVariable int id,
+            HttpServletRequest request
     ) {
         Event event = eventService.delete(id);
 
-        return REDIRECT_ROOT_MAPPING + event.getShift().getId();
+        return "redirect:" + request.getHeader("referer");
     }
 }

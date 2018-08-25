@@ -25,35 +25,35 @@
 
             <div class="content-personal edit-personal">
                 <label th:if="${#fields.hasErrors('photo')}"
-                       th:errors="*{photo}">error
+                       th:errors="*{photo}" class="invalid-feedback">error
                 </label>
                 <div class="forum-info">
                     <input th:field="*{firstName}" type="text" class="form-control"
                            placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('firstName')}"
-                           th:errors="*{firstName}">error
+                           th:errors="*{firstName}" class="invalid-feedback">error
                     </label>
 
                     <input th:field="*{lastName}" type="text" class="form-control"
                            placeholder="Фамилия" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('lastName')}"
-                           th:errors="*{lastName}">error
+                           th:errors="*{lastName}" class="invalid-feedback">error
                     </label>
 
                     <input th:field="*{link}" type="text" class="form-control"
                            placeholder="Ссылка" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('link')}"
-                           th:errors="*{link}">error
+                           th:errors="*{link}" class="invalid-feedback">error
                     </label>
 
                     <textarea th:field="*{description}" type="text" class="form-control"
                               placeholder="Описание"></textarea>
                     <label th:if="${#fields.hasErrors('description')}"
-                           th:errors="*{description}">error
+                           th:errors="*{description}" class="invalid-feedback">error
                     </label>
 
                     <label th:if="${#fields.hasErrors('activityId')}"
-                           th:errors="*{activityId}">error
+                           th:errors="*{activityId}" class="invalid-feedback">error
                     </label>
                     <input type="hidden" th:field="*{activityId}">
                 </div>
@@ -67,7 +67,7 @@
             <!--<label>Имя-->
                 <!--<input th:field="*{firstName}" type="text">-->
                 <!--<label th:if="${#fields.hasErrors('firstName')}"-->
-                       <!--th:errors="*{firstName}">error-->
+                       <!--th:errors="*{firstName}" class="invalid-feedback">error-->
                 <!--</label>-->
             <!--</label>-->
         <!--</p>-->

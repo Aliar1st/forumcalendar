@@ -18,6 +18,7 @@ import ru.forumcalendar.forumcalendar.service.TeamEventService;
 import ru.forumcalendar.forumcalendar.service.TeamMemberStatus;
 import ru.forumcalendar.forumcalendar.service.TeamService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -157,10 +158,11 @@ public class TeamEventController {
     @PreAuthorize("hasPermission(#id, 'Team_event', 'w')")
     @GetMapping("{id}/delete")
     public String delete(
-            @PathVariable int id
+            @PathVariable int id,
+            HttpServletRequest request
     ) {
         teamEventService.delete(id);
 
-        return REDIRECT_ROOT_MAPPING;
+        return "redirect:" + request.getHeader("referer");
     }
 }
