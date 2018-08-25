@@ -32,7 +32,7 @@ INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date
 
 INSERT INTO `speakers` (`id`, `created_at`, `updated_at`, `description`, `first_name`, `last_name`, `photo`, `link`, `activity_id`) VALUES
 (10,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'photo-ava.jpg', 'http://petehuston.com', 1),
-(5,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'photo-ava.jpg', 'http://petehustonii.com', 1),
+(55,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'photo-ava.jpg', 'http://petehustonii.com', 1),
 (21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest','photo-ava.jpg', 'SpeakerFTest.com', 15);
 
 INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `name`, `place`, `shift_id`) VALUES
@@ -49,9 +49,9 @@ INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_d
 INSERT INTO `events_speakers` (`event_id`, `speaker_id`) VALUES
 (13, 10),
 (28, 10),
-(8, 5),
-(13, 5),
-(28, 5);
+(8, 55),
+(13, 55),
+(28, 55);
 
 INSERT INTO `subscriptions` (`created_at`, `updated_at`, `user_id`, `event_id`) VALUES
 ('2018-08-15 19:29:53', '2018-08-15 19:29:53', '106725778006320436882', 7),

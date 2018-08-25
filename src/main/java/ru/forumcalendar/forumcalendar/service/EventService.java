@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface EventService extends SecuredService, ResourceService<Event, ShiftEventModel, EventForm> {
 
-    List<ShiftEventModel> setUserSubscribes(List<ShiftEventModel> eventModels);
-
     List<ShiftEventModel> getEventModelsByShiftIdAndDate(int shiftId, LocalDate date);
 
     List<ShiftEventModel> getEventModelsByShiftId(int shiftId);

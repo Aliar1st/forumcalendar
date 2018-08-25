@@ -56,8 +56,8 @@
                         <button type="button" class="check-btn">
                             <img  class="back-icon" src="/static/images/star-empty.svg"/>
                         </button>
-                        <!--<label th:if="${event.isSubscribed()}">Подписан</label>-->
-                        <!--<label th:unless="${event.isSubscribed()}">Не подписан</label>-->
+                        <label th:if="${event.isFavorite()}">Подписан</label>
+                        <label th:unless="${event.isFavorite()}">Не подписан</label>
                     </form>
                 </div>
 
