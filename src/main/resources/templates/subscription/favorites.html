@@ -10,95 +10,196 @@
 <div layout:fragment="content"><div class="container-fluid wrapper">
     <div class="header-personal header-edit">
         <a onclick="history.back();" class="link">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <img  class="back-icon" src="/static/images/left-arrow.svg"/>
         </a>
 
         <h2 class="choose-h2">Избранное</h2>
 
     </div>
-    <div th:each="event,stat:${events}" class="card choose-card">
-        <a sec:authorize="hasRole('ROLE_SUPERUSER')"
-           th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a><br/>
-        <a sec:authorize="hasRole('ROLE_SUPERUSER')"
-           th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a><br/>
-        <div th:if="${event.shiftEvent}" class="card-header card-header-event">
-            <div class="like-div">
-                <form name="like" th:action="@{like}" method="POST">
-                    <input type="hidden" name="eventId" th:value="${event.id}">
-                    <button type="button">
-                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                    </button>
-                    <p th:text="${event.likes}" class="info-date-shift">20</p>
-                </form>
-            </div>
-            <div class="dislike-div">
-                <form name="dislike" th:action="@{dislike}" method="POST">
-                    <input type="hidden" name="eventId" th:value="${event.id}">
-                    <button type="button">
-                        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    </button>
-                    <p th:text="${event.dislikes}" class="info-date-shift">5</p>
-                </form>
-            </div>
-            <form name="toggleSubscription" th:action="@{sub}" method="POST">
-                <input type="hidden" name="eventId" th:value="${event.id}">
-                <button type="button">
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                </button>
-                <label th:if="${event.favorite}">Подписан</label>
-                <label th:unless="${event.favorite}">Не подписан</label>
-            </form>
-        </div>
 
-        <div class="card-body event-card-body">
-            <div class="col-lg-10 col-10 info-event show-info">
-                <p th:text="${event.getFormatStartTime()}" class="card-text info-date-shift"></p>
-                <p th:text="| - |" class="card-text info-date-shift"></p>
-                <p th:text="${event.getFormatEndTime()}" class="card-text info-date-shift"></p>
-                <h5 th:text="${event.name}" class="card-title"></h5>
-                <p th:text="${event.description}" class="card-text"></p>
-                <div class="content-line-event">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <p th:text="${event.place}" class="card-text info-date-shift">Желтый лекторий</p>
+    <div class="wrapper-cards shedule-div">
+
+        <div th:each="event,stat:${events}" class="card choose-card">
+            <div class="admin-panel-event">
+                <a sec:authorize="hasRole('ROLE_SUPERUSER')"
+                   th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}" >
+                    <img  class="back-icon" src="/static/images/edit-icon.svg"/>
+                </a><br/>
+                <a sec:authorize="hasRole('ROLE_SUPERUSER')"
+                   th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">
+                    <img  class="back-icon" src="/static/images/remove-icon.svg"/>
+                </a>
+            </div>
+            <br/>
+            <div th:if="${event.shiftEvent}" class="card-header card-header-event">
+                <div class="like-div">
+                    <form name="like" th:action="@{like}" method="POST">
+                        <input type="hidden" name="eventId" th:value="${event.id}">
+                        <button type="button" class="check-btn">
+                            <img  class="back-icon" src="/static/images/like-empty.svg"/>
+                        </button>
+                        <p th:text="${event.likes}" class="info-date-shift">20</p>
+                    </form>
                 </div>
-                <div th:if="${event.shiftEvent}" class="div-speakers">
-                    <div th:each="speaker:${event.speakers}" class="content-line-event">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <p th:text="|${speaker.firstName} ${speaker.lastName}|"
-                           class="card-text info-date-shift">Иван Иванов</p>
+                <div class="dislike-div">
+                    <form name="dislike" th:action="@{dislike}" method="POST">
+                        <input type="hidden" name="eventId" th:value="${event.id}">
+                        <button type="button" class="check-btn">
+                            <img  class="back-icon" src="/static/images/dislike-empty.svg"/>
+                        </button>
+                        <p th:text="${event.dislikes}" class="info-date-shift">5</p>
+                    </form>
+                </div>
+                <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{sub}" method="POST">
+                    <input type="hidden" name="eventId" th:value="${event.id}">
+                    <button type="button" class="check-btn">
+                        <img  class="back-icon" src="/static/images/star-empty.svg"/>
+                    </button>
+                    <!--<label th:if="${event.isSubscribed()}">Подписан</label>-->
+                    <!--<label th:unless="${event.isSubscribed()}">Не подписан</label>-->
+                </form>
+            </div>
+
+            <div class="card-body event-card-body show-dop-info">
+                <div class="main-info-event">
+                    <div class="col-lg-11 col-11">
+                        <div class="col-lg-11 col-11 info-event show-info">
+                            <p th:text="${event.getFormatStartTime()}" class="card-text info-date-shift"></p>
+                            <p th:text="| - |" class="card-text info-date-shift"></p>
+                            <p th:text="${event.getFormatEndTime()}" class="card-text info-date-shift"></p>
+                            <h5 th:text="${event.name}" class="card-title"></h5>
+                            <p th:text="${event.description}" class="card-text"></p>
+                            <div class="content-line-event">
+                                <img  class="map-icon" src="/static/images/map-icon.svg"/>
+                                <p th:text="${event.place}" class="card-text info-date-shift">Желтый лекторий</p>
+                            </div>
+                            <div th:if="${event.shiftEvent}" class="div-speakers">
+                                <div th:each="speaker:${event.speakers}" class="content-line-event">
+                                    <img  class="map-icon" src="/static/images/man-user.svg"/>
+                                    <p th:text="|${speaker.firstName} ${speaker.lastName}|"
+                                       class="card-text info-date-shift">Иван Иванов</p>
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:if="${event.shiftEvent}">
+                            <div class="dop-info-div col-lg-10 col-10">
+                                <h4>Спикеры</h4>
+                                <th:block th:each="speaker:${event.speakers}">
+                                    <div class="col-lg-3 col-4">
+                                        <img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>
+                                    </div>
+                                    <div class="col-lg-7 col-6">
+                                        <h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>
+
+                                        <div class="ref-info">
+                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                            <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                        </div>
+                                    </div>
+                                    <div class="forum-info">
+                                        <h5>Описание</h5>
+                                        <div class="info-div">
+                                            <p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </th:block>
                     </div>
-                </div>
-            </div>
-            <th:block th:if="${event.shiftEvent}">
-                <div class="col-lg-1 col-1 div-caret show-dop-info">
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                    <i class="fa fa-angle-up" aria-hidden="true"></i>
-                </div>
-                <div class="dop-info-div">
-                    <h4>Спикеры</h4>
-                    <th:block th:each="speaker:${event.speakers}">
-                        <div class="col-lg-3 col-4">
-                            <img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>
-                        </div>
-                        <div class="col-lg-8 col-7">
-                            <h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>
-
-                            <div class="ref-info">
-                                <i class="fa fa-globe" aria-hidden="true"></i>
-                                <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
-                            </div>
-                        </div>
-                        <div class="forum-info">
-                            <h5>Описание</h5>
-                            <div class="info-div">
-                                <p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>
-                            </div>
+                    <th:block th:if="${event.shiftEvent}">
+                        <div class="col-lg-1 col-1 div-caret">
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <i class="fa fa-angle-up" aria-hidden="true"></i>
                         </div>
                     </th:block>
                 </div>
-            </th:block>
+
+            </div>
         </div>
     </div>
+    <!--<div th:each="event,stat:${events}" class="card choose-card">-->
+        <!--<a sec:authorize="hasRole('ROLE_SUPERUSER')"-->
+           <!--th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a><br/>-->
+        <!--<a sec:authorize="hasRole('ROLE_SUPERUSER')"-->
+           <!--th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/delete}">Delete</a><br/>-->
+        <!--<div th:if="${event.shiftEvent}" class="card-header card-header-event">-->
+            <!--<div class="like-div">-->
+                <!--<form name="like" th:action="@{like}" method="POST">-->
+                    <!--<input type="hidden" name="eventId" th:value="${event.id}">-->
+                    <!--<button type="button">-->
+                        <!--<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--<p th:text="${event.likes}" class="info-date-shift">20</p>-->
+                <!--</form>-->
+            <!--</div>-->
+            <!--<div class="dislike-div">-->
+                <!--<form name="dislike" th:action="@{dislike}" method="POST">-->
+                    <!--<input type="hidden" name="eventId" th:value="${event.id}">-->
+                    <!--<button type="button">-->
+                        <!--<i class="fa fa-thumbs-o-down" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--<p th:text="${event.dislikes}" class="info-date-shift">5</p>-->
+                <!--</form>-->
+            <!--</div>-->
+            <!--<form name="toggleSubscription" th:action="@{sub}" method="POST">-->
+                <!--<input type="hidden" name="eventId" th:value="${event.id}">-->
+                <!--<button type="button">-->
+                    <!--<i class="fa fa-star-o" aria-hidden="true"></i>-->
+                <!--</button>-->
+                <!--<label th:if="${event.favorite}">Подписан</label>-->
+                <!--<label th:unless="${event.favorite}">Не подписан</label>-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <!--<div class="card-body event-card-body">-->
+            <!--<div class="col-lg-10 col-10 info-event show-info">-->
+                <!--<p th:text="${event.getFormatStartTime()}" class="card-text info-date-shift"></p>-->
+                <!--<p th:text="| - |" class="card-text info-date-shift"></p>-->
+                <!--<p th:text="${event.getFormatEndTime()}" class="card-text info-date-shift"></p>-->
+                <!--<h5 th:text="${event.name}" class="card-title"></h5>-->
+                <!--<p th:text="${event.description}" class="card-text"></p>-->
+                <!--<div class="content-line-event">-->
+                    <!--<i class="fa fa-map-marker" aria-hidden="true"></i>-->
+                    <!--<p th:text="${event.place}" class="card-text info-date-shift">Желтый лекторий</p>-->
+                <!--</div>-->
+                <!--<div th:if="${event.shiftEvent}" class="div-speakers">-->
+                    <!--<div th:each="speaker:${event.speakers}" class="content-line-event">-->
+                        <!--<i class="fa fa-user" aria-hidden="true"></i>-->
+                        <!--<p th:text="|${speaker.firstName} ${speaker.lastName}|"-->
+                           <!--class="card-text info-date-shift">Иван Иванов</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<th:block th:if="${event.shiftEvent}">-->
+                <!--<div class="col-lg-1 col-1 div-caret show-dop-info">-->
+                    <!--<i class="fa fa-angle-down" aria-hidden="true"></i>-->
+                    <!--<i class="fa fa-angle-up" aria-hidden="true"></i>-->
+                <!--</div>-->
+                <!--<div class="dop-info-div">-->
+                    <!--<h4>Спикеры</h4>-->
+                    <!--<th:block th:each="speaker:${event.speakers}">-->
+                        <!--<div class="col-lg-3 col-4">-->
+                            <!--<img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-8 col-7">-->
+                            <!--<h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>-->
+
+                            <!--<div class="ref-info">-->
+                                <!--<i class="fa fa-globe" aria-hidden="true"></i>-->
+                                <!--<h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="forum-info">-->
+                            <!--<h5>Описание</h5>-->
+                            <!--<div class="info-div">-->
+                                <!--<p th:text="${speaker.description}">Lorem ipsum dolor sit amet.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</th:block>-->
+                <!--</div>-->
+            <!--</th:block>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <div layout:fragment="scripts">
     <script type="text/javascript" src="/static/scripts/favorites.js"></script>

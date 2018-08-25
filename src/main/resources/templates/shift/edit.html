@@ -11,11 +11,11 @@
         <form th:action="@{/shifts/__${shiftForm.id}__/edit}" th:object="${shiftForm}" method="POST">
             <div class="header-personal  header-settings header-add">
                 <a th:href="@{/shifts/__${shiftForm.id}__}">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
-                <h2 class="choose-h2">Создать смену</h2>
-                <button type="submit">
-                    <i class="fa fa-check" aria-hidden="true"></i>
+                <h2 class="choose-h2">Изменить смену</h2>
+                <button type="submit" class="check-btn">
+                    <img  class="back-icon" src="/static/images/check.svg"/>
                 </button>
             </div>
 
@@ -41,7 +41,7 @@
                            th:errors="*{endDate}">error
                     </label>
 
-                    <textarea th:field="*{description}" type="text" class="form-control col-10"
+                    <textarea th:field="*{description}" type="text" class="form-control"
                               placeholder="Описание события"></textarea>
                     <label th:if="${#fields.hasErrors('description')}"
                            th:errors="*{description}">error
