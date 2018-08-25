@@ -62,7 +62,8 @@ public class Activity extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String photo;
+    @Column(nullable = false)
+    private String photo = "photo-ava.jpg";
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)

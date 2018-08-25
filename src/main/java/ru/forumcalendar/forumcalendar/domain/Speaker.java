@@ -62,6 +62,7 @@ public class Speaker extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private String photo = "photo-ava.jpg";
 
     @EqualsAndHashCode.Exclude
