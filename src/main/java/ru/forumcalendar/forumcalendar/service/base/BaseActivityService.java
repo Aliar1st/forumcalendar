@@ -98,8 +98,7 @@ public class BaseActivityService implements ActivityService {
             }
 
             shiftRepository.saveAll(shifts);
-        }
-        else {
+        } else {
             shiftRepository.deleteByActivity_Id(activity.getId());
         }
 

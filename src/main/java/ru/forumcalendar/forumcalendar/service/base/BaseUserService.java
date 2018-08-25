@@ -46,6 +46,7 @@ public class BaseUserService implements UserService {
     private final ContactTypeRepository contactTypeRepository;
     private final UserTeamRepository userTeamRepository;
 
+    private final ConversionService conversionService;
     private final UploadsService uploadsService;
 
 

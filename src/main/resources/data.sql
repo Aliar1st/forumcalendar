@@ -33,7 +33,7 @@ INSERT INTO `shifts` (`id`, `created_at`, `updated_at`, `description`, `end_date
 INSERT INTO `speakers` (`id`, `created_at`, `updated_at`, `description`, `first_name`, `last_name`, `photo`, `link`, `activity_id`) VALUES
 (10,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete', 'Huston', 'photo-ava.jpg', 'http://petehuston.com', 1),
 (5,  '2018-08-14 15:56:48', '2018-08-14 15:56:48', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat ligula turpis, id consectetur justo tincidunt eget. Integer quis eleifend mi. Cras nec euismod tortor, id rutrum enim. Suspendisse ac condimentum lectus, sit amet interdum magna. Nunc quis consequat neque. Donec id tellus in sem scelerisque aliquam.', 'Pete II', 'Huston II', 'photo-ava.jpg', 'http://petehustonii.com', 1),
-(21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest','photo-ava.jpg', 'SpeakerFTest.com', 15);
+(21, '2018-08-17 12:24:08', '2018-08-17 12:24:08', 'SpeakerFTestDesc', 'SpeakerFTest', 'SpeakerLTest',null, 'SpeakerFTest.com', 15);
 
 INSERT INTO `events` (`id`, `created_at`, `updated_at`, `start_datetime`, `end_datetime`, `description`, `name`, `place`, `shift_id`) VALUES
 (7,  '2018-08-14 15:59:16', '2018-08-14 15:59:16', '2018-08-15 09:00:00', '2018-08-15 10:00:00', 'EventDesc1', 'EventOneTwoOne', 'PlaceOne', 2),

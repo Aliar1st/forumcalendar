@@ -62,7 +62,7 @@ public class Speaker extends AuditModel {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String photo;
+    private String photo = "photo-ava.jpg";
 
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy="speakers")
