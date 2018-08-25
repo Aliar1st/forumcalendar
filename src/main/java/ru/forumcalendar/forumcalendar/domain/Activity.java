@@ -10,7 +10,6 @@ import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Parameter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;

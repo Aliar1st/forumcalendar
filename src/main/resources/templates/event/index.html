@@ -21,7 +21,7 @@
         </div>
         <div class="wrapper-cards shedule-div">
 
-            <div th:each="event,stat:${events}" class="card choose-card">
+            <div th:each="event,stat:${events}" th:classappend="${event.shiftEvent}?event-color:team-color" class="card choose-card">
                 <div class="admin-panel-event">
                     <a sec:authorize="hasRole('ROLE_SUPERUSER')"
                        th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">
@@ -82,14 +82,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <th:block th:if="${event.shiftEvent}">
-                                <div class="dop-info-div col-lg-10 col-10">
+                            <th:block th:if="${event.shiftEvent && !event.speakers.isEmpty()}">
+                                <div class="dop-info-div">
                                     <h4>Спикеры</h4>
                                     <th:block th:each="speaker:${event.speakers}">
-                                        <div class="col-lg-3 col-4">
+                                        <div class="col-lg-4 col-4">
                                             <img class="img-profile" th:src="@{/public/__${speaker.photo}__}"/>
                                         </div>
-                                        <div class="col-lg-7 col-6">
+                                        <div class="col-lg-7 col-7">
                                             <h5 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h5>
 
                                             <div class="ref-info">
@@ -109,8 +109,10 @@
                         </div>
                         <th:block th:if="${event.shiftEvent}">
                             <div class="col-lg-1 col-1 div-caret">
-                                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                <th:block th:if="${event.shiftEvent && !event.speakers.isEmpty()}">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                </th:block>
                             </div>
                         </th:block>
                     </div>

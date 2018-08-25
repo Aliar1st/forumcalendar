@@ -14,14 +14,32 @@
 
 
 <div th:fragment="activities" xmlns:th="http://www.thymeleaf.org/">
-    <div th:each="forum, stat : ${forums}" class="forum member-line col-11">
-        <input type="hidden" name="teamId" th:value="${forum.id}">
-        <a th:href="@{/activities/__${forum.id}__}">
-            <h4 th:text="${forum.name}">Территория смыслов</h4>
-        </a>
+    <!--<div th:each="forum, stat : ${forums}" class="forum member-line col-11">-->
+        <!--<input type="hidden" name="teamId" th:value="${forum.id}">-->
+        <!--<a th:href="@{/activities/__${forum.id}__}">-->
+            <!--<h4 th:text="${forum.name}">Территория смыслов</h4>-->
+        <!--</a>-->
+
+
+        <label th:each="forum, stat : ${forums}" class="btn col-lg-12 choose-card">
+            <a th:href="@{/activities/__${forum.id}__}">
+            <input type="hidden" name="teamId" th:value="${forum.id}">
+                <div class="card-body">
+                    <div class="col-3 col-lg-3">
+                        <!--<img  class="img-activity" th:src="@{/public/__${activity.photoUrl}__}" />-->
+                    </div>
+                    <div class="col-9 col-lg-9">
+                        <h5 th:text="|Форум ${forum.name}|" class="card-title"></h5>
+                        <!--<img  class="map-icon place-line" src="/static/images/map-icon.svg"/>-->
+                        <!--<p th:text="${activity.place}" class="card-text info-date-shift place-line"></p>-->
+                    </div>
+                </div>
+            </a>
+        </label>
+
         <!--<label th:text="${forum.description}"></label><br/>-->
         <!--<label th:text="|${forum.startDate} - ${forum.endDate}|"></label><br/>-->
-    </div>
+    <!--</div>-->
     <div th:if="${#lists.isEmpty(forums)}">
         <label>По вашему запросу ничего не было найдено</label>
     </div>
