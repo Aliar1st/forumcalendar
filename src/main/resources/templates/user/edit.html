@@ -25,18 +25,18 @@
 
             <div class="content-personal edit-personal">
                 <label th:if="${#fields.hasErrors('photo')}"
-                       th:errors="*{photo}">error
+                       th:errors="*{photo}" class="invalid-feedback">error
                 </label>
                 <div class="forum-info">
                     <input th:field="*{firstName}" type="text" class="form-control"
                            placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('firstName')}"
-                           th:errors="*{firstName}">error
+                           th:errors="*{firstName}" class="invalid-feedback">error
                     </label>
                     <input th:field="*{lastName}" type="text" class="form-control"
                            placeholder="Фамилия" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('lastName')}"
-                           th:errors="*{lastName}">error
+                           th:errors="*{lastName}" class="invalid-feedback">error
                     </label>
                 </div>
 
@@ -48,7 +48,7 @@
                         <input th:field="*{contactForms[0].link}" type="text" class="form-control"
                                placeholder="Вк" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('contactForms[0].link')}"
-                               th:errors="*{contactForms[0].link}">error
+                               th:errors="*{contactForms[0].link}" class="invalid-feedback">error
                         </label>
                     </div>
                     <div class="content-line col-lg-12 col-xs-12">
@@ -57,7 +57,7 @@
                         <input th:field="*{contactForms[1].link}" type="text" class="form-control"
                                placeholder="Телеграм" aria-label="Username" aria-describedby="basic-addon1">
                         <label th:if="${#fields.hasErrors('contactForms[1].link')}"
-                               th:errors="*{contactForms[1].link}">error
+                               th:errors="*{contactForms[1].link}" class="invalid-feedback">error
                         </label>
                     </div>
                 </div>

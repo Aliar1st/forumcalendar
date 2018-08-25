@@ -24,13 +24,13 @@
                 <input th:field="*{name}" type="text" class="form-control col-10" placeholder="Название события"
                        aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('name')}"
-                       th:errors="*{name}">error
+                       th:errors="*{name}" class="invalid-feedback">error
                 </label>
 
                 <input th:field="*{place}" type="text" class="form-control col-10" placeholder="Место проведения"
                        aria-label="Username" aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('place')}"
-                       th:errors="*{place}">error
+                       th:errors="*{place}" class="invalid-feedback">error
                 </label>
 
                 <input th:field="*{startDatetime}" type="text" class="form-control col-10"
@@ -38,7 +38,7 @@
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
                 <label th:if="${#fields.hasErrors('startDatetime')}"
-                       th:errors="*{startDatetime}">error
+                       th:errors="*{startDatetime}" class="invalid-feedback">error
                 </label>
 
                 <input th:field="*{endDatetime}" type="text" class="form-control col-10"
@@ -46,18 +46,18 @@
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='datetime-local';this.setAttribute('onfocus','');this.blur();this.focus();">
                 <label th:if="${#fields.hasErrors('endDatetime')}"
-                       th:errors="*{endDatetime}">error
+                       th:errors="*{endDatetime}" class="invalid-feedback">error
                 </label>
 
                 <textarea th:field="*{description}" type="text" class="form-control col-10"
                           placeholder="Описание события"></textarea>
                 <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
+                       th:errors="*{description}" class="invalid-feedback">error
                 </label>
             </div>
 
             <label th:if="${#fields.hasErrors('teamId')}"
-                   th:errors="*{teamId}">error
+                   th:errors="*{teamId}" class="invalid-feedback">error
             </label>
             <input type="hidden" th:field="*{teamId}">
         </form>

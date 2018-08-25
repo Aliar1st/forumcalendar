@@ -61,7 +61,7 @@
                    aria-label="Username"
                    aria-describedby="basic-addon1">
             <label th:if="${#fields.hasErrors('name')}"
-                   th:errors="*{name}">error
+                   th:errors="*{name}" class="invalid-feedback">error
             </label>
         </div>
 
@@ -70,7 +70,7 @@
                    aria-label="Username"
                    aria-describedby="basic-addon1">
             <label th:if="${#fields.hasErrors('description')}"
-                   th:errors="*{description}">error
+                   th:errors="*{description}" class="invalid-feedback">error
             </label>
         </div>
 

@@ -12,7 +12,7 @@
             <label>Имя
                 <input th:field="*{firstName}" type="text">
                 <label th:if="${#fields.hasErrors('firstName')}"
-                       th:errors="*{firstName}">error
+                       th:errors="*{firstName}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -20,7 +20,7 @@
             <label>Фамилия
                 <input th:field="*{lastName}" type="text">
                 <label th:if="${#fields.hasErrors('lastName')}"
-                       th:errors="*{lastName}">error
+                       th:errors="*{lastName}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -28,7 +28,7 @@
             <label>Ссылка
                 <input th:field="*{link}" type="text">
                 <label th:if="${#fields.hasErrors('link')}"
-                       th:errors="*{link}">error
+                       th:errors="*{link}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
@@ -36,12 +36,12 @@
             <label>Описание
                 <input th:field="*{description}" type="text">
                 <label th:if="${#fields.hasErrors('description')}"
-                       th:errors="*{description}">error
+                       th:errors="*{description}" class="invalid-feedback">error
                 </label>
             </label>
         </p>
         <label th:if="${#fields.hasErrors('activityId')}"
-               th:errors="*{activityId}">error
+               th:errors="*{activityId}" class="invalid-feedback">error
         </label>
         <input type="hidden" th:field="*{activityId}">
         <input type="submit" value="Обновить">

@@ -24,35 +24,35 @@
                     <input th:field="*{name}" type="text" class="form-control"
                            placeholder="Название смены" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('name')}"
-                           th:errors="*{name}">error
+                           th:errors="*{name}" class="invalid-feedback">error
                     </label>
 
                     <input th:field="*{startDate}" type="text" class="form-control"
                            placeholder="Дата начала" aria-label="Username" aria-describedby="basic-addon1"
                            onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
                     <label th:if="${#fields.hasErrors('startDate')}"
-                           th:errors="*{startDate}">error
+                           th:errors="*{startDate}" class="invalid-feedback">error
                     </label>
 
                     <input th:field="*{endDate}" type="text" class="form-control"
                            placeholder="Дата конца" aria-label="Username" aria-describedby="basic-addon1"
                            onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
                     <label th:if="${#fields.hasErrors('endDate')}"
-                           th:errors="*{endDate}">error
+                           th:errors="*{endDate}" class="invalid-feedback">error
                     </label>
 
                     <textarea th:field="*{description}" type="text" class="form-control"
                               placeholder="Описание события"></textarea>
                     <label th:if="${#fields.hasErrors('description')}"
-                           th:errors="*{description}">error
+                           th:errors="*{description}" class="invalid-feedback">error
                     </label>
                 </div>
 
                 <div th:if="${#fields.hasGlobalErrors()}"
-                     th:errors="${shiftForm}">error
+                     th:errors="${shiftForm}" class="invalid-feedback">error
                 </div>
                 <label th:if="${#fields.hasErrors('activityId')}"
-                       th:errors="*{activityId}">error
+                       th:errors="*{activityId}" class="invalid-feedback">error
                 </label>
                 <input type="hidden" th:field="*{activityId}">
             </div>
