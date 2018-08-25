@@ -80,8 +80,10 @@ public class BaseActivityService implements ActivityService {
         Activity activity = activityRepository.findById(activityForm.getId()).orElse(new Activity());
         activity.setName(activityForm.getName());
         activity.setUser(userService.getCurrentUser());
-        activity.setDescription(activityForm.getDescription());
         activity.setPlace(activityForm.getPlace());
+        activity.setStartDate(activityForm.getStartDate());
+        activity.setEndDate(activityForm.getEndDate());
+        activity.setDescription(activityForm.getDescription());
         activity = activityRepository.save(activity);
 
         if (activityForm.getShiftForms() != null) {

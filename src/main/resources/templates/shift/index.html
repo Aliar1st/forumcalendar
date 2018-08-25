@@ -27,14 +27,14 @@
                         <a th:href="@{/shifts/__${shift.id}__}">
                         <div class="card-body">
                             <div class="col-3 col-lg-3">
-                                <!--<img  class="img-activity" th:src="@{/public/__${shift.photoUrl}__}"/>-->
+                                <img  class="img-activity" th:src="@{/public/__${shift.photo}__}"/>
                             </div>
                             <div class="col-8 col-lg-8">
                                 <h5 th:text="|Смена ${shift.name}|" class="card-title"></h5>
                                 <img  class="calendar-icon place-line" src="/static/images/calendar-icon.svg"/>
-                                <!--<p th:text="${shift.getFormatStartDate()}" class="card-text info-date-shift place-line"></p>-->
-                                <!--<p th:text="| - |" class="card-text info-date-shift place-line"></p>-->
-                                <!--<p th:text="${shift.getFormatEndDate()}" class="card-text info-date-shift place-line"></p>-->
+                                <p th:text="${shift.getFormatStartDate()}" class="card-text info-date-shift place-line"></p>
+                                <p th:text="| - |" class="card-text info-date-shift place-line"></p>
+                                <p th:text="${shift.getFormatEndDate()}" class="card-text info-date-shift place-line"></p>
                             </div>
                             <div class="col-1 col-lg-1">
                                 <a th:href="@{/shifts/__${shift.id}__/delete}">
