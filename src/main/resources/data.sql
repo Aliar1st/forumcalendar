@@ -11,12 +11,12 @@ INSERT INTO contact_types (id, name, created_at, updated_at) VALUES
   (1, 'ВКонтакте',     NOW(), NOW()),
   (2, 'Telegram',      NOW(), NOW());
 
-INSERT INTO `users` (`id`, `created_at`, `updated_at`, `email`, `first_name`, `gender`, `last_name`, `locale`, `photo`, `role_id`) VALUES
-('106725778006320436882', '2018-08-13 22:27:11', '2018-08-13 22:27:11', 'aliar@yandex.ru', 'Илья', NULL, 'Агеев', 'ru', '5b765ec5b596e916fe119f38afebdb2d.jpg', 2);
+-- INSERT INTO `users` (`id`, `created_at`, `updated_at`, `email`, `first_name`, `gender`, `last_name`, `locale`, `photo`, `role_id`) VALUES
+-- ('106725778006320436882', '2018-08-13 22:27:11', '2018-08-13 22:27:11', 'aliar@yandex.ru', 'Илья', NULL, 'Агеев', 'ru', '5b765ec5b596e916fe119f38afebdb2d.jpg', 2);
 
 INSERT INTO `activities` (`id`, `created_at`, `updated_at`,`start_date`, `end_date`, `description`, `place`, `name`, `photo`, `user_id`) VALUES
-(1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19','2018-08-17 11:46:22', '2019-08-17 11:50:59', NULL, 'Санкт-Питербург', 'ActivityMy','photo-ava.jpg', '106725778006320436882'),
-(15, '2018-08-17 11:46:22', '2018-08-17 11:50:59','2018-08-17 11:46:22', '2019-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', 'photo-ava.jpg', '106725778006320436882');
+-- (1,  '2018-08-14 15:55:19', '2018-08-14 15:55:19','2018-08-17 11:46:22', '2019-08-17 11:50:59', NULL, 'Санкт-Питербург', 'ActivityMy','photo-ava.jpg', '106725778006320436882'),
+(2, '2018-08-17 11:46:22', '2018-08-17 11:50:59','2018-08-17 11:46:22', '2019-08-17 11:50:59', 'ActivityTestDesc', 'Санкт-Питербург', 'ActivityTestD', 'photo-ava.jpg', '106725778006320436882');
 
 
 INSERT INTO `contacts` (`id`, `created_at`, `updated_at`, `link`, `contact_type_id`, `user_id`) VALUES

@@ -58,6 +58,7 @@ public class ShiftController {
             Model model
     ) {
         model.addAttribute("shift", conversionService.convert(shiftService.get(id), ShiftModel.class));
+        model.addAttribute("activityName", shiftService.get(id).getActivity().getName());
         return HTML_FOLDER + "show";
     }
 

@@ -44,8 +44,6 @@
                             <p th:text="${event.likes}" class="info-date-shift">20</p>
                         </form>
                     </div>
-                    <!--event.isLike-->
-                    <!--event.isDislike-->
                     <div class="dislike-div">
                         <form name="dislike" th:action="@{dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">

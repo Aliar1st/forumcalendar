@@ -359,7 +359,7 @@ html, body{
 }
 
 .header-main{
-    height: 22vh;
+    height: auto;
     background-color: #46CFED;
     padding: 20px;
     color: white;

@@ -19,7 +19,7 @@ public class SpeakerForm {
 
     private int id;
 
-    private String photoUrl;
+    private String photoUrl = "photo-ava.jpg";
 
     private MultipartFile photo;
 
