@@ -401,10 +401,34 @@ html, body{
     color: white;
 }
 
-.img-profile{
-    width:100px;
-    height:100px;
+@media (min-width: 451px) {
+
+    .img-profile {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+}
+
+.img-profile {
     border-radius: 50%;
+}
+
+
+@media (max-width: 400px) {
+
+    .img-profile{
+        width:70px;
+        height:70px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .img-profile{
+        width:70px;
+        height:70px;
+    }
 }
 
 
@@ -647,6 +671,28 @@ html, body{
 
 }
 
+
+.team-color{
+    background-color: rgba(168, 227, 235, 0.46) !important;
+}
+
+.event-color{
+    background-color: rgba(243, 245, 228, 0.35) !important;
+}
+
+.shifts-body .choose-card .card-body{
+    justify-content: space-between;
+}
+
+.img-speakers{
+    width:40px !important;
+    height:40px !important;
+}
+
+.remove-btn-speaker{
+    width:10px;
+}
+
 .header-settings a,
 .header-settings label,
 .header-settings .check-btn{
@@ -814,6 +860,7 @@ html, body{
 
 .member-line h4{
     display:inline-block;
+    font-size:0.7rem !important;
 }
 
 @media (min-width: 451px){
@@ -1403,6 +1450,10 @@ a:hover{
     color: black;
 }
 
+.speakers-wrapper .member-line{
+    justify-content: space-between;
+    padding-left:0 !important;
+}
 
 .speakers-wrapper{
     height:80vh !important;
