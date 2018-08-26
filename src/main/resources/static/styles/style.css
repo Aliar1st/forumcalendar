@@ -161,7 +161,8 @@ html, body{
 .wrapper-cards{
     height: 70vh;
     margin:20px 0 20px 0;
-    /*overflow-y: auto;*/
+    overflow-y: auto;
+    overflow-x: hidden;
     padding:5px;
 }
 
@@ -363,6 +364,7 @@ html, body{
     background-color: #46CFED;
     padding: 20px;
     color: white;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.12);
 }
 
 
@@ -419,8 +421,8 @@ html, body{
 .content-main{
     background-color: white;
     /* height:80vh; */
-    padding: 20px 40px;
-    margin: 0 -15px;
+    padding: 0 40px;
+    margin: 30px -15px;
 }
 
 /*.content-main .fa{*/
@@ -488,6 +490,9 @@ html, body{
     margin: 0 -15px;
 }
 
+.header-members{
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 4px 5px rgba(0,0,0,0.12);
+}
 
 .header-personal{
     background-color: #46CFED;
@@ -495,6 +500,7 @@ html, body{
     padding: 20px;
     display: flex;
     align-items:flex-start;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 4px 5px rgba(0,0,0,0.12);
 }
 
 .header-personal .back-icon{
@@ -555,7 +561,7 @@ html, body{
 .content-personal{
     height: 69vh;
     background-color: white;
-    margin: 0 -15px;
+    margin: 10px -15px;
 }
 
 .contacts-info-edit input{
@@ -623,6 +629,7 @@ html, body{
     height:12vh;
     display:flex;
     justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 4px 5px rgba(0,0,0,0.12);
     /*flex-direction: column;*/
 }
 
@@ -699,6 +706,7 @@ html, body{
 .header-edit{
     text-align: center;
     color: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 4px 5px rgba(0,0,0,0.12);
 }
 
 .header-edit h4{
@@ -726,6 +734,8 @@ html, body{
 
 .add-feedback{
     height:auto;
+    margin-top: 30px;
+    padding:0;
 }
 
 .add-event input, textarea{
@@ -863,6 +873,7 @@ html, body{
 .header-add{
     height:10vh;
     color: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 4px 5px rgba(0,0,0,0.12);
 }
 
 .header-add h4,
@@ -1136,6 +1147,7 @@ a:hover{
 
 .cards-speaker{
     padding:15px;
+    overflow: hidden;
 }
 
 .cards-speaker .choose-card{
@@ -1144,6 +1156,7 @@ a:hover{
 
 .content-speaker{
     overflow-y: auto;
+    height: 75vh;
 }
 
 .content-speaker::-webkit-scrollbar{
@@ -1306,11 +1319,13 @@ a:hover{
     overflow-y: auto;
     margin-top:0;
     margin-bottom: 0;
+    margin-right: -15px;
 
 }
 
 .fav-div{
     height: 85vh;
+    margin-right: 0 !important;
 }
 
 
@@ -1374,6 +1389,10 @@ a:hover{
     .header-edit-shift h2{
         font-size:24px;
     }
+}
+
+.shifts-body{
+    margin-top: 20px;
 }
 
 .team-div a{

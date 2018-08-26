@@ -31,7 +31,7 @@
 
                 <div class="ref-info">
                     <i class="fa fa-globe" aria-hidden="true"></i>
-                    <a>
+                    <a th:href="${speaker.link}">
                         <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
                     </a>
                 </div>
@@ -129,8 +129,9 @@
 
                                                 <div class="ref-info">
                                                     <i class="fa fa-globe" aria-hidden="true"></i>
-
-                                                    <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                                    <a th:href="${speaker.link}">
+                                                        <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                                    </a>
                                                 </div>
                                             </div>
 
@@ -185,8 +186,8 @@
 </div>
 
 <div layout:fragment="scripts">
-    <script type="text/javascript" src="/static/scripts/like_dislike.js"></script>
     <script type="text/javascript" src="/static/scripts/favorites.js"></script>
+    <script type="text/javascript" src="/static/scripts/like_dislike.js"></script>
 </div>
 </body>
 </html>

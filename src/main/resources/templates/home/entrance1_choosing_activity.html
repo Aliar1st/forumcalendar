@@ -28,7 +28,7 @@
                                     <img  class="img-activity" th:src="@{/public/__${activity.photo}__}" />
                                 </div>
                                 <div class="col-9 col-lg-9">
-                                    <h5 th:text="|Форум ${activity.name}|" class="card-title"></h5>
+                                    <h5 th:text="${activity.name}" class="card-title"></h5>
                                     <img  class="map-icon place-line" src="/static/images/map-icon.svg"/>
                                     <p th:text="${activity.place}" class="card-text info-date-shift place-line"></p>
                                 </div>

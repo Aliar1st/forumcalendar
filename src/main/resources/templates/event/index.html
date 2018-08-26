@@ -101,7 +101,9 @@
                                             <div class="ref-info">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
 
-                                                <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                                <a th:href="${speaker.link}">
+                                                    <h6 th:text="${speaker.link}" class="info-date-shift">Ссылка</h6>
+                                                </a>
                                             </div>
                                         </div>
 

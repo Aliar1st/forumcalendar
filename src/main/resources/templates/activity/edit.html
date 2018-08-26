@@ -111,13 +111,13 @@
                        aria-describedby="basic-addon1">
                 <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}" class="invalid-feedback">error</label>
 
-                <input th:field="*{startDate}" type="text" class="form-control col-10"
+                <input th:field="*{startDate}" type="text" class="form-control"
                        placeholder="Дата начала"
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
                 <label th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="invalid-feedback">error</label>
 
-                <input th:field="*{endDate}" type="text" class="form-control col-10"
+                <input th:field="*{endDate}" type="text" class="form-control"
                        placeholder="Дата конца"
                        aria-label="Username" aria-describedby="basic-addon1"
                        onfocus="this.type='date';this.setAttribute('onfocus','');this.blur();this.focus();">
