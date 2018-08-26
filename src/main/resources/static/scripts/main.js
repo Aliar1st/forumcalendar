@@ -156,21 +156,43 @@ $(function () {
         $("#editModalTeam").modal('show');
     });
 
+    // $("#inputFile").on('change', function (evt) {
+    //     var tgt = evt.target || window.event.srcElement,
+    //         files = tgt.files;
+    //
+    //     // FileReader support
+    //     if (FileReader && files && files.length) {
+    //         var fr = new FileReader();
+    //         fr.onload = function () {
+    //             document.getElementById('imageEdit').src = fr.result;
+    //         }else{}
+    //         fr.readAsDataURL(files[0]);
+    //
+    //     });
 
+    $("#inputFile").change(function () {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imageEdit').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
 
-    function onFileSelected(event) {
-        var selectedFile = event.target.files[0];
-        var reader = new FileReader();
-
-        var imgtag = document.getElementById("myimage");
-        imgtag.title = selectedFile.name;
-
-        reader.onload = function(event) {
-            imgtag.src = event.target.result;
-        };
-
-        reader.readAsDataURL(selectedFile);
-    }
+    // function onFileSelected(event) {
+    //     var selectedFile = event.target.files[0];
+    //     var reader = new FileReader();
+    //
+    //     var imgtag = document.getElementById("imageEdit");
+    //     imgtag.title = selectedFile.name;
+    //
+    //     reader.onload = function(event) {
+    //         imgtag.src = event.target.result;
+    //     };
+    //
+    //     reader.readAsDataURL(selectedFile);
+    // }
 
 });
 

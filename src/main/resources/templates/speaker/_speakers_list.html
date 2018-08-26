@@ -22,14 +22,15 @@
     <a th:href="@{/speaker/__${speaker.id}__}" th:each="speaker, stat : ${speakers}" class="speaker" >
         <div class="member-line col-11">
             <input type="hidden" name="speakerId" th:value="${speaker.id}">
-            <img class="img-profile img-in-team" th:src="@{/public/__${speaker.photo}__}" alt="profile photo"/>
+            <img class="img-profile img-in-team img-speakers" th:src="@{/public/__${speaker.photo}__}" alt="profile photo"/>
+
             <h4 th:text="|${speaker.firstName} ${speaker.lastName}|">Иван Иванов</h4>
             <!--<label th:text="${speaker.description}"></label>-->
             <!--<a th:href="@{speaker.link}" th:text="${speaker.link}"></a>-->
             <!--<i class="fa fa-star-o" aria-hidden="true"></i>-->
             <a sec:authorize="hasRole('ROLE_SUPERUSER')"
                th:href="@{/speaker/__${speaker.id}__/delete}">
-                <img class="back-icon" src="/static/images/remove-icon.svg"/>
+                <img class="back-icon remove-btn-speaker" src="/static/images/remove-icon.svg"/>
             </a>
         </div>
     </a>
