@@ -45,7 +45,7 @@ $(function () {
         var hrefStackString = $.cookie('hrefStack'); // получаем сохраненные ранее настройки
 
         if (hrefStackString === undefined) {
-            return [];
+            return ['http://forum-calendar.ddns.net:8080/menu'];
         }
         else {
             return eval(hrefStackString);

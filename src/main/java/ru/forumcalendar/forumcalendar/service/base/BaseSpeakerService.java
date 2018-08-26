@@ -107,6 +107,7 @@ public class BaseSpeakerService implements SpeakerService {
     @Override
     public Speaker delete(int id) {
         Speaker speaker = get(id);
+        uploadsService.delete(speaker.getPhoto());
         speakerRepository.deleteById(id);
         return speaker;
     }

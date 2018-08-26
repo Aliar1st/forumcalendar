@@ -24,7 +24,9 @@ public class RedirectToEntranceWithoutChoosingTeamInterceptor implements Handler
         Object team = request.getSession().getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
 
 //        Pattern p = Pattern.compile("((/editor/)|(/entrance/).+)|(/)");
-        Pattern p = Pattern.compile("(((/editor/)|(/entrance/)|(/static/)|(/public/)|(/webjars/)).+)|((/)|(/error))");
+        Pattern p = Pattern.compile("(((/editor/)|(/entrance/)|(/team/invite/.+)|(/static/)|(/public/)|(/webjars/)).+)|((/)|(/error))");
+
+        boolean f =p.matcher(requestURI).matches();
 
         if (team == null && !p.matcher(requestURI).matches()) {
             response.sendRedirect("/entrance/1");

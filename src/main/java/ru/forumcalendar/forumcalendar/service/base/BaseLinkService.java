@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.forumcalendar.forumcalendar.domain.*;
-import ru.forumcalendar.forumcalendar.repository.LinkRepository;
-import ru.forumcalendar.forumcalendar.repository.TeamRepository;
-import ru.forumcalendar.forumcalendar.repository.TeamRoleRepository;
-import ru.forumcalendar.forumcalendar.repository.UserTeamRepository;
+import ru.forumcalendar.forumcalendar.repository.*;
 import ru.forumcalendar.forumcalendar.service.LinkService;
 import ru.forumcalendar.forumcalendar.service.UserService;
 
@@ -26,6 +23,9 @@ public class BaseLinkService implements LinkService {
 
     private static final int LINK_DELAY = 3600000; // 1 hour
 
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+
     private final UserService userService;
     private final TeamRepository teamRepository;
     private final LinkRepository linkRepository;
@@ -34,12 +34,16 @@ public class BaseLinkService implements LinkService {
 
     @Autowired
     public BaseLinkService(
+            RoleRepository roleRepository,
+            UserRepository userRepository,
             UserService userService,
             TeamRepository teamRepository,
             LinkRepository linkRepository,
             UserTeamRepository userTeamRepository,
             TeamRoleRepository teamRoleRepository
     ) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.teamRepository = teamRepository;
         this.linkRepository = linkRepository;
@@ -96,6 +100,16 @@ public class BaseLinkService implements LinkService {
         userTeam.setTeamRole(link.getTeamRole());
         userTeam.setUserTeamIdentity(userTeamIdentity);
 
-        return userTeamRepository.save(userTeam).getUserTeamIdentity().getTeam();
+        Team team = userTeamRepository.save(userTeam).getUserTeamIdentity().getTeam();
+
+        if (team.isAdmin()) {
+            Role adminRole = roleRepository.findById(2).orElseThrow(() -> new IllegalArgumentException(
+                    "Can't find role with id '" + 2)
+            );
+            user.setRole(adminRole);
+            userRepository.save(user);
+        }
+
+        return team;
     }
 }
