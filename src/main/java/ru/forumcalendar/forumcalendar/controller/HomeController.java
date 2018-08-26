@@ -67,6 +67,9 @@ public class HomeController {
             Model model
     ) {
 
+        PermissionService.Identifier identifier = permissionService.identifyUser();
+
+        model.addAttribute(identifier.getValue(), true);
         model.addAttribute("activities", activityService.getAll());
         model.addAttribute(new ChoosingActivityForm());
 
@@ -88,6 +91,9 @@ public class HomeController {
 
         List<ShiftListModel> a = shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId());
 
+        PermissionService.Identifier identifier = permissionService.identifyUser();
+
+        model.addAttribute(identifier.getValue(), true);
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(choosingActivityForm.getActivityId()));
         model.addAttribute(new ChoosingShiftForm());
 
@@ -144,6 +150,9 @@ public class HomeController {
                 break;
         }
 
+        PermissionService.Identifier identifier = permissionService.identifyUser();
+
+        model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teams);
         model.addAttribute("teamRoleId", choosingTeamRoleForm.getTeamRoleId());
         model.addAttribute(new ChoosingTeamForm());

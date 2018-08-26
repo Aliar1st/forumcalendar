@@ -50,6 +50,17 @@ public class BasePermissionService implements PermissionService {
         }
     }
 
+    @Override
+    public Identifier identifyUser() {
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser.getRole().getId() == Role.ROLE_SUPERUSER_ID) {
+            return Identifier.ADMIN;
+        } else {
+            return Identifier.USER;
+        }
+    }
+
 
 //    @Override
 //    public Identifier identifyUser(Authentication auth, int id, String type, String perm) {

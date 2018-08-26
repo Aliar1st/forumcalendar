@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.forumcalendar.forumcalendar.converter.SpeakerModelConverter;
+import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.model.SpeakerModel;
 import ru.forumcalendar.forumcalendar.model.form.SpeakerForm;
 import ru.forumcalendar.forumcalendar.service.*;
@@ -159,6 +160,15 @@ public class SpeakerController {
         speakerService.save(speakerForm);
 
         return "redirect:/speaker/" + id;
+    }
+
+    @GetMapping("{id}/delete")
+    public String delete(
+            @PathVariable int id
+    ) {
+        Speaker speaker = speakerService.delete(id);
+
+        return REDIRECT_ROOT_MAPPING + speaker.getActivity().getId();
     }
 
 

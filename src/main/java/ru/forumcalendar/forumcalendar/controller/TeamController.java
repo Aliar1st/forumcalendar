@@ -3,7 +3,6 @@ package ru.forumcalendar.forumcalendar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,7 +77,7 @@ public class TeamController {
 
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teamService.getTeamModelsByActivityId(activityId));
-        model.addAttribute("search",false);
+        model.addAttribute("search", false);
 
         return HTML_FOLDER + "/teams";
     }
@@ -95,7 +94,7 @@ public class TeamController {
         model.addAttribute(identifier.getValue(), true);
         model.addAttribute("teams", teamService.getTeamModelsByShiftId(shiftId));
         model.addAttribute("curShiftId", shiftId);
-        model.addAttribute("search",true);
+        model.addAttribute("search", true);
 
         return HTML_FOLDER + "/teams";
     }
@@ -250,8 +249,12 @@ public class TeamController {
     }
 
     @GetMapping("/invite/{uniqueParam}")
-    private String inviteViaLink(@PathVariable String uniqueParam) {
+    private String inviteViaLink(
+            @PathVariable String uniqueParam,
+            HttpSession httpSession
+    ) {
         Team team = linkService.inviteViaLink(uniqueParam);
+        httpSession.setAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE, team.getId());
         return REDIRECT_ROOT_MAPPING + team.getId();
     }
 

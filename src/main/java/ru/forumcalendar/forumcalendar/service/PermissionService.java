@@ -4,6 +4,8 @@ public interface PermissionService {
 
     Identifier identifyUser(int activityId);
 
+    Identifier identifyUser();
+
     enum Identifier {
         ADMIN,
         MODERATOR,

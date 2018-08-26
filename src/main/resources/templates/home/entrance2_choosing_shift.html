@@ -10,46 +10,47 @@
     <div class="container-fluid wrapper choosing-div">
         <div class="header-app">
             <a th:href="@{/entrance/1}">
-                <img  class="back-icon" src="/static/images/left-arrow.svg"/>
+                <img class="back-icon" src="/static/images/left-arrow.svg"/>
             </a>
             <h2 th:text="|Выберите смену|" class="choose-h2"></h2>
         </div>
         <form th:action="@{/entrance/3}" th:object="${choosingShiftForm}" method="POST">
             <div class="wrapper-cards">
                 <div class="btn-group" data-toggle="buttons">
-                    <th:block th:each="shift:${shifts}">
+                    <th:block th:each="shift:${shifts}" th:if="${isJustUser} and !${shift.isAdmin()} or ${isAdmin}">
                         <label class="btn  col-lg-12 choose-card">
                             <input th:value="${shift.id}" th:field="*{shiftId}" type="radio" hidden>
                             <div class="card-body">
                                 <div class="col-3 col-lg-3">
-                                    <img  class="img-activity" th:src="@{/public/__${shift.photo}__}"/>
+                                    <img class="img-activity" th:src="@{/public/__${shift.photo}__}"/>
                                 </div>
                                 <div class="col-9 col-lg-9">
-                                    <h5 th:text="|Смена ${shift.name}|" class="card-title"></h5>
+                                    <h5 th:text="${shift.name}" class="card-title"></h5>
                                     <img  class="calendar-icon place-line" src="/static/images/calendar-icon.svg"/>
                                     <p th:text="${shift.getFormatStartDate()}" class="card-text info-date-shift place-line"></p>
                                     <p th:text="| - |" class="card-text info-date-shift place-line"></p>
-                                    <p th:text="${shift.getFormatEndDate()}" class="card-text info-date-shift place-line"></p>
+                                    <p th:text="${shift.getFormatEndDate()}"
+                                       class="card-text info-date-shift place-line"></p>
                                 </div>
                             </div>
                         </label>
                     </th:block>
                 </div>
             </div>
-                <button type="submit" class="btn btn-next">Дальше</button>
+            <button type="submit" class="btn btn-next">Дальше</button>
         </form>
     </div>
     <!--<form th:action="@{3}" th:object="${choosingShiftForm}" method="POST">-->
-        <!--<label>Смена-->
-            <!--<select name="shiftId">-->
-                <!--<option value="0" selected>Выберите смену</option>-->
-                <!--<option th:each="shift: ${shifts}"-->
-                        <!--th:value="${shift.id}"-->
-                        <!--th:text="${shift.name}">-->
-                <!--</option>-->
-            <!--</select>-->
-        <!--</label>-->
-        <!--<button type="submit">Далее</button>-->
+    <!--<label>Смена-->
+    <!--<select name="shiftId">-->
+    <!--<option value="0" selected>Выберите смену</option>-->
+    <!--<option th:each="shift: ${shifts}"-->
+    <!--th:value="${shift.id}"-->
+    <!--th:text="${shift.name}">-->
+    <!--</option>-->
+    <!--</select>-->
+    <!--</label>-->
+    <!--<button type="submit">Далее</button>-->
     <!--</form>-->
 </div>
 </body>

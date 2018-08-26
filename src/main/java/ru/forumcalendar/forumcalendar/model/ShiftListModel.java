@@ -12,6 +12,8 @@ public class ShiftListModel {
 
     private int id;
 
+    private boolean isAdmin;
+
     private int activityId;
 
     private String name;

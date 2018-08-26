@@ -16,7 +16,7 @@
                 <label>
                     <img class="img-profile img-edit" th:src="@{/public/__${speakerForm.photoUrl}__}"/>
                     <!--<img class="img-profile mask-img" src="/static/images/mask-img.png"/>-->
-                    <input th:field="*{photo}" type="file" hidden>
+                    <input th:field="*{photo}" type="file" onchange="onFileSelected(event)" hidden>
                 </label>
                 <button type="submit" class="check-btn">
                     <img  class="back-icon" src="/static/images/check.svg"/>

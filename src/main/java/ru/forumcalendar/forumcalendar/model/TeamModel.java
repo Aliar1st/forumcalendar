@@ -11,6 +11,8 @@ public class TeamModel {
 
     private int id = -1;
 
+    private boolean isAdmin;
+
     private int shiftId;
 
     private String name;

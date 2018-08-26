@@ -18,7 +18,7 @@
             <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
             <div class="wrapper-cards card-choose-team">
                 <div class="btn-group team-group" data-toggle="buttons">
-                    <th:block th:each="team:${teams}">
+                    <th:block th:each="team:${teams}" th:if="${isJustUser} and !${team.isAdmin()} or ${isAdmin}">
                     <label class="btn choose-card col-lg-12">
                         <input th:value="${team.id}" th:field="*{teamId}" type="radio" hidden>
                         <h4 th:text="|Команда ${team.name}|" class="title-team-choose"></h4>
