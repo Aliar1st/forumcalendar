@@ -27,8 +27,8 @@ public class SpeakerForm {
     private int activityId;
 
     @Size(min = 2, message = "Name is too short")
-    @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
+    @Size(max = 100, message = "Name is too long")
+    @Pattern(regexp = "([A-ZА-Я][A-Za-zА-Яа-я0-9]+\\s?)+", message = "First name contains invalid characters")
     private String firstName;
 
     @Size(min = 2, message = "Name is too short")
