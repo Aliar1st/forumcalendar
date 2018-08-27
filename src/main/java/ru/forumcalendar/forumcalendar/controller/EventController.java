@@ -257,7 +257,7 @@ public class EventController {
 
         eventService.save(eventForm);
 
-        return REDIRECT_ROOT_MAPPING;
+        return REDIRECT_ROOT_MAPPING + "/shiftIndex?shiftId=" + eventForm.getShiftId();
     }
 
     @PreAuthorize("hasPermission(#id, 'Event', 'w')")
@@ -288,7 +288,7 @@ public class EventController {
         eventForm.setId(id);
         eventService.save(eventForm);
 
-        return REDIRECT_ROOT_MAPPING;
+        return REDIRECT_ROOT_MAPPING + eventForm.getShiftId();
     }
 
     @PreAuthorize("hasPermission(#id, 'Event', 'w')")
