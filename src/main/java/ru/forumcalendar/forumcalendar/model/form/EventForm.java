@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ru.forumcalendar.forumcalendar.domain.Event;
 import ru.forumcalendar.forumcalendar.domain.Speaker;
 import ru.forumcalendar.forumcalendar.validation.annotation.ShiftExist;
+import ru.forumcalendar.forumcalendar.validation.annotation.ShiftsExist;
 import ru.forumcalendar.forumcalendar.validation.annotation.SpeakersExist;
 
 import javax.validation.constraints.*;
@@ -24,8 +25,8 @@ public class EventForm {
     private int id;
 
     @Size(min = 2, message = "Name is too short")
-    @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
+    @Size(max = 200, message = "Name is too long")
+    @Pattern(regexp = "([A-Za-zА-Яа-яё0-9,.\\-]\\s?)+", message = "Name contains invalid characters")
     private String name;
 
     @NotNull(message = "Enter start date and time")
@@ -45,6 +46,9 @@ public class EventForm {
 
     @ShiftExist
     private int shiftId;
+
+    @ShiftsExist
+    private List<Integer> shiftsId;
 
     @SpeakersExist
     private List<Integer> speakersId;

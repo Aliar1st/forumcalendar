@@ -14,19 +14,19 @@
             </a>
              <h2 th:text="|Выберите команду|" class="choose-h2"></h2>
         </div>
-        <form th:action="@{/entrance/5}" th:object="${choosingTeamForm}" method="POST">
+        <form id="choosing-form" th:action="@{/entrance/5}" th:object="${choosingTeamForm}" method="POST">
             <input name="teamRoleId" th:value="${teamRoleId}" type="hidden">
             <div class="wrapper-cards card-choose-team">
                 <div class="btn-group team-group" data-toggle="buttons">
                     <th:block th:each="team:${teams}" th:if="${isJustUser} and !${team.isAdmin()} or ${isAdmin}">
-                    <label class="btn choose-card col-lg-12">
+                    <label class="btn choose-card col-lg-12 choosing-form-label">
                         <input th:value="${team.id}" th:field="*{teamId}" type="radio" hidden>
                         <h4 th:text="|Команда ${team.name}|" class="title-team-choose"></h4>
                     </label>
                     </th:block>
                 </div>
             </div>
-                <button type="submit" class="btn btn-next">Дальше</button>
+                <!--<button type="submit" class="btn btn-next">Дальше</button>-->
         </form>
     </div>
     <!--<form th:action="@{5}" th:object="${choosingTeamForm}" method="POST">-->

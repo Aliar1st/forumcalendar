@@ -241,3 +241,8 @@ $(function () {
 //     );
 //     alert('fsdf');
 // });
+
+$('.choosing-form-label').on('click', function () {
+    $(this).children('input[type=radio]').prop("checked", true);
+    $('#choosing-form').submit();
+});

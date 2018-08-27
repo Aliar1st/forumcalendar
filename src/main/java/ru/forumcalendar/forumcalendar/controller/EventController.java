@@ -21,7 +21,6 @@ import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.*;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -43,6 +42,7 @@ public class EventController {
     private final TeamEventService teamEventService;
     private final EventService eventService;
     private final SpeakerService speakerService;
+    private final ShiftService shiftService;
     private final ConversionService conversionService;
 
     private final PermissionEvaluator permissionEvaluator;
@@ -53,6 +53,7 @@ public class EventController {
             TeamEventService teamEventService,
             EventService eventService,
             SpeakerService speakerService,
+            ShiftService shiftService,
             @Qualifier("mvcConversionService") ConversionService conversionService,
             PermissionEvaluator permissionEvaluator
     ) {
@@ -60,6 +61,7 @@ public class EventController {
         this.teamEventService = teamEventService;
         this.eventService = eventService;
         this.speakerService = speakerService;
+        this.shiftService = shiftService;
         this.conversionService = conversionService;
         this.permissionEvaluator = permissionEvaluator;
     }
@@ -207,6 +209,7 @@ public class EventController {
 
         model.addAttribute(eventForm);
         model.addAttribute("speakers", speakers);
+        model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(shift.getActivity().getId()));
         model.addAttribute("isShift", false);
 
         return HTML_FOLDER + "add";
@@ -229,6 +232,7 @@ public class EventController {
 
         model.addAttribute(eventForm);
         model.addAttribute("speakers", speakers);
+        model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(shiftService.get(shiftId).getActivity().getId()));
         model.addAttribute("shiftId", shiftId);
         model.addAttribute("isShift", true);
 
@@ -237,6 +241,7 @@ public class EventController {
 
     @PostMapping("add")
     public String add(
+            Model model,
             @Valid EventForm eventForm,
             BindingResult bindingResult,
             Authentication authentication
@@ -246,6 +251,7 @@ public class EventController {
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(shiftService.get(eventForm.getShiftId()).getActivity().getId()));
             return HTML_FOLDER + "add";
         }
 
