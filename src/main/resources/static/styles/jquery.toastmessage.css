@@ -1,30 +1,35 @@
 .toast-container {
-	width: 280px;
-	z-index: 9999;
+    width: 280px;
+    z-index: 9999;
 }
-
 
 * html .toast-container {
-	position: absolute;		
+    position: absolute;
 }
- 
+
+.toast-text {
+    margin-top: 9px;
+    width: 183px;
+    word-wrap: break-word;
+}
+
 .toast-item {
-	height: auto;
-	background: #333;
+    height: auto;
+    background: #333;
     opacity: 0.9;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	color: #eee;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 6px;
-	padding-right: 6px;
-	font-family: lucida Grande;
-	font-size: 14px;
-	border: 2px solid #999;
-	display: block;
-	position: relative;
-	margin: 0 0 12px 0;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    color: #eee;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-family: lucida Grande;
+    font-size: 14px;
+    border: 2px solid #999;
+    display: block;
+    position: relative;
+    margin: 0 0 12px 0;
 }
 
 .toast-item p {
@@ -34,41 +39,40 @@
 }
 
 .toast-item-close {
-    background:url(../images/toastmessage/close.gif);
-    width:22px;
-    height:22px;
+    background: url(../images/toastmessage/close.gif);
+    width: 22px;
+    height: 22px;
     position: absolute;
-    top:15px;
-    right:7px;
+    top: 15px;
+    right: 7px;
 }
 
 .toast-item-image {
-    width:32px;
+    width: 32px;
     height: 32px;
     margin-left: 10px;
     margin-top: 6px;
     margin-right: 10px;
-    float:left;
+    float: left;
 }
 
 .toast-item-image-notice {
-    background:url(../images/toastmessage/notice.png);
+    background: url(../images/toastmessage/notice.png);
 }
 
 .toast-item-image-success {
-    background:url(../images/toastmessage/success.png);
+    background: url(../images/toastmessage/success.png);
 }
 
 .toast-item-image-warning {
-    background:url(../images/toastmessage/warning.png);
+    background: url(../images/toastmessage/warning.png);
 }
 
 .toast-item-image-error {
-    background:url(../images/toastmessage/error.png);
+    background: url(../images/toastmessage/error.png);
 }
 
-
-/** 
+/**
  * toast types 
  * 
  * pattern: toast-type-[value]
@@ -76,11 +80,11 @@
  * 
  */
 .toast-type-notice {
-    color: white;    
+    color: white;
 }
 
 .toast-type-success {
-    color: white;    
+    color: white;
 }
 
 .toast-type-warning {

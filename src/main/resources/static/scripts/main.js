@@ -6,8 +6,11 @@ $(function () {
         connect();
     });
 
-    $("#subscribe").click(function () {
-        subscribe();
+    $(".check-btn").click(function () {
+        var mess = $('.form-control').val();
+        if (mess !== "") {
+            sendAdminMessage(mess);
+        }
     });
 
     function connect() {
@@ -21,6 +24,9 @@ $(function () {
             stompClient.subscribe('/notify/' + uniqueId, function (eventJSON) {
                 showEvent(JSON.parse(eventJSON.body));
             });
+            stompClient.subscribe('/receiveAdminMess', function (message) {
+                showMessage(message.body);
+            });
         });
     }
 
@@ -31,14 +37,14 @@ $(function () {
         console.log("Disconnected");
     }
 
-    function subscribe() {
-        var eventId = $('#eventId').val();
-        stompClient.send("/sub/" + uniqueId, {}, eventId);
+    function sendAdminMessage(message) {
+        stompClient.send("/sendAdminMess", {}, message);
+        $('.form-control').val("");
         //stompClient.send("/send", {}, JSON.stringify({'name': $("#name").val()}));
     }
 
     function showMessage(message) {
-        $().toastmessage('showNoticeToast', message);
+       $().toastmessage('showNoticeToast', message);
     }
 
     function showEvent(event) {
