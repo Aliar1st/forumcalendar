@@ -36,7 +36,7 @@
     </ul>
 
     <div class="tab-content" id="myTabContent">
-        <div class="content-personal add-event forums-div tab-pane show active" id="members" role="tabpanel"
+        <div class="content-personal add-event forums-div members-div tab-pane show active" id="members" role="tabpanel"
              aria-labelledby="members-tab">
             <div th:each="user:${users}" class="member-line col-11">
                 <a th:href="@{/user/__${user.id}__}">
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="content-personal add-event forums-div tab-pane" id="volunteers" role="tabpanel"
+        <div class="content-personal add-event forums-div members-div tab-pane" id="volunteers" role="tabpanel"
              aria-labelledby="volunteers-tab">
             <div th:each="curator:${curators}" class="member-line col-11">
                 <a th:href="@{/user/__${curator.id}__}">

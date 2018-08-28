@@ -36,7 +36,7 @@
                     <div class="like-div">
                         <form name="like" th:action="@{/like}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button" class="check-btn like-click-btn">
+                            <button type="button" class="check-btn like-click-btn link">
                                 <div th:classappend="${event.isLike()}?like:like-empty"></div>
                                 <!--<img th:unless="${event.isLike()}" class="back-icon like-empty" src="/static/images/like-empty.svg"/>-->
                                 <!--<img th:if="${event.isLike()}" class="back-icon like" src="/static/images/like.svg"/>-->
@@ -44,10 +44,10 @@
                             <p th:text="${event.likes}" class="info-date-shift">20</p>
                         </form>
                     </div>
-                    <div class="dislike-div">
+                    <div class="dislike-div ">
                         <form name="dislike" th:action="@{/dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="button" class="check-btn dislike-click-btn">
+                            <button type="button" class="check-btn link dislike-click-btn">
                                 <div th:classappend="${event.isDislike()}?dislike:dislike-empty"></div>
                                 <!--<img th:unless="${event.isDislike()}" class="back-icon dislike-empty" src="/static/images/dislike-empty.svg"/>-->
                                 <!--<img th:if="${event.isDislike()}"   class="back-icon dislike" src="/static/images/dislike.svg"/>-->
@@ -57,7 +57,7 @@
                     </div>
                     <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{/sub}" method="POST">
                         <input type="hidden" name="eventId" th:value="${event.id}">
-                        <button  type="button" class="check-btn">
+                        <button  type="button" class="check-btn link">
 
                             <img th:unless="${event.isFavorite()}"  class="back-icon" src="/static/images/star-empty.svg"/>
                             <img th:if="${event.isFavorite()}"  class="back-icon" src="/static/images/star.svg"/>
