@@ -217,6 +217,19 @@ html, body{
     /*padding-right: 20px !important;*/
 /*}*/
 
+@media (max-width: 500px){
+    .card-body .img-card-div{
+        padding-left: 0 !important;
+    }
+}
+
+.main-info-event .forum-info{
+    width:100%;
+}
+
+
+
+
 .img-activity{
     width:100%;
     border-radius: 50%;
@@ -1199,6 +1212,7 @@ a:hover{
 .cards-speaker{
     padding:15px;
     overflow: hidden;
+    height:auto;
 }
 
 .cards-speaker .choose-card{
@@ -1207,7 +1221,7 @@ a:hover{
 
 .content-speaker{
     overflow-y: auto;
-    height: 75vh;
+    height: 63vh;
 }
 
 .content-speaker::-webkit-scrollbar{
