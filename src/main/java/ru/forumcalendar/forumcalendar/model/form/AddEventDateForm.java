@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Setter
 public class AddEventDateForm {
 
-    @NotNull
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @NotNull
+//    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 }

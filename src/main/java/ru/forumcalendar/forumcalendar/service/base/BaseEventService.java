@@ -111,7 +111,7 @@ public class BaseEventService implements EventService {
             event.getSpeakers().clear();
         }
 
-        if (eventForm.getShiftsId() != null) {
+        if (eventForm.getShiftsId() != null && !eventForm.getShiftsId().isEmpty()) {
             List<Event> events = new ArrayList<>(eventForm.getShiftsId().size());
             for (int shiftId : eventForm.getShiftsId()) {
                 Event e = event.clone();
@@ -120,6 +120,7 @@ public class BaseEventService implements EventService {
             }
 
             eventRepository.saveAll(events);
+            event = events.get(0);
         } else if (eventForm.getShiftId() != null) {
             event = eventRepository.save(event);
         }

@@ -67,6 +67,8 @@
                        th:errors="*{shiftsId}" class="invalid-feedback">error
                 </label>
 
+                <input type="hidden" name="redirectType" th:value="${redirectType}">
+
                 <div class="forum-info add-speaker-line">
                     <h4>Спикеры</h4>
                     <div class="cursor-edit">
