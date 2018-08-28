@@ -87,7 +87,8 @@ public class BaseEventService implements EventService {
         event.setId(eventForm.getId());
         event.setName(eventForm.getName());
         event.setPlace(eventForm.getPlace());
-        event.setShift(shiftService.get(eventForm.getShiftId()));
+        if (eventForm.getShiftId() != null)
+            event.setShift(shiftService.get(eventForm.getShiftId()));
 
         List<SpeakerForm> speakerForms = speakerService.getSpeakerFormsBySpeakersId(eventForm.getSpeakersId());
         if (speakerForms != null) {
@@ -119,6 +120,8 @@ public class BaseEventService implements EventService {
             }
 
             eventRepository.saveAll(events);
+        } else if (eventForm.getShiftId() != null) {
+            event = eventRepository.save(event);
         }
 
         return event;

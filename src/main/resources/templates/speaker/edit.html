@@ -29,13 +29,13 @@
                 </label>
                 <div class="forum-info">
                     <input th:field="*{firstName}" type="text" class="form-control"
-                           placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1">
+                           placeholder="Имя с большой буквы" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('firstName')}"
                            th:errors="*{firstName}" class="invalid-feedback">error
                     </label>
 
                     <input th:field="*{lastName}" type="text" class="form-control"
-                           placeholder="Фамилия" aria-label="Username" aria-describedby="basic-addon1">
+                           placeholder="Фамилия с большой буквы" aria-label="Username" aria-describedby="basic-addon1">
                     <label th:if="${#fields.hasErrors('lastName')}"
                            th:errors="*{lastName}" class="invalid-feedback">error
                     </label>

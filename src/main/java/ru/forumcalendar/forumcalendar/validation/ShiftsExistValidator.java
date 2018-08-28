@@ -29,6 +29,6 @@ public class ShiftsExistValidator implements ConstraintValidator<ShiftsExist, Li
             }
             return true;
         }
-        return false;
+        return true;
     }
 }

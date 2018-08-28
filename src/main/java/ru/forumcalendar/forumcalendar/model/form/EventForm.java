@@ -45,7 +45,7 @@ public class EventForm {
     private String description;
 
     @ShiftExist
-    private int shiftId;
+    private Integer shiftId;
 
     @ShiftsExist
     private List<Integer> shiftsId;

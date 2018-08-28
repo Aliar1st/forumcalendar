@@ -47,3 +47,6 @@ my:
   defaultPhoto: photo-ava.jpg
   uploadDirectory: ./public/uploads
   inviteUrl: http://localhost:8080/team/invite/
+
+    server:
+    port: 8090

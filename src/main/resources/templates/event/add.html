@@ -12,7 +12,7 @@
             <div class="header-personal header-edit">
                 <!--<a th:href="@{__${isShift?'/shifts/'+shiftId:'/events/choosing_date'}__}">-->
                     <!--<i class="fa fa-arrow-left" aria-hidden="true"></i>-->
-                <a th:href="@{/events/choosing_date}">
+                <a onclick="$.goBack();" class="link">
                     <img  class="back-icon" src="/static/images/left-arrow.svg"/>
                 </a>
                 <h2 class="choose-h2">Добавить событие</h2>
