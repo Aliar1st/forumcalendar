@@ -30,11 +30,11 @@ public class UserForm {
     private MultipartFile photo;
 
     @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "First name contains invalid characters")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я_\\-\\s]+", message = "First name contains invalid characters")
     private String firstName;
 
     @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я]+", message = "Last name contains invalid characters")
+    @Pattern(regexp = "[A-ZА-Я][A-Za-zА-Яа-я_\\-\\s]+", message = "Last name contains invalid characters")
     private String lastName;
 
     @Valid
