@@ -129,9 +129,9 @@
                 </div>
 
             </div>
-            <!--<a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add/activity(activityId=__${activityId}__)}" class="plus-add-event">-->
-                <!--<img  class="plus-icon" src="/static/images/add-icon.svg"/>-->
-            <!--</a>-->
+            <a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add/activity(activityId=__${activityId}__)}" class="plus-add-event">
+                <img  class="plus-icon" src="/static/images/add-icon.svg"/>
+            </a>
             <!--<div th:each="event,stat:${events}" class="card choose-card">-->
                 <!--<a sec:authorize="hasRole('ROLE_SUPERUSER')"-->
                    <!--th:href="@{/__${event.shiftEvent?'events':'team_events'}__/__${event.id}__/edit}">Edit</a><br/>-->
