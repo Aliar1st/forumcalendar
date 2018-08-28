@@ -54,13 +54,13 @@
                 </div>
             </div>
 
-            <div th:if="${hasSocial}" class="forum-info">
+            <div class="forum-info">
                 <h4>Соц. сети</h4>
-                <div th:unless="${user.contacts[0].link==null||user.contacts[0].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
+                <div class="content-line col-lg-12 col-xs-12">
                     <img  class="back-icon" src="/static/images/vk.svg"/>
                     <h5 th:text="${user.contacts[0].link}"></h5>
                 </div>
-                <div th:unless="${user.contacts[1].link==null||user.contacts[1].link.isEmpty()}" class="content-line col-lg-12 col-xs-12">
+                <div class="content-line col-lg-12 col-xs-12">
                     <img  class="back-icon" src="/static/images/telegram.svg"/>
                     <h5 th:text="${user.contacts[1].link}"></h5>
                 </div>
