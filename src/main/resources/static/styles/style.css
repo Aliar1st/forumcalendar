@@ -229,6 +229,24 @@ html, body{
 
 
 
+.members-div{
+    overflow-y: auto;
+    height: 80vh !important;
+}
+
+.members-div::-webkit-scrollbar{
+    width: 8px;
+}
+
+.members-div::-webkit-scrollbar-thumb{
+    background: #a9e8f1;
+    border-radius: 10px;
+}
+
+.members-div::-webkit-scrollbar-track{
+    border-radius: 10px;
+}
+
 
 .img-activity{
     width:100%;
