@@ -17,6 +17,7 @@ import ru.forumcalendar.forumcalendar.domain.Shift;
 import ru.forumcalendar.forumcalendar.model.*;
 import ru.forumcalendar.forumcalendar.model.ShiftEventModel;
 import ru.forumcalendar.forumcalendar.model.TeamEventModel;
+import ru.forumcalendar.forumcalendar.model.form.AddEventDateForm;
 import ru.forumcalendar.forumcalendar.model.form.ChoosingEventsDate;
 import ru.forumcalendar.forumcalendar.model.form.EventForm;
 import ru.forumcalendar.forumcalendar.service.*;
@@ -147,6 +148,7 @@ public class EventController {
         }
         model.addAttribute("events",events);
         model.addAttribute("day", choosingEventsDate.getDate().format(DateTimeFormatter.ofPattern("dd MMMM", Locale.forLanguageTag("ru"))));
+        model.addAttribute("date", choosingEventsDate.getDate());
 
         return HTML_FOLDER + "index";
     }
@@ -185,10 +187,13 @@ public class EventController {
     @GetMapping("add")
     public String add(
             Model model,
+//            @Valid AddEventDateForm addEventDateForm,
+//            BindingResult bindingResult,
             HttpSession httpSession,
             Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
+
         int teamId = (int) httpSession.getAttribute(SessionAttributeName.CURRENT_TEAM_ATTRIBUTE);
 
         TeamMemberStatus teamMemberStatus = teamService.getStatus(teamId);
@@ -216,7 +221,7 @@ public class EventController {
     }
 
     @GetMapping("add/shift")
-    public String add(
+    public String shiftAdd(
             Model model,
             Authentication authentication,
             @RequestParam int shiftId
@@ -235,6 +240,30 @@ public class EventController {
         model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(shiftService.get(shiftId).getActivity().getId()));
         model.addAttribute("shiftId", shiftId);
         model.addAttribute("isShift", true);
+
+        return HTML_FOLDER + "add";
+    }
+
+    @GetMapping("add/activity")
+    public String activityAdd(
+            Model model,
+            Authentication authentication,
+            @RequestParam int activityId
+    ) {
+//        if (!permissionEvaluator.hasPermission(authentication, shiftId, "Shift", "w")) {
+//            return REDIRECT_ROOT_MAPPING;
+//        }
+//
+//        EventForm eventForm = new EventForm();
+//        eventForm.setShiftId(shiftId);
+//
+//        List<SpeakerModel> speakers = speakerService.getSpeakerModelsByShiftId(shiftId);
+//
+//        model.addAttribute(eventForm);
+//        model.addAttribute("speakers", speakers);
+//        model.addAttribute("shifts", shiftService.getShiftModelsByActivityId(shiftService.get(shiftId).getActivity().getId()));
+//        model.addAttribute("shiftId", shiftId);
+//        model.addAttribute("isShift", true);
 
         return HTML_FOLDER + "add";
     }
@@ -297,7 +326,7 @@ public class EventController {
             @PathVariable int id,
             HttpServletRequest request
     ) {
-        Event event = eventService.delete(id);
+        eventService.delete(id);
 
         return "redirect:" + request.getHeader("referer");
     }

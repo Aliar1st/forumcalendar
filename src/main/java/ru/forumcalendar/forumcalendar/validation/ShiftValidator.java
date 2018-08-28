@@ -18,6 +18,6 @@ public class ShiftValidator implements ConstraintValidator<ShiftExist, Integer> 
 
     @Override
     public boolean isValid(Integer shiftId, ConstraintValidatorContext constraintValidatorContext) {
-        return shiftService.exist(shiftId);
+        return shiftId == null || shiftService.exist(shiftId);
     }
 }

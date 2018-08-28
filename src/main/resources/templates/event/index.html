@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add}" class="plus-add-event">
+        <a sec:authorize="hasRole('ROLE_SUPERUSER')" th:href="@{/events/add(date=__${date}__)}" class="plus-add-event">
             <img  class="plus-icon" src="/static/images/add-icon.svg"/>
         </a>
         <a sec:authorize="!hasRole('ROLE_SUPERUSER')" th:href="@{/team_events/add}" class="plus-add-event">
