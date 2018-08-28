@@ -17,9 +17,8 @@ public class TeamEventForm {
 
     private int id;
 
-    @Size(min = 2, message = "Name is too short")
     @Size(max = 50, message = "Name is too long")
-    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters")
+    @Pattern(regexp = "([A-Za-zА-Яа-я0-9]\\s?)+", message = "Name contains invalid characters or too short")
     private String name;
 
     @NotNull(message = "Enter start date and time")

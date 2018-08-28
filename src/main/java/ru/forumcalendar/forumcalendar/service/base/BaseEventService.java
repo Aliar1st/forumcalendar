@@ -110,7 +110,18 @@ public class BaseEventService implements EventService {
             event.getSpeakers().clear();
         }
 
-        return eventRepository.save(event);
+        if (eventForm.getShiftsId() != null) {
+            List<Event> events = new ArrayList<>(eventForm.getShiftsId().size());
+            for (int shiftId : eventForm.getShiftsId()) {
+                Event e = event.clone();
+                e.setShift(shiftService.get(shiftId));
+                events.add(e);
+            }
+
+            eventRepository.saveAll(events);
+        }
+
+        return event;
     }
 
     @Override

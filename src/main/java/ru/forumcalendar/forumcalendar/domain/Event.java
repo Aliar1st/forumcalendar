@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "events")
 @Getter
 @Setter
-public class Event extends AuditModel {
+public class Event extends AuditModel implements Cloneable {
 
     @Id
     @GeneratedValue
@@ -44,4 +44,13 @@ public class Event extends AuditModel {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "speaker_id"))
     private Set<Speaker> speakers = new HashSet<>();
+
+    @Override
+    public Event clone() {
+        try {
+            return (Event) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException();
+        }
+    }
 }

@@ -89,7 +89,7 @@ public class BaseSpeakerService implements SpeakerService {
         speaker.setActivity(activityService.get(speakerForm.getActivityId()));
 
         //noinspection Duplicates
-        if (!speakerForm.getPhoto().isEmpty() ) {
+        if (!speakerForm.getPhoto().isEmpty()) {
             String photo = uploadsService.upload(speakerForm.getPhoto())
                     .map((f) -> {
                         if (!speaker.getPhoto().equals(f.getName()) &&
@@ -107,7 +107,9 @@ public class BaseSpeakerService implements SpeakerService {
     @Override
     public Speaker delete(int id) {
         Speaker speaker = get(id);
-        uploadsService.delete(speaker.getPhoto());
+        if (!speaker.getPhoto().equals(defaultPhoto)) {
+            uploadsService.delete(speaker.getPhoto());
+        }
         speakerRepository.deleteById(id);
         return speaker;
     }

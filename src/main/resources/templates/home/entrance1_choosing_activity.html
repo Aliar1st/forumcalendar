@@ -16,12 +16,12 @@
                 <h2 th:text="|Выберите форум|" class="choose-h2"></h2>
 
         </div>
-        <form th:action="@{/entrance/2}" th:object="${choosingActivityForm}" method="POST">
+        <form id="choosing-form" th:action="@{/entrance/2}" th:object="${choosingActivityForm}" method="POST">
             <div class="wrapper-cards">
 
                 <div class="btn-group" data-toggle="buttons">
                     <th:block th:each="activity:${activities}" th:if="${isJustUser} and !${activity.isAdmin()} or ${isAdmin}">
-                        <label class="btn col-lg-12 choose-card">
+                        <label class="btn col-lg-12 choose-card choosing-form-label">
                             <input th:value="${activity.id}" th:field="*{activityId}" type="radio" hidden>
                             <div class="card-body">
                                 <div class="col-3 col-lg-3">
@@ -40,7 +40,7 @@
             <label class="invalid-feedback" th:if="${error!=null}"
                    th:text="${error}">error
             </label>
-            <button type="submit" class="btn btn-next">Дальше</button>
+            <!--<button type="submit" class="btn btn-next">Дальше</button>-->
         </form>
     </div>
 </div>

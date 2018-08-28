@@ -42,7 +42,6 @@ public class ShiftForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
     private String description;
 

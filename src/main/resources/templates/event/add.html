@@ -55,6 +55,18 @@
                        th:errors="*{description}" class="invalid-feedback">error
                 </label>
 
+                <select name="shiftsId" class="form-control col-10" multiple>
+                    <th:block th:each="shift:${shifts}">
+                        <option th:attr="selected=${shift.id==eventForm.shiftId?'selected':null}"
+                                th:value="${shift.id}"
+                                th:text="${shift.name}">
+                        </option>
+                    </th:block>
+                </select>
+                <label th:if="${#fields.hasErrors('shiftsId')}"
+                       th:errors="*{shiftsId}" class="invalid-feedback">error
+                </label>
+
                 <div class="forum-info add-speaker-line">
                     <h4>Спикеры</h4>
                     <div class="cursor-edit">

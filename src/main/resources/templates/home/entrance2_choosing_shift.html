@@ -14,11 +14,11 @@
             </a>
             <h2 th:text="|Выберите смену|" class="choose-h2"></h2>
         </div>
-        <form th:action="@{/entrance/3}" th:object="${choosingShiftForm}" method="POST">
+        <form id="choosing-form" th:action="@{/entrance/3}" th:object="${choosingShiftForm}" method="POST">
             <div class="wrapper-cards">
                 <div class="btn-group" data-toggle="buttons">
                     <th:block th:each="shift:${shifts}" th:if="${isJustUser} and !${shift.isAdmin()} or ${isAdmin}">
-                        <label class="btn  col-lg-12 choose-card">
+                        <label class="btn col-lg-12 choose-card choosing-form-label" >
                             <input th:value="${shift.id}" th:field="*{shiftId}" type="radio" hidden>
                             <div class="card-body">
                                 <div class="col-3 col-lg-3">
@@ -37,7 +37,7 @@
                     </th:block>
                 </div>
             </div>
-            <button type="submit" class="btn btn-next">Дальше</button>
+            <!--<button type="submit" class="btn btn-next">Дальше</button>-->
         </form>
     </div>
     <!--<form th:action="@{3}" th:object="${choosingShiftForm}" method="POST">-->

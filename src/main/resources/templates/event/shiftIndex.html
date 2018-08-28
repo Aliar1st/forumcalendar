@@ -31,7 +31,7 @@
                 </div>
                 <div th:if="${event.shiftEvent}" class="card-header card-header-event">
                     <div class="like-div">
-                        <form name="like" th:action="@{like}" method="POST">
+                        <form name="like" th:action="@{/like}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
                             <button type="button" class="check-btn like-click-btn">
                                 <div th:classappend="${event.isLike()}?like:like-empty"></div>
@@ -42,7 +42,7 @@
                         </form>
                     </div>
                     <div class="dislike-div">
-                        <form name="dislike" th:action="@{dislike}" method="POST">
+                        <form name="dislike" th:action="@{/dislike}" method="POST">
                             <input type="hidden" name="eventId" th:value="${event.id}">
                             <button type="button" class="check-btn dislike-click-btn">
                                 <div th:classappend="${event.isDislike()}?dislike:dislike-empty"></div>
@@ -52,7 +52,7 @@
                             <p th:text="${event.dislikes}" class="info-date-shift">5</p>
                         </form>
                     </div>
-                    <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{sub}" method="POST">
+                    <form name="toggleSubscription"  class="event-fav-toggle" th:action="@{/sub}" method="POST">
                         <input type="hidden" name="eventId" th:value="${event.id}">
                         <button  type="button" class="check-btn">
 

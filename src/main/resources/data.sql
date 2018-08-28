@@ -20,7 +20,11 @@ INSERT INTO `activities` (`id`, `is_admin`, `created_at`, `updated_at`,`start_da
 
 
 INSERT INTO `shifts` (`id`, `is_admin`, `created_at`, `updated_at`, `description`, `end_date`, `name`, `photo`, `start_date`, `activity_id`) VALUES
-(2, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'ShiftFirstTestDesc', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2);
+(2, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'Shift1', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2),
+(3, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'Shift2', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2),
+(4, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'Shift3', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2),
+(5, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'Shift4', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2),
+(6, true, '2018-08-14 15:55:19', '2018-08-14 15:55:19', 'Shift5', '2018-08-18', 'Admins','photo-ava.jpg', '2018-08-15', 2);
 
 INSERT INTO `teams` (`id`, `is_admin`,`created_at`, `updated_at`, `description`, `name`, `number`, `shift_id`) VALUES
 (2, true, '2018-08-14 15:57:14', '2018-08-14 15:57:14', 'Admins', 'TeamFirst', 0, 2);
