@@ -40,7 +40,6 @@ public class SpeakerForm {
 //    @Pattern(regexp = "(https?://)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)", message = "Invalid link (example: https://regexr.com/)")
     private String link;
 
-    @Size(min = 2, message = "Description is too short")
     @Size(max = 5000, message = "Description is too long")
     private String description;
 

@@ -6,8 +6,8 @@ $(function () {
         connect();
     });
 
-    $(".check-btn").click(function () {
-        var mess = $('.form-control').val();
+    $(".send-admin-message").click(function () {
+        var mess = $('.admin-message').val();
         if (mess !== "") {
             sendAdminMessage(mess);
         }
@@ -39,7 +39,7 @@ $(function () {
 
     function sendAdminMessage(message) {
         stompClient.send("/sendAdminMess", {}, message);
-        $('.form-control').val("");
+        $('.admin-message').val("");
         //stompClient.send("/send", {}, JSON.stringify({'name': $("#name").val()}));
     }
 
